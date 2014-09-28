@@ -22,14 +22,33 @@
 <body unresolved>
 
 <template is="auto-binding">
+    <style>
+        :host {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            box-sizing: border-box;
+        }
+        #core_card {
+            width: 300px;
+            height: 300px;
+            border-top-left-radius: 2px;
+            border-top-right-radius: 2px;
+            border-bottom-right-radius: 2px;
+            border-bottom-left-radius: 2px;
+            box-shadow: rgba(0, 0, 0, 0.0980392) 0px 2px 4px, rgba(0, 0, 0, 0.0980392) 0px 0px 3px;
+            margin: 20px;
+            padding:14px;
+            background-color: rgb(255, 255, 255);
+        }
+        #div {
+            height: 200px;
+        }
+    </style>
 
     <h2>Firebase Simple Login</h2>
 
     <firebase-login id="login" user="{{user}}" statusKnown="{{statusKnown}}" location="https://incandescent-heat-3687.firebaseio.com/" provider="{{provider}}" on-error="{{error}}" on-user-created="{{userSuccess}}" on-password-changed="{{userSuccess}}" on-password-reset="{{userSuccess}}" on-user-removed="{{userSuccess}}"></firebase-login>
-
-    Firebase location:
-    <input value="https://incandescent-heat-3687.firebaseio.com/" disabled>
-    <br>
 
     Provider type:
     <select value="{{provider}}">
@@ -49,16 +68,25 @@
     <br>
 
     <div hidden?="{{provider!='password'}}">
-    <br><em>Password-specific options:</em><br>
-    <input placeholder="email" value="{{email}}">
-    <input placeholder="password" value="{{password}}">
-    <button on-tap="{{createUser}}" disabled?="{{!email || !password}}">Create user</button>
-    <br>
-    <input placeholder="new password" value="{{newPassword}}">
-    <button on-tap="{{changePassword}}" disabled?="{{!email || !password || !newPassword}}">Change password</button>
-    <br>
-    <button on-tap="{{resetPassword}}" disabled?="{{!email || !password}}">Reset password</button>
-    <button on-tap="{{removeUser}}" disabled?="{{!email || !password}}">Remove user</button>
+<!--    <br><em>Password-specific options:</em><br>
+        <input placeholder="email" value="{{email}}">
+        <input placeholder="password" value="{{password}}">
+        <button on-tap="{{createUser}}" disabled?="{{!email || !password}}">Create user</button>
+        <br>
+        <input placeholder="new password" value="{{newPassword}}">
+        <button on-tap="{{changePassword}}" disabled?="{{!email || !password || !newPassword}}">Change password</button>
+        <br>
+        <button on-tap="{{resetPassword}}" disabled?="{{!email || !password}}">Reset password</button>
+        <button on-tap="{{removeUser}}" disabled?="{{!email || !password}}">Remove user</button>-->
+
+        <div id="core_card" layout vertical>
+            <paper-input label="email" value="{{email}}" willvalidate id="paper_input" layout vertical></paper-input>
+            <paper-input label="password" value="{{password}}" willvalidate id="paper_input1" layout vertical></paper-input>
+            <div id="div" horizontal layout end-justified end>
+                <paper-fab icon="check" id="paper_fab" on-tap="{{login}}" ></paper-fab>
+            </div>
+        </div>
+
     </div>
     <br>
     <div id="message"></div>
