@@ -1,174 +1,34 @@
 <!doctype html>
 <html>
-
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Polymer WebApp</title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-touch-fullscreen" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" >
   <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
   <!-- build:css styles/main.css -->
   <link rel="stylesheet" href="styles/main.css">
   <!-- endbuild-->
 
+  <meta name="application-name" content="LeaderBoard App">
+
   <script src="bower_components/platform/platform.js"></script>
   <!-- build:vulcanized elements/elements.vulcanized.html -->
   <link rel="import" href="elements/elements.html">
   <!-- endbuild-->
 </head>
-
 <body unresolved>
 
-<template is="auto-binding">
-    <style>
-        :host {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            box-sizing: border-box;
-        }
-        #core_card {
-            width: 300px;
-            height: 300px;
-            border-top-left-radius: 2px;
-            border-top-right-radius: 2px;
-            border-bottom-right-radius: 2px;
-            border-bottom-left-radius: 2px;
-            box-shadow: rgba(0, 0, 0, 0.0980392) 0px 2px 4px, rgba(0, 0, 0, 0.0980392) 0px 0px 3px;
-            margin: 20px;
-            padding:14px;
-            background-color: rgb(255, 255, 255);
-        }
-        #div {
-            height: 200px;
-        }
-    </style>
-
-    <h2>Firebase Simple Login</h2>
-
-    <firebase-login id="login" user="{{user}}" statusKnown="{{statusKnown}}" location="https://incandescent-heat-3687.firebaseio.com/" provider="{{provider}}" on-error="{{error}}" on-user-created="{{userSuccess}}" on-password-changed="{{userSuccess}}" on-password-reset="{{userSuccess}}" on-user-removed="{{userSuccess}}"></firebase-login>
-
-    Provider type:
-    <select value="{{provider}}">
-        <option>anonymous</option>>
-        <option>facebook</option>>
-        <option>github</option>>
-        <option>google</option>>
-        <option>twitter</option>>
-        <option>password</option>
-    </select>
-    <em>Only 'anonymous', 'google', and 'password' are activated for demo Firebase account</em>
-    <br>
-
-    Login params (JSON):
-    <input value="{{params}}" id="params">
-    <em>Required by some provider types</em>
-    <br>
-
-    <div hidden?="{{provider!='password'}}">
-<!--    <br><em>Password-specific options:</em><br>
-        <input placeholder="email" value="{{email}}">
-        <input placeholder="password" value="{{password}}">
-        <button on-tap="{{createUser}}" disabled?="{{!email || !password}}">Create user</button>
-        <br>
-        <input placeholder="new password" value="{{newPassword}}">
-        <button on-tap="{{changePassword}}" disabled?="{{!email || !password || !newPassword}}">Change password</button>
-        <br>
-        <button on-tap="{{resetPassword}}" disabled?="{{!email || !password}}">Reset password</button>
-        <button on-tap="{{removeUser}}" disabled?="{{!email || !password}}">Remove user</button>-->
-
-        <div id="core_card" layout vertical>
-            <paper-input label="email" value="{{email}}" willvalidate id="paper_input" layout vertical></paper-input>
-            <paper-input label="password" value="{{password}}" willvalidate id="paper_input1" layout vertical></paper-input>
-            <div id="div" horizontal layout end-justified end>
-                <paper-fab icon="check" id="paper_fab" on-tap="{{login}}" ></paper-fab>
-            </div>
-        </div>
-
-    </div>
-    <br>
-    <div id="message"></div>
-    <br>
-
-    <button on-tap="{{login}}" hidden?="{{!statusKnown || user}}">Login</button>
-    <button on-tap="{{logout}}" hidden?="{{!statusKnown || !user}}">Logout</button>
-
-    <h3>Login status:</h3>
-    <p>{{statusKnown && user && 'Logged in' || statusKnown && 'Logged out' || 'Unknown (checking status...)'}}</p>
-
-    <h3>User ID:</h3>
-    <pre>{{user.uid}}</pre>
-
-</template>
-
-<script>
-
-    addEventListener('template-bound', function(e) {
-
-        var scope = e.target;
-        var fbLogin = document.querySelector("#login");
-        var message = document.querySelector("#message");
-
-        scope.login = function() {
-            var params;
-            try {
-                params = JSON.parse(document.querySelector("#params").value);
-            } catch (e) {
-                params = null;
-            }
-            if (this.provider == 'password') {
-                params = this.params || {};
-                params.email = this.email;
-                params.password = this.password;
-            }
-            fbLogin.login(params);
-        };
-
-        scope.logout = function() {
-            fbLogin.logout();
-        };
-
-        scope.createUser = function() {
-            fbLogin.createUser(this.email, this.password);
-        };
-
-        scope.removeUser = function() {
-            fbLogin.removeUser(this.email, this.password);
-        };
-
-        scope.changePassword = function() {
-            fbLogin.changePassword(this.email, this.password, this.newPassword);
-        };
-
-        scope.resetPassword = function() {
-            fbLogin.sendPasswordResetEmail(this.email);
-        };
-
-        scope.error = function(e) {
-            setMessage('Error: ' + e.detail.message, true);
-        };
-
-        scope.userSuccess = function(e) {
-            setMessage(e.type + ' success!', false);
-        };
-
-        var msgTimeout;
-        function setMessage(msg, error) {
-            if (msgTimeout) {
-                clearTimeout(msgTimeout);
-            }
-            message.innerText = msg;
-            message.style.color = error ? 'red' : null;
-            msgTimeout = setTimeout(function() {
-                message.innerText = '';
-            }, 3000);
-        }
-
-    });
-</script>
+    <template is="auto-binding">
+    <!--    <topeka-datasource url="components/topeka-elements/categories.json" user="{{user}}" categories="{{categories}}" connected="{{connected}}"></topeka-datasource>-->
+        <leaderboard-app></leaderboard-app>
+    </template>
 
 </body>
-
 </html>

@@ -1,0 +1,110 @@
+<polymer-element name="leaderboard-authentication" attributes="">
+    <template>
+        <link rel="stylesheet" href="leaderboard-authentication.css">
+
+        <h2>Register/Sign in</h2>
+
+        <firebase-login id="login" user="{{user}}" statusKnown="{{statusKnown}}"
+                        location="https://incandescent-heat-3687.firebaseio.com/" provider="{{provider}}"
+                        on-error="{{error}}" on-user-created="{{userSuccess}}" on-password-changed="{{userSuccess}}"
+                        on-password-reset="{{userSuccess}}" on-user-removed="{{userSuccess}}"></firebase-login>
+
+        Provider type:
+        <select value="{{provider}}">
+            <option>anonymous</option>
+            <option>facebook</option>
+            <option>github</option>
+            <option>google</option>
+            <option>twitter</option>
+            <option>password</option>
+        </select>
+
+        <div hidden?="{{provider!='password'}}">
+            <div id="core_card" layout vertical hidden?="{{!statusKnown || user}}">
+                <paper-input label="email" validateImmediately="true" floatinglabel value="{{email}}"
+                             type="email" id="email_input" required layout vertical>
+                </paper-input>
+                <paper-input label="password" validateImmediately="true" floatinglabel value="{{password}}"
+                             type="password" required id="password_input" layout vertical>
+                </paper-input>
+                <div horizontal layout end-justified end>
+                    <paper-fab icon="check" id="paper_fab" on-tap="{{login}}"></paper-fab>
+                </div>
+            </div>
+        </div>
+
+        <paper-toast text="{{loginValidationMessage}}" id="paper_toast"
+                     class="core-transition core-transition-bottom" touch-action="none">
+        </paper-toast>
+
+        <div id="div" horizontal layout end-justified end hidden?="{{!statusKnown || !user}}">
+            <paper-fab icon="check" id="paper_fab" on-tap="{{logout}}"></paper-fab>
+        </div>
+    </template>
+    <script>
+        (function () {
+            'use strict';
+
+            Polymer({
+                ready: function() {
+
+                    var firebaseLogin = this.$.login;
+                    var toast =  this.$.paper_toast;
+                    var toastDuration =  3000;
+                    var self = this;
+
+                    this.provider = 'password';
+                    this.loginValidationMessage = '';
+
+                    this.login = function () {
+                        var params;
+                        try {
+                            params = JSON.parse( this.$.params.value);
+                        } catch (e) {
+                            params = null;
+                        }
+                        if (this.provider == 'password') {
+                            params = this.params || {};
+                            params.email = this.email;
+                            params.password = this.password;
+                        }
+                        firebaseLogin.login(params);
+                    };
+
+                    this.logout = function () {
+                        firebaseLogin.logout();
+                    };
+
+                    this.createUser = function () {
+                        firebaseLogin.createUser(this.email, this.password);
+                    };
+
+                    this.removeUser = function () {
+                        firebaseLogin.removeUser(this.email, this.password);
+                    };
+
+                    this.changePassword = function () {
+                        firebaseLogin.changePassword(this.email, this.password, this.newPassword);
+                    };
+
+                    this.resetPassword = function () {
+                        firebaseLogin.sendPasswordResetEmail(this.email);
+                    };
+
+                    this.error = function (e) {
+                        setMessage('Error: ' + e.detail.message, true);
+                    };
+
+                    this.userSuccess = function (e) {
+                        setMessage(e.type + ' success!', false);
+                    };
+
+                    function setMessage(msg, error) {
+                        self.loginValidationMessage = msg;
+                        toast.show();
+                    }
+                }
+            });
+        })();
+    </script>
+</polymer-element>
