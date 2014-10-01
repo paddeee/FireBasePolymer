@@ -1,9 +1,11 @@
-<polymer-element name="leaderboard-app" attributes="">
+<polymer-element fit name="leaderboard-app" attributes="">
     <template>
 
         <link rel="stylesheet" href="leaderboard-app.css">
 
         <leaderboard-authentication id="profile" name="profile" user="{{user}}" wide="{{wide}}"></leaderboard-authentication>
+
+        <core-media-query query="min-width: {{responsiveWidth}}" queryMatches="{{wide}}"></core-media-query>
 
     </template>
 
@@ -11,7 +13,10 @@
         (function () {
             'use strict';
 
-            Polymer();
+            Polymer('leaderboard-app', {
+
+                responsiveWidth: '900px'
+            });
 
         })();
     </script>
