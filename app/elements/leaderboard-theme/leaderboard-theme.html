@@ -24,6 +24,26 @@
         background-color: {{ g.theme.primaryBgColour }};
     }
 
+    :host /deep/ paper-checkbox {
+        color: {{ g.theme.primaryTextColour }};
+    }
+
+    :host /deep/ paper-checkbox::shadow #ink[checked] {
+        color: {{ g.theme.lightBgColour }};
+    }
+
+    :host /deep/ paper-checkbox::shadow #checkbox.checked {
+        border-color: {{ g.theme.primaryAccentColour }};
+    }
+
+    :host /deep/ paper-checkbox::shadow #ink {
+        color: {{ g.theme.primaryBgColour }};
+    }
+
+    :host /deep/ paper-checkbox::shadow #checkbox {
+        border-color: {{ g.theme.primaryTextColour }};
+    }
+
     :host /deep/ paper-input {
         color: {{ g.theme.primaryTextColour }};
     }

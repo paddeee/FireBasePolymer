@@ -9,12 +9,17 @@
         </firebase-login>
 
         <div class="main" flex layout vertical fit?="{{!wide}}" >
-            <div class="card  card--primary  {{ {wide: wide} | tokenList }}" flex layout vertical>
+            <div class="card  card--primary {{ {wide: wide} | tokenList }}" flex layout vertical>
                 <div layout vertical flex>
                     <div class="indent" layout vertical>
-                        <div class="header">Sign In</div>
-                        <paper-input label="Name" validateImmediately="true" floatinglabel value="{{name}}"
-                                     type="name" id="name_input" required layout vertical>
+                        <div class="header">
+                            {{statusKnown && user && 'Edit Profile' || typeOfAuth }}
+                        </div>
+                        <div class="auth-checkbox">
+                            <paper-checkbox id="authenticationType" class="auth-checkbox__checkbox" label="Create New User" on-change="{{ authStateChanged }}"></paper-checkbox>
+                         </div>
+                        <paper-input label="Name" floatinglabel value="{{name}}"
+                                     type="name" id="name_input" layout vertical>
                         </paper-input>
                         <paper-input label="Email" validateImmediately="true" floatinglabel value="{{email}}"
                                      type="email" id="email_input" required layout vertical>
@@ -24,11 +29,16 @@
                         </paper-input>
                     </div>
                     <div horizontal center layout>
-                        <paper-button on-tap="{{handleLogout}}" label="Sign Out" hidden?="{{!user}}"></paper-button>
+                        <paper-button on-tap="{{logout}}" label="Sign Out"  hidden?="{{!statusKnown || !user}}"></paper-button>
                         <div flex></div>
-                        <paper-fab id="check" icon="check"
-                                   showing?="{{$.name_input.inputValue.length && $.email_input.inputValue.length && $.password_input.inputValue.length}}"
-                                   on-tap="{{login}}">
+                        <paper-fab id="check" icon="check" hidden?="{{ typeOfAuth == 'Join Up' }}"
+                                   on-tap="{{ login }}"
+                                   showing?="{{ $.email_input.inputValue.length && $.password_input.inputValue.length }}">
+                        </paper-fab>
+
+                        <paper-fab id="check" icon="check" hidden?="{{ typeOfAuth == 'Sign In' }}"
+                                   on-tap="{{ createUser }}"
+                                   showing?="{{ $.name_input.inputValue.length && $.email_input.inputValue.length && $.password_input.inputValue.length}}">
                         </paper-fab>
                     </div>
                 </div>
@@ -38,10 +48,6 @@
         <paper-toast text="{{loginValidationMessage}}" id="paper_toast"
                      class="core-transition core-transition-bottom" touch-action="none">
         </paper-toast>
-
-        <div id="div" horizontal layout end-justified end hidden?="{{!statusKnown || !user}}">
-            <paper-fab icon="check" id="paper_fab" on-tap="{{logout}}"></paper-fab>
-        </div>
     </template>
     <script>
         (function () {
@@ -57,10 +63,20 @@
 
                     this.provider = 'password';
                     this.loginValidationMessage = '';
+                    this.typeOfAuth = 'Sign In';
 
                     // Set theming styles for Paper intput elements
                     CoreStyle.g.paperInput.focusedColor = CoreStyle.g.theme.primaryAccentColour;
                     CoreStyle.g.paperInput.invalidColor = CoreStyle.g.theme.primaryTextColour;
+
+                    // When Create New User checkbox is changed
+                    this.authStateChanged= function () {
+                        if (this.$.authenticationType.checked) {
+                            this.typeOfAuth = 'Join Up';
+                        } else {
+                            this.typeOfAuth = 'Sign In';
+                        }
+                    };
 
                     this.login = function () {
                         var params;
