@@ -1,0 +1,40 @@
+<!--
+    @license
+    Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
+    This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+    The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+    The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+    Code distributed by Google as part of the polymer project is also
+    subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<script>
+    CoreStyle.g.theme = {
+        primaryBgColour: '#009688',
+        lightBgColour: '#b2dfdb',
+        darkBgColour: '#00796b',
+        primaryAccentColour: '#eeff41',
+        primaryTextColour: '#FFF'
+    }
+</script>
+
+<core-style id="card--primary">
+
+    :host /deep/ .card--primary {
+        background-color: {{ g.theme.primaryBgColour }};
+    }
+
+    :host /deep/ paper-input {
+        color: {{ g.theme.primaryTextColour }};
+    }
+
+    :host /deep/ paper-input::shadow .unfocused-underline {
+        background-color: {{ g.theme.primaryTextColour }};
+    }
+
+    :host /deep/ input,
+    :host /deep/ textarea {
+        color: {{ g.theme.primaryTextColour }};
+    }
+
+</core-style>

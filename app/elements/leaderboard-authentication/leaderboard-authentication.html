@@ -8,44 +8,29 @@
                         on-password-reset="{{userSuccess}}" on-user-removed="{{userSuccess}}">
         </firebase-login>
 
-        <div class="main" flex layout vertical cross-fade-delayed?="{{parentElement.lastSelected === 'splash'}}">
-            <div class="card {{ {wide: wide} | tokenList }}" flex layout vertical slide-up-offscreen?="{{parentElement.selected === 'profile'}}" cross-fade="{{!wide && parentElement.selected !== 'profile'}}">
-                <div layout vertical flex cross-fade-delayed?="{{parentElement.lastSelected !== 'splash' && wide}}" on-keypress="{{ keypressAction }}">
+        <div class="main" flex layout vertical fit?="{{!wide}}" >
+            <div class="card  card--primary  {{ {wide: wide} | tokenList }}" flex layout vertical>
+                <div layout vertical flex>
                     <div class="indent" layout vertical>
-                        <div class="header">{{userDefaults ? 'Your Profile' : 'Sign In'}}</div>
-                            <paper-input label="First Name" id="first"></paper-input>
-                            <paper-input label="Last Initial" id="last" maxlength="1"></paper-input>
-                        <div class="header spaced">Choose an Avatar</div>
+                        <div class="header">Sign In</div>
+                        <paper-input label="Name" validateImmediately="true" floatinglabel value="{{name}}"
+                                     type="name" id="name_input" required layout vertical>
+                        </paper-input>
+                        <paper-input label="Email" validateImmediately="true" floatinglabel value="{{email}}"
+                                     type="email" id="email_input" required layout vertical>
+                        </paper-input>
+                        <paper-input label="Password" validateImmediately="true" floatinglabel value="{{password}}"
+                                     type="password" required id="password_input" layout vertical>
+                        </paper-input>
                     </div>
                     <div horizontal center layout>
                         <paper-button on-tap="{{handleLogout}}" label="Sign Out" hidden?="{{!user}}"></paper-button>
                         <div flex></div>
-                        <paper-fab id="check" icon="check" showing?="{{$.first.inputValue.length && $.last.inputValue.length && selectedAvatar !== undefined}}" on-tap="{{handleLogin}}"></paper-fab>
+                        <paper-fab id="check" icon="check"
+                                   showing?="{{$.name_input.inputValue.length && $.email_input.inputValue.length && $.password_input.inputValue.length}}"
+                                   on-tap="{{login}}">
+                        </paper-fab>
                     </div>
-                </div>
-            </div>
-        </div>
-
-        Provider type:
-        <select value="{{provider}}">
-            <option>anonymous</option>
-            <option>facebook</option>
-            <option>github</option>
-            <option>google</option>
-            <option>twitter</option>
-            <option>password</option>
-        </select>
-
-        <div hidden?="{{provider!='password'}}">
-            <div id="core_card" layout vertical hidden?="{{!statusKnown || user}}">
-                <paper-input label="email" validateImmediately="true" floatinglabel value="{{email}}"
-                             type="email" id="email_input" required layout vertical>
-                </paper-input>
-                <paper-input label="password" validateImmediately="true" floatinglabel value="{{password}}"
-                             type="password" required id="password_input" layout vertical>
-                </paper-input>
-                <div horizontal layout end-justified end>
-                    <paper-fab icon="check" id="paper_fab" on-tap="{{login}}"></paper-fab>
                 </div>
             </div>
         </div>
@@ -72,6 +57,10 @@
 
                     this.provider = 'password';
                     this.loginValidationMessage = '';
+
+                    // Set theming styles for Paper intput elements
+                    CoreStyle.g.paperInput.focusedColor = CoreStyle.g.theme.primaryAccentColour;
+                    CoreStyle.g.paperInput.invalidColor = CoreStyle.g.theme.primaryTextColour;
 
                     this.login = function () {
                         var params;

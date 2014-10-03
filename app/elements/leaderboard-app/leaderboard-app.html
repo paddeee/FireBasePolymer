@@ -1,9 +1,14 @@
-<polymer-element fit name="leaderboard-app" attributes="">
+<polymer-element fit layout vertical name="leaderboard-app" attributes="">
+
     <template>
 
         <link rel="stylesheet" href="leaderboard-app.css">
 
-        <leaderboard-authentication id="profile" name="profile" user="{{user}}" wide="{{wide}}"></leaderboard-authentication>
+        <core-style ref="card--primary"></core-style>
+
+        <core-animated-pages selected="{{selected}}" transitions="" flex auto>
+            <leaderboard-authentication id="profile" name="profile" user="{{user}}" wide="{{wide}}" layout center vertical></leaderboard-authentication>
+        </core-animated-pages>
 
         <core-media-query query="min-width: {{responsiveWidth}}" queryMatches="{{wide}}"></core-media-query>
 

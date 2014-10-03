@@ -2,15 +2,15 @@
 $primary-bg-colour: #009688;
 $primary-bg-colour--light: #b2dfdb;
 $primary-bg-colour--dark: #00796b;
+$primary-text-colour: #FFF;
 
-$accent-bg-colour: #795548;
+$primary-accent-colour: #eeff41;
 
 :host {
   display: block;
 }
 
 .card {
-  background-color: $primary-bg-colour;
   padding: 20px 16px;
   box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -20,6 +20,7 @@ $accent-bg-colour: #795548;
   margin-top: 64px;
   max-height: 580px;
   max-width: 512px;
+  width:512px;
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
   border-radius: 2px;
 }
@@ -35,6 +36,11 @@ $accent-bg-colour: #795548;
 
 .indent {
   padding: 0 2px;
+}
+
+paper-fab[icon=check] {
+  background-color: $primary-accent-colour;
+  fill: #000;
 }
 
 paper-fab {

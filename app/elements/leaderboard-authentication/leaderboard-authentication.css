@@ -3,7 +3,6 @@
   display: block; }
 
 .card {
-  background-color: #009688;
   padding: 20px 16px;
   box-sizing: border-box;
   -moz-box-sizing: border-box; }
@@ -12,6 +11,7 @@
   margin-top: 64px;
   max-height: 580px;
   max-width: 512px;
+  width: 512px;
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
   border-radius: 2px; }
 
@@ -24,6 +24,10 @@
 
 .indent {
   padding: 0 2px; }
+
+paper-fab[icon=check] {
+  background-color: #eeff41;
+  fill: #000; }
 
 paper-fab {
   transition: transform 500ms cubic-bezier(0.4, 0, 0.2, 1) 500ms, background-color 500ms cubic-bezier(0.4, 0, 0.2, 1);
