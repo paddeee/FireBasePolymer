@@ -1,132 +1,195 @@
 <polymer-element name="leaderboard-authentication" attributes="wide">
-    <template>
-        <link rel="stylesheet" href="leaderboard-authentication.css">
+  <template>
+    <link rel="stylesheet" href="leaderboard-authentication.css">
 
-        <firebase-login id="login" user="{{user}}" statusKnown="{{statusKnown}}"
-                        location="https://incandescent-heat-3687.firebaseio.com/" provider="{{provider}}"
-                        on-error="{{error}}" on-user-created="{{userSuccess}}" on-password-changed="{{userSuccess}}"
-                        on-password-reset="{{userSuccess}}" on-user-removed="{{userSuccess}}">
-        </firebase-login>
+    <firebase-login id="login" user="{{user}}" statusKnown="{{statusKnown}}"
+                    location="https://incandescent-heat-3687.firebaseio.com/" provider="{{provider}}"
+                    on-error="{{error}}" on-user-created="{{userSuccess}}" on-password-changed="{{userSuccess}}"
+                    on-password-reset="{{userSuccess}}" on-user-removed="{{userSuccess}}">
+    </firebase-login>
+    <firebase-element id="user" location="{{'https://incandescent-heat-3687.firebaseio.com/users/' + user.uid}}"
+                      dataReady="{{userReady}}">
+    </firebase-element>
 
-        <div class="main" flex layout vertical fit?="{{!wide}}" >
-            <div class="card  card--primary {{ {wide: wide} | tokenList }}" flex layout vertical>
-                <div layout vertical flex>
-                    <div class="indent" layout vertical>
-                        <div class="header">
-                            {{statusKnown && user && 'Edit Profile' || typeOfAuth }}
-                        </div>
-                        <div class="auth-checkbox">
-                            <paper-checkbox id="authenticationType" class="auth-checkbox__checkbox" label="Create New User" on-change="{{ authStateChanged }}"></paper-checkbox>
-                         </div>
-                        <paper-input label="Name" floatinglabel value="{{name}}"
-                                     type="name" id="name_input" layout vertical>
-                        </paper-input>
-                        <paper-input label="Email" validateImmediately="true" floatinglabel value="{{email}}"
-                                     type="email" id="email_input" required layout vertical>
-                        </paper-input>
-                        <paper-input label="Password" validateImmediately="true" floatinglabel value="{{password}}"
-                                     type="password" required id="password_input" layout vertical>
-                        </paper-input>
-                    </div>
-                    <div horizontal center layout>
-                        <paper-button on-tap="{{logout}}" label="Sign Out"  hidden?="{{!statusKnown || !user}}"></paper-button>
-                        <div flex></div>
-                        <paper-fab id="check" icon="check" hidden?="{{ typeOfAuth == 'Join Up' }}"
-                                   on-tap="{{ login }}"
-                                   showing?="{{ $.email_input.inputValue.length && $.password_input.inputValue.length }}">
-                        </paper-fab>
+    <div class="main" flex layout vertical fit?="{{!wide}}">
+      <div class="card  card--primary {{ {wide: wide} | tokenList }}" flex layout vertical>
+        <div class="indent" layout vertical>
+          <h1>{{statusKnown && user && 'Edit Profile' || typeOfAuth }}</h1>
 
-                        <paper-fab id="check" icon="check" hidden?="{{ typeOfAuth == 'Sign In' }}"
-                                   on-tap="{{ createUser }}"
-                                   showing?="{{ $.name_input.inputValue.length && $.email_input.inputValue.length && $.password_input.inputValue.length}}">
-                        </paper-fab>
-                    </div>
-                </div>
-            </div>
+          <div class="auth-checkbox" hidden?="{{statusKnown && user}}">
+            <paper-checkbox id="authenticationType" class="auth-checkbox__checkbox"
+                            label="Create New User" on-change="{{ authTypeChanged }}">
+            </paper-checkbox>
+          </div>
+          <paper-input label="Email" validateImmediately="true" floatinglabel value="{{email}}"
+                       type="email" id="email_input" required layout vertical
+                       hidden?="{{statusKnown && user}}">
+          </paper-input>
+          <paper-input label="Password" validateImmediately="true" floatinglabel value="{{password}}"
+                       type="password" required id="password_input" layout vertical
+                       hidden?="{{statusKnown && user}}">
+          </paper-input>
         </div>
+        <div class="join_fields" layout vertical hidden?="{{ typeOfAuth == 'Sign In' && !user}}">
+          <paper-input label="Name (optional)" floatinglabel value="{{name}}"
+                       type="name" id="name_input" layout vertical>
+          </paper-input>
+          <paper-input label="Handicap (optional)" floatinglabel value="{{handicap}}"
+                       type="handicap" id="handicap_input" layout vertical>
+          </paper-input>
+        </div>
+        <div class="button-holder" horizontal center layout>
+          <paper-button raisedbutton on-tap="{{logout}}" label="Sign Out" hidden?="{{ !user }}"></paper-button>
+          <div flex></div>
+          <paper-fab id="AuthButton" icon="check"
+                     showing?="{{ user || ($.email_input.inputValue.length && $.password_input.inputValue.length)}}"
+                     on-tap="{{ authUser }}"
+          </paper-fab>
+        </div>
+      </div>
+    </div>
+    <paper-toast text="{{loginValidationMessage}}" id="paper_toast"
+                 class="core-transition core-transition-bottom" touch-action="none">
+    </paper-toast>
+  </template>
+  <script>
+    (function () {
+      'use strict';
 
-        <paper-toast text="{{loginValidationMessage}}" id="paper_toast"
-                     class="core-transition core-transition-bottom" touch-action="none">
-        </paper-toast>
-    </template>
-    <script>
-        (function () {
-            'use strict';
+      Polymer({
 
-            Polymer({
-                ready: function() {
+        observe: {
+          'userReady': 'syncUser'
+        },
 
-                    var firebaseLogin = this.$.login;
-                    var toast =  this.$.paper_toast;
-                    var toastDuration =  3000;
-                    var self = this;
+        ready: function () {
 
-                    this.provider = 'password';
-                    this.loginValidationMessage = '';
-                    this.typeOfAuth = 'Sign In';
+          var firebaseLogin = this.$.login;
+          var toast = this.$.paper_toast;
+          var toastDuration = 3000;
+          var self = this;
 
-                    // Set theming styles for Paper intput elements
-                    CoreStyle.g.paperInput.focusedColor = CoreStyle.g.theme.primaryAccentColour;
-                    CoreStyle.g.paperInput.invalidColor = CoreStyle.g.theme.primaryTextColour;
+          this.provider = 'password';
+          this.loginValidationMessage = '';
+          this.typeOfAuth = 'Sign In';
 
-                    // When Create New User checkbox is changed
-                    this.authStateChanged= function () {
-                        if (this.$.authenticationType.checked) {
-                            this.typeOfAuth = 'Join Up';
-                        } else {
-                            this.typeOfAuth = 'Sign In';
-                        }
-                    };
+          // Set theming styles for Paper intput elements
+          CoreStyle.g.paperInput.focusedColor = CoreStyle.g.theme.primaryAccentColour;
+          CoreStyle.g.paperInput.invalidColor = CoreStyle.g.theme.primaryTextColour;
 
-                    this.login = function () {
-                        var params;
-                        try {
-                            params = JSON.parse( this.$.params.value);
-                        } catch (e) {
-                            params = null;
-                        }
-                        if (this.provider == 'password') {
-                            params = this.params || {};
-                            params.email = this.email;
-                            params.password = this.password;
-                        }
-                        firebaseLogin.login(params);
-                    };
+          // When Create New User checkbox is changed
+          this.authTypeChanged = function () {
+            if (this.$.authenticationType.checked) {
+              this.typeOfAuth = 'Join Up';
+            } else {
+              this.typeOfAuth = 'Sign In';
+            }
+          };
 
-                    this.logout = function () {
-                        firebaseLogin.logout();
-                    };
+          this.authUser = function () {
+            if (this.user) {
+              // Update profile and show user message.
+              this.editProfile(true);
 
-                    this.createUser = function () {
-                        firebaseLogin.createUser(this.email, this.password);
-                    };
+            } else if (this.typeOfAuth === 'Sign In') {
+              this.login();
 
-                    this.removeUser = function () {
-                        firebaseLogin.removeUser(this.email, this.password);
-                    };
+            } else {
+              this.createUser();
+            }
+          };
 
-                    this.changePassword = function () {
-                        firebaseLogin.changePassword(this.email, this.password, this.newPassword);
-                    };
+          this.login = function () {
+            var params;
+            try {
+              params = JSON.parse(this.$.params.value);
+            } catch (e) {
+              params = null;
+            }
+            if (this.provider == 'password') {
+              params = this.params || {};
+              params.email = this.email;
+              params.password = this.password;
+            }
+            firebaseLogin.login(params);
+          };
 
-                    this.resetPassword = function () {
-                        firebaseLogin.sendPasswordResetEmail(this.email);
-                    };
+          this.logout = function () {
+            firebaseLogin.logout();
+            clearInputs();
+          };
 
-                    this.error = function (e) {
-                        setMessage('Error: ' + e.detail.message, true);
-                    };
+          this.createUser = function () {
+            firebaseLogin.createUser(this.email, this.password);
+          };
 
-                    this.userSuccess = function (e) {
-                        setMessage(e.type + ' success!', false);
-                    };
+          this.removeUser = function () {
+            firebaseLogin.removeUser(this.email, this.password);
+          };
 
-                    function setMessage(msg, error) {
-                        self.loginValidationMessage = msg;
-                        toast.show();
-                    }
-                }
-            });
-        })();
-    </script>
+          this.changePassword = function () {
+            firebaseLogin.changePassword(this.email, this.password, this.newPassword);
+          };
+
+          this.resetPassword = function () {
+            firebaseLogin.sendPasswordResetEmail(this.email);
+          };
+
+          this.error = function (event) {
+            self.setMessage('Error: ' + event.detail.message, true);
+          };
+
+          // User Created Handler
+          this.userSuccess = function (event) {
+            this.login();
+            this.setMessage(event.type + ' success!', false);
+          };
+
+          this.setMessage = function (msg, error) {
+            self.loginValidationMessage = msg;
+            toast.show();
+          };
+
+          function clearInputs() {
+            self.$.email_input.value = '';
+            self.$.password_input.value = '';
+            self.$.name_input.value = '';
+            self.$.handicap_input.value = '';
+          }
+        },
+
+        // Keep Firebase user element's data property updated
+        syncUser: function () {
+          if (this.user && this.userReady) {
+
+            if (this.$.user.data) {
+              this.email = this.user.email;
+              this.handicap = this.$.user.data.handicap;
+              this.name = this.$.user.data.name;
+            }
+
+            this.editProfile();
+
+          } else {
+            this.$.user.data = null;
+          }
+        },
+
+        // Set data on Firebase user element.
+        editProfile: function (showMessage) {
+
+          this.$.user.data = {
+            name: this.name || '',
+            handicap: this.handicap || '',
+            uid: this.user.uid || '',
+            email: this.user.email || ''
+          }
+
+          if (showMessage) {
+            this.setMessage('Profile Updated', false);
+          }
+        }
+      });
+    })();
+  </script>
 </polymer-element>
