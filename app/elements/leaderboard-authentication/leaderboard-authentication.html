@@ -21,18 +21,18 @@
           </paper-checkbox>
         </div>
 
-        <leaderboard-signin id="signin" signInDetails="{{signInDetails}}"
+        <leaderboard-signin id="signin" userDetails="{{userDetails}}"
+                            email="{{email}}" password="{{password}}"
+                            hidden?="{{ typeOfAuth == 'Join Up' || user }}"
                             on-signin-button-pressed="{{ signInHandler }}">
         </leaderboard-signin>
 
-        <div class="join_fields" layout vertical hidden?="{{ typeOfAuth == 'Sign In' && !user}}">
-          <paper-input label="Name (optional)" floatinglabel value="{{name}}"
-                       type="name" id="name_input" layout vertical>
-          </paper-input>
-          <paper-input label="Handicap (optional)" floatinglabel value="{{handicap}}"
-                       type="handicap" id="handicap_input" layout vertical>
-          </paper-input>
-        </div>
+        <leaderboard-create-user id="createUser"  userDetails="{{userDetails}}"
+                                 email="{{email}}" password="{{password}}"
+                                 hidden?="{{ typeOfAuth == 'Sign In' && !user}}"
+                                 on-create-user-button-pressed="{{ createUserHandler }}">
+        </leaderboard-create-user>
+
         <div class="button-holder" horizontal center layout>
           <paper-button raised on-tap="{{logout}}" label="Sign Out" hidden?="{{ !user }}"></paper-button>
           <div flex></div>
@@ -57,7 +57,7 @@
           'userReady': 'syncUser'
         },
 
-        signInDetails: {
+        userDetails: {
           email: '',
           password: ''
         },
@@ -87,7 +87,11 @@
           };
 
           this.signInHandler = function() {
-            firebaseLogin.login(this.signInDetails)
+            firebaseLogin.login(this.userDetails)
+          };
+
+          this.createUserHandler = function() {
+            firebaseLogin.createUser(this.userDetails.email, this.userDetails.password);
           };
 
           this.authUser = function () {
@@ -105,11 +109,6 @@
 
           this.logout = function () {
             firebaseLogin.logout();
-            clearInputs();
-          };
-
-          this.createUser = function () {
-            firebaseLogin.createUser(this.email, this.password);
           };
 
           this.removeUser = function () {
@@ -130,7 +129,7 @@
 
           // User Created Handler
           this.userSuccess = function (event) {
-            this.login();
+            this.signInHandler();
             this.setMessage(event.type + ' success!', false);
           };
 
@@ -138,13 +137,6 @@
             self.loginValidationMessage = msg;
             toast.show();
           };
-
-          function clearInputs() {
-            self.$.email_input.value = '';
-            self.$.password_input.value = '';
-            self.$.name_input.value = '';
-            self.$.handicap_input.value = '';
-          }
         },
 
         // Keep Firebase user element's data property updated

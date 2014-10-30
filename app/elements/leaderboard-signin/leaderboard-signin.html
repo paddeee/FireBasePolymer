@@ -1,4 +1,4 @@
-<polymer-element name="leaderboard-signin" attributes="signInDetails">
+<polymer-element name="leaderboard-signin" attributes="userDetails email password">
   <template>
     <link rel="stylesheet" href="leaderboard-signin.css">
       <paper-input label="Email" validateImmediately="true" floatinglabel value="{{email}}"
@@ -22,15 +22,15 @@
       Polymer({
 
         // Set default object as hint to Polymer
-        signInDetails: {
+        userDetails: {
           email: '',
           password: ''
         },
 
-        // Assign values to published 'signInDetails' object.
+        // Assign values to published 'userDetails' object.
         signIn: function() {
-          this.signInDetails.email = this.email;
-          this.signInDetails.password = this.password;
+          this.userDetails.email = this.email;
+          this.userDetails.password = this.password;
 
           this.fire('signin-button-pressed');
         }
