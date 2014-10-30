@@ -10,26 +10,21 @@
     <firebase-element id="user" location="{{'https://incandescent-heat-3687.firebaseio.com/users/' + user.uid}}"
                       dataReady="{{userReady}}">
     </firebase-element>
-
     <div class="main" flex layout vertical fit?="{{!wide}}">
       <div class="card  card--primary {{ {wide: wide} | tokenList }}" flex layout vertical>
-        <div class="indent" layout vertical>
-          <h1>{{statusKnown && user && 'Edit Profile' || typeOfAuth }}</h1>
 
-          <div class="auth-checkbox" hidden?="{{statusKnown && user}}">
-            <paper-checkbox id="authenticationType" class="auth-checkbox__checkbox"
-                            label="Create New User" on-change="{{ authTypeChanged }}">
-            </paper-checkbox>
-          </div>
-          <paper-input label="Email" validateImmediately="true" floatinglabel value="{{email}}"
-                       type="email" id="email_input" required layout vertical
-                       hidden?="{{statusKnown && user}}">
-          </paper-input>
-          <paper-input label="Password" validateImmediately="true" floatinglabel value="{{password}}"
-                       type="password" required id="password_input" layout vertical
-                       hidden?="{{statusKnown && user}}">
-          </paper-input>
+        <h1>{{statusKnown && user && 'Edit Profile' || typeOfAuth }}</h1>
+
+        <div class="auth-checkbox" hidden?="{{statusKnown && user}}">
+          <paper-checkbox id="authenticationType" class="auth-checkbox__checkbox"
+                          label="Create New User" on-change="{{ authTypeChanged }}">
+          </paper-checkbox>
         </div>
+
+        <leaderboard-signin id="signin" signInDetails="{{signInDetails}}"
+                            on-signin-button-pressed="{{ signInHandler }}">
+        </leaderboard-signin>
+
         <div class="join_fields" layout vertical hidden?="{{ typeOfAuth == 'Sign In' && !user}}">
           <paper-input label="Name (optional)" floatinglabel value="{{name}}"
                        type="name" id="name_input" layout vertical>
@@ -39,7 +34,7 @@
           </paper-input>
         </div>
         <div class="button-holder" horizontal center layout>
-          <paper-button raisedbutton on-tap="{{logout}}" label="Sign Out" hidden?="{{ !user }}"></paper-button>
+          <paper-button raised on-tap="{{logout}}" label="Sign Out" hidden?="{{ !user }}"></paper-button>
           <div flex></div>
           <paper-fab id="AuthButton" icon="check"
                      showing?="{{ user || ($.email_input.inputValue.length && $.password_input.inputValue.length)}}"
@@ -60,6 +55,11 @@
 
         observe: {
           'userReady': 'syncUser'
+        },
+
+        signInDetails: {
+          email: '',
+          password: ''
         },
 
         ready: function () {
@@ -86,6 +86,10 @@
             }
           };
 
+          this.signInHandler = function() {
+            firebaseLogin.login(this.signInDetails)
+          };
+
           this.authUser = function () {
             if (this.user) {
               // Update profile and show user message.
@@ -97,21 +101,6 @@
             } else {
               this.createUser();
             }
-          };
-
-          this.login = function () {
-            var params;
-            try {
-              params = JSON.parse(this.$.params.value);
-            } catch (e) {
-              params = null;
-            }
-            if (this.provider == 'password') {
-              params = this.params || {};
-              params.email = this.email;
-              params.password = this.password;
-            }
-            firebaseLogin.login(params);
           };
 
           this.logout = function () {

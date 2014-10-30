@@ -28,14 +28,16 @@ h2 {
 .auth-checkbox {
   padding: 0.75em 0; }
 
-.indent {
-  padding: 0 2px; }
+:host ::shadow paper-input {
+  max-width: 20em;
+  width: auto; }
 
-paper-fab[icon=check] {
+:host ::shadow paper-fab[icon=check] {
   background-color: #eeff41;
+  color: #000;
   fill: #000; }
 
-paper-fab {
+:host ::shadow paper-fab {
   transition: transform 500ms cubic-bezier(0.4, 0, 0.2, 1) 500ms, background-color 500ms cubic-bezier(0.4, 0, 0.2, 1);
   -webkit-transition: -webkit-transform 500ms cubic-bezier(0.4, 0, 0.2, 1) 500ms, background-color 500ms cubic-bezier(0.4, 0, 0.2, 1);
   -webkit-transform: scale(0);
@@ -43,13 +45,13 @@ paper-fab {
   -webkit-transform-origin: 50% 50%;
   transform-origin: 50% 50%; }
 
-paper-fab[showing] {
+:host ::shadow paper-fab[showing] {
   -webkit-transform: none;
   transform: none; }
 
-paper-input {
-  max-width: 20em;
-  width: auto; }
+:host ::shadow paper-button {
+  background-color: #fff;
+  margin: 0; }
 
 .main {
   position: relative; }

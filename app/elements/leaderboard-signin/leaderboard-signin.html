@@ -1,0 +1,41 @@
+<polymer-element name="leaderboard-signin" attributes="signInDetails">
+  <template>
+    <link rel="stylesheet" href="leaderboard-signin.css">
+      <paper-input label="Email" validateImmediately="true" floatinglabel value="{{email}}"
+                   type="email" id="email_input" required layout vertical>
+      </paper-input>
+      <paper-input label="Password" validateImmediately="true" floatinglabel value="{{password}}"
+                   type="password" required id="password_input" layout vertical>
+      </paper-input>
+      <div class="button-holder" horizontal center layout>
+        <div flex></div>
+        <paper-fab id="SignInButton" icon="check"
+                   showing?="{{ $.email_input.inputValue.length && $.password_input.inputValue.length}}"
+                   on-tap="{{ signIn }}"
+        </paper-fab>
+    </div>
+  </template>
+  <script>
+    (function () {
+      'use strict';
+
+      Polymer({
+
+        // Set default object as hint to Polymer
+        signInDetails: {
+          email: '',
+          password: ''
+        },
+
+        // Assign values to published 'signInDetails' object.
+        signIn: function() {
+          this.signInDetails.email = this.email;
+          this.signInDetails.password = this.password;
+
+          this.fire('signin-button-pressed');
+        }
+      });
+
+    })();
+  </script>
+</polymer-element>
