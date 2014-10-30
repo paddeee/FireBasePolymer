@@ -10,11 +10,10 @@
     <firebase-element id="user" location="{{'https://incandescent-heat-3687.firebaseio.com/users/' + user.uid}}"
                       dataReady="{{userReady}}">
     </firebase-element>
+
     <div class="main" flex layout vertical fit?="{{!wide}}">
       <div class="card  card--primary {{ {wide: wide} | tokenList }}" flex layout vertical>
-
         <h1>{{statusKnown && user && 'Edit Profile' || typeOfAuth }}</h1>
-
         <div class="auth-checkbox" hidden?="{{statusKnown && user}}">
           <paper-checkbox id="authenticationType" class="auth-checkbox__checkbox"
                           label="Create New User" on-change="{{ authTypeChanged }}">
@@ -29,18 +28,17 @@
 
         <leaderboard-create-user id="createUser"  userDetails="{{userDetails}}"
                                  email="{{email}}" password="{{password}}"
-                                 hidden?="{{ typeOfAuth == 'Sign In' && !user}}"
+                                 name="{{name}}" handicap="{{handicap}}"
+                                 hidden?="{{ typeOfAuth == 'Sign In' || user}}"
                                  on-create-user-button-pressed="{{ createUserHandler }}">
         </leaderboard-create-user>
 
-        <div class="button-holder" horizontal center layout>
-          <paper-button raised on-tap="{{logout}}" label="Sign Out" hidden?="{{ !user }}"></paper-button>
-          <div flex></div>
-          <paper-fab id="AuthButton" icon="check"
-                     showing?="{{ user || ($.email_input.inputValue.length && $.password_input.inputValue.length)}}"
-                     on-tap="{{ authUser }}"
-          </paper-fab>
-        </div>
+        <leaderboard-edit-profile id="editProfile"  userDetails="{{userDetails}}"
+                                 name="{{name}}" handicap="{{handicap}}"
+                                 hidden?="{{!user}}"
+                                 on-edit-profile-button-pressed="{{ editProfileHandler }}"
+                                 on-sign-out-button-pressed="{{ signOutHandler }}">
+        </leaderboard-edit-profile>
       </div>
     </div>
     <paper-toast text="{{loginValidationMessage}}" id="paper_toast"
@@ -94,21 +92,16 @@
             firebaseLogin.createUser(this.userDetails.email, this.userDetails.password);
           };
 
-          this.authUser = function () {
-            if (this.user) {
-              // Update profile and show user message.
-              this.editProfile(true);
-
-            } else if (this.typeOfAuth === 'Sign In') {
-              this.login();
-
-            } else {
-              this.createUser();
-            }
+          this.editProfileHandler = function() {
+            this.editProfile(true);
           };
 
-          this.logout = function () {
+          this.signOutHandler = function() {
             firebaseLogin.logout();
+            this.email ='';
+            this.password ='';
+            this.name ='';
+            this.handicap ='';
           };
 
           this.removeUser = function () {
