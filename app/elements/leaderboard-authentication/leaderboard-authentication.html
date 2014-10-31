@@ -1,4 +1,4 @@
-<polymer-element name="leaderboard-authentication" attributes="wide">
+<polymer-element name="leaderboard-authentication" attributes="wide user">
   <template>
     <link rel="stylesheet" href="leaderboard-authentication.css">
 
@@ -12,7 +12,8 @@
     </firebase-element>
 
     <div class="main" flex layout vertical fit?="{{!wide}}">
-      <div class="card  card--primary {{ {wide: wide} | tokenList }}" flex layout vertical>
+      <div class="card  card--primary {{ {wide: wide} | tokenList }}" flex layout vertical
+           slide-up-offscreen?="{{parentElement.selected === 'profile'}}" cross-fade="{{!wide && parentElement.selected !== 'profile'}}">
         <h1>{{statusKnown && user && 'Edit Profile' || typeOfAuth }}</h1>
         <div class="auth-checkbox" hidden?="{{statusKnown && user}}">
           <paper-checkbox id="authenticationType" class="auth-checkbox__checkbox"
@@ -60,6 +61,8 @@
           password: ''
         },
 
+        authenticated: false,
+
         ready: function () {
 
           var firebaseLogin = this.$.login;
@@ -93,7 +96,7 @@
           };
 
           this.editProfileHandler = function() {
-            this.editProfile(true);
+            this.editProfile();
           };
 
           this.signOutHandler = function() {
@@ -149,8 +152,8 @@
           }
         },
 
-        // Set data on Firebase user element.
-        editProfile: function (showMessage) {
+        // Set data on Firebase user element and update user object.
+        editProfile: function () {
 
           this.$.user.data = {
             name: this.name || '',
@@ -159,9 +162,7 @@
             email: this.user.email || ''
           }
 
-          if (showMessage) {
-            this.setMessage('Profile Updated', false);
-          }
+          this.user = this.$.user.data;
         }
       });
     })();

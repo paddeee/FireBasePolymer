@@ -1,4 +1,4 @@
-<polymer-element fit layout vertical name="leaderboard-app" attributes="">
+<polymer-element fit layout vertical name="leaderboard-app" attributes="user">
 
     <template>
 
@@ -7,8 +7,18 @@
         <core-style ref="card--primary"></core-style>
 
         <core-animated-pages selected="{{selected}}" transitions="" flex auto>
-            <leaderboard-authentication id="profile" name="profile" user="{{user}}" wide="{{wide}}" layout center vertical></leaderboard-authentication>
+
+          <leaderboard-authentication id="profile" name="profile" user="{{user}}" wide="{{wide}}"
+                                      layout center vertical>
+          </leaderboard-authentication>
+
+          <leaderboard-menu id="menu" name="menu" user="{{user}}" wide="{{wide}}">
+          </leaderboard-menu>
+
         </core-animated-pages>
+
+      <!-- temp shit -->
+      <paper-button raised on-tap="{{editProfile}}" label="Edit profile"></paper-button>
 
         <core-media-query query="min-width: {{responsiveWidth}}" queryMatches="{{wide}}"></core-media-query>
 
@@ -18,9 +28,27 @@
         (function () {
             'use strict';
 
-            Polymer('leaderboard-app', {
+            Polymer({
 
-                responsiveWidth: '900px'
+              responsiveWidth: '900px',
+
+              observe: {
+                'user': 'enterLeaderBoard'
+              },
+
+              enterLeaderBoard: function() {
+                if (this.user) {
+                  console.log('go you now');
+                  this.selected = 'menu';
+                } else {
+                  console.log('p yours');
+                }
+              },
+
+              //Temp Shit
+              editProfile: function() {
+                this.selected = 'profile';
+              }
             });
 
         })();
