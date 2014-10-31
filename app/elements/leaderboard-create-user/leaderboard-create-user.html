@@ -1,0 +1,49 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<polymer-element name="leaderboard-create-user" attributes="userDetails email password name handicap">
+  <template>
+    <link rel="stylesheet" href="leaderboard-create-user.css">
+    <paper-input label="Email" validateImmediately="true" floatinglabel value="{{email}}"
+                 type="email" id="email_input" required layout vertical>
+    </paper-input>
+    <paper-input label="Password" validateImmediately="true" floatinglabel value="{{password}}"
+                 type="password" required id="password_input" layout vertical>
+    </paper-input>
+    <paper-input label="Name (optional)" floatinglabel value="{{name}}"
+                 type="name" id="name_input" layout vertical>
+    </paper-input>
+    <paper-input label="Handicap (optional)" floatinglabel value="{{handicap}}"
+                 type="handicap" id="handicap_input" layout vertical>
+    </paper-input>
+    <div class="button-holder" horizontal center layout>
+      <div flex></div>
+      <paper-fab id="CreateUserButton" icon="check"
+                 showing?="{{ $.email_input.inputValue.length && $.password_input.inputValue.length}}"
+                 on-tap="{{ createUser }}"
+      </paper-fab>
+    </div>
+  </template>
+  <script>
+    (function () {
+      'use strict';
+
+      Polymer({
+
+        // Set default object as hint to Polymer
+        userDetails: {
+          email: '',
+          password: ''
+        },
+
+        // Assign values to published 'userDetails' object.
+        createUser: function() {
+          this.userDetails.email = this.email;
+          this.userDetails.password = this.password;
+
+          this.fire('create-user-button-pressed');
+        }
+      });
+
+    })();
+  </script>
+</polymer-element>

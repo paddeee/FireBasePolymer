@@ -1,0 +1,89 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<polymer-element name="leaderboard-edit-profile" attributes="userDetails name handicap">
+  <template>
+    <link rel="stylesheet" href="leaderboard-edit-profile.css">
+
+    <firebase-element id="user" location="{{'https://incandescent-heat-3687.firebaseio.com/users/' + user.uid}}"
+                      dataReady="{{userReady}}">
+    </firebase-element>
+
+    <paper-input label="Name (optional)" floatinglabel value="{{name}}"
+                 type="name" id="name_input" layout vertical>
+    </paper-input>
+    <paper-input label="Handicap (optional)" floatinglabel value="{{handicap}}"
+                 type="handicap" id="handicap_input" layout vertical>
+    </paper-input>
+    <div class="button-holder" horizontal center layout>
+      <paper-button raised on-tap="{{signOut}}" label="Sign Out"></paper-button>
+      <div flex></div>
+      <paper-fab id="CreateUserButton" icon="check" showing
+                 on-tap="{{ editProfile }}"
+      </paper-fab>
+    </div>
+  </template>
+  <script>
+    (function () {
+      'use strict';
+
+      Polymer({
+
+        observe: {
+          'userReady': 'syncUser'
+        },
+
+        // Set default object as hint to Polymer
+        userDetails: {
+          email: '',
+          password: ''
+        },
+
+        // Assign values to published 'userDetails' object.
+        editProfile: function() {
+          this.userDetails.email = this.email;
+          this.userDetails.password = this.password;
+
+          this.syncProfile(true);
+        },
+
+        // Trigger Sign Out event.
+        signOut: function() {
+          this.fire('sign-out-button-pressed');
+        },
+
+        // Keep Firebase user element's data property updated
+        syncUser: function () {
+          if (this.user && this.userReady) {
+
+            if (this.$.user.data) {
+              this.email = this.user.email;
+              this.handicap = this.$.user.data.handicap;
+              this.name = this.$.user.data.name;
+            }
+
+            this.syncProfile();
+
+          } else {
+            this.$.user.data = null;
+          }
+        },
+
+        // Set data on Firebase user element.
+        syncProfile: function (showMessage) {
+
+          this.$.user.data = {
+            name: this.name || '',
+            handicap: this.handicap || '',
+            uid: this.user.uid || '',
+            email: this.user.email || ''
+          }
+
+          if (showMessage) {
+            this.setMessage('Profile Updated', false);
+          }
+        }
+      });
+
+    })();
+  </script>
+</polymer-element>
