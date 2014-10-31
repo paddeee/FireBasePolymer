@@ -43,44 +43,12 @@
           this.userDetails.email = this.email;
           this.userDetails.password = this.password;
 
-          this.syncProfile(true);
+          this.fire('edit-profile-button-pressed');
         },
 
         // Trigger Sign Out event.
         signOut: function() {
           this.fire('sign-out-button-pressed');
-        },
-
-        // Keep Firebase user element's data property updated
-        syncUser: function () {
-          if (this.user && this.userReady) {
-
-            if (this.$.user.data) {
-              this.email = this.user.email;
-              this.handicap = this.$.user.data.handicap;
-              this.name = this.$.user.data.name;
-            }
-
-            this.syncProfile();
-
-          } else {
-            this.$.user.data = null;
-          }
-        },
-
-        // Set data on Firebase user element.
-        syncProfile: function (showMessage) {
-
-          this.$.user.data = {
-            name: this.name || '',
-            handicap: this.handicap || '',
-            uid: this.user.uid || '',
-            email: this.user.email || ''
-          }
-
-          if (showMessage) {
-            this.setMessage('Profile Updated', false);
-          }
         }
       });
 
