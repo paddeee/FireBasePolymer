@@ -1,6 +1,6 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 
-<polymer-element name="leaderboard-edit-profile" attributes="userDetails name handicap">
+<polymer-element name="leaderboard-edit-profile" attributes="user userDetails name handicap">
   <template>
     <link rel="stylesheet" href="leaderboard-edit-profile.css">
 
@@ -18,7 +18,7 @@
       <paper-button raised on-tap="{{signOut}}" label="Sign Out"></paper-button>
       <div flex></div>
       <paper-fab id="CreateUserButton" icon="check" showing
-                 on-tap="{{ editProfile }}"
+                 on-tap="{{ setUserDetails }}"
       </paper-fab>
     </div>
   </template>
@@ -29,21 +29,35 @@
       Polymer({
 
         observe: {
-          'userReady': 'syncUser'
+          'userReady': 'getUserDetails'
         },
 
-        // Set default object as hint to Polymer
-        userDetails: {
-          email: '',
-          password: ''
+        // When a user is logged in and FireBase user element updates, set the values used by field inputs.
+        getUserDetails: function() {
+
+          if (this.$.user.data) {
+            this.email = this.$.user.data.email;
+            this.handicap = this.$.user.data.handicap;
+            this.name = this.$.user.data.name;
+            this.uid = this.$.user.data.uid;
+
+            this.userDetails = this.$.user.data;
+          }
         },
 
-        // Assign values to published 'userDetails' object.
-        editProfile: function() {
-          this.userDetails.email = this.email;
-          this.userDetails.password = this.password;
+        // When userDetails change send it to FireBase user element
+        setUserDetails: function() {
 
-          this.fire('edit-profile-button-pressed');
+          if (this.userDetails) {
+            this.$.user.data = {
+              name: this.name || '',
+              handicap: this.handicap || '',
+              uid: this.user.uid || '',
+              email: this.user.email || ''
+            }
+
+            this.userDetails = this.$.user.data;
+          }
         },
 
         // Trigger Sign Out event.

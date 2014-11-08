@@ -1,4 +1,4 @@
-<polymer-element name="leaderboard-authentication" attributes="wide user">
+<polymer-element name="leaderboard-authentication" attributes="wide statusKnown user userDetails">
   <template>
     <link rel="stylesheet" href="leaderboard-authentication.css">
 
@@ -7,9 +7,6 @@
                     on-error="{{error}}" on-user-created="{{userSuccess}}" on-password-changed="{{userSuccess}}"
                     on-password-reset="{{userSuccess}}" on-user-removed="{{userSuccess}}">
     </firebase-login>
-    <firebase-element id="user" location="{{'https://incandescent-heat-3687.firebaseio.com/users/' + user.uid}}"
-                      dataReady="{{userReady}}">
-    </firebase-element>
 
     <div class="main" flex layout vertical fit?="{{!wide}}">
       <div class="card  card--primary {{ {wide: wide} | tokenList }}" flex layout vertical
@@ -35,10 +32,10 @@
         </leaderboard-create-user>
 
         <leaderboard-edit-profile id="editProfile"  userDetails="{{userDetails}}"
-                                 name="{{name}}" handicap="{{handicap}}"
-                                 hidden?="{{!user}}"
-                                 on-edit-profile-button-pressed="{{ editProfileHandler }}"
-                                 on-sign-out-button-pressed="{{ signOutHandler }}">
+                                  user="{{user}}"
+                                  name="{{name}}" handicap="{{handicap}}"
+                                  hidden?="{{!user}}"
+                                  on-sign-out-button-pressed="{{ signOutHandler }}">
         </leaderboard-edit-profile>
       </div>
     </div>
@@ -51,15 +48,6 @@
       'use strict';
 
       Polymer({
-
-        observe: {
-          'userReady': 'syncUser'
-        },
-
-        userDetails: {
-          email: '',
-          password: ''
-        },
 
         authenticated: false,
 
@@ -74,7 +62,7 @@
           this.loginValidationMessage = '';
           this.typeOfAuth = 'Sign In';
 
-          // Set theming styles for Paper intput elements
+          // Set theming styles for Paper input elements
           CoreStyle.g.paperInput.focusedColor = CoreStyle.g.theme.primaryAccentColour;
           CoreStyle.g.paperInput.invalidColor = CoreStyle.g.theme.primaryTextColour;
 
@@ -95,12 +83,10 @@
             firebaseLogin.createUser(this.userDetails.email, this.userDetails.password);
           };
 
-          this.editProfileHandler = function() {
-            this.editProfile();
-          };
-
           this.signOutHandler = function() {
             firebaseLogin.logout();
+            this.userDetails = null;
+            //this.user = null;
             this.email ='';
             this.password ='';
             this.name ='';
@@ -133,36 +119,6 @@
             self.loginValidationMessage = msg;
             toast.show();
           };
-        },
-
-        // Keep Firebase user element's data property updated
-        syncUser: function () {
-          if (this.user && this.userReady) {
-
-            if (this.$.user.data) {
-              this.email = this.user.email;
-              this.handicap = this.$.user.data.handicap;
-              this.name = this.$.user.data.name;
-            }
-
-            this.editProfile();
-
-          } else {
-            this.$.user.data = null;
-          }
-        },
-
-        // Set data on Firebase user element and update user object.
-        editProfile: function () {
-
-          this.$.user.data = {
-            name: this.name || '',
-            handicap: this.handicap || '',
-            uid: this.user.uid || '',
-            email: this.user.email || ''
-          }
-
-          this.user = this.$.user.data;
         }
       });
     })();

@@ -21,16 +21,12 @@
 
       Polymer({
 
-        // Set default object as hint to Polymer
-        userDetails: {
-          email: '',
-          password: ''
-        },
-
         // Assign values to published 'userDetails' object.
         signIn: function() {
-          this.userDetails.email = this.email;
-          this.userDetails.password = this.password;
+          this.userDetails = {
+            email: this.email,
+            password: this.password
+          };
 
           this.fire('signin-button-pressed');
         }

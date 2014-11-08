@@ -1,4 +1,4 @@
-<polymer-element fit layout vertical name="leaderboard-app" attributes="user">
+<polymer-element fit layout vertical name="leaderboard-app" attributes="user userDetails">
 
     <template>
 
@@ -6,13 +6,13 @@
 
         <core-style ref="card--primary"></core-style>
 
-        <core-animated-pages selected="{{selected}}" transitions="" flex auto>
+        <core-animated-pages selected="{{selected}}" transitions="cross-fade slide-down slide-up-offscreen" flex auto>
 
-          <leaderboard-authentication id="profile" name="profile" user="{{user}}" wide="{{wide}}"
-                                      layout center vertical>
+          <leaderboard-authentication id="profile" name="profile" userDetails="{{userDetails}}" user="{{user}}"
+                                      statusKnown="{{statusKnown}}" wide="{{wide}}" layout center vertical>
           </leaderboard-authentication>
 
-          <leaderboard-menu id="menu" name="menu" user="{{user}}" wide="{{wide}}">
+          <leaderboard-menu id="menu" name="menu" userDetails="{{userDetails}}" user="{{user}}" wide="{{wide}}">
           </leaderboard-menu>
 
         </core-animated-pages>
@@ -33,21 +33,21 @@
               responsiveWidth: '900px',
 
               observe: {
-                'user': 'enterLeaderBoard'
+                'userDetails': 'enterMenu'
               },
 
-              enterLeaderBoard: function() {
-                if (this.user) {
-                  console.log('go you now');
-                  this.selected = 'menu';
+              enterMenu: function() {
+                if (this.userDetails && this.statusKnown) {
+                  console.log(this.userDetails);
+                  this.selected = 1;
                 } else {
-                  console.log('p yours');
+                  this.selected = 0;
                 }
               },
 
               //Temp Shit
               editProfile: function() {
-                this.selected = 'profile';
+                this.selected = 0;
               }
             });
 
