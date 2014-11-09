@@ -15,6 +15,9 @@
           <leaderboard-menu id="menu" name="menu" userDetails="{{userDetails}}" user="{{user}}" wide="{{wide}}">
           </leaderboard-menu>
 
+          <leaderboard-section id="section" name="section" wide="{{wide}}">
+          </leaderboard-section>
+
         </core-animated-pages>
 
       <!-- temp shit -->
@@ -38,7 +41,6 @@
 
               enterMenu: function() {
                 if (this.userDetails && this.statusKnown) {
-                  console.log(this.userDetails);
                   this.selected = 1;
                 } else {
                   this.selected = 0;

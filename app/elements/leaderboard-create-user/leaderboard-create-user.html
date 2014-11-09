@@ -31,8 +31,13 @@
 
         // Assign values to published 'userDetails' object.
         createUser: function() {
-          this.userDetails.email = this.email;
-          this.userDetails.password = this.password;
+
+          this.userDetails = {
+            email: this.email,
+            password: this.password,
+            name: this.name,
+            handicap: this.handicap
+          };
 
           this.fire('create-user-button-pressed');
         }
