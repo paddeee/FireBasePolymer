@@ -12,16 +12,15 @@
                                       statusKnown="{{statusKnown}}" wide="{{wide}}" layout center vertical>
           </leaderboard-authentication>
 
-          <leaderboard-menu id="menu" name="menu" userDetails="{{userDetails}}" user="{{user}}" wide="{{wide}}">
+          <leaderboard-menu id="menu" name="menu" userDetails="{{userDetails}}" wide="{{wide}}"
+                            section="{{section}}" on-core-activate="{{sectionSelect}}">
           </leaderboard-menu>
 
-          <leaderboard-section id="section" name="section" wide="{{wide}}">
-          </leaderboard-section>
+          <leaderboard-scoreboard name="scoreboard" userDetails="{{userDetails}}" wide="{{wide}}"
+                                  disabled="{{disableScoreboard}}">
+          </leaderboard-scoreboard>
 
         </core-animated-pages>
-
-      <!-- temp shit -->
-      <paper-button raised on-tap="{{editProfile}}" label="Edit profile"></paper-button>
 
         <core-media-query query="min-width: {{responsiveWidth}}" queryMatches="{{wide}}"></core-media-query>
 
@@ -47,9 +46,17 @@
                 }
               },
 
-              //Temp Shit
-              editProfile: function() {
-                this.selected = 0;
+              sectionSelect: function() {
+                var sectionName;
+
+                if (this.section) {
+                  sectionName = this.section.name;
+                  if (sectionName === 'leaderboard') {
+                    this.selected = 2;
+                  } else if (sectionName === 'profile') {
+                    this.selected = 0;
+                  }
+                }
               }
             });
 
