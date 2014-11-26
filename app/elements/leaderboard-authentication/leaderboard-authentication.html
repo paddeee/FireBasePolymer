@@ -5,7 +5,9 @@
     <firebase-login id="login" user="{{user}}" statusKnown="{{statusKnown}}"
                     location="https://incandescent-heat-3687.firebaseio.com/" provider="{{provider}}"
                     on-error="{{error}}" on-user-created="{{userSuccess}}" on-password-changed="{{userSuccess}}"
-                    on-password-reset="{{userSuccess}}" on-user-removed="{{userSuccess}}">
+                    on-password-reset="{{userSuccess}}" on-user-removed="{{userSuccess}}"
+                    on-login="{{userLoggedIn}}"
+                    on-logout="{{userLoggedOut}}">
     </firebase-login>
 
     <div class="main" flex layout vertical fit?="{{!wide}}">
@@ -116,6 +118,14 @@
           this.setMessage = function (msg, error) {
             self.loginValidationMessage = msg;
             toast.show();
+          };
+
+          this.userLoggedIn = function () {
+            this.fire('user-logged-in');
+          };
+
+          this.userLoggedOut = function () {
+            this.fire('user-logged-out');
           };
         }
       });

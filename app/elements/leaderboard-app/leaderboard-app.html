@@ -9,7 +9,10 @@
         <core-animated-pages selected="{{selected}}" transitions="cross-fade slide-down slide-up-offscreen" flex auto>
 
           <leaderboard-authentication id="profile" name="profile" userDetails="{{userDetails}}" user="{{user}}"
-                                      statusKnown="{{statusKnown}}" wide="{{wide}}" layout center vertical>
+                                      statusKnown="{{statusKnown}}" wide="{{wide}}" layout center vertical
+                                      on-user-logged-in="{{ enterMenu }}"
+                                      on-user-logged-out="{{ enterAuthentication }}"
+                                      on-profile-changed="{{ enterMenu }}">
           </leaderboard-authentication>
 
           <leaderboard-menu id="menu" name="menu" userDetails="{{userDetails}}" wide="{{wide}}"
@@ -34,16 +37,17 @@
 
               responsiveWidth: '900px',
 
-              observe: {
+              /*observe: {
                 'userDetails': 'enterMenu'
+              },*/
+
+              enterAuthentication: function() {
+                this.selected = 0;
               },
 
               enterMenu: function() {
-                if (this.userDetails && this.statusKnown) {
+                  console.log('enter menu');
                   this.selected = 1;
-                } else {
-                  this.selected = 0;
-                }
               },
 
               sectionSelect: function() {
