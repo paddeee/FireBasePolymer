@@ -18,7 +18,7 @@
       <paper-button raised on-tap="{{signOut}}" label="Sign Out"></paper-button>
       <div flex></div>
       <paper-fab id="CreateUserButton" icon="check" showing
-                 on-tap="{{ setUserDetails }}"
+                 on-tap="{{ setUserDetails }}">
       </paper-fab>
     </div>
   </template>
@@ -47,6 +47,10 @@
 
         // When userDetails change send it to FireBase user element
         setUserDetails: function() {
+
+          // Focus on the fab button otherwise some mobile devices don't seem to pick up the change to the paper input
+          // value in time so the value doesn't get updated correctly below.
+          this.$.CreateUserButton.focus();
 
           if (this.userDetails) {
             this.$.user.data = {
