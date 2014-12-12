@@ -1,0 +1,9 @@
+{
+  "firebase": "incandescent-heat-3687",
+  "public": "dist",
+  "ignore": [
+    "firebase.json",
+    "**/.*",
+    "**/node_modules/**"
+  ]
+}

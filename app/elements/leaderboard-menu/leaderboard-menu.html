@@ -1,0 +1,73 @@
+<polymer-element name="leaderboard-menu" attributes="section wide userDetails">
+  <template>
+    <link rel="stylesheet" href="leaderboard-menu.css">
+
+    <core-toolbar class="menu-toolbar" slide-down?="{{parentElement.selected !== 'profile'}}">
+
+      <!--Temp shit-->
+      <div flex class="user-name">{{userDetails.name}}</div>
+      <div>{{userDetails.handicap}}</div>
+
+    </core-toolbar>
+
+    <core-selector class="section-list content {{ {wide: wide} | tokenList }}" selected="{{selected}}"
+                   tile-cascade?="{{parentElement.selected !== 'section' && parentElement.lastSelected !== 'section'}}"
+                   fade?="{{parentElement.lastSelected === 'splash'}}">
+
+      <div class="menu-item scoreboard" vertical layout>
+        <div class="tile theme-bg-a" dummy fit></div>
+        <div class="tile" flex vertical layout>
+          <div flex relative>
+            <!-- sizing wrapper -->
+            <div fit layout vertical center center-justified>
+              <div class="section-bg-wrapper" relative>
+                <core-icon icon="section-icons:scoreboard" class="section-tile-bg" fit></core-icon>
+              </div>
+            </div>
+          </div>
+          <div class="section-name" horizontal center layout>
+            <div flex>Leaderboard</div>
+            <core-icon class="section-icon" icon="arrow-forward"></core-icon>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-item profile" vertical layout>
+        <div class="tile theme-bg-a" dummy fit></div>
+        <div class="tile" flex auto vertical layout>
+          <div flex auto relative>
+            <!-- sizing wrapper -->
+            <div fit layout vertical center center-justified>
+              <div class="section-bg-wrapper" relative>
+                <core-icon icon="section-icons:profile" class="section-tile-bg" fit></core-icon>
+              </div>
+            </div>
+          </div>
+          <div class="section-name" horizontal center layout>
+            <div flex>Profile</div>
+            <core-icon class="section-icon" icon="arrow-forward"></core-icon>
+          </div>
+        </div>
+      </div>
+    </core-selector>
+
+  </template>
+  <script>
+    (function () {
+      'use strict';
+
+      Polymer('leaderboard-menu', {
+
+        selectedChanged: function() {
+          // first one is leaderboard, last one is profile
+          if (this.selected === 0) {
+            this.section = {name: 'leaderboard'};
+          } else if (this.selected === 1) {
+            this.section = {name: 'profile'};
+          }
+        }
+      });
+
+    })();
+  </script>
+</polymer-element>

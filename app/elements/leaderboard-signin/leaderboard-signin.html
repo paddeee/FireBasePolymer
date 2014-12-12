@@ -23,6 +23,11 @@
 
         // Assign values to published 'userDetails' object.
         signIn: function() {
+
+          // Focus on the fab button otherwise some mobile devices don't seem to pick up the change to the paper input
+          // value in time so the value doesn't get updated correctly below.
+          this.$.SignInButton.focus();
+
           this.userDetails = {
             email: this.email,
             password: this.password
