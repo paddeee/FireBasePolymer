@@ -4,8 +4,8 @@
 
     <firebase-login id="login" user="{{user}}" statusKnown="{{statusKnown}}"
                     location="https://incandescent-heat-3687.firebaseio.com/" provider="{{provider}}"
-                    on-error="{{error}}" on-user-created="{{userSuccess}}" on-password-changed="{{userSuccess}}"
-                    on-password-reset="{{userSuccess}}" on-user-removed="{{userSuccess}}"
+                    on-error="{{error}}" on-user-created="{{userSuccess}}" on-password-changed="{{userPasswordChanged}}"
+                    on-password-reset="{{userPasswordReset}}" on-user-removed="{{userRemoved}}"
                     on-login="{{userLoggedIn}}"
                     on-logout="{{userLoggedOut}}">
     </firebase-login>
@@ -27,6 +27,7 @@
         </leaderboard-signin>
 
         <leaderboard-create-user id="createUser"  userDetails="{{userDetails}}"
+                                 user="{{user}}"
                                  email="{{email}}" password="{{password}}"
                                  name="{{name}}" handicap="{{handicap}}"
                                  hidden?="{{ typeOfAuth == 'Sign In' || user}}"
@@ -78,7 +79,7 @@
           };
 
           this.signInHandler = function() {
-            firebaseLogin.login(this.userDetails)
+            firebaseLogin.login(this.userDetails);
           };
 
           this.createUserHandler = function() {

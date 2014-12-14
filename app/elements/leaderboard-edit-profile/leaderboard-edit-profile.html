@@ -29,8 +29,7 @@
       Polymer({
 
         observe: {
-          'userReady': 'getUserDetails',
-          'user': 'setUserDetails'
+          'userReady': 'getUserDetails'
         },
 
         // When a user is logged in and FireBase user element updates, set the values used by field inputs.
@@ -44,6 +43,9 @@
 
             this.userDetails = this.$.user.data;
           }
+          else if (this.userDetails){
+            this.setUserDetails();
+          }
         },
 
         // When userDetails change send it to FireBase user element
@@ -55,8 +57,8 @@
 
           if (this.userDetails && this.user) {
             this.$.user.data = {
-              name: this.name || '',
-              handicap: this.handicap || '',
+              name: this.name || this.$.user.data.name || '',
+              handicap: this.handicap || this.$.user.data.handicap ||  '',
               uid: this.user.uid || '',
               email: this.user.email || ''
             }
