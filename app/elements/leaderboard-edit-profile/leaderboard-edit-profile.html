@@ -29,7 +29,8 @@
       Polymer({
 
         observe: {
-          'userReady': 'getUserDetails'
+          'userReady': 'getUserDetails',
+          'user': 'setUserDetails'
         },
 
         // When a user is logged in and FireBase user element updates, set the values used by field inputs.
@@ -52,7 +53,7 @@
           // value in time so the value doesn't get updated correctly below.
           this.$.CreateUserButton.focus();
 
-          if (this.userDetails) {
+          if (this.userDetails && this.user) {
             this.$.user.data = {
               name: this.name || '',
               handicap: this.handicap || '',
