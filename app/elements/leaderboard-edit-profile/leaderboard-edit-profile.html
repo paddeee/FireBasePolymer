@@ -55,17 +55,13 @@
           // value in time so the value doesn't get updated correctly below.
           this.$.CreateUserButton.focus();
 
-          if (this.userDetails && this.user) {
-            /*this.$.user.data = {
+          if (this.userDetails && this.user && this.$.user.data) {
+            this.$.user.data = {
               name: this.name || '',
-              handicap: this.handicap || '',
+              handicap: this.handicap ||  '',
               uid: this.user.uid || '',
               email: this.user.email || ''
-            }*/
-            if (this.name) this.$.user.data.name = this.name;
-            if (this.handicap) this.$.user.data.handicap = this.handicap;
-            if (this.user.uid) this.$.user.data.uid = this.user.uid;
-            if (this.user.email) this.$.user.data.email = this.user.email;
+            }
 
             this.userDetails = this.$.user.data;
             this.fire('profile-changed');
