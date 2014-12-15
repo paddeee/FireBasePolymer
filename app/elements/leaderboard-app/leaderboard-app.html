@@ -6,7 +6,23 @@
 
         <core-style ref="card--primary"></core-style>
 
-        <core-animated-pages selected="{{selected}}" transitions="cross-fade slide-down tile-cascade slide-up-offscreen" flex auto>
+        <core-animated-pages selected="{{selected}}"
+                             transitions="cross-fade slide-down tile-cascade slide-up slide-up-offscreen"
+                             flex auto>
+
+          <leaderboard-menu id="menu" name="menu" userDetails="{{userDetails}}" wide="{{wide}}"
+                            section="{{section}}" on-core-activate="{{sectionSelect}}">
+          </leaderboard-menu>
+
+          <leaderboard-tournament name="tournament" userDetails="{{userDetails}}" wide="{{wide}}">
+          </leaderboard-tournament>
+
+          <leaderboard-scorecard name="scorecard" userDetails="{{userDetails}}" wide="{{wide}}">
+          </leaderboard-scorecard>
+
+          <leaderboard-scoreboard name="scoreboard" userDetails="{{userDetails}}" wide="{{wide}}"
+                                  disabled="{{disableScoreboard}}">
+          </leaderboard-scoreboard>
 
           <leaderboard-authentication id="profile" name="profile" userDetails="{{userDetails}}" user="{{user}}"
                                       statusKnown="{{statusKnown}}" wide="{{wide}}" layout center vertical
@@ -14,14 +30,6 @@
                                       on-user-logged-out="{{ enterAuthentication }}"
                                       on-profile-changed="{{ enterMenu }}">
           </leaderboard-authentication>
-
-          <leaderboard-menu id="menu" name="menu" userDetails="{{userDetails}}" wide="{{wide}}"
-                            section="{{section}}" on-core-activate="{{sectionSelect}}">
-          </leaderboard-menu>
-
-          <leaderboard-scoreboard name="scoreboard" userDetails="{{userDetails}}" wide="{{wide}}"
-                                  disabled="{{disableScoreboard}}">
-          </leaderboard-scoreboard>
 
         </core-animated-pages>
 
@@ -42,12 +50,12 @@
               },*/
 
               enterAuthentication: function() {
-                this.selected = 0;
+                this.selected = 1;
               },
 
               enterMenu: function() {
                   console.log('enter menu');
-                  this.selected = 1;
+                  this.selected = 0;
               },
 
               sectionSelect: function() {
@@ -55,10 +63,12 @@
 
                 if (this.section) {
                   sectionName = this.section.name;
-                  if (sectionName === 'leaderboard') {
+                  if (sectionName === 'scorecard') {
+                    this.selected = 1;
+                  } else if (sectionName === 'scoreboard') {
                     this.selected = 2;
-                  } else if (sectionName === 'profile') {
-                    this.selected = 0;
+                  }else if (sectionName === 'profile') {
+                    this.selected = 3;
                   }
                 }
               }

@@ -14,6 +14,43 @@
                    tile-cascade?="{{parentElement.selected !== 'section' && parentElement.lastSelected !== 'section'}}"
                    fade?="{{parentElement.lastSelected === 'splash'}}">
 
+
+      <div class="menu-item tournament" vertical layout>
+        <div class="tile theme-bg-a" dummy fit></div>
+        <div class="tile" flex vertical layout>
+          <div flex relative>
+            <!-- sizing wrapper -->
+            <div fit layout vertical center center-justified>
+              <div class="section-bg-wrapper" relative>
+                <core-icon icon="section-icons:tournament" class="section-tile-bg" fit></core-icon>
+              </div>
+            </div>
+          </div>
+          <div class="section-name" horizontal center layout>
+            <div flex>Tournament Manager</div>
+            <core-icon class="section-icon" icon="arrow-forward"></core-icon>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-item scorecard" vertical layout>
+        <div class="tile theme-bg-a" dummy fit></div>
+        <div class="tile" flex vertical layout>
+          <div flex relative>
+            <!-- sizing wrapper -->
+            <div fit layout vertical center center-justified>
+              <div class="section-bg-wrapper" relative>
+                <core-icon icon="section-icons:scorecard" class="section-tile-bg" fit></core-icon>
+              </div>
+            </div>
+          </div>
+          <div class="section-name" horizontal center layout>
+            <div flex>Scorecard</div>
+            <core-icon class="section-icon" icon="arrow-forward"></core-icon>
+          </div>
+        </div>
+      </div>
+
       <div class="menu-item scoreboard" vertical layout>
         <div class="tile theme-bg-a" dummy fit></div>
         <div class="tile" flex vertical layout>
