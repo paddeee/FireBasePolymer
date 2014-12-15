@@ -20,7 +20,7 @@
           </paper-checkbox>
         </div>
 
-        <leaderboard-signin id="signin" userDetails="{{userDetails}}"
+        <leaderboard-signin id="signin" currentUserDetails="{{currentUserDetails}}"
                             email="{{email}}" password="{{password}}"
                             hidden?="{{ typeOfAuth == 'Join Up' || user }}"
                             on-signin-button-pressed="{{ signInHandler }}">
@@ -79,6 +79,10 @@
           };
 
           this.signInHandler = function() {
+            firebaseLogin.login(this.currentUserDetails);
+          };
+
+          this.newUserHandler = function() {
             firebaseLogin.login(this.userDetails);
           };
 
@@ -112,7 +116,7 @@
 
           // User Created Handler
           this.userSuccess = function (event) {
-            this.signInHandler();
+            this.newUserHandler();
             this.setMessage(event.type + ' success!', false);
           };
 
