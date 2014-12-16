@@ -6,25 +6,26 @@
 
         <core-style ref="card--primary"></core-style>
 
-        <core-animated-pages selected="{{selected}}"
+        <core-animated-pages valueattr="id" id="coreAnimatedPages"
+                             selected="{{selected}}"
                              transitions="cross-fade slide-down tile-cascade slide-up slide-up-offscreen"
                              flex auto>
 
-          <leaderboard-menu id="menu" name="menu" userDetails="{{userDetails}}" wide="{{wide}}"
+          <leaderboard-menu id="menu" userDetails="{{userDetails}}" wide="{{wide}}"
                             section="{{section}}" on-core-activate="{{sectionSelect}}">
           </leaderboard-menu>
 
-          <leaderboard-tournament name="tournament" userDetails="{{userDetails}}" wide="{{wide}}">
+          <leaderboard-tournament id="tournament" userDetails="{{userDetails}}" wide="{{wide}}">
           </leaderboard-tournament>
 
-          <leaderboard-scorecard name="scorecard" userDetails="{{userDetails}}" wide="{{wide}}">
+          <leaderboard-scorecard id="scorecard" userDetails="{{userDetails}}" wide="{{wide}}">
           </leaderboard-scorecard>
 
-          <leaderboard-scoreboard name="scoreboard" userDetails="{{userDetails}}" wide="{{wide}}"
+          <leaderboard-scoreboard id="scoreboard" userDetails="{{userDetails}}" wide="{{wide}}"
                                   disabled="{{disableScoreboard}}">
           </leaderboard-scoreboard>
 
-          <leaderboard-authentication id="profile" name="profile" userDetails="{{userDetails}}" user="{{user}}"
+          <leaderboard-authentication id="profile" userDetails="{{userDetails}}" user="{{user}}"
                                       statusKnown="{{statusKnown}}" wide="{{wide}}" layout center vertical
                                       on-user-logged-in="{{ enterMenu }}"
                                       on-user-logged-out="{{ enterAuthentication }}"
@@ -50,12 +51,12 @@
               },*/
 
               enterAuthentication: function() {
-                this.selected = 4;
+                this.selected = 'profile';
               },
 
               enterMenu: function() {
                   console.log('enter menu');
-                  this.selected = 0;
+                  this.selected = 'menu';
               },
 
               sectionSelect: function() {
@@ -63,14 +64,15 @@
 
                 if (this.section) {
                   sectionName = this.section.name;
+                  console.log(sectionName);
                   if (sectionName === 'tournament') {
-                    this.selected = 1;
+                    this.selected = 'tournament';
+                  } else if (sectionName === 'scorecard') {
+                    this.selected = 'scorecard';
                   } else if (sectionName === 'scoreboard') {
-                    this.selected = 2;
-                  } else if (sectionName === 'scoreboard') {
-                    this.selected = 3;
+                    this.selected = 'scoreboard';
                   } else if (sectionName === 'profile') {
-                    this.selected = 4;
+                    this.selected = 'profile';
                   }
                 }
               }

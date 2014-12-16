@@ -10,12 +10,13 @@
 
     </core-toolbar>
 
-    <core-selector class="section-list content {{ {wide: wide} | tokenList }}" selected="{{selected}}"
-                   tile-cascade?="{{parentElement.selected !== 'section' && parentElement.lastSelected !== 'section'}}"
+    <core-selector valueattr="id"
+                   class="section-list content {{ {wide: wide} | tokenList }}" selected="{{selected}}"
+                   tile-cascade?="{{parentElement.selected !== 'menu' && parentElement.lastSelected !== 'menu'}}"
                    fade?="{{parentElement.lastSelected === 'splash'}}">
 
 
-      <div class="menu-item tournament" vertical layout>
+      <div id="tournament" class="menu-item tournament" vertical layout>
         <div class="tile theme-bg-a" dummy fit></div>
         <div class="tile" flex vertical layout>
           <div flex relative>
@@ -33,7 +34,7 @@
         </div>
       </div>
 
-      <div class="menu-item scorecard" vertical layout>
+      <div id="scorecard" class="menu-item scorecard" vertical layout>
         <div class="tile theme-bg-a" dummy fit></div>
         <div class="tile" flex vertical layout>
           <div flex relative>
@@ -51,7 +52,7 @@
         </div>
       </div>
 
-      <div class="menu-item scoreboard" vertical layout>
+      <div id="scoreboard" class="menu-item scoreboard" vertical layout>
         <div class="tile theme-bg-a" dummy fit></div>
         <div class="tile" flex vertical layout>
           <div flex relative>
@@ -69,7 +70,7 @@
         </div>
       </div>
 
-      <div class="menu-item profile" vertical layout>
+      <div id="profile" class="menu-item profile" vertical layout>
         <div class="tile theme-bg-a" dummy fit></div>
         <div class="tile" flex auto vertical layout>
           <div flex auto relative>
@@ -96,10 +97,14 @@
       Polymer('leaderboard-menu', {
 
         selectedChanged: function() {
-          // first one is leaderboard, last one is profile
-          if (this.selected === 0) {
-            this.section = {name: 'leaderboard'};
-          } else if (this.selected === 1) {
+
+          if (this.selected === 'tournament') {
+            this.section = {name: 'tournament'};
+          } else if (this.selected === 'scorecard') {
+            this.section = {name: 'scorecard'};
+          } else if (this.selected === 'scoreboard') {
+            this.section = {name: 'scoreboard'};
+          } else if (this.selected === 'profile') {
             this.section = {name: 'profile'};
           }
         }
