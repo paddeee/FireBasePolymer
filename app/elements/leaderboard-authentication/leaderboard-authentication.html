@@ -91,6 +91,7 @@
           };
 
           this.signOutHandler = function() {
+            this.$.authenticationType.checked = false;
             firebaseLogin.logout();
             this.email ='';
             this.password ='';

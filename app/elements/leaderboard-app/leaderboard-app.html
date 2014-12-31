@@ -46,34 +46,23 @@
 
               responsiveWidth: '900px',
 
-              /*observe: {
-                'userDetails': 'enterMenu'
-              },*/
+              selected: 'profile',
 
               enterAuthentication: function() {
                 this.selected = 'profile';
               },
 
               enterMenu: function() {
-                  console.log('enter menu');
-                  this.selected = 'menu';
+                this.selected = 'menu';
               },
 
               sectionSelect: function() {
+
                 var sectionName;
 
                 if (this.section) {
                   sectionName = this.section.name;
-                  console.log(sectionName);
-                  if (sectionName === 'tournament') {
-                    this.selected = 'tournament';
-                  } else if (sectionName === 'scorecard') {
-                    this.selected = 'scorecard';
-                  } else if (sectionName === 'scoreboard') {
-                    this.selected = 'scoreboard';
-                  } else if (sectionName === 'profile') {
-                    this.selected = 'profile';
-                  }
+                  this.selected = sectionName;
                 }
               }
             });

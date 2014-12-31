@@ -2,9 +2,8 @@
   <template>
     <link rel="stylesheet" href="leaderboard-menu.css">
 
-    <core-toolbar class="menu-toolbar" slide-down?="{{parentElement.selected !== 'profile'}}">
+    <core-toolbar class="menu-toolbar" slide-down?="{{parentElement.selected === 'menu' || parentElement.selected === 'profile'}}">
 
-      <!--Temp shit-->
       <div flex class="user-name">{{userDetails.name}}</div>
       <div>{{userDetails.handicap}}</div>
 
@@ -12,9 +11,8 @@
 
     <core-selector valueattr="id"
                    class="section-list content {{ {wide: wide} | tokenList }}" selected="{{selected}}"
-                   tile-cascade?="{{parentElement.selected !== 'menu' && parentElement.lastSelected !== 'menu'}}"
+                   tile-cascade?="{{parentElement.selected === 'menu' || parentElement.selected === 'profile'}}"
                    fade?="{{parentElement.lastSelected === 'splash'}}">
-
 
       <div id="tournament" class="menu-item tournament" vertical layout>
         <div class="tile theme-bg-a" dummy fit></div>
@@ -97,16 +95,9 @@
       Polymer('leaderboard-menu', {
 
         selectedChanged: function() {
-
-          if (this.selected === 'tournament') {
-            this.section = {name: 'tournament'};
-          } else if (this.selected === 'scorecard') {
-            this.section = {name: 'scorecard'};
-          } else if (this.selected === 'scoreboard') {
-            this.section = {name: 'scoreboard'};
-          } else if (this.selected === 'profile') {
-            this.section = {name: 'profile'};
-          }
+          this.section = {
+            name: this.selected
+          };
         }
       });
 
