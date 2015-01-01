@@ -53,5 +53,8 @@ h2 {
   background-color: #fff;
   margin: 0; }
 
+.background-fade {
+  background-color: #eee; }
+
 .main {
   position: relative; }
