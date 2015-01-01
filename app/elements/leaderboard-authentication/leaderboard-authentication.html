@@ -10,9 +10,13 @@
                     on-logout="{{userLoggedOut}}">
     </firebase-login>
 
+    <div class="background-fade" fit cross-fade></div>
+
     <div class="main" flex layout vertical fit?="{{!wide}}">
       <div class="card  card--primary {{ {wide: wide} | tokenList }}" flex layout vertical
-           slide-up-offscreen?="{{parentElement.selected === 'profile'}}" cross-fade="{{!wide && parentElement.selected !== 'profile'}}">
+           slide-up-offscreen?="{{parentElement.selected === 'profile'}}"
+           cross-fade="{{!wide && parentElement.selected !== 'profile'}}">
+
         <h1>{{statusKnown && user && 'Edit Profile' || typeOfAuth }}</h1>
         <div class="auth-checkbox" hidden?="{{statusKnown && user}}">
           <paper-checkbox id="authenticationType" class="auth-checkbox__checkbox"

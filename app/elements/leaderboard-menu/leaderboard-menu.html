@@ -12,7 +12,7 @@
     <core-selector valueattr="id"
                    class="section-list content {{ {wide: wide} | tokenList }}" selected="{{selected}}"
                    tile-cascade?="{{parentElement.selected === 'menu' || parentElement.selected === 'profile'}}"
-                   fade?="{{parentElement.lastSelected === 'splash'}}">
+                   fade?="true">
 
       <div id="tournament" class="menu-item tournament" vertical layout>
         <div class="tile theme-bg-a" dummy fit></div>
