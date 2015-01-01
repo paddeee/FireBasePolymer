@@ -25,6 +25,18 @@
                                   disabled="{{disableScoreboard}}">
           </leaderboard-scoreboard>
 
+          <leaderboard-clubhouse id="clubhouse" userDetails="{{userDetails}}" wide="{{wide}}">
+          </leaderboard-clubhouse>
+
+          <leaderboard-stats id="stats" userDetails="{{userDetails}}" wide="{{wide}}">
+          </leaderboard-stats>
+
+          <leaderboard-results id="results" userDetails="{{userDetails}}" wide="{{wide}}">
+          </leaderboard-results>
+
+          <leaderboard-course-information id="courseinformation" userDetails="{{userDetails}}" wide="{{wide}}">
+          </leaderboard-course-information>
+
           <leaderboard-authentication id="profile" userDetails="{{userDetails}}" user="{{user}}"
                                       statusKnown="{{statusKnown}}" wide="{{wide}}" layout center vertical
                                       on-user-logged-in="{{ enterMenu }}"
