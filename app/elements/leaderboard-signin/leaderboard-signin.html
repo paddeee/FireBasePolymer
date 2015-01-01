@@ -10,7 +10,7 @@
       <div class="button-holder" horizontal center layout>
         <div flex></div>
         <paper-fab id="SignInButton" icon="check"
-                   showing?="{{ $.email_input.inputValue.length && $.password_input.inputValue.length}}"
+                   showing?="{{ $.email_input.value.length && $.password_input.value.length}}"
                    on-tap="{{ signIn }}"
         </paper-fab>
     </div>

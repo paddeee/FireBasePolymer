@@ -2,13 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9eb61500-e31a-44d6-a9b8-c0bfad3e51ae" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/elements/leaderboard-datasource/leaderboard-datasource.html" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bower.json" afterPath="$PROJECT_DIR$/bower.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/index.html" afterPath="$PROJECT_DIR$/app/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/elements/leaderboard-authentication/leaderboard-authentication.html" afterPath="$PROJECT_DIR$/app/elements/leaderboard-authentication/leaderboard-authentication.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/elements/leaderboard-authentication/leaderboard-authentication.scss" afterPath="$PROJECT_DIR$/app/elements/leaderboard-authentication/leaderboard-authentication.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/elements/leaderboard-edit-profile/leaderboard-edit-profile.html" afterPath="$PROJECT_DIR$/app/elements/leaderboard-edit-profile/leaderboard-edit-profile.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/elements/leaderboard-theme/leaderboard-theme.html" afterPath="$PROJECT_DIR$/app/elements/leaderboard-theme/leaderboard-theme.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Gruntfile.js" afterPath="$PROJECT_DIR$/Gruntfile.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/elements/leaderboard-create-user/leaderboard-create-user.html" afterPath="$PROJECT_DIR$/app/elements/leaderboard-create-user/leaderboard-create-user.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/elements/leaderboard-signin/leaderboard-signin.html" afterPath="$PROJECT_DIR$/app/elements/leaderboard-signin/leaderboard-signin.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="FireBasePolymer.iws" />
@@ -36,38 +32,58 @@
       <file leaf-file-name="leaderboard-authentication.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/elements/leaderboard-authentication/leaderboard-authentication.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-10.461538" vertical-offset="901" max-vertical-offset="2601">
+            <state vertical-scroll-proportion="-30.076923" vertical-offset="391" max-vertical-offset="2601">
               <caret line="69" column="38" selection-start-line="69" selection-start-column="38" selection-end-line="74" selection-end-column="84" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="leaderboard-theme.html" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/elements/leaderboard-theme/leaderboard-theme.html">
+      <file leaf-file-name="leaderboard-signin.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/elements/leaderboard-signin/leaderboard-signin.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.5641593" vertical-offset="629" max-vertical-offset="1258">
-              <caret line="52" column="5" selection-start-line="52" selection-start-column="5" selection-end-line="52" selection-end-column="5" />
+            <state vertical-scroll-proportion="-7.1923075" vertical-offset="0" max-vertical-offset="816">
+              <caret line="11" column="49" selection-start-line="11" selection-start-column="49" selection-end-line="11" selection-end-column="49" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="leaderboard-edit-profile.html" pinned="false" current-in-tab="false">
+      <file leaf-file-name="leaderboard-create-user.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/elements/leaderboard-create-user/leaderboard-create-user.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="6.8076925" vertical-offset="449" max-vertical-offset="1003">
+              <caret line="16" column="69" selection-start-line="16" selection-start-column="69" selection-end-line="16" selection-end-column="69" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="leaderboard-edit-profile.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/elements/leaderboard-edit-profile/leaderboard-edit-profile.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-11.115385" vertical-offset="0" max-vertical-offset="1462">
+            <state vertical-scroll-proportion="-1.391593" vertical-offset="918" max-vertical-offset="1462">
               <caret line="17" column="65" selection-start-line="17" selection-start-column="65" selection-end-line="17" selection-end-column="65" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="leaderboard-edit-profile.scss" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/elements/leaderboard-edit-profile/leaderboard-edit-profile.scss">
+      <file leaf-file-name="leaderboard-theme.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/elements/leaderboard-theme/leaderboard-theme.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="153">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state vertical-scroll-proportion="-13.615385" vertical-offset="530" max-vertical-offset="1258">
+              <caret line="52" column="5" selection-start-line="52" selection-start-column="5" selection-end-line="52" selection-end-column="5" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Gruntfile.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Gruntfile.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="5098" max-vertical-offset="5576">
+              <caret line="310" column="6" selection-start-line="310" selection-start-column="6" selection-end-line="310" selection-end-column="6" />
               <folding />
             </state>
           </provider>
@@ -113,26 +129,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="paper-input-decorator.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/bower_components/paper-input/paper-input-decorator.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-5.8846154" vertical-offset="2159" max-vertical-offset="8415">
-              <caret line="136" column="1" selection-start-line="133" selection-start-column="0" selection-end-line="136" selection-end-column="1" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/index.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-13.076923" vertical-offset="0" max-vertical-offset="680">
-              <caret line="20" column="64" selection-start-line="20" selection-start-column="64" selection-end-line="20" selection-end-column="64" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
     </leaf>
   </component>
   <component name="FindManager">
@@ -151,9 +147,7 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/elements/leaderboard-create-user/leaderboard-create-user.html" />
         <option value="$PROJECT_DIR$/.gitignore" />
-        <option value="$PROJECT_DIR$/app/elements/leaderboard-signin/leaderboard-signin.html" />
         <option value="$PROJECT_DIR$/app/elements/leaderboard-scorecard/leaderboard-scorecard.html" />
         <option value="$PROJECT_DIR$/app/elements/leaderboard-scoreboard/leaderboard-scoreboard.html" />
         <option value="$PROJECT_DIR$/app/elements/leaderboard-tournament/leaderboard-tournament.html" />
@@ -170,6 +164,9 @@
         <option value="$PROJECT_DIR$/app/elements/leaderboard-authentication/leaderboard-authentication.scss" />
         <option value="$PROJECT_DIR$/app/elements/leaderboard-authentication/leaderboard-authentication.html" />
         <option value="$PROJECT_DIR$/app/elements/leaderboard-theme/leaderboard-theme.html" />
+        <option value="$PROJECT_DIR$/Gruntfile.js" />
+        <option value="$PROJECT_DIR$/app/elements/leaderboard-signin/leaderboard-signin.html" />
+        <option value="$PROJECT_DIR$/app/elements/leaderboard-create-user/leaderboard-create-user.html" />
       </list>
     </option>
   </component>
@@ -452,6 +449,28 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="leaderboard-signin" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="FireBasePolymer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="FireBasePolymer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="elements" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="leaderboard-menu" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -475,6 +494,28 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="leaderboard-edit-profile" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="FireBasePolymer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="FireBasePolymer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="elements" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="leaderboard-create-user" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -787,20 +828,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/elements/leaderboard-create-user/leaderboard-create-user.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="15.038462" vertical-offset="425" max-vertical-offset="1003">
-          <caret line="2" column="60" selection-start-line="2" selection-start-column="60" selection-end-line="2" selection-end-column="60" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/elements/leaderboard-signin/leaderboard-signin.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="816">
-          <caret line="0" column="73" selection-start-line="0" selection-start-column="73" selection-end-line="0" selection-end-column="73" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/elements/leaderboard-scoreboard/leaderboard-scoreboard.scss">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="51" max-vertical-offset="153">
@@ -892,14 +919,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Gruntfile.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="3990" max-vertical-offset="5576">
-          <caret line="297" column="30" selection-start-line="297" selection-start-column="30" selection-end-line="297" selection-end-column="30" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/styles/main.css">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="515">
@@ -921,7 +940,7 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="391">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <marker date="1420109847000" expanded="true" signature="-1:-1" placeholder="{...}" />
+            <marker date="1420151117000" expanded="true" signature="-1:-1" placeholder="{...}" />
           </folding>
         </state>
       </provider>
@@ -982,14 +1001,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/elements/leaderboard-edit-profile/leaderboard-edit-profile.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-11.115385" vertical-offset="0" max-vertical-offset="1462">
-          <caret line="17" column="65" selection-start-line="17" selection-start-column="65" selection-end-line="17" selection-end-column="65" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/bower_components/paper-input/paper-input-decorator.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-5.8846154" vertical-offset="2159" max-vertical-offset="8415">
@@ -1038,18 +1049,50 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/elements/leaderboard-theme/leaderboard-theme.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-13.615385" vertical-offset="530" max-vertical-offset="1258">
+          <caret line="52" column="5" selection-start-line="52" selection-start-column="5" selection-end-line="52" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Gruntfile.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="5098" max-vertical-offset="5576">
+          <caret line="310" column="6" selection-start-line="310" selection-start-column="6" selection-end-line="310" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/elements/leaderboard-authentication/leaderboard-authentication.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-10.461538" vertical-offset="901" max-vertical-offset="2601">
+        <state vertical-scroll-proportion="-30.076923" vertical-offset="391" max-vertical-offset="2601">
           <caret line="69" column="38" selection-start-line="69" selection-start-column="38" selection-end-line="74" selection-end-column="84" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/elements/leaderboard-theme/leaderboard-theme.html">
+    <entry file="file://$PROJECT_DIR$/app/elements/leaderboard-signin/leaderboard-signin.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5641593" vertical-offset="629" max-vertical-offset="1258">
-          <caret line="52" column="5" selection-start-line="52" selection-start-column="5" selection-end-line="52" selection-end-column="5" />
+        <state vertical-scroll-proportion="-7.1923075" vertical-offset="0" max-vertical-offset="816">
+          <caret line="11" column="49" selection-start-line="11" selection-start-column="49" selection-end-line="11" selection-end-column="49" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/elements/leaderboard-create-user/leaderboard-create-user.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="6.8076925" vertical-offset="449" max-vertical-offset="1003">
+          <caret line="16" column="69" selection-start-line="16" selection-start-column="69" selection-end-line="16" selection-end-column="69" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/elements/leaderboard-edit-profile/leaderboard-edit-profile.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-1.391593" vertical-offset="918" max-vertical-offset="1462">
+          <caret line="17" column="65" selection-start-line="17" selection-start-column="65" selection-end-line="17" selection-end-column="65" />
           <folding />
         </state>
       </provider>
