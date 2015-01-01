@@ -52,9 +52,17 @@
         background-color: {{ g.theme.primaryTextColour }};
     }
 
-    :host /deep/ input,
-    :host /deep/ textarea {
-        color: {{ g.theme.primaryTextColour }};
+    :host /deep/ paper-input-decorator /deep/ ::-webkit-input-placeholder {
+      /* platform specific rules for placeholder text */
+      color: {{ g.theme.primaryTextColour }};
+    }
+
+    :host /deep/ paper-input-decorator /deep/ ::-moz-placeholder {
+      color: {{ g.theme.primaryTextColour }};
+    }
+
+    :host /deep/ paper-input-decorator /deep/ :-ms-input-placeholder {
+      color: {{ g.theme.primaryTextColour }};
     }
 
 </core-style>
