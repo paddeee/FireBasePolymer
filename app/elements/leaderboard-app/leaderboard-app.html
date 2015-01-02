@@ -6,42 +6,44 @@
 
         <core-style ref="card--primary"></core-style>
 
-        <core-animated-pages valueattr="id" id="coreAnimatedPages"
-                             selected="{{selected}}"
+        <flatiron-director route="{{route}}" autoHash></flatiron-director>
+
+        <core-animated-pages valueattr="hash" id="coreAnimatedPages"
+                             selected="{{route}}"
                              transitions="cross-fade slide-down tile-cascade slide-up slide-up-offscreen"
                              flex auto>
 
-          <leaderboard-menu id="menu" userDetails="{{userDetails}}" wide="{{wide}}"
+          <leaderboard-menu hash="menu" userDetails="{{userDetails}}" wide="{{wide}}"
                             section="{{section}}" on-core-activate="{{sectionSelect}}">
           </leaderboard-menu>
 
-          <leaderboard-tournament id="tournament" userDetails="{{userDetails}}" wide="{{wide}}">
+          <leaderboard-tournament hash="tournament" userDetails="{{userDetails}}" wide="{{wide}}">
           </leaderboard-tournament>
 
-          <leaderboard-scorecard id="scorecard" userDetails="{{userDetails}}" wide="{{wide}}">
+          <leaderboard-scorecard hash="scorecard" userDetails="{{userDetails}}" wide="{{wide}}">
           </leaderboard-scorecard>
 
-          <leaderboard-scoreboard id="scoreboard" userDetails="{{userDetails}}" wide="{{wide}}"
+          <leaderboard-scoreboard hash="scoreboard" userDetails="{{userDetails}}" wide="{{wide}}"
                                   disabled="{{disableScoreboard}}">
           </leaderboard-scoreboard>
 
-          <leaderboard-clubhouse id="clubhouse" userDetails="{{userDetails}}" wide="{{wide}}">
+          <leaderboard-clubhouse hash="clubhouse" userDetails="{{userDetails}}" wide="{{wide}}">
           </leaderboard-clubhouse>
 
-          <leaderboard-stats id="stats" userDetails="{{userDetails}}" wide="{{wide}}">
+          <leaderboard-stats hash="stats" userDetails="{{userDetails}}" wide="{{wide}}">
           </leaderboard-stats>
 
-          <leaderboard-results id="results" userDetails="{{userDetails}}" wide="{{wide}}">
+          <leaderboard-results hash="results" userDetails="{{userDetails}}" wide="{{wide}}">
           </leaderboard-results>
 
-          <leaderboard-course-information id="courseinformation" userDetails="{{userDetails}}" wide="{{wide}}">
+          <leaderboard-course-information hash="courseinformation" userDetails="{{userDetails}}" wide="{{wide}}">
           </leaderboard-course-information>
 
-          <leaderboard-authentication id="profile" userDetails="{{userDetails}}" user="{{user}}"
+          <leaderboard-authentication hash="profile" userDetails="{{userDetails}}" user="{{user}}"
                                       statusKnown="{{statusKnown}}" wide="{{wide}}" layout center vertical
-                                      on-user-logged-in="{{ enterMenu }}"
+                                      on-user-logged-in="{{ enterSite }}"
                                       on-user-logged-out="{{ enterAuthentication }}"
-                                      on-profile-changed="{{ enterMenu }}">
+                                      on-profile-changed="{{ enterSite }}">
           </leaderboard-authentication>
 
         </core-animated-pages>
@@ -58,14 +60,24 @@
 
               responsiveWidth: '900px',
 
-              selected: 'profile',
-
-              enterAuthentication: function() {
-                this.selected = 'profile';
+              // Set default hash to authentication if no hash specified in URL
+              ready: function() {
+                this.route = this.route || 'profile';
               },
 
-              enterMenu: function() {
-                this.selected = 'menu';
+              // Triggered when user logged out to force users to authentication
+              enterAuthentication: function() {
+                this.route = 'profile';
+              },
+
+              // Triggered when user logged in. If route is for authentication take them to menu. Otherwise go to
+              // hash specified in URL
+              enterSite: function() {
+                if (this.route !== 'profile') {
+                  this.route = this.route;
+                } else {
+                  this.route = 'menu';
+                }
               },
 
               sectionSelect: function() {
@@ -74,7 +86,7 @@
 
                 if (this.section) {
                   sectionName = this.section.name;
-                  this.selected = sectionName;
+                  this.route = sectionName;
                 }
               }
             });
