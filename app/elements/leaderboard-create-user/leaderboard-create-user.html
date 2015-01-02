@@ -3,7 +3,6 @@
 <polymer-element name="leaderboard-create-user" attributes="typeOfAuth userDetails email password name handicap">
   <template>
     <link rel="stylesheet" href="leaderboard-create-user.css">
-
     <paper-input-decorator id="email" error="Please enter a valid email address"
                            floatingLabel label="Email">
       <input id="email_input" is="core-input" type="email" on-keyup="{{ validate }}"
@@ -34,35 +33,37 @@
 
       Polymer({
 
-          observe: {
-            'typeOfAuth': 'resetDecorators'
-          },
+        observe: {
+          'email password typeOfAuth': 'resetDecorators',
+          'typeOfAuth': 'validate'
+        },
 
-          showFab: false,
+        showFab: false,
 
-          // Paper-input-decorators need floating label resetting when value of child input is changed programmatically
-          resetDecorators: function() {
-            if (!this.email || !this.password) {
-              this.$.email.updateLabelVisibility('');
-              this.$.password.updateLabelVisibility('');
-              this.showFab = false;
-            } else {
-              this.showFab = true;
-            }
-          },
+        // Paper-input-decorators need floating label resetting when value of child input is changed programmatically
+        resetDecorators: function() {
+          if (!this.email || !this.password) {
+            this.$.email.updateLabelVisibility('');
+            this.$.password.updateLabelVisibility('');
+            this.showFab = false;
+          } else {
+            this.showFab = true;
+          }
+        },
 
+        // Perform email and password validation
         validate: function(event, detail, sender) {
 
           var emailDecorator = this.$.email;
           var passwordDecorator = this.$.password;
           var emailInput = this.$.email_input;
-          var passwordnput = this.$.password_input;
+          var passwordInput = this.$.password_input;
 
           emailDecorator.isInvalid = !emailInput.validity.valid;
-          passwordDecorator.isInvalid = !passwordnput.validity.valid;
+          passwordDecorator.isInvalid = !passwordInput.validity.valid;
 
           // Show Fab button is email and password are valid
-          if (emailInput.validity.valid && passwordnput.validity.valid) {
+          if (emailInput.validity.valid && passwordInput.validity.valid) {
             this.showFab = true;
           } else {
             this.showFab = false;
