@@ -4,12 +4,13 @@
   "dependencies": {
     "core-elements": "Polymer/core-elements#^0.5.1",
     "paper-elements": "Polymer/paper-elements#^0.5.1",
-    "polymer": "Polymer/polymer#^0.4.0"
+    "polymer": "Polymer/polymer#^0.5.1"
   },
   "devDependencies": {
     "polymer-test-tools": "Polymer/polymer-test-tools#^0.5.1"
   },
   "resolutions": {
-    "core-component-page": "^0.5.0"
+    "core-component-page": "^0.5.0",
+    "polymer": "^0.5.0"
   }
 }

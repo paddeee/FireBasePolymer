@@ -1,16 +1,20 @@
 <polymer-element name="leaderboard-signin" attributes="currentUserDetails email password">
   <template>
     <link rel="stylesheet" href="leaderboard-signin.css">
-      <paper-input label="Email" validateImmediately="true" floatinglabel value="{{email}}"
-                   type="email" id="email_input" required layout vertical>
-      </paper-input>
-      <paper-input label="Password" validateImmediately="true" floatinglabel value="{{password}}"
-                   type="password" required id="password_input" layout vertical>
-      </paper-input>
+    <paper-input-decorator id="email" error="Please enter a valid email address"
+                           floatingLabel label="Email">
+      <input id="email_input" is="core-input" type="email" on-keyup="{{ validate }}"
+             value="{{email}}" required>
+    </paper-input-decorator>
+    <paper-input-decorator id="password" error="Password is required"
+                           floatingLabel label="Password">
+      <input id="password_input" is="core-input" type="password" on-keyup="{{ validate }}"
+             value="{{password}}" required>
+    </paper-input-decorator>
       <div class="button-holder" horizontal center layout>
         <div flex></div>
         <paper-fab id="SignInButton" icon="check"
-                   showing?="{{ $.email_input.value.length && $.password_input.value.length}}"
+                   showing?="{{ showFab }}"
                    on-tap="{{ signIn }}"
         </paper-fab>
     </div>
@@ -20,6 +24,26 @@
       'use strict';
 
       Polymer({
+
+        showFab: false,
+
+        validate: function(event, detail, sender) {
+
+          var emailDecorator = this.$.email;
+          var passwordDecorator = this.$.password;
+          var emailInput = this.$.email_input;
+          var passwordInput = this.$.password_input;
+
+          emailDecorator.isInvalid = !emailInput.validity.valid;
+          passwordDecorator.isInvalid = !passwordInput.validity.valid;
+
+          // Show Fab button is email and password are valid
+          if (emailInput.validity.valid && passwordInput.validity.valid) {
+            this.showFab = true;
+          } else {
+            this.showFab = false;
+          }
+        },
 
         // Assign values to published 'currentUserDetails' object.
         signIn: function() {
