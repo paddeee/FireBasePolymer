@@ -26,7 +26,8 @@
       Polymer({
 
         observe: {
-          'email password typeOfAuth': 'resetDecorators'
+          'email password typeOfAuth': 'resetDecorators',
+          'typeOfAuth': 'validate'
         },
 
         showFab: false,

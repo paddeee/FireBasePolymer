@@ -28,12 +28,14 @@ h2 {
 .auth-checkbox {
   padding: 0.75em 0; }
 
+:host ::shadow paper-input-decorator,
 :host ::shadow paper-input {
+  color: #fff;
   max-width: 20em;
   width: auto; }
 
 :host ::shadow input {
-  color: $primary-text-colour; }
+  color: #fff; }
 
 :host ::shadow paper-fab[icon=check] {
   background-color: #eeff41;
