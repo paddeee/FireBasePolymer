@@ -32,6 +32,9 @@ h2 {
   max-width: 20em;
   width: auto; }
 
+:host ::shadow input {
+  color: $primary-text-colour; }
+
 :host ::shadow paper-fab[icon=check] {
   background-color: #eeff41;
   color: #000;

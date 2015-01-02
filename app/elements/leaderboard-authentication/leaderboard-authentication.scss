@@ -41,7 +41,9 @@ h2 {
   padding: 0.75em 0;
 }
 
+:host ::shadow paper-input-decorator,
 :host ::shadow paper-input {
+  color: $primary-text-colour;
   max-width: 20em;
   width: auto;
 }
