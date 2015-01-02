@@ -26,12 +26,14 @@
 
         <leaderboard-signin id="signin" currentUserDetails="{{currentUserDetails}}"
                             email="{{email}}" password="{{password}}"
+                            typeOfAuth="{{typeOfAuth}}"
                             hidden?="{{ typeOfAuth == 'Join Up' || user }}"
                             on-signin-button-pressed="{{ signInHandler }}">
         </leaderboard-signin>
 
         <leaderboard-create-user id="createUser"  userDetails="{{userDetails}}"
                                  user="{{user}}"
+                                 typeOfAuth="{{typeOfAuth}}"
                                  email="{{email}}" password="{{password}}"
                                  name="{{name}}" handicap="{{handicap}}"
                                  hidden?="{{ typeOfAuth == 'Sign In' || user}}"
@@ -62,7 +64,7 @@
 
           var firebaseLogin = this.$.login;
           var toast = this.$.paper_toast;
-          var toastDuration = 3000;
+          var toastDuration = 5000;
           var self = this;
 
           this.provider = 'password';
@@ -80,6 +82,7 @@
               this.typeOfAuth = 'Join Up';
             } else {
               this.typeOfAuth = 'Sign In';
+              this.userDetails = null;
             }
           };
 
@@ -119,13 +122,13 @@
           };
 
           this.error = function (event) {
-            self.setMessage('Error: ' + event.detail.message, true);
+            self.setMessage('Error: ' + event.detail.message.replace('FirebaseSimpleLogin: ', ''), true);
           };
 
           // User Created Handler
           this.userSuccess = function (event) {
             this.newUserHandler();
-            this.setMessage(event.type + ' success!', false);
+            this.setMessage('Registration successful!', false);
           };
 
           this.setMessage = function (msg, error) {

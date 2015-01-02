@@ -1,6 +1,6 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 
-<polymer-element name="leaderboard-create-user" attributes="userDetails email password name handicap">
+<polymer-element name="leaderboard-create-user" attributes="typeOfAuth userDetails email password name handicap">
   <template>
     <link rel="stylesheet" href="leaderboard-create-user.css">
 
@@ -34,7 +34,22 @@
 
       Polymer({
 
-        showFab: false,
+          observe: {
+            'typeOfAuth': 'resetDecorators'
+          },
+
+          showFab: false,
+
+          // Paper-input-decorators need floating label resetting when value of child input is changed programmatically
+          resetDecorators: function() {
+            if (!this.email || !this.password) {
+              this.$.email.updateLabelVisibility('');
+              this.$.password.updateLabelVisibility('');
+              this.showFab = false;
+            } else {
+              this.showFab = true;
+            }
+          },
 
         validate: function(event, detail, sender) {
 
