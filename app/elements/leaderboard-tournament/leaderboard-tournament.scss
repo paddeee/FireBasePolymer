@@ -24,6 +24,19 @@ $primary-accent-colour: #eeff41;
   display: none;
 }
 
+.back-button {
+  color:  $primary-text-colour;
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 10000;
+}
+
+.wide > .back-button {
+  top: 12px;
+  left: 16px;
+}
+
 .card {
   position: relative;
 }

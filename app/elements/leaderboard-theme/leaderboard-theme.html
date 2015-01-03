@@ -14,7 +14,8 @@
         lightBgColour: '#b2dfdb',
         darkBgColour: '#00796b',
         primaryAccentColour: '#eeff41',
-        primaryTextColour: '#FFF'
+        primaryTextColour: '#FFF',
+        neutralBackgroundColour: '#EEE'
     }
 </script>
 
@@ -22,6 +23,10 @@
 
     :host /deep/ .card--primary {
         background-color: {{ g.theme.primaryBgColour }};
+    }
+
+    :host /deep/ .background-fade {
+      background-color: {{ g.theme.neutralBackgroundColour }};
     }
 
     :host /deep/ paper-checkbox {
