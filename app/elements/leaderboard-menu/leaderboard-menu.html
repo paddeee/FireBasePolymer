@@ -2,31 +2,34 @@
   <template>
     <link rel="stylesheet" href="leaderboard-menu.css">
 
-    <core-toolbar class="menu-toolbar" slide-down?="{{parentElement.selected === 'menu' || parentElement.selected === 'profile'}}">
+    <core-toolbar class="menu-toolbar"
+                  slide-down?="{{parentElement.lastSelected === 'profile' || parentElement.selected === 'profile'}}">
 
-      <div flex class="user-name">{{userDetails.name}}</div>
-      <div>{{userDetails.handicap}}</div>
+      <div fade flex class="user-name">{{userDetails.name}}</div>
+      <div fade>{{userDetails.handicap}}</div>
 
     </core-toolbar>
 
     <core-selector valueattr="id"
                    class="section-list content {{ {wide: wide} | tokenList }}" selected="{{selected}}"
-                   tile-cascade?="{{parentElement.selected === 'menu' || parentElement.selected === 'profile'}}"
+                   tile-cascade?="{{parentElement.lastSelected === 'profile'}}"
                    fade?="true">
 
       <div id="tournament" class="menu-item tournament" vertical layout>
-        <div class="tile theme-bg-a" dummy fit></div>
         <div class="tile" flex vertical layout>
           <div flex relative>
-            <!-- sizing wrapper -->
-            <div fit layout vertical center center-justified>
+            <div fit layout vertical center center-justified hero-id="section-background" hero>
               <div class="section-bg-wrapper" relative>
                 <core-icon icon="section-icons:tournament" class="section-tile-bg" fit></core-icon>
               </div>
             </div>
           </div>
-          <div class="section-name" horizontal center layout>
-            <div flex>Tournament Manager</div>
+          <div class="section-name" horizontal center layout hero-id="section-title" hero>
+            <div flex>
+              <span cross-fade-delayed?="{{parentElement.lastSelected === 'tournament'}}">
+                Tournament Manager
+              </span>
+            </div>
             <core-icon class="section-icon" icon="arrow-forward"></core-icon>
           </div>
         </div>

@@ -8,10 +8,13 @@
 
         <flatiron-director route="{{route}}" autoHash></flatiron-director>
 
-        <core-animated-pages valueattr="hash" id="coreAnimatedPages"
-                             selected="{{route}}"
-                             transitions="cross-fade slide-down tile-cascade slide-up slide-up-offscreen"
-                             flex auto>
+        <core-animated-pages
+          valueattr="hash"
+          id="coreAnimatedPages"
+          selected="{{route}}"
+          transitions="cross-fade slide-down tile-cascade slide-up slide-up-offscreen  hero-transition"
+          flex
+          auto>
 
           <leaderboard-menu hash="menu" userDetails="{{userDetails}}" wide="{{wide}}"
                             section="{{section}}" on-core-activate="{{sectionSelect}}">
