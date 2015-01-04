@@ -4,54 +4,38 @@
   <template>
     <link rel="stylesheet" href="leaderboard-tournament.css">
 
-    <div class="background-fade" fit cross-fade></div>
+    <div id="sectionPanel" class="section-panel {{ {wide: wide} | tokenList }}"
+         flex vertical layout?="{{!wide}}">
 
-    <div id="tournamentPanel" class="tournament-panel {{ {wide: wide} | tokenList }}"
-         flex vertical layout?="{{!wide}}"
-         slide-up?="{{parentElement.selected !== 'menu'}}"
-         slide-down?="{{parentElement.selected === 'menu'}}">
+      <div class="background-fade  background-fade--themed"
+           fit
+           cross-fade></div>
 
       <div class="card" flex?="{{!wide}}" vertical layout?="{{!wide}}" hero-p>
 
-        <core-toolbar class="menu-toolbar" hero-id="section-title" hero>
+        <core-toolbar class="menu-toolbar" hero-id="tournament-title" hero>
 
-          <div class="tournament-title" flex cross-fade-delayed>Tournament Manager</div>
+          <div class="section-title" flex cross-fade-delayed>Tournament Manager</div>
 
         </core-toolbar>
 
-        <div id="tournamentContent"
-             class="tournament-content"
-             flex hero-id="section-background"
-             hero>
-
-          <core-selector id="tournamentViews" notap selected="{{quiz.type}}"
-                         cross-fade-delayed on-quiz-answered="{{quizAnswered}}"
-                         on-quiz-next="{{quizDone}}">
-
-            <topeka-quiz-alpha-picker name="alpha-picker"></topeka-quiz-alpha-picker>
-            <topeka-quiz-fill-blank name="fill-blank"></topeka-quiz-fill-blank>
-            <topeka-quiz-fill-two-blanks name="fill-two-blanks"></topeka-quiz-fill-two-blanks>
-            <topeka-quiz-four-quarter name="four-quarter"></topeka-quiz-four-quarter>
-            <topeka-quiz-multi-select name="multi-select"></topeka-quiz-multi-select>
-            <topeka-quiz-picker name="picker"></topeka-quiz-picker>
-            <topeka-quiz-single-select-item name="single-select-item"></topeka-quiz-single-select-item>
-            <topeka-quiz-single-select name="single-select"></topeka-quiz-single-select>
-            <topeka-quiz-toggle-translate name="toggle-translate"></topeka-quiz-toggle-translate>
-            <topeka-quiz-true-false name="true-false"></topeka-quiz-true-false>
-
-          </core-selector>
+        <div id="sectionContent"
+             class="section-content"
+             flex
+             hero-id="tournament-background"
+             hero="{{!wide}}">
 
         </div>
 
-        <paper-fab class="check-button {{ {correct: scores[index] > 0, incorrect: scores[index] === 0} | tokenList }}"
-                   icon="{{icon}}" on-tap="{{quizDone}}"></paper-fab>
+        <paper-fab class="check-button"
+                   icon="{{icon}}"></paper-fab>
 
       </div>
 
       <paper-icon-button class="back-button"
                          icon="arrow-back"
                          on-tap="{{backNavigation}}"
-                         hero-id="back-button"
+                         hero-id="tournament-back-button"
                          hero>
       </paper-icon-button>
 

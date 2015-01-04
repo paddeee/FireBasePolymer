@@ -18,13 +18,13 @@
       <div id="tournament" class="menu-item tournament" vertical layout>
         <div class="tile" flex vertical layout>
           <div flex relative>
-            <div fit layout vertical center center-justified hero-id="section-background" hero>
+            <div fit layout vertical center center-justified hero-id="tournament-background" hero>
               <div class="section-bg-wrapper" relative>
                 <core-icon icon="section-icons:tournament" class="section-tile-bg" fit></core-icon>
               </div>
             </div>
           </div>
-          <div class="section-name" horizontal center layout hero-id="section-title" hero>
+          <div class="section-name" horizontal center layout hero-id="tournament-title" hero>
             <div flex>
               <span cross-fade-delayed?="{{parentElement.lastSelected === 'tournament'}}">
                 Tournament Manager
@@ -33,7 +33,7 @@
             <paper-icon-button
               class="section-icon"
               icon="arrow-forward"
-              hero-id="back-button"
+              hero-id="tournament-back-button"
               hero>
             </<paper-icon-button>
           </div>
@@ -44,16 +44,24 @@
         <div class="tile theme-bg-a" dummy fit></div>
         <div class="tile" flex vertical layout>
           <div flex relative>
-            <!-- sizing wrapper -->
-            <div fit layout vertical center center-justified>
+            <div fit layout vertical center center-justified hero-id="scorecard-background" hero>
               <div class="section-bg-wrapper" relative>
                 <core-icon icon="section-icons:scorecard" class="section-tile-bg" fit></core-icon>
               </div>
             </div>
           </div>
-          <div class="section-name" horizontal center layout>
-            <div flex>Scorecard</div>
-            <core-icon class="section-icon" icon="arrow-forward"></core-icon>
+          <div class="section-name" horizontal center layout hero-id="scorecard-title" hero>
+            <div flex>
+              <span cross-fade-delayed?="{{parentElement.lastSelected === 'tournament'}}">
+                Score round
+              </span>
+            </div>
+            <paper-icon-button
+              class="section-icon"
+              icon="arrow-forward"
+              hero-id="scorecard-back-button"
+              hero>
+            </<paper-icon-button>
           </div>
         </div>
       </div>
@@ -62,16 +70,20 @@
         <div class="tile theme-bg-a" dummy fit></div>
         <div class="tile" flex vertical layout>
           <div flex relative>
-            <!-- sizing wrapper -->
-            <div fit layout vertical center center-justified>
+            <div fit layout vertical center center-justified hero-id="scoreboard-background" hero>
               <div class="section-bg-wrapper" relative>
                 <core-icon icon="section-icons:scoreboard" class="section-tile-bg" fit></core-icon>
               </div>
             </div>
           </div>
-          <div class="section-name" horizontal center layout>
+          <div class="section-name" horizontal center layout hero-id="scoreboard-title" hero>
             <div flex>Leaderboard</div>
-            <core-icon class="section-icon" icon="arrow-forward"></core-icon>
+            <paper-icon-button
+              class="section-icon"
+              icon="arrow-forward"
+              hero-id="scoreboard-back-button"
+              hero>
+            </<paper-icon-button>
           </div>
         </div>
       </div>

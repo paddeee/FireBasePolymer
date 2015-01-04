@@ -2,7 +2,8 @@
 $primary-bg-colour: #009688;
 $primary-bg-colour--light: #b2dfdb;
 $primary-bg-colour--dark: #00796b;
-$primary-text-colour: #FFF;
+$primary-text-colour--light: #FFF;
+$primary-text-colour--dark: #000;
 
 $primary-accent-colour: #eeff41;
 
@@ -11,12 +12,16 @@ $primary-accent-colour: #eeff41;
   overflow: hidden;
 }
 
-.tournament-panel {
+.wide > .background-fade--themed {
+  background-color: $primary-bg-colour--light;
+}
+
+.section-panel {
   overflow: auto;
   -webkit-overflow-scrolling: touch;
 }
 
-:host([animate]) .tournament-panel {
+:host([animate]) .section-panel {
   overflow: visible;
 }
 
@@ -25,7 +30,7 @@ $primary-accent-colour: #eeff41;
 }
 
 .back-button {
-  color:  $primary-text-colour;
+  color: $primary-text-colour--light;
   position: absolute;
   top: 8px;
   left: 8px;
@@ -33,6 +38,7 @@ $primary-accent-colour: #eeff41;
 }
 
 .wide > .back-button {
+  color: $primary-text-colour--dark;
   top: 12px;
   left: 16px;
 }
@@ -41,7 +47,7 @@ $primary-accent-colour: #eeff41;
   position: relative;
 }
 
-.tournament-panel.wide > .card {
+.section-panel.wide > .card {
   width: 512px;
   margin: 64px auto 0;
   border-radius: 2px;
@@ -50,46 +56,46 @@ $primary-accent-colour: #eeff41;
 }
 
 .card > core-toolbar {
-  height: 176px;
+  height: 150px;
   font-size: 16px;
   line-height: 26px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.15);
   background-color: $primary-bg-colour--dark;
-  color: $primary-text-colour;
+  color: $primary-text-colour--light;
 }
 
 .card > core-toolbar::shadow #topBar {
-  height: 176px;
+  height: 150px;
 }
 
-.tournament-panel.wide > .card > core-toolbar {
+.section-panel.wide > .card > core-toolbar {
   font-size: 18px;
 }
 
-.tournament-panel.wide core-toolbar > .question {
+.section-panel.wide core-toolbar > .question {
   padding: 0 8px;
 }
 
-.tournament-content {
+.section-content {
   background-color: #fff;
   overflow: auto;
   -webkit-overflow-scrolling: touch;
   position: relative;
 }
 
-.tournament-panel.wide .tournament-content {
+.section-panel.wide .section-content {
   overflow: inherit;
 }
 
-#tournamentViews {
+#sectionViews {
   display: block;
 }
 
-#tournamentViews > * {
+#sectionViews > * {
   display: none;
 }
 
-#tournamentViews > .core-selected {
+#sectionViews > .core-selected {
   display: block;
 }
 
@@ -111,6 +117,6 @@ paper-fab.check-button {
   visibility: hidden;
 }
 
-.tournament-panel.wide paper-fab.check-button {
+.section-panel.wide paper-fab.check-button {
   right: 24px;
 }
