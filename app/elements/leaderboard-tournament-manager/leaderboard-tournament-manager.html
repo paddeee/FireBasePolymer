@@ -35,16 +35,8 @@
                                selected="{{selected}}"
                                transitions="slide-from-right"
                                auto>
-
-            <section name="manageTournaments" class="no-hosted-tournaments" hidden?="{{hostedTournaments !== null}}">
-                <div>You are not currently hosting any tournaments.</div>
-            </section>
-
-            <section name="manageTournaments" hidden?="{{hostedTournaments === null}}">
-              <div layout vertical center center-justified>
-                <div>{{userDetails.uid}}</div>
-              </div>
-            </section>
+            <leaderboard--manage-tournaments name="manageTournaments" hostedTournaments="{{hostedTournaments}}">
+            </leaderboard--manage-tournaments>
 
             <section name="tournamentDetails">
               <div layout vertical center center-justified>
