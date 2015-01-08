@@ -3,7 +3,7 @@
     <link rel="stylesheet" href="leaderboard-menu.css">
 
     <core-toolbar class="menu-toolbar"
-                  slide-down?="{{parentElement.lastSelected === 'profile' || parentElement.selected === 'profile'}}">
+                  slide-down?="{{wide || (parentElement.lastSelected === 'profile' || parentElement.selected === 'profile')}}">
 
       <div fade flex class="user-name">{{userDetails.name}}</div>
       <div fade>{{userDetails.handicap}}</div>
@@ -15,12 +15,12 @@
                    tile-cascade?="{{parentElement.lastSelected === 'profile'}}"
                    fade?="true">
 
-      <div id="tournament" class="menu-item tournament" vertical layout>
+      <div id="tournament-manager" class="menu-item tournament" vertical layout>
         <div class="tile" flex vertical layout>
           <div flex relative>
             <div fit layout vertical center center-justified hero-id="tournament-background" hero>
               <div class="section-bg-wrapper" relative>
-                <core-icon icon="section-icons:tournament" class="section-tile-bg" fit></core-icon>
+                <core-icon icon="menu-tile-icons:tournament" class="section-tile-bg" fit></core-icon>
               </div>
             </div>
           </div>
@@ -46,14 +46,14 @@
           <div flex relative>
             <div fit layout vertical center center-justified hero-id="scorecard-background" hero>
               <div class="section-bg-wrapper" relative>
-                <core-icon icon="section-icons:scorecard" class="section-tile-bg" fit></core-icon>
+                <core-icon icon="menu-tile-icons:scorecard" class="section-tile-bg" fit></core-icon>
               </div>
             </div>
           </div>
           <div class="section-name" horizontal center layout hero-id="scorecard-title" hero>
             <div flex>
               <span cross-fade-delayed?="{{parentElement.lastSelected === 'tournament'}}">
-                Score round
+                Score Round
               </span>
             </div>
             <paper-icon-button
@@ -72,7 +72,7 @@
           <div flex relative>
             <div fit layout vertical center center-justified hero-id="scoreboard-background" hero>
               <div class="section-bg-wrapper" relative>
-                <core-icon icon="section-icons:scoreboard" class="section-tile-bg" fit></core-icon>
+                <core-icon icon="menu-tile-icons:scoreboard" class="section-tile-bg" fit></core-icon>
               </div>
             </div>
           </div>
@@ -95,7 +95,7 @@
             <!-- sizing wrapper -->
             <div fit layout vertical center center-justified>
               <div class="section-bg-wrapper" relative>
-                <core-icon icon="section-icons:clubhouse" class="section-tile-bg" fit></core-icon>
+                <core-icon icon="menu-tile-icons:clubhouse" class="section-tile-bg" fit></core-icon>
               </div>
             </div>
           </div>
@@ -113,7 +113,7 @@
             <!-- sizing wrapper -->
             <div fit layout vertical center center-justified>
               <div class="section-bg-wrapper" relative>
-                <core-icon icon="section-icons:results" class="section-tile-bg" fit></core-icon>
+                <core-icon icon="menu-tile-icons:results" class="section-tile-bg" fit></core-icon>
               </div>
             </div>
           </div>
@@ -131,7 +131,7 @@
             <!-- sizing wrapper -->
             <div fit layout vertical center center-justified>
               <div class="section-bg-wrapper" relative>
-                <core-icon icon="section-icons:stats" class="section-tile-bg" fit></core-icon>
+                <core-icon icon="menu-tile-icons:stats" class="section-tile-bg" fit></core-icon>
               </div>
             </div>
           </div>
@@ -149,12 +149,12 @@
             <!-- sizing wrapper -->
             <div fit layout vertical center center-justified>
               <div class="section-bg-wrapper" relative>
-                <core-icon icon="section-icons:courseinformation" class="section-tile-bg" fit></core-icon>
+                <core-icon icon="menu-tile-icons:courseinformation" class="section-tile-bg" fit></core-icon>
               </div>
             </div>
           </div>
           <div class="section-name" horizontal center layout>
-            <div flex>Course Information</div>
+            <div flex>Submit Course Information</div>
             <core-icon class="section-icon" icon="arrow-forward"></core-icon>
           </div>
         </div>
@@ -167,7 +167,7 @@
             <!-- sizing wrapper -->
             <div fit layout vertical center center-justified>
               <div class="section-bg-wrapper" relative>
-                <core-icon icon="section-icons:profile" class="section-tile-bg" fit></core-icon>
+                <core-icon icon="menu-tile-icons:profile" class="section-tile-bg" fit></core-icon>
               </div>
             </div>
           </div>

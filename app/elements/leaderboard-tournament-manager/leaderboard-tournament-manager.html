@@ -1,0 +1,91 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<polymer-element name="leaderboard-tournament-manager" attributes="selected userDetails wide">
+  <template>
+    <link rel="stylesheet" href="leaderboard-tournament-manager.css">
+
+    <div id="sectionPanel" class="section-panel {{ {wide: wide} | tokenList }}"
+         flex vertical layout?="{{!wide}}">
+
+      <div class="background-fade  background-fade--themed"
+           fit
+           cross-fade></div>
+
+      <div class="card" flex?="{{!wide}}" vertical layout?="{{!wide}}" hero-p>
+
+        <core-toolbar class="menu-toolbar" hero-id="tournament-title" hero>
+
+          <div class="section-title" flex cross-fade-delayed>Tournament Manager</div>
+
+        </core-toolbar>
+
+        <div id="sectionContent"
+             class="section-content"
+             flex
+             hero-id="tournament-background"
+             hero="{{!wide}}">
+
+          <core-animated-pages class="tournament-manager-pages"
+                               selected="{{selected}}"
+                               valueattr="id"
+                               transitions="slide-from-right"
+                               auto>
+
+            <section id="manageTournaments">
+              <div layout vertical center center-justified>
+                <div>1</div>
+              </div>
+            </section>
+
+            <section id="tournamentDetails">
+              <div layout vertical center center-justified>
+                <div>2</div>
+              </div>
+            </section>
+
+          </core-animated-pages>
+
+        </div>
+
+        <paper-fab class="add-button"
+                   icon="add"
+                   on-tap="{{addTournament}}"
+                   showing="{{selected === 'manageTournaments'}}">
+        </paper-fab>
+
+      </div>
+
+      <paper-icon-button class="back-button"
+                         icon="arrow-back"
+                         on-tap="{{backNavigation}}"
+                         hero-id="tournament-back-button"
+                         hero>
+      </paper-icon-button>
+
+    </div>
+  </template>
+  <script>
+    (function () {
+
+      Polymer({
+
+        selected: 'manageTournaments',
+
+        addTournament: function() {
+          this.selected = 'tournamentDetails';
+          history.pushState({}, "tournament details", '#tournament-manager/' + this.selected);
+        },
+
+        backNavigation: function() {
+          this.selected = 'manageTournaments';
+          window.history.back();
+        },
+
+        selectedChanged: function() {
+          console.log(this.selected);
+        }
+      });
+
+    })();
+  </script>
+</polymer-element>
