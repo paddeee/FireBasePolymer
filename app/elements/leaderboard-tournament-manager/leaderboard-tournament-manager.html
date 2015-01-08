@@ -73,7 +73,7 @@
 
         addTournament: function() {
           this.selected = 'tournamentDetails';
-          history.pushState({}, "tournament details", '#tournament-manager/' + this.selected);
+          history.pushState(null, null, '#tournament-manager');
         },
 
         backNavigation: function() {
