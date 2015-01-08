@@ -4,6 +4,12 @@
   <template>
     <link rel="stylesheet" href="leaderboard-tournament-manager.css">
 
+    <firebase-element id="hostedTournamentsFireBase"
+                      location="{{'https://incandescent-heat-3687.firebaseio.com/users/' + userDetails.id + '/hostedtournaments'}}"
+                      dataReady="{{hostedTournamentsReady}}"
+                      data="{{hostedTournaments}}">
+    </firebase-element>
+
     <div id="sectionPanel" class="section-panel {{ {wide: wide} | tokenList }}"
          flex vertical layout?="{{!wide}}">
 
@@ -15,7 +21,7 @@
 
         <core-toolbar class="menu-toolbar" hero-id="tournament-title" hero>
 
-          <div class="section-title" flex cross-fade-delayed>Tournament Manager</div>
+          <div class="section-title" flex cross-fade-delayed>{{sectionData[selected].title}}</div>
 
         </core-toolbar>
 
@@ -27,17 +33,20 @@
 
           <core-animated-pages class="tournament-manager-pages"
                                selected="{{selected}}"
-                               valueattr="id"
                                transitions="slide-from-right"
                                auto>
 
-            <section id="manageTournaments">
+            <section name="manageTournaments" class="no-hosted-tournaments" hidden?="{{hostedTournaments !== null}}">
+                <div>You are not currently hosting any tournaments.</div>
+            </section>
+
+            <section name="manageTournaments" hidden?="{{hostedTournaments === null}}">
               <div layout vertical center center-justified>
-                <div>1</div>
+                <div>{{userDetails.uid}}</div>
               </div>
             </section>
 
-            <section id="tournamentDetails">
+            <section name="tournamentDetails">
               <div layout vertical center center-justified>
                 <div>2</div>
               </div>
@@ -69,7 +78,26 @@
 
       Polymer({
 
+        observe: {
+          'hostedTournamentsReady': 'getHostedTournaments'
+        },
+
         selected: 'manageTournaments',
+
+        sectionData : {
+          'manageTournaments': {
+            'backNavigation': 'menu',
+            'title': 'Tournament Manager'
+          },
+          'tournamentDetails': {
+            'backNavigation': 'manageTournaments',
+            'title': 'Tournament Details'
+          }
+        },
+
+        getHostedTournaments: function() {
+          console.log(this.hostedTournaments);
+        },
 
         addTournament: function() {
           this.selected = 'tournamentDetails';
@@ -77,13 +105,14 @@
         },
 
         backNavigation: function() {
-          this.selected = 'manageTournaments';
-          window.history.back();
-        },
 
-        selectedChanged: function() {
-          console.log(this.selected);
+          if (this.selected === 'manageTournaments') {
+            this.parentElement.selected = this.sectionData[this.selected].backNavigation;
+          } else {
+            this.selected = this.sectionData[this.selected].backNavigation;
+          }
         }
+
       });
 
     })();
