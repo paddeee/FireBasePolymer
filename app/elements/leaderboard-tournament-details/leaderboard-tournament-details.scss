@@ -1,5 +1,22 @@
+/* Vars */
+$primaryBgColour: '#009688';
+$lightBgColour: '#b2dfdb';
+$darkBgColour: '#00796b';
+$primaryAccentColour: '#eeff41';
+$primaryTextColour: '#FFF';
+$lightTextColour: '#999';
+$darkTextColour: '#000';
+$neutralBackgroundColour: '#EEE';
+
 :host {
   display: block;
+}
+
+:host ::shadow paper-input-decorator,
+:host ::shadow paper-input {
+  color: $primaryTextColour;
+  max-width: 20em;
+  width: auto;
 }
 
 .tournament-name {

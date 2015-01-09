@@ -51,10 +51,6 @@
         border-color: {{ g.theme.primaryTextColour }};
     }
 
-    :host /deep/ paper-input {
-        color: {{ g.theme.primaryTextColour }};
-    }
-
     :host /deep/ paper-input::shadow .unfocused-underline {
         background-color: {{ g.theme.primaryTextColour }};
     }
@@ -75,11 +71,6 @@
 </core-style>
 
 <core-style id="section--content">
-
-  :host /deep/ section paper-input,
-  :host /deep/ section paper-input-decorator {
-    color:  {{ g.theme.darkTextColour }};
-  }
 
   :host /deep/ section paper-input-decorator /deep/ .label-text,
   :host /deep/ section paper-input-decorator /deep/ .error {

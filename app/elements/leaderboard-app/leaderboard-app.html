@@ -94,6 +94,8 @@
                 }
               },
 
+              // Hacky but necessary due to only being able to style certain parts of paper-inputs via the Global theme
+              // in Polymer 0.5.1.
               setGlobalStyles: function(style) {
 
                 if (style==='auth') {

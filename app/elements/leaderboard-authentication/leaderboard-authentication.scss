@@ -1,10 +1,12 @@
 /* Vars */
-$primary-bg-colour: #009688;
-$primary-bg-colour--light: #b2dfdb;
-$primary-bg-colour--dark: #00796b;
-$primary-text-colour: #FFF;
-
-$primary-accent-colour: #eeff41;
+$primaryBgColour: '#009688';
+$lightBgColour: '#b2dfdb';
+$darkBgColour: '#00796b';
+$primaryAccentColour: '#eeff41';
+$primaryTextColour: '#FFF';
+$lightTextColour: '#999';
+$darkTextColour: '#000';
+$neutralBackgroundColour: '#EEE';
 
 :host {
   display: block;
@@ -43,13 +45,13 @@ h2 {
 
 :host ::shadow paper-input-decorator,
 :host ::shadow paper-input {
-  color: $primary-text-colour;
+  color: $primaryTextColour;
   max-width: 20em;
   width: auto;
 }
 
 :host ::shadow paper-fab[icon=check] {
-  background-color: $primary-accent-colour;
+  background-color: $primaryAccentColour;
   color: #000;
   fill: #000;
 }
