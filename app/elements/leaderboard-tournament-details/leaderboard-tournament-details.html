@@ -30,14 +30,27 @@
 
         showClubSearchButton: false,
 
+        tournamentFormat: 'Stableford',
+
         tournamentNameChanged: function() {
 
-          // Show/Hide Check Fab button as user enters data
+          this.manageFabButton();
+          this.updateTournamentObject();
+        },
+
+        // Show/Hide Check Fab button as user enters data
+        manageFabButton: function() {
           if (this.tournamentName.length) {
             this.showClubSearchButton = true;
           } else {
             this.showClubSearchButton = false;
           }
+        },
+
+        // Update our hostedTournament with user input
+        updateTournamentObject: function() {
+          this.hostedTournamentToUpdate.name = this.tournamentName;
+          this.hostedTournamentToUpdate.format = this.tournamentFormat;
         }
 
       });

@@ -62,7 +62,7 @@
         <paper-fab id="StartHostedTournamentButton"
                    icon="check"
                    showing?="{{ selected === 'tournamentDetails' && showClubSearchButton }}"
-                   on-tap="{{ setUserDetails }}">
+                   on-tap="{{ updateHostedTournament }}">
         </paper-fab>
 
         <paper-icon-button class="back-button"
@@ -88,6 +88,8 @@
 
         selected: 'manageTournaments',
 
+        hostedTournamentToUpdate: {},
+
         sectionData: {
           'manageTournaments': {
             'backNavigation': 'menu',
@@ -99,16 +101,20 @@
           }
         },
 
-        getHostedTournaments: function () {
+        updateHostedTournament: function() {
+          console.log(this.hostedTournamentToUpdate);
+        },
+
+        getHostedTournaments: function() {
           console.log(this.hostedTournaments);
         },
 
-        addTournament: function () {
+        addTournament: function() {
           this.selected = 'tournamentDetails';
           history.pushState(null, null, '#tournament-manager');
         },
 
-        backNavigation: function () {
+        backNavigation: function() {
 
           if (this.selected === 'manageTournaments') {
             this.parentElement.selected = this.sectionData[this.selected].backNavigation;
