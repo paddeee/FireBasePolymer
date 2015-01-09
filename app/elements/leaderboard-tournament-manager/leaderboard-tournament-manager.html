@@ -45,28 +45,33 @@
 
             <leaderboard-tournament-details userDetails="{{userDetails}}"
                                             name="tournamentDetails"
-                                            hostedTournaments="{{hostedTournament
-                                            hostedTournamentToUpdate="{{hostedTournamentToUpdate}}"s}}">
+                                            showClubSearchButton="{{showClubSearchButton}}"
+                                            hostedTournaments="{{hostedTournaments}}"
+                                            hostedTournamentToUpdate="{{hostedTournamentToUpdate}}">
             </leaderboard-tournament-details>
 
           </core-animated-pages>
 
         </div>
 
-        <paper-fab class="add-button"
-                   icon="add"
+        <paper-fab icon="add"
                    on-tap="{{addTournament}}"
-                   showing="{{selected === 'manageTournaments'}}">
+                   showing?="{{selected === 'manageTournaments'}}">
         </paper-fab>
 
-      </div>
+        <paper-fab id="StartHostedTournamentButton"
+                   icon="check"
+                   showing?="{{ selected === tournamentDetails && showClubSearchButton }}"
+                   on-tap="{{ setUserDetails }}">
+        </paper-fab>
 
-      <paper-icon-button class="back-button"
-                         icon="arrow-back"
-                         on-tap="{{backNavigation}}"
-                         hero-id="tournament-back-button"
-                         hero>
+        <paper-icon-button class="back-button"
+                           icon="arrow-back"
+                           on-tap="{{backNavigation}}"
+                           hero-id="tournament-back-button"
+                           hero>
       </paper-icon-button>
+      </div>
 
     </div>
   </template>
@@ -79,9 +84,11 @@
           'hostedTournamentsReady': 'getHostedTournaments'
         },
 
+        showClubSearchButton: false,
+
         selected: 'manageTournaments',
 
-        sectionData : {
+        sectionData: {
           'manageTournaments': {
             'backNavigation': 'menu',
             'title': 'Tournament Manager'
@@ -92,16 +99,16 @@
           }
         },
 
-        getHostedTournaments: function() {
+        getHostedTournaments: function () {
           console.log(this.hostedTournaments);
         },
 
-        addTournament: function() {
+        addTournament: function () {
           this.selected = 'tournamentDetails';
           history.pushState(null, null, '#tournament-manager');
         },
 
-        backNavigation: function() {
+        backNavigation: function () {
 
           if (this.selected === 'manageTournaments') {
             this.parentElement.selected = this.sectionData[this.selected].backNavigation;
@@ -109,7 +116,6 @@
             this.selected = this.sectionData[this.selected].backNavigation;
           }
         }
-
       });
 
     })();
