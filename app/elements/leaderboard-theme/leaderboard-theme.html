@@ -76,36 +76,38 @@
 
 <core-style id="section--content">
 
-  :host /deep/ paper-input-decorator{
+  :host /deep/ section paper-input,
+  :host /deep/ section paper-input-decorator {
+    color:  {{ g.theme.darkTextColour }};
+  }
+
+  :host /deep/ section paper-input-decorator /deep/ .label-text,
+  :host /deep/ section paper-input-decorator /deep/ .error {
     color:  {{ g.theme.darkBgColour }};
   }
 
-  :host /deep/ paper-input-decorator /deep/ .label-text,
-  :host /deep/ paper-input-decorator /deep/ .error {
+  :host /deep/ section paper-input[focused] /deep/ .floating-label .label-text,
+  :host /deep/ section paper-input-decorator[focused] /deep/ .floating-label .label-text {
     color:  {{ g.theme.darkBgColour }};
   }
 
-  :host /deep/ paper-input-decorator[focused] /deep/ .floating-label .label-text {
-    color:  {{ g.theme.darkBgColour }};
-  }
-
-  :host /deep/ paper-input-decorator /deep/ .focused-underline {
+  :host /deep/ section paper-input-decorator /deep/ .focused-underline {
     background-color: {{ g.theme.darkBgColour }};
   }
 
-  :host /deep/ paper-input-decorator /deep/ .unfocused-underline {
+  :host /deep/ section paper-input-decorator /deep/ .unfocused-underline {
     background-color: {{ g.theme.darkBgColour }};
   }
 
-  :host /deep/ paper-input /deep/ ::-webkit-input-placeholder {
+  :host /deep/ section paper-input /deep/ ::-webkit-input-placeholder {
     color: {{ g.theme.lightTextColour }};
   }
 
-  :host /deep/ paper-input /deep/ ::-moz-placeholder {
+  :host /deep/ section paper-input /deep/ ::-moz-placeholder {
     color: {{ g.theme.lightTextColour }};
   }
 
-  :host /deep/ paper-input /deep/ :-ms-input-placeholder {
+  :host /deep/ section paper-input /deep/ :-ms-input-placeholder {
     color: {{ g.theme.lightTextColour }};
   }
 
