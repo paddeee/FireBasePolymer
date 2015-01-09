@@ -99,7 +99,7 @@ $primary-accent-colour: #eeff41;
   display: block;
 }
 
-.add-button {
+paper-fab {
   position: absolute;
   top: 122px;
   right: 16px;
@@ -113,7 +113,7 @@ $primary-accent-colour: #eeff41;
   transform-origin: 50% 50%;
 }
 
-:host([active]) .add-button[showing="true"]{
+:host([active]) paper-fab[showing] {
   -webkit-transform: none;
   transform: none;
 }
@@ -137,5 +137,6 @@ $primary-accent-colour: #eeff41;
 
 :host ::shadow section {
   padding: 40px 16px;
+  position:relative;
   text-align: center;
 }
