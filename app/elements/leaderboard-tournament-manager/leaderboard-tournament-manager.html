@@ -4,6 +4,8 @@
   <template>
     <link rel="stylesheet" href="leaderboard-tournament-manager.css">
 
+    <core-style ref="section--content"></core-style>
+
     <firebase-element id="hostedTournamentsFireBase"
                       location="{{'https://incandescent-heat-3687.firebaseio.com/users/' + userDetails.id + '/hostedtournaments'}}"
                       dataReady="{{hostedTournamentsReady}}"
@@ -35,14 +37,17 @@
                                selected="{{selected}}"
                                transitions="slide-from-right"
                                auto>
-            <leaderboard--manage-tournaments name="manageTournaments" hostedTournaments="{{hostedTournaments}}">
-            </leaderboard--manage-tournaments>
 
-            <section name="tournamentDetails">
-              <div layout vertical center center-justified>
-                <div>2</div>
-              </div>
-            </section>
+            <leaderboard-manage-tournaments userDetails="{{userDetails}}"
+                                            name="manageTournaments"
+                                            hostedTournaments="{{hostedTournaments}}">
+            </leaderboard-manage-tournaments>
+
+            <leaderboard-tournament-details userDetails="{{userDetails}}"
+                                            name="tournamentDetails"
+                                            hostedTournaments="{{hostedTournament
+                                            hostedTournamentToUpdate="{{hostedTournamentToUpdate}}"s}}">
+            </leaderboard-tournament-details>
 
           </core-animated-pages>
 

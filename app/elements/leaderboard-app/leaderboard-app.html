@@ -66,7 +66,16 @@
 
               // Set default hash to authentication if no hash specified in URL
               ready: function() {
+                this.setGlobalStyles('auth');
                 this.route = this.route || 'profile';
+              },
+
+              routeChanged: function() {
+                if (this.route==="profile") {
+                  this.setGlobalStyles('auth');
+                } else {
+                  this.setGlobalStyles('section');
+                }
               },
 
               // Triggered when user logged out to force users to authentication
@@ -77,10 +86,30 @@
               // Triggered when user logged in. If route isn't for authentication take them to the hash specified in URL
               // Otherwise go to the menu.
               enterSite: function() {
+
                 if (this.route !== 'profile') {
                   this.route = this.route;
                 } else {
                   this.route = 'menu';
+                }
+              },
+
+              setGlobalStyles: function(style) {
+
+                if (style==='auth') {
+
+                  // Set theming styles for Paper input elements
+                  CoreStyle.g.paperInput.labelColor = CoreStyle.g.theme.primaryTextColour;
+                  CoreStyle.g.paperInput.focusedColor = CoreStyle.g.theme.primaryAccentColour;
+                  CoreStyle.g.paperInput.invalidColor = CoreStyle.g.theme.primaryTextColour;
+
+                } else if (style==='section') {
+
+                  // Set theming styles for Paper input elements
+                  CoreStyle.g.paperInput.labelColor = CoreStyle.g.theme.darkBgColour;
+                  CoreStyle.g.paperInput.focusedColor = CoreStyle.g.theme.darkBgColour;
+                  CoreStyle.g.paperInput.invalidColor = CoreStyle.g.theme.darkBgColour;
+
                 }
               },
 

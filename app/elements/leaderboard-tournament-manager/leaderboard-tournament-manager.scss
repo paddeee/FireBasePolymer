@@ -134,3 +134,8 @@ $primary-accent-colour: #eeff41;
   left: 0;
   overflow: hidden;
 }
+
+:host ::shadow section {
+  padding: 40px 16px;
+  text-align: center;
+}

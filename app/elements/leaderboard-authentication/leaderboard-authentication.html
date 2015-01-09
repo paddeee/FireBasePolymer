@@ -71,11 +71,6 @@
           this.loginValidationMessage = '';
           this.typeOfAuth = 'Sign In';
 
-          // Set theming styles for Paper input elements
-          CoreStyle.g.paperInput.labelColor = CoreStyle.g.theme.primaryTextColour;
-          CoreStyle.g.paperInput.focusedColor = CoreStyle.g.theme.primaryAccentColour;
-          CoreStyle.g.paperInput.invalidColor = CoreStyle.g.theme.primaryTextColour;
-
           // When Create New User checkbox is changed
           this.authTypeChanged = function () {
             if (this.$.authenticationType.checked) {

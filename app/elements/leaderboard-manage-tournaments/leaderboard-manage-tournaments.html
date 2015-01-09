@@ -1,0 +1,25 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<polymer-element name="leaderboard-manage-tournaments" attributes="hostedTournaments userDetails">
+  <template>
+    <link rel="stylesheet" href="leaderboard-manage-tournaments.css">
+
+    <section hidden?="{{hostedTournaments !== null}}">
+      You are not currently hosting any tournaments.
+    </section>
+
+    <section hidden?="{{hostedTournaments === null}}">
+      {{userDetails.uid}}
+    </section>
+
+  </template>
+  <script>
+    (function () {
+
+      Polymer({
+        // define element prototype here
+      });
+
+    })();
+  </script>
+</polymer-element>
