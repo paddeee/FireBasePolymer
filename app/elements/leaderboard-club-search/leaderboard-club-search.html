@@ -14,17 +14,26 @@
                    type="text" class="club-search" layout vertical required>
       </paper-input>
 
+      <div class="results-title" hidden?="{{!resultsReturned}}">Search results</div>
+
+      <div class="results-empty" hidden?="{{!resultsReturned || resultsData.length > 0}}">
+        Your search - {{searchTerm}} - did not match any golf clubs.
+      </div>
+
       <core-list id="resultsList" class='results-list' data="{{resultsData}}" flex>
         <template>
-          <div class="row {{ {selected: selected} | tokenList }}">
-            <google-map latitude={{model._source.latitude}}
-                        longitude={{model._source.longitude}}
-                        zoom="11"git add
-                        showcentermarker
-                        disabledefaultui id="google_map">
-            </google-map>
-
-            {{model._source.name}}
+          <div class="results-list__row {{ {selected: selected} | tokenList }}">
+            <div class="results-list__item">
+              <!-- ToDo - Add Google Map data. Currently errors with latitude not a number
+              <google-map latitude={{model._source.latitude}}"
+                          longitude={{model._source.longitude}}"
+                          zoom="11"
+                          disabledefaultui id="google_map">
+              </google-map>-->
+              <div class="club-name">{{model._source.name}}</div>
+              <div class="club-location">{{model._source.location}}</div>
+            </div>
+            <hr>
           </div>
         </template>
       </core-list>
@@ -45,7 +54,9 @@
         index: 'firebase',
         type: 'club',
 
-        resultsData: null,
+        resultsData: [],
+
+        resultsReturned: false,
 
         // Invoked from parent leaderboard-tournament-manager element
         searchClubs: function() {
@@ -76,6 +87,7 @@
           }
 
           this.resultsData = snap.val().hits;
+          this.resultsReturned = true;
           snap.ref().off('value', this.showResults, this);
           snap.ref().remove();
         },

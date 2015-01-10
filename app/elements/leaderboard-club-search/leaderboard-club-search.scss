@@ -1,5 +1,21 @@
+/* Vars */
+$primaryBgColour: #009688;
+$lightBgColour: #b2dfdb;
+$darkBgColour: #00796b;
+$primaryAccentColour: #eeff41;
+$primaryTextColour: #FFF;
+$lightTextColour: #999;
+$darkTextColour: #000;
+$neutralBackgroundColour: #EEE;
+
 :host {
   display: block;
+}
+
+:host ::shadow paper-input-decorator,
+:host ::shadow paper-input {
+  max-width: 20em;
+  width: auto;
 }
 
 .club-search-section {
@@ -7,5 +23,28 @@
 }
 
 .club-search {
-  text-align: left;
+  padding: 40px 16px 20px;
+  position:relative;
+}
+
+.results-title {
+  color: $darkBgColour;
+  padding: 0 16px 20px;
+}
+
+.results-list {
+  line-height: 1.6;
+}
+
+.results-list__item,
+.results-empty {
+  padding: 8px 16px;
+}
+
+hr {
+  color: rgba(0,0,0,0.88);
+}
+
+.club-location {
+  font-size: 14px;
 }

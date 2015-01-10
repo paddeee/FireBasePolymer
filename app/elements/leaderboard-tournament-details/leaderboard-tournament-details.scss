@@ -1,12 +1,12 @@
 /* Vars */
-$primaryBgColour: '#009688';
-$lightBgColour: '#b2dfdb';
-$darkBgColour: '#00796b';
-$primaryAccentColour: '#eeff41';
-$primaryTextColour: '#FFF';
-$lightTextColour: '#999';
-$darkTextColour: '#000';
-$neutralBackgroundColour: '#EEE';
+$primaryBgColour: #009688;
+$lightBgColour: #b2dfdb;
+$darkBgColour: #00796b;
+$primaryAccentColour: #eeff41;
+$primaryTextColour: #FFF;
+$lightTextColour: #999;
+$darkTextColour: #000;
+$neutralBackgroundColour: #EEE;
 
 :host {
   display: block;
@@ -14,11 +14,12 @@ $neutralBackgroundColour: '#EEE';
 
 :host ::shadow paper-input-decorator,
 :host ::shadow paper-input {
-  color: $primaryTextColour;
+  color: $darkTextColour;
   max-width: 20em;
   width: auto;
 }
 
-.tournament-name {
-  text-align: left;
+section {
+  padding: 40px 16px;
+  position:relative;
 }
