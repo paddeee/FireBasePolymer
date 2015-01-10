@@ -47,22 +47,36 @@
                                             name="tournamentDetails"
                                             showClubSearchButton="{{showClubSearchButton}}"
                                             hostedTournaments="{{hostedTournaments}}"
-                                            hostedTournamentToUpdate="{{hostedTournamentToUpdate}}">
+                                            hostedTournamentToUpdate="{{hostedTournamentToUpdate}}"
+                                            tournamentHash="{{tournamentHash}}">
             </leaderboard-tournament-details>
+
+            <leaderboard-club-search id="clubSearch"
+                                     userDetails="{{userDetails}}"
+                                     name="clubSearch"
+                                     chosenClub="{{chosenClub}}"
+                                     searchTerm="{{searchTerm}}">
+            </leaderboard-club-search>
 
           </core-animated-pages>
 
         </div>
 
         <paper-fab icon="add"
-                   on-tap="{{addTournament}}"
-                   showing?="{{selected === 'manageTournaments'}}">
+                   showing?="{{selected === 'manageTournaments'}}"
+                   on-tap="{{addTournamentButtonHandler}}">
         </paper-fab>
 
         <paper-fab id="StartHostedTournamentButton"
                    icon="check"
                    showing?="{{ selected === 'tournamentDetails' && showClubSearchButton }}"
-                   on-tap="{{ updateHostedTournament }}">
+                   on-tap="{{ detailsButtonHandler }}">
+        </paper-fab>
+
+        <paper-fab id="ClubSearchButton"
+                   icon="search"
+                   showing?="{{ selected === 'clubSearch' && searchTerm.length > 2 }}"
+                   on-tap="{{ clubSearchButtonHandler }}">
         </paper-fab>
 
         <paper-icon-button class="back-button"
@@ -86,6 +100,10 @@
 
         showClubSearchButton: false,
 
+        showSearchTermButton: false,
+
+        newTournament: true,
+
         selected: 'manageTournaments',
 
         hostedTournamentToUpdate: {},
@@ -98,22 +116,25 @@
           'tournamentDetails': {
             'backNavigation': 'manageTournaments',
             'title': 'Tournament Details'
+          },
+          'clubSearch': {
+            'backNavigation': 'tournamentDetails',
+            'title': 'Find Golf Club'
           }
         },
 
-        updateHostedTournament: function() {
-          console.log(this.hostedTournamentToUpdate);
-        },
-
+        // When hostedTournamentsFireBase data is ready
         getHostedTournaments: function() {
           console.log(this.hostedTournaments);
         },
 
-        addTournament: function() {
+        // Handler for Fab button on manager page
+        addTournamentButtonHandler: function() {
           this.selected = 'tournamentDetails';
           history.pushState(null, null, '#tournament-manager');
         },
 
+        // Handler for back button in toolbar
         backNavigation: function() {
 
           if (this.selected === 'manageTournaments') {
@@ -121,6 +142,19 @@
           } else {
             this.selected = this.sectionData[this.selected].backNavigation;
           }
+        },
+
+        // Handler for Fab button on details page
+        detailsButtonHandler: function() {
+
+          if (this.newTournament) {
+            this.selected = 'clubSearch';
+          }
+        },
+
+        // Handler for Fab button on search page
+        clubSearchButtonHandler: function() {
+          this.$.clubSearch.searchClubs();
         }
       });
 

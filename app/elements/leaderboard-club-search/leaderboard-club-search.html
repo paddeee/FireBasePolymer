@@ -1,0 +1,96 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<polymer-element name="leaderboard-club-search" attributes="chosenClub searchTerm">
+  <template>
+    <link rel="stylesheet" href="leaderboard-club-search.css">
+
+    <firebase-element id="clubListFireBase"
+                      location="{{'https://incandescent-heat-3687.firebaseio.com/search'}}">
+    </firebase-element>
+
+    <section class="club-search-section" layout vertical>
+
+      <paper-input label="Search for golf club..." floatinglabel value="{{searchTerm}}"
+                   type="text" class="club-search" layout vertical required>
+      </paper-input>
+      <div>{{resultsData}}</div>
+
+      <core-list id="resultsList" class='results-list' data="{{resultsData}}" flex>
+        <template>
+          <div class="row {{ {selected: selected} | tokenList }}">
+            List row: {{index}}, User data from model: {{model._source.name}}
+          </div>
+        </template>
+      </core-list>
+
+    </section>
+
+  </template>
+  <script>
+    (function () {
+
+      Polymer({
+
+        // Value of search user input
+        searchTerm: '',
+
+        // ToDo - add wholeWords search functionality
+        wholeWords: false,
+        index: 'firebase',
+        type: 'club',
+
+        resultsData: null,
+
+        // Invoked from parent leaderboard-tournament-manager element
+        searchClubs: function() {
+          this.doSearch(this.index, this.type, this.buildSearchQuery(this.searchTerm, this.wholeWords));
+        },
+
+        // Parameters
+        // index - required parameter for elastic search
+        // type -  required parameter for elastic search
+        // query - object includes search term and options such as whole word option
+        doSearch: function(index, type, query) {
+
+          var fireBaseSearch = this.$.clubListFireBase.ref;
+          var searchKey = fireBaseSearch.child('clublist-request').push({
+            index: index,
+            type: type,
+            query: query
+          }).name();
+
+          fireBaseSearch.child('clublist-response/' + searchKey).on('value', this.showResults, this);
+        },
+
+        showResults: function(snap) {
+
+          // wait until we get data
+          if (snap.val() === null) {
+            return;
+          }
+
+          this.resultsData = snap.val().hits;
+          snap.ref().off('value', this.showResults, this);
+          snap.ref().remove();
+        },
+
+        buildSearchQuery: function(term, wholeWords) {
+          // See this tut for more query options:
+          // http://okfnlabs.org/blog/2013/07/01/elasticsearch-query-tutorial.html#match-all--find-everything
+          return {
+            'query_string': { query: this.makeTerm(term, wholeWords) }
+          };
+        },
+
+        makeTerm: function(term, matchWholeWords) {
+          if( !matchWholeWords ) {
+            if( !term.match(/^\*/) ) { term = '*'+term; }
+            if( !term.match(/\*$/) ) { term += '*'; }
+          }
+          return term;
+        }
+      });
+
+    })();
+  </script>
+</polymer-element>
