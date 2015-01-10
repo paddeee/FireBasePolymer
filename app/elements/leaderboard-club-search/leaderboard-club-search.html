@@ -10,15 +10,21 @@
 
     <section class="club-search-section" layout vertical>
 
-      <paper-input label="Search for golf club..." floatinglabel value="{{searchTerm}}"
+      <paper-input label="Search for golf club... (min 3 characters)" floatinglabel value="{{searchTerm}}"
                    type="text" class="club-search" layout vertical required>
       </paper-input>
-      <div>{{resultsData}}</div>
 
       <core-list id="resultsList" class='results-list' data="{{resultsData}}" flex>
         <template>
           <div class="row {{ {selected: selected} | tokenList }}">
-            List row: {{index}}, User data from model: {{model._source.name}}
+            <google-map latitude={{model._source.latitude}}
+                        longitude={{model._source.longitude}}
+                        zoom="11"git add
+                        showcentermarker
+                        disabledefaultui id="google_map">
+            </google-map>
+
+            {{model._source.name}}
           </div>
         </template>
       </core-list>
