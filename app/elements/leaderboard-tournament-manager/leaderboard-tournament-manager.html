@@ -52,11 +52,17 @@
             </leaderboard-tournament-details>
 
             <leaderboard-club-search id="clubSearch"
-                                     userDetails="{{userDetails}}"
                                      name="clubSearch"
                                      chosenClub="{{chosenClub}}"
                                      searchTerm="{{searchTerm}}">
             </leaderboard-club-search>
+
+            <leaderboard-choose-course id="chooseCourse"
+                                       name="chooseCourse"
+                                       userDetails="{{userDetails}}"
+                                       chosenClub="{{chosenClub}}"
+                                       hostedTournamentToUpdate="{[hostedTournamentToUpdate}}">
+            </leaderboard-choose-course>
 
           </core-animated-pages>
 
@@ -120,6 +126,10 @@
           'clubSearch': {
             'backNavigation': 'tournamentDetails',
             'title': 'Find Golf Club'
+          },
+          'chooseCourse': {
+            'backNavigation': 'clubSearch',
+            'title': 'Choose Course'
           }
         },
 
@@ -136,7 +146,6 @@
 
         // Handler for back button in toolbar
         backNavigation: function() {
-
           if (this.selected === 'manageTournaments') {
             this.parentElement.selected = this.sectionData[this.selected].backNavigation;
           } else {
@@ -146,15 +155,23 @@
 
         // Handler for Fab button on details page
         detailsButtonHandler: function() {
-
           if (this.newTournament) {
             this.selected = 'clubSearch';
+            history.pushState(null, null, '#tournament-manager');
           }
         },
 
         // Handler for Fab button on search page
         clubSearchButtonHandler: function() {
           this.$.clubSearch.searchClubs();
+        },
+
+        // Called when a user selects a result from the Club search
+        chosenClubChanged: function() {
+          if (this.chosenClub) {
+            this.selected = 'chooseCourse';
+            history.pushState(null, null, '#tournament-manager');
+          }
         }
       });
 

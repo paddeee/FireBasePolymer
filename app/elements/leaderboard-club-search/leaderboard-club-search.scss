@@ -40,6 +40,10 @@ paper-progress::shadow #progressContainer {
   position:relative;
 }
 
+.results-list__row.selected {
+  background-color: rgba(238, 255, 65, 0.01);;
+}
+
 .results-title {
   color: $darkBgColour;
   padding: 0 16px 8px;

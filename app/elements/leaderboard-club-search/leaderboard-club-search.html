@@ -18,11 +18,13 @@
 
       <div class="results-title" hidden?="{{!resultsReturned}}">Search results</div>
 
+      <!-- ToDo - doing a dodgy search shows message. Any keypresses in input field then just update below message.
+      Should set to hidden on next keypress -->
       <div class="results-empty" hidden?="{{!resultsReturned || resultsData.length > 0}}">
         Your search - {{searchTerm}} - did not match any golf clubs.
       </div>
 
-      <core-list id="resultsList" class='results-list' data="{{resultsData}}" flex>
+      <core-list id="resultsList" class='results-list' data="{{resultsData}}" on-core-activate="{{clubSelected}}" flex>
         <template>
           <div class="results-list__row {{ {selected: selected} | tokenList }}">
             <div class="results-list__item">
@@ -61,6 +63,8 @@
         resultsReturned: false,
 
         searching: false,
+
+        chosenClub: '',
 
         // Invoked from parent leaderboard-tournament-manager element
         searchClubs: function() {
@@ -114,6 +118,10 @@
             if( !term.match(/\*$/) ) { term += '*'; }
           }
           return term;
+        },
+
+        clubSelected: function(clubObject) {
+          this.chosenClub = clubObject.detail.data._id;
         }
       });
 
