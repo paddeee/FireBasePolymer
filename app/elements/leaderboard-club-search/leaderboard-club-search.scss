@@ -18,12 +18,25 @@ $neutralBackgroundColour: #EEE;
   width: auto;
 }
 
+paper-progress {
+  position: absolute;
+  width: 100%;
+}
+
+paper-progress::shadow #activeProgress {
+  background-color: $primaryAccentColour;
+}
+
+paper-progress::shadow #progressContainer {
+  background-color: rgba(0,0,0,0.12);
+}
+
 .club-search-section {
   height:100%;
 }
 
 .club-search {
-  padding: 40px 16px 20px;
+  padding: 0 16px;
   position:relative;
 }
 
@@ -42,7 +55,7 @@ $neutralBackgroundColour: #EEE;
 }
 
 .divider {
-  background-color: rgba(0,0,0,0.12);
+  background-color: rgba(0,0,0,0.3);
   height: 1px;
 }
 

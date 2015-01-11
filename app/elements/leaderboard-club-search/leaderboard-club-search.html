@@ -10,6 +10,8 @@
 
     <section class="club-search-section" layout vertical>
 
+      <paper-progress class="search-progress" hidden?="{{!searching}}" indeterminate></paper-progress>
+
       <paper-input label="Search for golf club... (min 3 characters)" floatinglabel value="{{searchTerm}}"
                    type="text" class="club-search" layout vertical required>
       </paper-input>
@@ -58,6 +60,8 @@
 
         resultsReturned: false,
 
+        searching: false,
+
         // Invoked from parent leaderboard-tournament-manager element
         searchClubs: function() {
           this.doSearch(this.index, this.type, this.buildSearchQuery(this.searchTerm, this.wholeWords));
@@ -76,6 +80,8 @@
             query: query
           }).name();
 
+          this.searching = true;
+
           fireBaseSearch.child('clublist-response/' + searchKey).on('value', this.showResults, this);
         },
 
@@ -88,6 +94,8 @@
 
           this.resultsData = snap.val().hits;
           this.resultsReturned = true;
+          this.searching = false;
+
           snap.ref().off('value', this.showResults, this);
           snap.ref().remove();
         },
