@@ -81,6 +81,10 @@
           var searchKey = fireBaseSearch.child('clublist-request').push({
             index: index,
             type: type,
+            options: {
+              from: 0,
+              size: 100
+            },
             query: query
           }).name();
 
