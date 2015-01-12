@@ -1,0 +1,34 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<polymer-element name="leaderboard-choose-course" attributes="hostedTournamentToUpdate chosenClub">
+  <template>
+    <link rel="stylesheet" href="leaderboard-choose-course.css">
+
+    <firebase-element id="chooseCourseFireBase"
+                      data="{{clubData}}">
+    </firebase-element>
+
+    <div>{{clubData.name}}</div>
+    <div>{{clubData.address.street}}</div>
+    <div>{{clubData.address.city}}</div>
+    <div>{{clubData.address.country}}</div>
+
+  </template>
+  <script>
+    (function () {
+
+      Polymer({
+
+        clubData: null,
+
+        chosenClubChanged: function() {
+
+          if (this.chosenClub) {
+            this.$.chooseCourseFireBase.location = 'https://incandescent-heat-3687.firebaseio.com/clubdetails/' + this.chosenClub;
+          }
+        }
+      });
+
+    })();
+  </script>
+</polymer-element>
