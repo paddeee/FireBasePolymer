@@ -91,6 +91,12 @@
                            hero-id="tournament-back-button"
                            hero>
         </paper-icon-button>
+
+        <paper-icon-button class="home-button"
+                           icon="home"
+                           on-tap="{{homeNavigation}}"
+                           cross-fade>
+        </paper-icon-button>
       </div>
 
     </div>
@@ -147,10 +153,15 @@
         // Handler for back button in toolbar
         backNavigation: function() {
           if (this.selected === 'manageTournaments') {
-            this.parentElement.selected = this.sectionData[this.selected].backNavigation;
+            this.homeNavigation();
           } else {
             this.selected = this.sectionData[this.selected].backNavigation;
           }
+        },
+
+        // Handler for home button in toolbar
+        homeNavigation: function() {
+          this.parentElement.selected = 'menu';
         },
 
         // Handler for Fab button on details page

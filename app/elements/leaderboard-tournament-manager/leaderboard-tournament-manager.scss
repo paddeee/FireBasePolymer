@@ -37,6 +37,14 @@ $primary-accent-colour: #eeff41;
   z-index: 10000;
 }
 
+.home-button {
+  color: $primary-text-colour--light;
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 10000;
+}
+
 .wide > .back-button {
   color: $primary-text-colour--dark;
   top: 12px;
@@ -60,7 +68,7 @@ $primary-accent-colour: #eeff41;
   font-size: 16px;
   line-height: 26px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.15);
-  background-color: $primary-bg-colour--dark;
+  background-color: $primary-bg-colour;
   color: $primary-text-colour--light;
 }
 
