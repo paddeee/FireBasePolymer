@@ -13,14 +13,13 @@
       <paper-progress class="search-progress" hidden?="{{!searching}}" indeterminate></paper-progress>
 
       <paper-input label="Search for golf club... (min 3 characters)" floatinglabel value="{{searchTerm}}"
-                   type="text" class="club-search" layout vertical required>
+                   type="text" class="club-search" layout vertical required
+                   on-keydown="{{hideResults}}">
       </paper-input>
 
-      <div class="results-title" hidden?="{{!resultsReturned}}">Search results</div>
+      <div class="results-title" hidden?="{{!resultsData || resultsData.length < 1}}">Search results</div>
 
-      <!-- ToDo - doing a dodgy search shows message. Any keypresses in input field then just update below message.
-      Should set to hidden on next keypress -->
-      <div class="results-empty" hidden?="{{!resultsReturned || resultsData.length > 0}}">
+      <div class="results-empty" hidden?="{{!noResults || resultsData.length > 0}}">
         Your search - {{searchTerm}} - did not match any golf clubs.
       </div>
 
@@ -60,9 +59,9 @@
 
         resultsData: [],
 
-        resultsReturned: false,
-
         searching: false,
+
+        noResults: false,
 
         chosenClub: '',
 
@@ -101,7 +100,7 @@
           }
 
           this.resultsData = snap.val().hits;
-          this.resultsReturned = true;
+          this.noResults = true;
           this.searching = false;
 
           snap.ref().off('value', this.showResults, this);
@@ -122,6 +121,12 @@
             if( !term.match(/\*$/) ) { term += '*'; }
           }
           return term;
+        },
+
+        // Clear out results
+        hideResults: function() {
+          this.noResults = false;
+          console.log(this.noResults);
         },
 
         clubSelected: function(clubObject) {
