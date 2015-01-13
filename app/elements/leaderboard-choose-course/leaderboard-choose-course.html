@@ -5,13 +5,38 @@
     <link rel="stylesheet" href="leaderboard-choose-course.css">
 
     <firebase-element id="chooseCourseFireBase"
+                      dataReady="{{clubDataReady}}"
                       data="{{clubData}}">
     </firebase-element>
 
-    <div>{{clubData.name}}</div>
-    <div>{{clubData.address.street}}</div>
-    <div>{{clubData.address.city}}</div>
-    <div>{{clubData.address.country}}</div>
+    <!-- ToDo - Link through to Submit course info section -->
+    <div class="results-empty" hidden?="{{clubData !== null}}">
+      There is currently no course data for this course.
+    </div>
+
+    <div class="club-info" hidden?="{{clubData == null}}">
+      <div>{{clubData.name}}</div>
+      <div class="club-address">
+        <div>{{clubData.address.street}}</div>
+        <div>{{clubData.address.city}}, {{clubData.address.country}}</div>
+      </div>
+    </div>
+
+    <template repeat="{{clubData.courses}}">
+      <div class="course-info" horizontal center layout>
+        <div class="course-name" hidden?="{{!name}}">{{name}} - </div>
+        <div class="course-holes">{{length}} hole</div>
+        </div>
+      <div class="divider">
+
+      <ul class="course-teeboxes">
+        <template repeat="{{tees}}">
+            <li class="teebox">{{designation}} Tees</li>
+            <div class="divider">
+            </div>
+        </template>
+      </ul>
+    </template>
 
   </template>
   <script>
@@ -25,8 +50,11 @@
 
           if (this.chosenClub) {
             this.$.chooseCourseFireBase.location = 'https://incandescent-heat-3687.firebaseio.com/clubdetails/' + this.chosenClub;
-            console.log(this.$.chooseCourseFireBase.location);
           }
+        },
+
+        clubDataChanged: function() {
+          console.log(this.clubData);
         }
       });
 

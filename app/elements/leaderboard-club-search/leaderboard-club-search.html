@@ -129,6 +129,8 @@
           console.log(this.noResults);
         },
 
+        // ToDo - Hit search button after results come back. Selecting list item doesn't change clubid as it
+        // has already been set so chosenClub changed doesn't permeate up. Need to fix
         clubSelected: function(clubObject) {
           this.chosenClub = clubObject.detail.data._id;
         }
