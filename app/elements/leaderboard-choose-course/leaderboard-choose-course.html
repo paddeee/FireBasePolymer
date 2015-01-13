@@ -11,14 +11,14 @@
 
     <section class="choose-course-section" layout vertical>
 
-      <paper-progress class="club-details-progress" hidden?="{{clubData}}" indeterminate></paper-progress>
+      <paper-progress class="club-details-progress" hidden?="{{parsedClubData}}" indeterminate></paper-progress>
 
       <!-- ToDo - Link through to Submit course info section -->
-      <div class="results-empty" hidden?="{{clubData !== null}}">
+      <div class="results-empty" hidden?="{{parsedClubData !== null}}">
         There is currently no course data for this course.
       </div>
 
-      <div class="club-info" hidden?="{{clubData == null}}">
+      <div class="club-info" hidden?="{{parsedClubData == null}}">
         <div>{{clubData.name}}</div>
         <div class="club-address">
           <div>{{clubData.address.street}}</div>
@@ -26,20 +26,25 @@
         </div>
       </div>
 
-        <template repeat="{{clubData.courses}}">
-          <paper-shadow z="1" class="card">
-          <div class="course-info" horizontal center layout>
-            <div class="course-name" hidden?="{{!name}}">{{name}} - </div>
-            <div class="course-holes">{{length}} hole</div>
-          </div>
-          <div class="divider"></div>
-          <ul class="course-teeboxes">
-            <template repeat="{{teeboxes}}">
-                <li class="teebox">{{designation}} Tees</li>
-            </template>
-          </ul>
-          </paper-shadow>
-        </template>
+      <template repeat="{{parsedClubData.courses}}">
+        <paper-shadow z="1" class="card">
+        <div class="course-info" horizontal center layout>
+          <div class="course-name" hidden?="{{!name}}">{{name}} - </div>
+          <div class="course-holes">{{length}} hole course</div>
+        </div>
+        <div class="divider"></div>
+
+        <paper-radio-group id="{{name + '_radio_group'}}" vertical layout>
+          <template repeat="{{teebox in teeboxes}}">
+            <paper-radio-button toggles
+                                name="{{teebox.index}}"
+                                label="{{teebox.name + ' tees (' + teebox.distance.courseLength + ' ' + teebox.distance.units+ ')'}}">
+            </paper-radio-button>
+          </template>
+        </paper-radio-group>
+        </paper-shadow>
+
+      </template>
 
     </section>
 
@@ -49,6 +54,8 @@
 
       Polymer({
 
+        parsedClubData: null,
+
         chosenClubChanged: function() {
 
           if (this.chosenClub) {
@@ -56,9 +63,25 @@
           }
         },
 
+        // Parse club details to add a course length property to display to user
         clubDataChanged: function() {
-          console.log(this.clubData);
+
+          var courses;
+          this.parsedClubData = Object.create(this.clubData);
+          courses = this.parsedClubData.courses;
+
+          for (var i = 0; i < courses.length; i++) {
+
+            for (var j = 0; j < courses[i].teeboxes.length; j++) {
+              var courseLength = courses[i].teeboxes[j].distance.length.reduce(function(previousValue, currentValue) {
+                return parseFloat(previousValue, 10) + parseFloat(currentValue, 10);
+              });
+
+              courses[i].teeboxes[j].distance.courseLength = courseLength;
+            }
+          }
         }
+
       });
 
     })();

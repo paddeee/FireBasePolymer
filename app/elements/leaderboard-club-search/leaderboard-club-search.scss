@@ -23,14 +23,6 @@ paper-progress {
   width: 100%;
 }
 
-paper-progress::shadow #activeProgress {
-  background-color: $primaryAccentColour;
-}
-
-paper-progress::shadow #progressContainer {
-  background-color: rgba(0,0,0,0.12);
-}
-
 .club-search-section {
   height:100%;
 }
@@ -45,7 +37,7 @@ paper-progress::shadow #progressContainer {
 }
 
 .results-list__row.selected {
-  background-color: rgba(238, 255, 65, 0.01);;
+  background-color: rgba(238, 255, 65, 0.02);
 }
 
 .results-title {
