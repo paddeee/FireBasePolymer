@@ -32,12 +32,10 @@
             <div class="course-name" hidden?="{{!name}}">{{name}} - </div>
             <div class="course-holes">{{length}} hole</div>
           </div>
-          <div class="divider"/>
+          <div class="divider"></div>
           <ul class="course-teeboxes">
-            <template repeat="{{tees}}">
+            <template repeat="{{teeboxes}}">
                 <li class="teebox">{{designation}} Tees</li>
-                <div class="divider">
-                </div>
             </template>
           </ul>
           </paper-shadow>
