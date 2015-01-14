@@ -56,6 +56,7 @@
 
         parsedClubData: null,
 
+        // If chosen club is set, get the details and then reset the chosen club
         chosenClubChanged: function() {
 
           if (this.chosenClub) {
@@ -64,6 +65,7 @@
           }
         },
 
+        // Called when the data comes in from FireBase
         clubDataChanged: function() {
 
           this.parsedClubData = Object.create(this.clubData);
@@ -76,17 +78,22 @@
         // Parse club details to add a course length property to display to user
         // courses - Array
         calculateCourseLength: function(courses) {
+          courses.forEach(this.iterateCourses.bind(this));
+        },
 
-          for (var i = 0; i < courses.length; i++) {
+        // Iterate through each course
+        iterateCourses: function(course) {
+          course.teeboxes.forEach(this.iterateTeeBoxes.bind(this));
+        },
 
-            for (var j = 0; j < courses[i].teeboxes.length; j++) {
-              var courseLength = courses[i].teeboxes[j].distance.length.reduce(function(previousValue, currentValue) {
-                return parseFloat(previousValue, 10) + parseFloat(currentValue, 10);
-              });
+        // Iterate through each teebox of a course
+        iterateTeeBoxes: function(teebox, index, array) {
 
-              courses[i].teeboxes[j].distance.courseLength = courseLength;
-            }
-          }
+          var courseLength = teebox.distance.length.reduce(function(previousValue, currentValue) {
+            return parseFloat(previousValue, 10) + parseFloat(currentValue, 10);
+          });
+
+          teebox.distance.courseLength = courseLength;
         }
 
       });
