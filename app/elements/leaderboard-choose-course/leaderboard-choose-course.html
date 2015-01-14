@@ -9,7 +9,7 @@
                       data="{{clubData}}">
     </firebase-element>
 
-    <section class="choose-course-section" layout vertical>
+    <section id="chooseCourseSection" class="choose-course-section" layout vertical>
 
       <paper-progress class="club-details-progress" hidden?="{{parsedClubData}}" indeterminate></paper-progress>
 
@@ -28,22 +28,22 @@
 
       <template repeat="{{parsedClubData.courses}}">
         <paper-shadow z="1" class="card">
-        <div class="course-info" vertical layout>
-          <div class="course-name" hidden?="{{!name}}">{{name}} - </div>
-          <div class="course-holes">{{length}} hole course</div>
-        </div>
-        <div class="divider"></div>
+          <div class="course-info" vertical layout>
+            <div class="course-name" hidden?="{{!name}}">{{name}} - </div>
+            <div class="course-holes">{{length}} hole course</div>
+          </div>
+          <div class="divider"></div>
 
-        <paper-radio-group id="{{name + '_radio_group'}}" vertical layout>
-          <template repeat="{{teebox in teeboxes}}">
-            <paper-radio-button toggles
-                                name="{{teebox.index}}"
-                                label="{{teebox.name + ' tees (' + teebox.distance.courseLength + ' ' + teebox.distance.units+ ')'}}">
-            </paper-radio-button>
-          </template>
-        </paper-radio-group>
-        </paper-shadow>
-
+          <paper-radio-group id="{{name + '_radio_group'}}" vertical layout>
+            <template repeat="{{teebox in teeboxes}}">
+              <paper-radio-button toggles
+                                  name="{{teebox.index}}"
+                                  label="{{teebox.name + ' tees (' + teebox.distance.courseLength + ' ' + teebox.distance.units+ ')'}}"
+                                  on-core-change="{{radioChanged}}">
+              </paper-radio-button>
+            </template>
+          </paper-radio-group>
+          </paper-shadow>
       </template>
 
     </section>
@@ -87,13 +87,30 @@
         },
 
         // Iterate through each teebox of a course
-        iterateTeeBoxes: function(teebox, index, array) {
+        iterateTeeBoxes: function(teebox) {
 
           var courseLength = teebox.distance.length.reduce(function(previousValue, currentValue) {
             return parseFloat(previousValue, 10) + parseFloat(currentValue, 10);
           });
 
           teebox.distance.courseLength = courseLength;
+        },
+
+        // When a radio input is selected find all other paper-input-groups
+        radioChanged: function(event, detail, sender) {
+
+          var radioGroups = this.$.chooseCourseSection.querySelectorAll("paper-radio-group");
+
+          if (sender.checked) {
+
+            // querySelectorAll doesn't return an actual array so use call to get around this
+            [].forEach.call(radioGroups, this.unCheckRadioInputs);
+          }
+        },
+
+        // Un-Check all paper-input children of a paper-input-group
+        unCheckRadioInputs: function(radioGroup, index, array) {
+          console.log(radioGroup.querySelectorAll("paper-radio-button"));
         }
 
       });
