@@ -52,9 +52,11 @@
         // Value of search user input
         searchTerm: '',
 
-        // ToDo - add wholeWords search functionality
+        // ToDo - add Advanced search functionality
         wholeWords: false,
+
         index: 'firebase',
+
         type: 'club',
 
         resultsData: [],
@@ -126,13 +128,20 @@
         // Clear out results
         hideResults: function() {
           this.noResults = false;
-          console.log(this.noResults);
         },
 
-        // ToDo - Hit search button after results come back. Selecting list item doesn't change clubid as it
-        // has already been set so chosenClub changed doesn't permeate up. Need to fix
+        // Triggered when a core-list item is changed
         clubSelected: function(clubObject) {
           this.chosenClub = clubObject.detail.data._id;
+        },
+
+        // Listens for a change to the chosen club. If this is set to null we can set the core-list
+        // selection property to null which will mean the user can select the same club again to take
+        // them through to the course search page
+        chosenClubChanged: function() {
+          if (!this.chosenClub) {
+            this.$.resultsList.selection = null;
+          }
         }
       });
 

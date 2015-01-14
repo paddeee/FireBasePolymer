@@ -1,6 +1,6 @@
 /* Vars */
 $primaryBgColour: #009688;
-$lightBgColour: #b2dfdb;
+$lightBgColour: #E0F2F1;
 $darkBgColour: #00796b;
 $primaryAccentColour: #eeff41;
 $primaryTextColour: #FFF;
@@ -9,6 +9,7 @@ $darkTextColour: #000;
 $neutralBackgroundColour: #EEE;
 
 :host {
+  background-color: rgb(238, 238, 238);
   display: block;
 }
 
@@ -17,7 +18,12 @@ paper-progress {
   width: 100%;
 }
 
+paper-radio-button {
+  font-size: 14px;
+}
+
 .results-empty {
+  display:none;
   padding: 40px 16px;
 }
 
@@ -37,6 +43,10 @@ paper-progress {
 
 .course-info {
   margin: 8px 0px 10px;
+}
+
+.course-holes {
+  font-size: 14px;
 }
 
 .card {

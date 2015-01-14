@@ -14,7 +14,7 @@
       <paper-progress class="club-details-progress" hidden?="{{parsedClubData}}" indeterminate></paper-progress>
 
       <!-- ToDo - Link through to Submit course info section -->
-      <div class="results-empty" hidden?="{{parsedClubData !== null}}">
+      <div class="results-empty" showing?="{{parsedClubData == null}}">
         There is currently no course data for this course.
       </div>
 
@@ -28,7 +28,7 @@
 
       <template repeat="{{parsedClubData.courses}}">
         <paper-shadow z="1" class="card">
-        <div class="course-info" horizontal center layout>
+        <div class="course-info" vertical layout>
           <div class="course-name" hidden?="{{!name}}">{{name}} - </div>
           <div class="course-holes">{{length}} hole course</div>
         </div>
@@ -60,15 +60,22 @@
 
           if (this.chosenClub) {
             this.$.chooseCourseFireBase.location = 'https://incandescent-heat-3687.firebaseio.com/clubdetails/' + this.chosenClub;
+            this.chosenClub = null;
+          }
+        },
+
+        clubDataChanged: function() {
+
+          this.parsedClubData = Object.create(this.clubData);
+
+          if (this.parsedClubData.courses) {
+            this.calculateCourseLength(this.parsedClubData.courses);
           }
         },
 
         // Parse club details to add a course length property to display to user
-        clubDataChanged: function() {
-
-          var courses;
-          this.parsedClubData = Object.create(this.clubData);
-          courses = this.parsedClubData.courses;
+        // courses - Array
+        calculateCourseLength: function(courses) {
 
           for (var i = 0; i < courses.length; i++) {
 
