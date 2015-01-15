@@ -34,7 +34,7 @@
           </div>
           <div class="divider"></div>
 
-          <paper-radio-group id="{{name + '_radio_group'}}" vertical layout>
+          <paper-radio-group id="{{name}}" vertical layout>
             <template repeat="{{teebox in teeboxes}}">
               <paper-radio-button toggles
                                   name="{{teebox.index}}"
@@ -55,6 +55,9 @@
       Polymer({
 
         parsedClubData: null,
+
+        // Used to store reference to the paper-radio-group which is a parent of the button just selected
+        selectedRadioGroupId: '',
 
         // If chosen club is set, get the details and then reset the chosen club
         chosenClubChanged: function() {
@@ -103,14 +106,24 @@
 
           if (sender.checked) {
 
+            // Storing reference here as can't figure out how to pass sender as argument to the forEach callback
+            this.selectedRadioGroupId = sender.parentNode.id;
+
             // querySelectorAll doesn't return an actual array so use call to get around this
-            [].forEach.call(radioGroups, this.unCheckRadioInputs);
+            [].forEach.call(radioGroups, this.unCheckRadioInputs, this);
           }
         },
 
-        // Un-Check all paper-input children of a paper-input-group
+        // Un-Check all paper-input children of a paper-input-group that isn't
         unCheckRadioInputs: function(radioGroup, index, array) {
-          console.log(radioGroup.querySelectorAll("paper-radio-button"));
+
+          var radioButton = radioGroup.querySelectorAll("paper-radio-button");
+          if (this.selectedRadioGroupId !== radioGroup.id) {
+
+            [].forEach.call(radioGroup, function (radioButton) {
+              console.log(radioButton);
+            });
+          }
         }
 
       });
