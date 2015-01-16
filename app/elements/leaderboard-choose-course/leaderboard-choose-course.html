@@ -52,8 +52,7 @@
           </paper-radio-group>
           <div class="divider"></div>
 
-          <paper-input label="Select date for this round..." type="text" on-tap="{{selectDate}}">
-          </paper-input>
+          <div class="date-picker-launcher" on-tap="{{selectDate}}">Select date for this round...</div>
           </paper-shadow>
       </template>
 
@@ -159,7 +158,7 @@
           var formattedDate = datePicker.monthShortName + ' ' + datePicker.dayOfMonth + ' ' + datePicker.formattedYear;
 
           if (this.selectedDateField) {
-            this.selectedDateField.value = formattedDate;
+            this.selectedDateField.text = formattedDate;
           }
         }
 
