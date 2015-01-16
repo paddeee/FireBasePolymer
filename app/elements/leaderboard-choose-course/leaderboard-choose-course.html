@@ -26,10 +26,17 @@
         </div>
       </div>
 
+      <paper-date-picker-dialog id="datePicker"
+                                date="{{dateOfRound}}"
+                                immediateDate="{{dateOfRound}}"
+                                min="today"
+                                infiniteScrolling="true">
+      </paper-date-picker-dialog>
+
       <template repeat="{{parsedClubData.courses}}">
         <paper-shadow z="1" class="card">
           <div class="course-info" vertical layout>
-            <div class="course-name" hidden?="{{!name}}">{{name}} - </div>
+            <div class="course-name" hidden?="{{!name}}">{{name}}</div>
             <div class="course-holes">{{length}} hole course</div>
           </div>
           <div class="divider"></div>
@@ -43,6 +50,10 @@
               </paper-radio-button>
             </template>
           </paper-radio-group>
+          <div class="divider"></div>
+
+          <paper-input label="Select date for this round..." type="text" on-tap="{{selectDate}}">
+          </paper-input>
           </paper-shadow>
       </template>
 
@@ -58,6 +69,11 @@
 
         // Used to store reference to the paper-radio-group which is a parent of the button just selected
         selectedRadioGroupId: '',
+
+        dateOfRound: new Date(),
+
+        // Used to store reference to date input being used by user to launch date-picker so we can populate with value
+        selectedDateField: null,
 
         // If chosen club is set, get the details and then reset the chosen club
         chosenClubChanged: function() {
@@ -118,11 +134,31 @@
         unCheckRadioInputs: function(radioGroup, index, array) {
 
           var radioButton = radioGroup.querySelectorAll("paper-radio-button");
+
           if (this.selectedRadioGroupId !== radioGroup.id) {
 
-            [].forEach.call(radioGroup, function (radioButton) {
-              console.log(radioButton);
+            [].forEach.call(radioButton, function (radioButton) {
+              radioButton.checked = false;
             });
+          }
+          console.log(this.hostedTournamentToUpdate);
+        },
+
+        // Open date selector
+        selectDate: function(event, detail, sender) {
+
+          this.selectedDateField = sender;
+
+          this.$.datePicker.open();
+        },
+
+        dateOfRoundChanged: function() {
+
+          var datePicker = this.$.datePicker;
+          var formattedDate = datePicker.monthShortName + ' ' + datePicker.dayOfMonth + ' ' + datePicker.formattedYear;
+
+          if (this.selectedDateField) {
+            this.selectedDateField.value = formattedDate;
           }
         }
 

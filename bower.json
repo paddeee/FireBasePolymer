@@ -12,6 +12,27 @@
     "polymer-test-tools": "Polymer/polymer-test-tools#^0.5.1"
   },
   "resolutions": {
-    "polymer": "^0.5.1"
+    "polymer": "^0.5.1",
+    "core-component-page": "^0.5.0",
+    "webcomponentsjs": "^0.5.0",
+    "core-animated-pages": "^0.5.0",
+    "core-resizable": "^0.5.0",
+    "core-a11y-keys": "^0.5.0",
+    "core-focusable": "^0.5.0",
+    "core-icon": "^0.5.0",
+    "core-iconset": "^0.5.0",
+    "core-icons": "^0.5.0",
+    "core-iconset-svg": "^0.5.0",
+    "core-meta": "^0.5.0",
+    "core-overlay": "^0.5.0",
+    "core-selection": "^0.5.0",
+    "core-selector": "^0.5.0",
+    "core-style": "^0.5.0",
+    "paper-button": "^0.5.0",
+    "paper-ripple": "^0.5.0",
+    "font-roboto": "^0.5.0",
+    "paper-shadow": "^0.5.0",
+    "core-transition": "^0.5.0",
+    "paper-dialog": "^0.5.0"
   }
 }

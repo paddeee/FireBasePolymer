@@ -139,6 +139,11 @@
           }
         },
 
+        hostedTournamentToUpdateChanged: function() {
+
+          console.log(this.hostedTournamentToUpdate);
+        },
+
         // When hostedTournamentsFireBase data is ready
         getHostedTournaments: function() {
           console.log(this.hostedTournaments);
@@ -166,6 +171,7 @@
 
         // Handler for Fab button on details page
         detailsButtonHandler: function() {
+          console.log(this.hostedTournamentToUpdate);
           if (this.newTournament) {
             this.selected = 'clubSearch';
             history.pushState(null, null, '#tournament-manager');
