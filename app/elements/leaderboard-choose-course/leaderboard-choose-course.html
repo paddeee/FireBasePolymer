@@ -27,7 +27,7 @@
       </div>
 
       <paper-date-picker-dialog id="datePicker"
-                                date="{{dateOfRound}}"
+                                date="{{immediateDate}}"
                                 immediateDate="{{dateOfRound}}"
                                 min="today"
                                 infiniteScrolling="true">
@@ -127,6 +127,8 @@
 
             // querySelectorAll doesn't return an actual array so use call to get around this
             [].forEach.call(radioGroups, this.unCheckRadioInputs, this);
+
+            console.log(this.hostedTournamentToUpdate);
           }
         },
 
@@ -141,7 +143,6 @@
               radioButton.checked = false;
             });
           }
-          console.log(this.hostedTournamentToUpdate);
         },
 
         // Open date selector
