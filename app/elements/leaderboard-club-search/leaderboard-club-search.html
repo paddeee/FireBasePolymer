@@ -5,7 +5,8 @@
     <link rel="stylesheet" href="leaderboard-club-search.css">
 
     <firebase-element id="clubListFireBase"
-                      location="{{'https://incandescent-heat-3687.firebaseio.com/search'}}">
+                      location="{{'https://incandescent-heat-3687.firebaseio.com/search'}}"
+                      on-error="{{handleFirebaseError}}">
     </firebase-element>
 
     <section class="club-search-section" layout vertical>
