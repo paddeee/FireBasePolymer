@@ -4,6 +4,7 @@ $primary-bg-colour--light: #b2dfdb;
 $primary-bg-colour--dark: #00796b;
 $primary-text-colour--light: #FFF;
 $primary-text-colour--dark: #000;
+$neutralBackgroundColour: #EEE;
 
 $primary-accent-colour: #eeff41;
 
@@ -13,7 +14,7 @@ $primary-accent-colour: #eeff41;
 }
 
 .wide > .background-fade--themed {
-  background-color: $primary-bg-colour--light;
+  background-color: $neutralBackgroundColour;
 }
 
 .section-panel {

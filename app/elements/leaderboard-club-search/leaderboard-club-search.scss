@@ -18,13 +18,15 @@ $neutralBackgroundColour: #EEE;
   width: auto;
 }
 
+section {
+  background-color: $primaryTextColour;
+  height: 100%;
+  position:relative;
+}
+
 paper-progress {
   position: absolute;
   width: 100%;
-}
-
-.club-search-section {
-  height:100%;
 }
 
 .club-search {

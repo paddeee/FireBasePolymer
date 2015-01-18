@@ -13,6 +13,10 @@ $neutralBackgroundColour: #EEE;
   display: block;
 }
 
+.wide :host {
+  background-color: $primaryTextColour;
+}
+
 paper-progress {
   position: absolute;
   width: 100%;
@@ -50,7 +54,7 @@ paper-radio-button {
 }
 
 .card {
-  margin: 8px 16px;
+  margin: 8px 16px 16px;
   background-color: $primaryTextColour;
   border-radius: 2px;
   color: $darkTextColour;
@@ -61,7 +65,11 @@ paper-radio-button {
 }
 
 .choose-course-section {
-  margin: 0 0 16px;
+  position: relative;
+}
+
+.wide.choose-course-section {
+  background-color: $primaryTextColour;
 }
 
 .date-picker-launcher {

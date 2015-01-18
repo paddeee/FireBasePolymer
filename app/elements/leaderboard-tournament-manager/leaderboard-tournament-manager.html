@@ -13,13 +13,13 @@
     </firebase-element>
 
     <div id="sectionPanel" class="section-panel {{ {wide: wide} | tokenList }}"
-         flex vertical layout?="{{!wide}}">
+         flex vertical layout>
 
       <div class="background-fade  background-fade--themed"
            fit
            cross-fade></div>
 
-      <div class="card" flex?="{{!wide}}" vertical layout?="{{!wide}}" hero-p>
+      <div class="card" flex vertical layout hero-p>
 
         <core-toolbar class="menu-toolbar" hero-id="tournament-title" hero>
 
@@ -59,9 +59,11 @@
 
             <leaderboard-choose-course id="chooseCourse"
                                        name="chooseCourse"
+                                       showSaveTournamentButton="{{showSaveTournamentButton}}"
                                        userDetails="{{userDetails}}"
                                        hostedTournamentToUpdate="{{hostedTournamentToUpdate}}"
-                                       chosenClub="{{chosenClub}}">
+                                       chosenClub="{{chosenClub}}"
+                                       wide="{{wide}}">
             </leaderboard-choose-course>
 
           </core-animated-pages>
@@ -83,6 +85,12 @@
                    icon="search"
                    showing?="{{ selected === 'clubSearch' && searchTerm.length > 2 }}"
                    on-tap="{{ clubSearchButtonHandler }}">
+        </paper-fab>
+
+        <paper-fab id="SaveTournamentButton"
+                   icon="add"
+                   showing?="{{ selected === 'chooseCourse' && showSaveTournamentButton }}"
+                   on-tap="{{ saveTournamentButtonHandler }}">
         </paper-fab>
 
         <paper-icon-button class="back-button"
@@ -113,6 +121,8 @@
         showClubSearchButton: false,
 
         showSearchTermButton: false,
+
+        showSaveTournamentButton: false,
 
         newTournament: true,
 
@@ -171,11 +181,15 @@
 
         // Handler for Fab button on details page
         detailsButtonHandler: function() {
-          console.log(this.hostedTournamentToUpdate);
           if (this.newTournament) {
             this.selected = 'clubSearch';
             history.pushState(null, null, '#tournament-manager');
           }
+        },
+
+        // Handler for Fab button on courses page
+        saveTournamentButtonHandler: function() {
+          //this.$.clubSearch.searchClubs();
         },
 
         // Handler for Fab button on search page

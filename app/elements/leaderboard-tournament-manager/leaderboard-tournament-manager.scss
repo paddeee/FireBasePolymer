@@ -90,14 +90,9 @@ $primary-accent-colour: #eeff41;
 }
 
 .section-content {
-  background-color: #fff;
   overflow: auto;
   -webkit-overflow-scrolling: touch;
   position: relative;
-}
-
-.section-panel.wide .section-content {
-  overflow: inherit;
 }
 
 #sectionViews {

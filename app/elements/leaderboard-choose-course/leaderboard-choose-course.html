@@ -1,6 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 
-<polymer-element name="leaderboard-choose-course" attributes="hostedTournamentToUpdate chosenClub">
+<polymer-element name="leaderboard-choose-course"
+                 attributes="showSaveTournamentButton wide hostedTournamentToUpdate chosenClub">
   <template>
     <link rel="stylesheet" href="leaderboard-choose-course.css">
 
@@ -9,7 +10,7 @@
                       data="{{clubData}}">
     </firebase-element>
 
-    <section id="chooseCourseSection" class="choose-course-section" layout vertical>
+    <section id="chooseCourseSection" class="choose-course-section  {{ {wide: wide} | tokenList }}" layout vertical>
 
       <paper-progress class="club-details-progress" hidden?="{{parsedClubData}}" indeterminate></paper-progress>
 
@@ -63,6 +64,37 @@
     (function () {
 
       Polymer({
+
+        showSaveTournamentButton: false,
+
+        // Show/Hide Add Fab button
+        manageFabButton: function(courseElement) {
+
+          var dateDisplayText;
+          var radioButton;
+          var teeBoxSelected = false;
+
+          if (courseElement) {
+
+            dateDisplayText = courseElement.querySelectorAll(".date-picker-launcher")[0].textContent;
+            radioButton = courseElement.querySelectorAll("paper-radio-button");
+
+            [].forEach.call(radioButton, function (radioButton) {
+              if (radioButton.checked === true) {
+                teeBoxSelected = true;
+              }
+            });
+
+            if ((dateDisplayText !== this.datePlaceHolder) && teeBoxSelected) {
+              this.showSaveTournamentButton = true;
+            }
+          } else {
+            this.showSaveTournamentButton = false;
+          }
+
+        },
+
+        datePlaceHolder: 'Select date for this round...',
 
         parsedClubData: null,
 
@@ -118,8 +150,11 @@
         radioChanged: function(event, detail, sender) {
 
           var radioGroups = this.$.chooseCourseSection.querySelectorAll("paper-radio-group");
+          var courseElement;
 
           if (sender.checked) {
+
+            courseElement = sender.parentNode.parentNode;
 
             // Storing reference here as can't figure out how to pass sender as argument to the forEach callback
             this.selectedRadioGroupId = sender.parentNode.id;
@@ -127,7 +162,14 @@
             // querySelectorAll doesn't return an actual array so use call to get around this
             [].forEach.call(radioGroups, this.unCheckRadioInputs, this);
 
+            // Manage Fab button
+            this.manageFabButton(courseElement);
+
             console.log(this.hostedTournamentToUpdate);
+          } else {
+
+            // Manage Fab button
+            this.manageFabButton();
           }
         },
 
@@ -152,11 +194,23 @@
           this.$.datePicker.open();
         },
 
+        // When OK button of date picker is selected
         dateOfRoundChanged: function() {
+          this.displayDate();
+        },
+
+        displayDate: function() {
 
           var datePicker = this.$.datePicker;
-          var formattedDate = datePicker.monthShortName + ' ' + datePicker.dayOfMonth + ' ' + datePicker.formattedYear;
+          var formattedDate = datePicker.monthShortName + ' ' + datePicker.dayOfMonth + ', ' + datePicker.formattedYear;
+          var dateElements = this.$.chooseCourseSection.querySelectorAll(".date-picker-launcher");
 
+          // Clear all date display elements
+          [].forEach.call(dateElements, function(dateDisplayElement) {
+            dateDisplayElement.textContent = this.datePlaceHolder;
+          }, this);
+
+          // Set text of selected date display element to the selected date
           if (this.selectedDateField) {
             this.selectedDateField.textContent = formattedDate;
           }
