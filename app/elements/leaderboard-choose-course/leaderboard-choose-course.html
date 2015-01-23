@@ -67,33 +67,6 @@
 
         showSaveTournamentButton: false,
 
-        // Show/Hide Add Fab button
-        manageFabButton: function(courseCardElement) {
-
-          var dateDisplayText;
-          var radioButton;
-          var teeBoxSelected = false;
-
-          if (courseCardElement) {
-
-            dateDisplayText = courseCardElement.querySelectorAll(".date-picker-launcher")[0].textContent;
-            radioButton = courseCardElement.querySelectorAll("paper-radio-button");
-
-            [].forEach.call(radioButton, function (radioButton) {
-
-              if (radioButton.checked === true) {
-                teeBoxSelected = true;
-              }
-            });
-
-            if ((dateDisplayText !== this.datePlaceHolder) && teeBoxSelected) {
-              this.showSaveTournamentButton = true;
-            } else {
-              this.showSaveTournamentButton = false;
-            }
-          }
-        },
-
         datePlaceHolder: 'Select date for this round...',
 
         parsedClubData: null,
@@ -112,7 +85,7 @@
           if (this.chosenClub) {
             this.$.chooseCourseFireBase.location = 'https://incandescent-heat-3687.firebaseio.com/clubdetails/' + this.chosenClub;
             this.chosenClub = null;
-            this.showSaveTournamentButton = false;
+            this.manageFabButton();
           }
         },
 
@@ -151,7 +124,6 @@
         radioChanged: function(event, detail, sender) {
 
           var radioGroups = this.$.chooseCourseSection.querySelectorAll("paper-radio-group");
-          var courseCardElement = sender.parentNode.parentNode;
 
           // Storing reference here as can't figure out how to pass sender as argument to the forEach callback
           this.selectedRadioGroupId = sender.parentNode.id;
@@ -165,7 +137,7 @@
           }
 
           // Manage Fab button
-          this.manageFabButton(courseCardElement);
+          this.manageFabButton();
         },
 
         // Un-Check all paper-input children of a paper-input-group that isn't
@@ -199,7 +171,6 @@
           var datePicker = this.$.datePicker;
           var formattedDate = datePicker.monthShortName + ' ' + datePicker.dayOfMonth + ', ' + datePicker.formattedYear;
           var dateElements = this.$.chooseCourseSection.querySelectorAll(".date-picker-launcher");
-          var courseCardElement = this.selectedDateField.parentNode;
 
           // Clear all date display elements
           [].forEach.call(dateElements, function(dateDisplayElement) {
@@ -212,7 +183,40 @@
           }
 
           // Manage Fab button
-          this.manageFabButton(courseCardElement);
+          this.manageFabButton();
+        },
+
+        // Show/Hide Add Fab button
+        manageFabButton: function() {
+
+          var dateDisplayText;
+          var radioButton;
+          var showButton = false;
+          var teeBoxSelected = false;
+          var courseCardElements = this.$.chooseCourseSection.querySelectorAll(".card");
+
+          [].forEach.call(courseCardElements, function (courseCardElement) {
+
+            dateDisplayText = courseCardElement.querySelectorAll(".date-picker-launcher")[0].textContent;
+            radioButton = courseCardElement.querySelectorAll("paper-radio-button");
+
+            [].forEach.call(radioButton, function (radioButton) {
+              if (radioButton.checked === true) {
+                teeBoxSelected = true;
+              }
+            });
+
+            if ((dateDisplayText !== this.datePlaceHolder) && teeBoxSelected) {
+              showButton = true;
+            }
+
+          }, this);
+
+          if (showButton) {
+            this.showSaveTournamentButton = true;
+          } else {
+            this.showSaveTournamentButton = false;
+          }
         }
 
       });
