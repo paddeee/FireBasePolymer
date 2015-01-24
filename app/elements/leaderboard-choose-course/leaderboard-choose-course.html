@@ -79,13 +79,15 @@
         // Used to store reference to date input being used by user to launch date-picker so we can populate with value
         selectedDateField: null,
 
+        chosenRound: {},
+
         // If chosen club is set, get the details and then reset the chosen club
         chosenClubChanged: function() {
 
           if (this.chosenClub) {
             this.$.chooseCourseFireBase.location = 'https://incandescent-heat-3687.firebaseio.com/clubdetails/' + this.chosenClub;
             this.chosenClub = null;
-            this.manageFabButton();
+            this.updateCourseObject();
           }
         },
 
@@ -129,15 +131,11 @@
           this.selectedRadioGroupId = sender.parentNode.id;
 
           if (sender.checked) {
-
             // querySelectorAll doesn't return an actual array so use call to get around this
             [].forEach.call(radioGroups, this.unCheckRadioInputs, this);
-
-            console.log(this.hostedTournamentToUpdate);
           }
 
-          // Manage Fab button
-          this.manageFabButton();
+          this.updateCourseObject();
         },
 
         // Un-Check all paper-input children of a paper-input-group that isn't
@@ -146,7 +144,6 @@
           var radioButton = radioGroup.querySelectorAll("paper-radio-button");
 
           if (this.selectedRadioGroupId !== radioGroup.id) {
-
             [].forEach.call(radioButton, function (radioButton) {
               radioButton.checked = false;
             });
@@ -155,9 +152,7 @@
 
         // Open date selector
         selectDate: function(event, detail, sender) {
-
           this.selectedDateField = sender;
-
           this.$.datePicker.open();
         },
 
@@ -182,32 +177,38 @@
             this.selectedDateField.textContent = formattedDate;
           }
 
-          // Manage Fab button
-          this.manageFabButton();
+          this.updateCourseObject();
         },
 
-        // Show/Hide Add Fab button
-        manageFabButton: function() {
+        // Show/Hide Add Fab button and update data object -
+        // ToDo - should refactor as method is doing too much
+        updateCourseObject: function() {
 
           var dateDisplayText;
+          var radioGroup;
           var radioButton;
           var showButton = false;
           var teeBoxSelected = false;
           var courseCardElements = this.$.chooseCourseSection.querySelectorAll(".card");
+          var teeBoxIndex;
 
           [].forEach.call(courseCardElements, function (courseCardElement) {
 
             dateDisplayText = courseCardElement.querySelectorAll(".date-picker-launcher")[0].textContent;
+            radioGroup = courseCardElement.querySelectorAll("paper-radio-group");
             radioButton = courseCardElement.querySelectorAll("paper-radio-button");
 
-            [].forEach.call(radioButton, function (radioButton) {
+            [].forEach.call(radioButton, function (radioButton, index) {
               if (radioButton.checked === true) {
+                teeBoxIndex = index;
                 teeBoxSelected = true;
               }
             });
 
             if ((dateDisplayText !== this.datePlaceHolder) && teeBoxSelected) {
               showButton = true;
+
+              this.updateChosenRound(radioGroup[0].id, teeBoxIndex);
             }
 
           }, this);
@@ -217,8 +218,29 @@
           } else {
             this.showSaveTournamentButton = false;
           }
-        }
+        },
 
+        // Upadate hostedTournamentToUpdate object
+        saveTournament: function() {
+          this.hostedTournamentToUpdate.status = 'pending';
+          this.hostedTournamentToUpdate.venue = this.clubData.name;
+          this.hostedTournamentToUpdate.date = this.$.datePicker.value;
+          this.hostedTournamentToUpdate.rounds = [];
+          this.hostedTournamentToUpdate.players = null;
+          this.hostedTournamentToUpdate.rounds.push(this.chosenRound);
+
+          this.fire('set-hosted-tournament');
+        },
+
+        // Update chosenRound object
+        updateChosenRound: function(courseName, teeBoxIndex) {
+          this.parsedClubData.courses.forEach(function(course) {
+            if (courseName === course.name) {
+              this.chosenRound = course;
+              this.chosenRound.teebox = course.teeboxes[teeBoxIndex];
+            }
+          }.bind(this));
+        }
       });
 
     })();

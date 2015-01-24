@@ -1,15 +1,21 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 
-<polymer-element name="leaderboard-tournament-manager" attributes="selected userDetails wide">
-  <template>
-    <link rel="stylesheet" href="leaderboard-tournament-manager.css">
+    <polymer-element name="leaderboard-tournament-manager" attributes="selected userDetails wide">
+      <template>
+        <link rel="stylesheet" href="leaderboard-tournament-manager.css">
 
-    <core-style ref="section--content"></core-style>
+        <core-style ref="section--content"></core-style>
 
-    <firebase-element id="hostedTournamentsFireBase"
-                      location="{{'https://incandescent-heat-3687.firebaseio.com/users/' + userDetails.id + '/hostedtournaments'}}"
-                      dataReady="{{hostedTournamentsReady}}"
-                      data="{{hostedTournaments}}">
+        <firebase-element id="hostedTournamentsFireBase"
+                          location="{{'https://incandescent-heat-3687.firebaseio.com/users/' + userDetails.uid + '/hostedtournaments'}}"
+                          dataReady="{{hostedTournamentsReady}}"
+                          data="{{hostedTournaments}}">
+        </firebase-element>
+
+        <firebase-element id="tournamentsFireBase"
+                          location="{{'https://incandescent-heat-3687.firebaseio.com/tournaments/'}}"
+                          on-child-added="{{createUserTournamentIndex}}"
+                          childEvents>
     </firebase-element>
 
     <div id="sectionPanel" class="section-panel {{ {wide: wide} | tokenList }}"
@@ -63,7 +69,8 @@
                                        userDetails="{{userDetails}}"
                                        hostedTournamentToUpdate="{{hostedTournamentToUpdate}}"
                                        chosenClub="{{chosenClub}}"
-                                       wide="{{wide}}">
+                                       wide="{{wide}}"
+                                       on-set-hosted-tournament="{{setHostedTournament}}">
             </leaderboard-choose-course>
 
           </core-animated-pages>
@@ -149,9 +156,20 @@
           }
         },
 
-        hostedTournamentToUpdateChanged: function() {
+        // Triggered when a new tournament is created
+        setHostedTournament: function() {
+          this.$.tournamentsFireBase.push(this.hostedTournamentToUpdate);
+        },
 
-          console.log(this.hostedTournamentToUpdate);
+        createUserTournamentIndex: function(event) {
+
+          var keyRef = {};
+
+          if (!this.hostedTournaments) {
+            this.hostedTournaments = {};
+          }
+
+          this.hostedTournaments[event.detail.name] = true;
         },
 
         // When hostedTournamentsFireBase data is ready
@@ -189,7 +207,7 @@
 
         // Handler for Fab button on courses page
         saveTournamentButtonHandler: function() {
-          //this.$.clubSearch.searchClubs();
+          this.$.chooseCourse.saveTournament();
         },
 
         // Handler for Fab button on search page
