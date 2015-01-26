@@ -8,8 +8,21 @@
       You are not currently hosting any tournaments.
     </section>
 
-    <section hidden?="{{hostedTournaments === null}}">
-      {{userDetails.uid}}
+    <section hidden?="{{hostedTournaments === null}}"
+             id="manageTournamentsSection"
+             class="manage-tournaments-section  {{ {wide: wide} | tokenList }}"
+             layout vertical>
+
+      <template repeat="{{hostedTournaments}}">
+        <paper-shadow z="1" class="card">
+          <div class="tournament-info" vertical layout>
+            <div class="tournament-name" hidden?="{{!name}}">{{name}}</div>
+          </div>
+          <div class="divider"></div>
+
+        </paper-shadow>
+      </template>
+
     </section>
 
   </template>
