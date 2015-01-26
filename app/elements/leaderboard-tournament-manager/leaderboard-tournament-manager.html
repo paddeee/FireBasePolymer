@@ -45,8 +45,7 @@
                                transitions="slide-from-right"
                                auto>
 
-            <leaderboard-manage-tournaments userDetails="{{userDetails}}"
-                                            name="manageTournaments"
+            <leaderboard-manage-tournaments name="manageTournaments"
                                             hostedTournaments="{{hostedTournaments}}">
             </leaderboard-manage-tournaments>
 
@@ -185,9 +184,11 @@
             tournament = new Firebase(this.hostedTournamentsLocation + tournamentKey);
             tournament.once('value', function(snap) {
               var result = snap.val();
+              result.id = tournamentKey;
               self.hostedTournaments.push(result);
             });
           }
+          console.log(this.hostedTournaments);
         },
 
         // Handler for Fab button on manager page

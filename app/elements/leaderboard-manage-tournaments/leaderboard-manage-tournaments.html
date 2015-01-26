@@ -1,14 +1,14 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 
-<polymer-element name="leaderboard-manage-tournaments" attributes="hostedTournaments userDetails">
+<polymer-element name="leaderboard-manage-tournaments" attributes="hostedTournaments">
   <template>
     <link rel="stylesheet" href="leaderboard-manage-tournaments.css">
 
-    <section hidden?="{{hostedTournaments !== null}}">
+    <section hidden?="{{hostedTournaments.length > 0}}">
       You are not currently hosting any tournaments.
     </section>
 
-    <section hidden?="{{hostedTournaments === null}}"
+    <section hidden?="{{hostedTournaments.length === 0}}"
              id="manageTournamentsSection"
              class="manage-tournaments-section  {{ {wide: wide} | tokenList }}"
              layout vertical>
@@ -29,9 +29,7 @@
   <script>
     (function () {
 
-      Polymer({
-        // define element prototype here
-      });
+      Polymer();
 
     })();
   </script>
