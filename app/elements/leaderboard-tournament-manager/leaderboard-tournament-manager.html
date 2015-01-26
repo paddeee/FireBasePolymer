@@ -6,7 +6,7 @@
 
         <core-style ref="section--content"></core-style>
 
-        <firebase-element id="hostedTournamentsFireBase"
+        <firebase-element id="userHostedTournamentsFireBase"
                           location="{{'https://incandescent-heat-3687.firebaseio.com/users/' + userDetails.uid + '/hostedtournaments'}}"
                           dataReady="{{userHostedTournamentsReady}}"
                           data="{{userHostedTournaments}}">
@@ -16,7 +16,7 @@
                           location="{{hostedTournamentsLocation}}"
                           on-child-added="{{createUserTournamentIndex}}"
                           limit="10"
-                          childEvents>
+                          childEvents log>
         </firebase-element>
 
     <div id="sectionPanel" class="section-panel {{ {wide: wide} | tokenList }}"
@@ -122,7 +122,7 @@
       Polymer({
 
         observe: {
-          'userHostedTournamentsReady': 'getHostedTournaments'
+          'userHostedTournaments': 'getHostedTournaments'
         },
 
         showClubSearchButton: false,
@@ -167,9 +167,9 @@
         },
 
         createUserTournamentIndex: function(event) {
-          this.userHostedTournaments = this.userHostedTournaments || {};
 
           if (this.userDetails) {
+            this.userHostedTournaments = this.userHostedTournaments || {};
             this.userHostedTournaments[event.detail.name] = true;
           }
         },
