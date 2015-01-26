@@ -161,8 +161,17 @@
 
         // Triggered when a new tournament is created
         setHostedTournament: function() {
+
+          // Add tournament to Firebase
           this.$.tournamentsFireBase.location = this.hostedTournamentsLocation;
           this.$.tournamentsFireBase.push(this.hostedTournamentToUpdate);
+
+          // Update tournaments list
+          this.getHostedTournaments();
+
+          // Navigate to Manage Tournaments home view
+          this.selected = 'manageTournaments';
+          history.pushState(null, null, '#tournament-manager');
         },
 
         createUserTournamentIndex: function(event) {
@@ -178,6 +187,7 @@
 
           var tournament;
           var self = this;
+          this.hostedTournaments = [];
 
           for (var tournamentKey in this.userHostedTournaments) {
 
@@ -189,12 +199,6 @@
             });
           }
           console.log(this.hostedTournaments);
-        },
-
-        // Handler for Fab button on manager page
-        addTournamentButtonHandler: function() {
-          this.selected = 'tournamentDetails';
-          history.pushState(null, null, '#tournament-manager');
         },
 
         // Handler for back button in toolbar
@@ -209,6 +213,12 @@
         // Handler for home button in toolbar
         homeNavigation: function() {
           this.parentElement.selected = 'menu';
+        },
+
+        // Handler for Fab button on manager page
+        addTournamentButtonHandler: function() {
+          this.selected = 'tournamentDetails';
+          history.pushState(null, null, '#tournament-manager');
         },
 
         // Handler for Fab button on details page

@@ -31,7 +31,8 @@
                                 value="{{dateOfRound}}"
                                 immediateDate="today"
                                 min="today"
-                                infiniteScrolling="true">
+                                infiniteScrolling="true"
+                                on-value-changed="{{displayDate}}">
       </paper-date-picker-dialog>
 
       <template repeat="{{parsedClubData.courses}}">
@@ -154,11 +155,6 @@
         selectDate: function(event, detail, sender) {
           this.selectedDateField = sender;
           this.$.datePicker.open();
-        },
-
-        // When OK button of date picker is selected
-        dateOfRoundChanged: function() {
-          this.displayDate();
         },
 
         displayDate: function() {
