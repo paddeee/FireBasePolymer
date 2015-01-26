@@ -12,10 +12,45 @@ $neutralBackgroundColour: #EEE;
   display: block;
 }
 
-section {
+.no-tournaments {
   background-color: $primaryTextColour;
   height: calc(100% - 80px);
   padding: 40px 16px;
   position:relative;
   text-align: center;
+}
+
+.manage-tournaments-section {
+  padding: 40px 0 16px;
+}
+
+.card {
+  margin: 8px 16px 16px;
+  background-color: $primaryTextColour;
+  border-radius: 2px;
+  color: $darkTextColour;
+  border: 1px solid #d8d8d8;
+  text-align: left;
+  position: relative;
+}
+
+.tournament-info {
+  margin: 8px 10px 10px;
+}
+
+.tournament-format {
+  font-size: 14px;
+}
+
+paper-button {
+  font-size: 12px;
+}
+
+.divider {
+  background-color: rgba(0,0,0,0.12);
+  height: 1px;
+}
+
+.button-holder {
+  margin: 8px 0 10px;
 }

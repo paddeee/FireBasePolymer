@@ -4,7 +4,7 @@
   <template>
     <link rel="stylesheet" href="leaderboard-manage-tournaments.css">
 
-    <section hidden?="{{hostedTournaments.length > 0}}">
+    <section class="no-tournaments" hidden?="{{hostedTournaments.length > 0}}">
       You are not currently hosting any tournaments.
     </section>
 
@@ -16,8 +16,15 @@
       <template repeat="{{hostedTournaments}}">
         <paper-shadow z="1" class="card">
           <div class="tournament-info" vertical layout>
-            <div class="tournament-name" hidden?="{{!name}}">{{name}}</div>
+            <div class="tournament-name">{{name}}</div>
+            <div class="tournament-format">{{format}}</div>
           </div>
+
+          <div class="button-holder" horizontal center layout>
+            <paper-button raised on-tap="{{deleteTournament}}">DELETE</paper-button>
+            <paper-button raised on-tap="{{editTournament}}">EDIT</paper-button>
+          </div>
+
           <div class="divider"></div>
 
         </paper-shadow>
