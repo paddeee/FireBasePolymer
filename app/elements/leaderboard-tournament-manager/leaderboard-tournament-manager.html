@@ -167,14 +167,11 @@
         },
 
         createUserTournamentIndex: function(event) {
+          this.userHostedTournaments = this.userHostedTournaments || {};
 
-          var keyRef = {};
-
-          if (!this.userHostedTournaments) {
-            this.userHostedTournaments = {};
+          if (this.userDetails) {
+            this.userHostedTournaments[event.detail.name] = true;
           }
-
-          this.userHostedTournaments[event.detail.name] = true;
         },
 
         // When userHostedTournamentsFireBase data is ready iterate through keys to retrieve tournament data
