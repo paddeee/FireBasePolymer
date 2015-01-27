@@ -32,6 +32,23 @@
             <div flex></div>
             <paper-button on-tap="{{addRound}}">Add Round</paper-button>
           </div>
+          <template repeat="{{round, roundIndex in rounds}}">
+            <div class="rounds-list-item" horizontal center layout>
+              <div class="round-info">
+                <div>Round {{roundIndex + 1}} - {{venue}}</div>
+                <div>
+                  <span hidden?="{{round.name.length === 0}}">{{round.name}} - </span>
+                  <span>{{round.teebox.name}} Tees</span>
+                </div>
+              </div>
+              <div flex></div>
+              <paper-icon-button class="next-button"
+                                 icon="chevron-right"
+                                 on-tap="{{editRound}}">
+              </paper-icon-button>
+            </div>
+            <div class="divider"></div>
+          </template>
 
         </paper-shadow>
       </template>
