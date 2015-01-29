@@ -21,7 +21,21 @@
           </div>
 
           <div class="button-holder" horizontal center layout>
-            <paper-button raised on-tap="{{deleteTournament}}">DELETE</paper-button>
+            <paper-button raised
+                          on-tap="{{showDialog}}"
+                          transition="core-transition-center">DELETE</paper-button>
+            <paper-action-dialog id="DeleteTournamentDialog"
+                                 backdrop
+                                 autoCloseDisabled
+                                 layered="false"
+                                 heading="Dialog Tournament"
+                                 transition="core-transition-center">
+              <p>This will completely remove the tournament.</p>
+              <paper-button dismissive autofocus>Cancel</paper-button>
+              <paper-button affirmative autofocus
+                            on-tap="{{deleteTournament}}"
+                            tournamentId="{{id}}">Remove</paper-button>
+            </paper-action-dialog>
             <paper-button raised on-tap="{{editTournament}}">EDIT</paper-button>
           </div>
 
@@ -63,6 +77,20 @@
     (function () {
 
       Polymer({
+
+        showDialog: function(event) {
+
+          var dialog = event.target.nextElementSibling;
+
+          if (!dialog) {
+            return;
+          }
+          dialog.toggle();
+        },
+
+        deleteTournament: function(event) {
+          console.log(event.target.attributes.tournamentId.value);
+        },
 
         editRound: function() {
           console.log('edit round');

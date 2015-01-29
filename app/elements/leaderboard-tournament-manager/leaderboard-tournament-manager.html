@@ -176,7 +176,18 @@
 
         createUserTournamentIndex: function(event) {
 
+          var tournamentLocation;
+          var tournament;
+
           if (this.userDetails) {
+
+            tournamentLocation = 'https://incandescent-heat-3687.firebaseio.com/users/' + this.userDetails.uid + '/hostedtournaments/';
+
+            // Add an id property using the key to make data retrieval easier
+            if (!event.detail.value.id) {
+              tournament = new Firebase(tournamentLocation + event.detail.name);
+            }
+
             this.userHostedTournaments = this.userHostedTournaments || {};
             this.userHostedTournaments[event.detail.name] = true;
           }
@@ -192,6 +203,7 @@
           for (var tournamentKey in this.userHostedTournaments) {
 
             tournament = new Firebase(this.hostedTournamentsLocation + tournamentKey);
+            //console.log(tournamentKey);
             tournament.once('value', function(snap) {
               var result = snap.val();
               result.id = tournamentKey;
