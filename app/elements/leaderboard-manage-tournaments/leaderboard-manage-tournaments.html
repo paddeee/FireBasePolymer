@@ -33,9 +33,8 @@
             <paper-button on-tap="{{addRound}}">Add Round</paper-button>
           </div>
           <template repeat="{{round, roundIndex in rounds}}">
-            <div class="rounds-list-item" horizontal center layout
-                 on-tap="{{editRound}}">
-              <div class="round-info">
+            <div class="rounds-list-item" horizontal center layout>
+              <div class="round-info" on-tap="{{editRound}}">
                 <div>Round {{roundIndex + 1}} - {{venue}}</div>
                 <div>
                   <span hidden?="{{round.name.length === 0}}">{{round.name}} - </span>
