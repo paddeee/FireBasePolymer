@@ -1,6 +1,6 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 
-<polymer-element name="leaderboard-manage-tournaments" attributes="hostedTournaments">
+<polymer-element name="leaderboard-manage-tournaments" attributes="hostedTournaments tournamentToDelete">
   <template>
     <link rel="stylesheet" href="leaderboard-manage-tournaments.css">
 
@@ -13,11 +13,11 @@
              class="manage-tournaments-section  {{ {wide: wide} | tokenList }}"
              layout vertical>
 
-      <template repeat="{{hostedTournaments}}">
+      <template repeat="{{tournament in hostedTournaments}}">
         <paper-shadow z="1" class="card">
           <div class="tournament-info" vertical layout>
-            <div class="tournament-name">{{name}}</div>
-            <div class="tournament-format">{{format}}</div>
+            <div class="tournament-name">{{tournament.name}}</div>
+            <div class="tournament-format">{{tournament.format}}</div>
           </div>
 
           <div class="button-holder" horizontal center layout>
@@ -28,13 +28,13 @@
                                  backdrop
                                  autoCloseDisabled
                                  layered="false"
-                                 heading="Dialog Tournament"
+                                 heading="Delete Tournament"
                                  transition="core-transition-center">
               <p>This will completely remove the tournament.</p>
               <paper-button dismissive autofocus>Cancel</paper-button>
               <paper-button affirmative autofocus
                             on-tap="{{deleteTournament}}"
-                            tournamentId="{{id}}">Remove</paper-button>
+                            tournamentId="{{tournament.id}}">Remove</paper-button>
             </paper-action-dialog>
             <paper-button raised on-tap="{{editTournament}}">EDIT</paper-button>
           </div>
@@ -46,10 +46,10 @@
             <div flex></div>
             <paper-button on-tap="{{addRound}}">Add Round</paper-button>
           </div>
-          <template repeat="{{round, roundIndex in rounds}}">
+          <template repeat="{{round, roundIndex in tournament.rounds}}">
             <div class="rounds-list-item" horizontal center layout>
               <div class="round-info" on-tap="{{editRound}}">
-                <div>Round {{roundIndex + 1}} - {{venue}}</div>
+                <div>Round {{roundIndex + 1}} - {{tournament.venue}}</div>
                 <div>
                   <span hidden?="{{round.name.length === 0}}">{{round.name}} - </span>
                   <span>{{round.teebox.name}} Tees</span>
@@ -89,7 +89,10 @@
         },
 
         deleteTournament: function(event) {
+          //this.tournamentToDelete = event.target.attributes.tournamentId.value;
           console.log(event.target.attributes.tournamentId.value);
+          console.log(this.tournamentToDelete);
+          this.tournamentToDelete = 'fred';
         },
 
         editRound: function() {

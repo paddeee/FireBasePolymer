@@ -13,8 +13,9 @@
         </firebase-element>
 
         <firebase-element id="tournamentsFireBase"
-                          location="{{hostedTournamentsLocation}}"
+                          location="{{tournamentsLocation}}"
                           on-child-added="{{createUserTournamentIndex}}"
+                          on-child-changed="{{updateTournaments}}"
                           limit="10"
                           childEvents log>
         </firebase-element>
@@ -46,7 +47,8 @@
                                auto>
 
             <leaderboard-manage-tournaments name="manageTournaments"
-                                            hostedTournaments="{{hostedTournaments}}">
+                                            hostedTournaments="{{hostedTournaments}}"
+                                            tournamentToDelete="{{tournamentToDelete}}">
             </leaderboard-manage-tournaments>
 
             <leaderboard-tournament-details userDetails="{{userDetails}}"
@@ -134,11 +136,13 @@
 
         selected: 'manageTournaments',
 
-        hostedTournamentsLocation: 'https://incandescent-heat-3687.firebaseio.com/tournaments/',
+        tournamentsLocation: 'https://incandescent-heat-3687.firebaseio.com/tournaments/',
 
         hostedTournamentToUpdate: {},
 
         hostedTournaments: [],
+
+        tournamentToDelete: '',
 
         sectionData: {
           'manageTournaments': {
@@ -163,29 +167,31 @@
         setHostedTournament: function() {
 
           // Add tournament to Firebase
-          this.$.tournamentsFireBase.location = this.hostedTournamentsLocation;
+          this.$.tournamentsFireBase.location = this.tournamentsLocation;
           this.$.tournamentsFireBase.push(this.hostedTournamentToUpdate);
-
-          // Update tournaments list
-          this.getHostedTournaments();
 
           // Navigate to Manage Tournaments home view
           this.selected = 'manageTournaments';
           history.pushState(null, null, '#tournament-manager');
         },
 
+        // Called when a new tournament is pushed to the Firebase tournaments area
         createUserTournamentIndex: function(event) {
 
-          var tournamentLocation;
           var tournament;
 
           if (this.userDetails) {
 
-            tournamentLocation = 'https://incandescent-heat-3687.firebaseio.com/users/' + this.userDetails.uid + '/hostedtournaments/';
-
             // Add an id property using the key to make data retrieval easier
             if (!event.detail.value.id) {
-              tournament = new Firebase(tournamentLocation + event.detail.name);
+
+              tournament = new Firebase(this.tournamentsLocation + event.detail.name);
+
+              tournament.once('value', function(snapshot) {
+                var result = snapshot.val();
+                result.id = event.detail.name;
+                tournament.set(result);
+              });
             }
 
             this.userHostedTournaments = this.userHostedTournaments || {};
@@ -201,14 +207,25 @@
           this.hostedTournaments = [];
 
           for (var tournamentKey in this.userHostedTournaments) {
-
-            tournament = new Firebase(this.hostedTournamentsLocation + tournamentKey);
-            //console.log(tournamentKey);
+            tournament = new Firebase(this.tournamentsLocation + tournamentKey);
             tournament.once('value', function(snap) {
               var result = snap.val();
-              result.id = tournamentKey;
               self.hostedTournaments.push(result);
             });
+          }
+        },
+
+        // When a tournament is changed
+        updateTournaments: function(event) {
+          this.getHostedTournaments();
+        },
+
+        // delete tournament from Firebase
+        tournamentToDeleteChanged: function() {
+          if (this.tournamentToDelete.length) {
+            delete this.userHostedTournaments[this.tournamentToDelete];
+            this.$.tournamentsFireBase.data[this.tournamentToDelete] = null;
+            this.getHostedTournaments();
           }
         },
 
