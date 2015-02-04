@@ -225,7 +225,10 @@
           if (this.tournamentToDelete.length) {
             delete this.userHostedTournaments[this.tournamentToDelete];
             this.$.tournamentsFireBase.data[this.tournamentToDelete] = null;
-            this.getHostedTournaments();
+
+            // Use async to update tournaments due to bug with backdrop not being hidden from the paper-action-dialog
+            // ToDo - If this element gets updated it's worth rechecking making the call without async
+            this.async(this.getHostedTournaments, null, 500);
           }
         },
 
