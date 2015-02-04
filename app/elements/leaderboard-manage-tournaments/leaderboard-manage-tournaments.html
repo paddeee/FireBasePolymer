@@ -1,7 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 
 <polymer-element name="leaderboard-manage-tournaments"
-                 attributes="hostedTournaments tournamentToEdit tournamentToDelete">
+                 attributes="hostedTournaments tournamentIdToUpdate">
   <template>
     <link rel="stylesheet" href="leaderboard-manage-tournaments.css">
 
@@ -46,7 +46,7 @@
           <div class="rounds-container" horizontal center layout>
             <div>Rounds</div>
             <div flex></div>
-            <paper-button on-tap="{{addRound}}">Add Round</paper-button>
+            <paper-button on-tap="{{addRound}}" tournamentId="{{tournament.id}}">Add Round</paper-button>
           </div>
           <template repeat="{{round, roundIndex in tournament.rounds}}">
             <div class="rounds-list-item" horizontal center layout>
@@ -91,12 +91,20 @@
 
         // When delete tournament button is tapped
         deleteTournament: function(event) {
-          this.tournamentToDelete = event.target.attributes.tournamentId.value;
+          this.tournamentIdToUpdate= event.target.attributes.tournamentId.value;
+          this.fire('delete-tournament');
         },
 
         // When edit tournament button is tapped set tournamentToEdit string to selected tournament id
         editTournament: function(event) {
-          this.tournamentToEdit = event.target.attributes.tournamentId.value;
+          this.tournamentIdToUpdate= event.target.attributes.tournamentId.value;
+          this.fire('edit-tournament');
+        },
+
+        // When add round button is tapped
+        addRound: function(event) {
+          this.tournamentIdToUpdate= event.target.attributes.tournamentId.value;
+          this.fire('add-round');
         },
 
         // When edit round button is tapped

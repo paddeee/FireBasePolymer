@@ -48,8 +48,10 @@
 
             <leaderboard-manage-tournaments name="manageTournaments"
                                             hostedTournaments="{{hostedTournaments}}"
-                                            tournamentToDelete="{{tournamentToDelete}}"
-                                            tournamentToEdit="{{tournamentToEdit}}">
+                                            tournamentIdToUpdate="{{tournamentIdToUpdate}}"
+                                            on-delete-tournament="{{deleteTournament}}"
+                                            on-edit-tournament="{{editTournament}}"
+                                            on-add-round="{{addRound}}">
             </leaderboard-manage-tournaments>
 
             <leaderboard-tournament-details id="tournamentDetails"
@@ -145,9 +147,7 @@
 
         hostedTournaments: [],
 
-        tournamentToDelete: '',
-
-        tournamentToEdit: '',
+        tournamentIdToUpdate: '',
 
         sectionData: {
           'manageTournaments': {
@@ -232,15 +232,15 @@
         },
 
         // When a tournament is changed
-        updateTournaments: function(event) {
-          //this.getHostedTournaments();
+        updateTournaments: function() {
+          this.getHostedTournaments();
         },
 
         // delete tournament from Firebase
-        tournamentToDeleteChanged: function() {
-          if (this.tournamentToDelete) {
-            delete this.userHostedTournaments[this.tournamentToDelete];
-            this.$.tournamentsFireBase.data[this.tournamentToDelete] = null;
+        deleteTournament: function() {
+          if (this.tournamentIdToUpdate) {
+            delete this.userHostedTournaments[this.tournamentIdToUpdate];
+            this.$.tournamentsFireBase.data[this.tournamentIdToUpdate] = null;
 
             // Use async to update tournaments due to bug with backdrop not being hidden from the paper-action-dialog
             // ToDo - If this element gets updated it's worth rechecking making the call without async
@@ -249,20 +249,38 @@
         },
 
         // send user to tournament details
-        tournamentToEditChanged: function() {
-          if (this.tournamentToEdit) {
+        editTournament: function() {
+
+          if (this.tournamentIdToUpdate) {
             this.hostedTournaments.forEach(function(tournament) {
-              if (tournament.id === this.tournamentToEdit) {
+              if (tournament.id === this.tournamentIdToUpdate) {
                 this.hostedTournamentToUpdate = tournament;
               }
             }, this);
 
             // Reset so this method will fire if same tournament edit button is selected next
-            this.tournamentToEdit = '';
+            this.tournamentIdToUpdate = '';
 
             // Navigate to Manage Tournaments home view
             this.creatingTournament = false;
             this.selected = 'tournamentDetails';
+            history.pushState(null, null, '#tournament-manager');
+          }
+        },
+
+        // add round to a tournament
+        addRound: function() {
+
+          if (this.tournamentIdToUpdate) {
+            this.hostedTournaments.forEach(function(tournament) {
+              if (tournament.id === this.tournamentIdToUpdate) {
+                this.hostedTournamentToUpdate = tournament;
+              }
+            }, this);
+
+            // Reset so this method will fire if same tournament edit button is selected next
+            this.tournamentIdToUpdate = '';
+            this.selected = 'clubSearch';
             history.pushState(null, null, '#tournament-manager');
           }
         },
