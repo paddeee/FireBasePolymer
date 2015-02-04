@@ -1,6 +1,6 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 
-<polymer-element name="leaderboard-club-search" attributes="chosenClub searchTerm">
+<polymer-element name="leaderboard-club-search" attributes="chosenClub hostedTournamentToUpdate searchTerm">
   <template>
     <link rel="stylesheet" href="leaderboard-club-search.css">
 
@@ -143,6 +143,13 @@
           if (!this.chosenClub) {
             this.$.resultsList.selection = null;
           }
+        },
+
+        // Reset field
+        hostedTournamentToUpdateChanged: function() {
+          this.searchTerm = '';
+          this.resultsData = [];
+          this.hideResults();
         }
       });
 

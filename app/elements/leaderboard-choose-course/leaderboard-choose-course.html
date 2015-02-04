@@ -139,7 +139,7 @@
           this.updateCourseObject();
         },
 
-        // Un-Check all paper-input children of a paper-input-group that isn't
+        // Un-Check all paper-input children of a paper-input-group that isn't this group
         unCheckRadioInputs: function(radioGroup, index, array) {
 
           var radioButton = radioGroup.querySelectorAll("paper-radio-button");
@@ -216,7 +216,7 @@
           }
         },
 
-        // Upadate hostedTournamentToUpdate object
+        // Update hostedTournamentToUpdate object
         saveTournament: function() {
           this.hostedTournamentToUpdate.status = 'pending';
           this.hostedTournamentToUpdate.venue = this.clubData.name;
@@ -236,6 +236,11 @@
               this.chosenRound.teebox = course.teeboxes[teeBoxIndex];
             }
           }.bind(this));
+        },
+
+        // Reset field
+        hostedTournamentToUpdateChanged: function() {
+          this.tournamentName = '';
         }
       });
 

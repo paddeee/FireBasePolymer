@@ -48,19 +48,22 @@
 
             <leaderboard-manage-tournaments name="manageTournaments"
                                             hostedTournaments="{{hostedTournaments}}"
-                                            tournamentToDelete="{{tournamentToDelete}}">
+                                            tournamentToDelete="{{tournamentToDelete}}"
+                                            tournamentToEdit="{{tournamentToEdit}}">
             </leaderboard-manage-tournaments>
 
-            <leaderboard-tournament-details userDetails="{{userDetails}}"
+            <leaderboard-tournament-details id="tournamentDetails"
+                                            userDetails="{{userDetails}}"
                                             name="tournamentDetails"
+                                            creatingTournament="{{creatingTournament}}"
                                             showClubSearchButton="{{showClubSearchButton}}"
-                                            hostedTournamentToUpdate="{{hostedTournamentToUpdate}}"
-                                            tournamentHash="{{tournamentHash}}">
+                                            hostedTournamentToUpdate="{{hostedTournamentToUpdate}}">
             </leaderboard-tournament-details>
 
             <leaderboard-club-search id="clubSearch"
                                      name="clubSearch"
                                      chosenClub="{{chosenClub}}"
+                                     hostedTournamentToUpdate="{{hostedTournamentToUpdate}}"
                                      searchTerm="{{searchTerm}}">
             </leaderboard-club-search>
 
@@ -132,7 +135,7 @@
 
         showSaveTournamentButton: false,
 
-        newTournament: true,
+        creatingTournament: true,
 
         selected: 'manageTournaments',
 
@@ -143,6 +146,8 @@
         hostedTournaments: [],
 
         tournamentToDelete: '',
+
+        tournamentToEdit: '',
 
         sectionData: {
           'manageTournaments': {
@@ -169,10 +174,17 @@
           // Add tournament to Firebase
           this.$.tournamentsFireBase.location = this.tournamentsLocation;
           this.$.tournamentsFireBase.push(this.hostedTournamentToUpdate);
+        },
 
-          // Navigate to Manage Tournaments home view
-          this.selected = 'manageTournaments';
-          history.pushState(null, null, '#tournament-manager');
+        // Triggered when a tournament is edited
+        updateHostedTournament: function() {
+
+          // Update tournament in Firebase
+          var tournamentToUpdate = new Firebase(this.tournamentsLocation + this.hostedTournamentToUpdate.id);
+          tournamentToUpdate.update({
+            "name": this.hostedTournamentToUpdate.name,
+            "format": this.hostedTournamentToUpdate.format
+          });
         },
 
         // Called when a new tournament is pushed to the Firebase tournaments area
@@ -181,6 +193,10 @@
           var tournament;
 
           if (this.userDetails) {
+
+            // Navigate to Manage Tournaments home view
+            this.selected = 'manageTournaments';
+            history.pushState(null, null, '#tournament-manager');
 
             // Add an id property using the key to make data retrieval easier
             if (!event.detail.value.id) {
@@ -217,18 +233,37 @@
 
         // When a tournament is changed
         updateTournaments: function(event) {
-          this.getHostedTournaments();
+          //this.getHostedTournaments();
         },
 
         // delete tournament from Firebase
         tournamentToDeleteChanged: function() {
-          if (this.tournamentToDelete.length) {
+          if (this.tournamentToDelete) {
             delete this.userHostedTournaments[this.tournamentToDelete];
             this.$.tournamentsFireBase.data[this.tournamentToDelete] = null;
 
             // Use async to update tournaments due to bug with backdrop not being hidden from the paper-action-dialog
             // ToDo - If this element gets updated it's worth rechecking making the call without async
             this.async(this.getHostedTournaments, null, 500);
+          }
+        },
+
+        // send user to tournament details
+        tournamentToEditChanged: function() {
+          if (this.tournamentToEdit) {
+            this.hostedTournaments.forEach(function(tournament) {
+              if (tournament.id === this.tournamentToEdit) {
+                this.hostedTournamentToUpdate = tournament;
+              }
+            }, this);
+
+            // Reset so this method will fire if same tournament edit button is selected next
+            this.tournamentToEdit = '';
+
+            // Navigate to Manage Tournaments home view
+            this.creatingTournament = false;
+            this.selected = 'tournamentDetails';
+            history.pushState(null, null, '#tournament-manager');
           }
         },
 
@@ -248,14 +283,22 @@
 
         // Handler for Fab button on manager page
         addTournamentButtonHandler: function() {
+          this.creatingTournament = true;
+          this.hostedTournamentToUpdate = {};
           this.selected = 'tournamentDetails';
           history.pushState(null, null, '#tournament-manager');
         },
 
         // Handler for Fab button on details page
         detailsButtonHandler: function() {
-          if (this.newTournament) {
+
+          this.$.tournamentDetails.updateTournamentObject();
+          if (this.creatingTournament) {
             this.selected = 'clubSearch';
+            history.pushState(null, null, '#tournament-manager');
+          } else {
+            this.updateHostedTournament();
+            this.selected = 'manageTournaments';
             history.pushState(null, null, '#tournament-manager');
           }
         },

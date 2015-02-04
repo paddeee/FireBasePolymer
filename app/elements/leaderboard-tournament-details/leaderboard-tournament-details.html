@@ -1,7 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 
 <polymer-element name="leaderboard-tournament-details"
-                 attributes="userDetails hostedTournamentToUpdate hostedTournaments showClubSearchButton">
+                 attributes="userDetails hostedTournamentToUpdate showClubSearchButton creatingTournament">
   <template>
     <link rel="stylesheet" href="leaderboard-tournament-details.css">
 
@@ -33,9 +33,7 @@
         tournamentFormat: 'Stableford',
 
         tournamentNameChanged: function() {
-
           this.manageFabButton();
-          this.updateTournamentObject();
         },
 
         // Show/Hide Check Fab button as user enters data
@@ -51,6 +49,15 @@
         updateTournamentObject: function() {
           this.hostedTournamentToUpdate.name = this.tournamentName;
           this.hostedTournamentToUpdate.format = this.tournamentFormat;
+        },
+
+        // Set field if creating or editing tournament
+        hostedTournamentToUpdateChanged: function() {
+          if (this.creatingTournament) {
+            this.tournamentName = '';
+          } else {
+            this.tournamentName = this.hostedTournamentToUpdate.name;
+          }
         }
 
       });
