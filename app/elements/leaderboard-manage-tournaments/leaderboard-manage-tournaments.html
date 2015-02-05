@@ -1,7 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 
 <polymer-element name="leaderboard-manage-tournaments"
-                 attributes="hostedTournaments tournamentIdToUpdate">
+                 attributes="hostedTournaments tournamentIdToUpdate roundIdToUpdate">
   <template>
     <link rel="stylesheet" href="leaderboard-manage-tournaments.css">
 
@@ -62,6 +62,8 @@
               </paper-icon-button>
               <paper-icon-button class="remove-round"
                                  icon="remove-circle"
+                                 tournamentId="{{tournament.id}}"
+                                 roundId="{{round.id}}"
                                  on-tap="{{deleteRound}}">
               </paper-icon-button>
             </div>
@@ -91,19 +93,19 @@
 
         // When delete tournament button is tapped
         deleteTournament: function(event) {
-          this.tournamentIdToUpdate= event.target.attributes.tournamentId.value;
+          this.tournamentIdToUpdate = event.target.attributes.tournamentId.value;
           this.fire('delete-tournament');
         },
 
         // When edit tournament button is tapped set tournamentToEdit string to selected tournament id
         editTournament: function(event) {
-          this.tournamentIdToUpdate= event.target.attributes.tournamentId.value;
+          this.tournamentIdToUpdate = event.target.attributes.tournamentId.value;
           this.fire('edit-tournament');
         },
 
         // When add round button is tapped
         addRound: function(event) {
-          this.tournamentIdToUpdate= event.target.attributes.tournamentId.value;
+          this.tournamentIdToUpdate = event.target.attributes.tournamentId.value;
           this.fire('add-round');
         },
 
@@ -113,8 +115,10 @@
         },
 
         // When delete round button is tapped
-        deleteRound: function() {
-          console.log('delete round');
+        deleteRound: function(event) {
+          this.tournamentIdToUpdate = event.target.attributes.tournamentId.value;
+          this.roundIdToUpdate = event.target.attributes.roundId.value;
+          this.fire('delete-round');
         }
       });
 

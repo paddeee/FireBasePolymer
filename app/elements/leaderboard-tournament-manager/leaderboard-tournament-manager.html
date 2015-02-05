@@ -49,9 +49,11 @@
             <leaderboard-manage-tournaments name="manageTournaments"
                                             hostedTournaments="{{hostedTournaments}}"
                                             tournamentIdToUpdate="{{tournamentIdToUpdate}}"
+                                            roundIdToUpdate="{{roundIdToUpdate}}"
                                             on-delete-tournament="{{deleteTournament}}"
                                             on-edit-tournament="{{editTournament}}"
-                                            on-add-round="{{addNewRound}}">
+                                            on-add-round="{{addNewRound}}"
+                                            on-delete-round="{{deleteRound}}">
             </leaderboard-manage-tournaments>
 
             <leaderboard-tournament-details id="tournamentDetails"
@@ -155,6 +157,8 @@
         hostedTournaments: [],
 
         tournamentIdToUpdate: '',
+
+        roundIdToUpdate: '',
 
         sectionData: {
           'manageTournaments': {
@@ -284,6 +288,31 @@
             this.tournamentIdToUpdate = '';
             this.selected = 'clubSearch';
             history.pushState(null, null, '#tournament-manager');
+          }
+        },
+
+        // Delete a round from a tournament
+        deleteRound: function() {
+
+          var updatedRoundsArray;
+
+          if (this.tournamentIdToUpdate) {
+            this.hostedTournaments.forEach(function(tournament) {
+              if (tournament.id === this.tournamentIdToUpdate) {
+                this.hostedTournamentToUpdate = tournament;
+              }
+            }, this);
+
+            updatedRoundsArray = this.hostedTournamentToUpdate.rounds.filter(function (round) {
+              return (this.roundIdToUpdate !== round.id);
+            }, this);
+
+            // If the update rounds array length is zero we'll delete the tournament
+            console.log(updatedRoundsArray);
+
+            // Reset so this method will fire if same tournament edit button is selected next
+            this.tournamentIdToUpdate = '';
+            this.roundIdToUpdate = '';
           }
         },
 
