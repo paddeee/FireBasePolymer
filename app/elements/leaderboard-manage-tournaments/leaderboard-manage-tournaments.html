@@ -1,7 +1,6 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 
-<polymer-element name="leaderboard-manage-tournaments"
-                 attributes="hostedTournaments tournamentIdToUpdate">
+<polymer-element name="leaderboard-manage-tournaments" attributes="hostedTournaments tournamentToDelete">
   <template>
     <link rel="stylesheet" href="leaderboard-manage-tournaments.css">
 
@@ -37,8 +36,7 @@
                             on-tap="{{deleteTournament}}"
                             tournamentId="{{tournament.id}}">Remove</paper-button>
             </paper-action-dialog>
-            <paper-button raised on-tap="{{editTournament}}"
-                          tournamentId="{{tournament.id}}">EDIT</paper-button>
+            <paper-button raised on-tap="{{editTournament}}">EDIT</paper-button>
           </div>
 
           <div class="divider"></div>
@@ -46,17 +44,18 @@
           <div class="rounds-container" horizontal center layout>
             <div>Rounds</div>
             <div flex></div>
-            <paper-button on-tap="{{addRound}}" tournamentId="{{tournament.id}}">Add Round</paper-button>
+            <paper-button on-tap="{{addRound}}">Add Round</paper-button>
           </div>
           <template repeat="{{round, roundIndex in tournament.rounds}}">
             <div class="rounds-list-item" horizontal center layout>
-              <div class="round-info" on-tap="{{editRound}}" flex>
-                <div>Round {{roundIndex + 1}} - {{tournament.venue}}</div>
+              <div class="round-info" on-tap="{{editRound}}">
+                <div>Round {{roundIndex + 1}} - {{round.venue}}</div>
                 <div>
                   <span hidden?="{{round.name.length === 0}}">{{round.name}} - </span>
                   <span>{{round.teebox.name}} Tees</span>
                 </div>
               </div>
+              <div flex></div>
               <paper-icon-button icon="chevron-right"
                                  on-tap="{{editRound}}">
               </paper-icon-button>
@@ -89,30 +88,14 @@
           dialog.toggle();
         },
 
-        // When delete tournament button is tapped
         deleteTournament: function(event) {
-          this.tournamentIdToUpdate= event.target.attributes.tournamentId.value;
-          this.fire('delete-tournament');
+          this.tournamentToDelete = event.target.attributes.tournamentId.value;
         },
 
-        // When edit tournament button is tapped set tournamentToEdit string to selected tournament id
-        editTournament: function(event) {
-          this.tournamentIdToUpdate= event.target.attributes.tournamentId.value;
-          this.fire('edit-tournament');
+        editRound: function() {
+          console.log('edit round');
         },
 
-        // When add round button is tapped
-        addRound: function(event) {
-          this.tournamentIdToUpdate= event.target.attributes.tournamentId.value;
-          this.fire('add-round');
-        },
-
-        // When edit round button is tapped
-        editRound: function(event) {
-          console.log(event.target.attributes);
-        },
-
-        // When delete round button is tapped
         deleteRound: function() {
           console.log('delete round');
         }

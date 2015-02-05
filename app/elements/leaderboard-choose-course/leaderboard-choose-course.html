@@ -203,7 +203,6 @@
 
             if ((dateDisplayText !== this.datePlaceHolder) && teeBoxSelected) {
               showButton = true;
-
               this.updateChosenRound(radioGroup[0].id, teeBoxIndex);
             }
 
@@ -216,10 +215,9 @@
           }
         },
 
-        // Update hostedTournamentToUpdate object
+        // Update hostedTournamentToUpdate object and fire event
         saveTournament: function() {
           this.hostedTournamentToUpdate.status = 'pending';
-          this.hostedTournamentToUpdate.venue = this.clubData.name;
           this.hostedTournamentToUpdate.date = this.$.datePicker.value;
           this.hostedTournamentToUpdate.rounds = [];
           this.hostedTournamentToUpdate.players = null;
@@ -228,19 +226,23 @@
           this.fire('set-hosted-tournament');
         },
 
+        // Update hostedTournamentToUpdate object and fire event
+        addRound: function() {
+          this.hostedTournamentToUpdate.date = this.$.datePicker.value;
+          this.hostedTournamentToUpdate.rounds.push(this.chosenRound);
+
+          this.fire('add-round');
+        },
+
         // Update chosenRound object
         updateChosenRound: function(courseName, teeBoxIndex) {
           this.parsedClubData.courses.forEach(function(course) {
             if (courseName === course.name) {
               this.chosenRound = course;
               this.chosenRound.teebox = course.teeboxes[teeBoxIndex];
+              this.chosenRound.venue = this.clubData.name;
             }
           }.bind(this));
-        },
-
-        // Reset field
-        hostedTournamentToUpdateChanged: function() {
-          this.tournamentName = '';
         }
       });
 

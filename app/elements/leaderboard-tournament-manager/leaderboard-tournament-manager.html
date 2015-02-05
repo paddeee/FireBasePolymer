@@ -51,7 +51,7 @@
                                             tournamentIdToUpdate="{{tournamentIdToUpdate}}"
                                             on-delete-tournament="{{deleteTournament}}"
                                             on-edit-tournament="{{editTournament}}"
-                                            on-add-round="{{addRound}}">
+                                            on-add-round="{{addNewRound}}">
             </leaderboard-manage-tournaments>
 
             <leaderboard-tournament-details id="tournamentDetails"
@@ -76,7 +76,8 @@
                                        hostedTournamentToUpdate="{{hostedTournamentToUpdate}}"
                                        chosenClub="{{chosenClub}}"
                                        wide="{{wide}}"
-                                       on-set-hosted-tournament="{{setHostedTournament}}">
+                                       on-set-hosted-tournament="{{setHostedTournament}}"
+                                       on-add-round="{{updateHostedTournament}}">
             </leaderboard-choose-course>
 
           </core-animated-pages>
@@ -102,8 +103,14 @@
 
         <paper-fab id="SaveTournamentButton"
                    icon="add"
-                   showing?="{{ selected === 'chooseCourse' && showSaveTournamentButton }}"
+                   showing?="{{ selected === 'chooseCourse' && showSaveTournamentButton && creatingTournament}}"
                    on-tap="{{ saveTournamentButtonHandler }}">
+        </paper-fab>
+
+        <paper-fab id="AddRoundButton"
+                   icon="add"
+                   showing?="{{ selected === 'chooseCourse' && showSaveTournamentButton && !creatingTournament}}"
+                   on-tap="{{ addRoundButtonHandler }}">
         </paper-fab>
 
         <paper-icon-button class="back-button"
@@ -181,10 +188,8 @@
 
           // Update tournament in Firebase
           var tournamentToUpdate = new Firebase(this.tournamentsLocation + this.hostedTournamentToUpdate.id);
-          tournamentToUpdate.update({
-            "name": this.hostedTournamentToUpdate.name,
-            "format": this.hostedTournamentToUpdate.format
-          });
+          tournamentToUpdate.set(this.hostedTournamentToUpdate);
+          console.log(this.hostedTournamentToUpdate);
         },
 
         // Called when a new tournament is pushed to the Firebase tournaments area
@@ -193,10 +198,6 @@
           var tournament;
 
           if (this.userDetails) {
-
-            // Navigate to Manage Tournaments home view
-            this.selected = 'manageTournaments';
-            history.pushState(null, null, '#tournament-manager');
 
             // Add an id property using the key to make data retrieval easier
             if (!event.detail.value.id) {
@@ -244,7 +245,7 @@
 
             // Use async to update tournaments due to bug with backdrop not being hidden from the paper-action-dialog
             // ToDo - If this element gets updated it's worth rechecking making the call without async
-            this.async(this.getHostedTournaments, null, 500);
+            this.async(this.getHostedTournaments, null, 800);
           }
         },
 
@@ -268,8 +269,8 @@
           }
         },
 
-        // add round to a tournament
-        addRound: function() {
+        // Start process of adding a new round to a tournament
+        addNewRound: function() {
 
           if (this.tournamentIdToUpdate) {
             this.hostedTournaments.forEach(function(tournament) {
@@ -279,6 +280,7 @@
             }, this);
 
             // Reset so this method will fire if same tournament edit button is selected next
+            this.creatingTournament = false;
             this.tournamentIdToUpdate = '';
             this.selected = 'clubSearch';
             history.pushState(null, null, '#tournament-manager');
@@ -321,9 +323,22 @@
           }
         },
 
-        // Handler for Fab button on courses page
+        // Handler for Save Tournament Fab button on courses page
         saveTournamentButtonHandler: function() {
           this.$.chooseCourse.saveTournament();
+
+          // Navigate to Manage Tournaments home view
+          this.selected = 'manageTournaments';
+          history.pushState(null, null, '#tournament-manager');
+        },
+
+        // Handler for Add Round Fab button on courses page
+        addRoundButtonHandler: function() {
+          this.$.chooseCourse.addRound();
+
+          // Navigate to Manage Tournaments home view
+          this.selected = 'manageTournaments';
+          history.pushState(null, null, '#tournament-manager');
         },
 
         // Handler for Fab button on search page
