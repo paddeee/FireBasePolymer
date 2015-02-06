@@ -46,7 +46,8 @@
                                transitions="slide-from-right"
                                auto>
 
-            <leaderboard-manage-tournaments name="manageTournaments"
+            <leaderboard-manage-tournaments id="manageTournaments"
+                                            name="manageTournaments"
                                             hostedTournaments="{{hostedTournaments}}"
                                             tournamentIdToUpdate="{{tournamentIdToUpdate}}"
                                             roundIdToUpdate="{{roundIdToUpdate}}"
@@ -308,7 +309,9 @@
             }, this);
 
             // If the update rounds array length is zero we'll delete the tournament
-            console.log(updatedRoundsArray);
+            if (updatedRoundsArray < 1) {
+              this.$.manageTournaments.showDialog();
+            }
 
             // Reset so this method will fire if same tournament edit button is selected next
             this.tournamentIdToUpdate = '';
