@@ -15,7 +15,6 @@
         <firebase-element id="tournamentsFireBase"
                           location="{{tournamentsLocation}}"
                           on-child-added="{{createUserTournamentIndex}}"
-                          on-child-changed="{{updateTournaments}}"
                           limit="10"
                           childEvents log>
         </firebase-element>
@@ -186,6 +185,9 @@
           // Add tournament to Firebase
           this.$.tournamentsFireBase.location = this.tournamentsLocation;
           this.$.tournamentsFireBase.push(this.hostedTournamentToUpdate);
+
+          // Update UI
+          this.hostedTournaments.push(this.hostedTournamentToUpdate);
         },
 
         // Triggered when a tournament is edited
@@ -194,7 +196,6 @@
           // Update tournament in Firebase
           var tournamentToUpdate = new Firebase(this.tournamentsLocation + this.hostedTournamentToUpdate.id);
           tournamentToUpdate.set(this.hostedTournamentToUpdate);
-          console.log(this.hostedTournamentToUpdate);
         },
 
         // Called when a new tournament is pushed to the Firebase tournaments area
@@ -237,20 +238,15 @@
           }
         },
 
-        // When a tournament is changed
-        updateTournaments: function() {
-          this.getHostedTournaments();
-        },
-
         // delete tournament from Firebase
         deleteTournament: function() {
           if (this.tournamentIdToUpdate) {
             delete this.userHostedTournaments[this.tournamentIdToUpdate];
             this.$.tournamentsFireBase.data[this.tournamentIdToUpdate] = null;
 
-            // Use async to update tournaments due to bug with backdrop not being hidden from the paper-action-dialog
-            // ToDo - If this element gets updated it's worth rechecking making the call without async
-            this.async(this.getHostedTournaments, null, 800);
+            this.hostedTournaments = this.hostedTournaments.filter(function (tournament) {
+              return (this.tournamentIdToUpdate !== tournament.id);
+            }, this);
           }
         },
 
@@ -263,9 +259,6 @@
                 this.hostedTournamentToUpdate = tournament;
               }
             }, this);
-
-            // Reset so this method will fire if same tournament edit button is selected next
-            this.tournamentIdToUpdate = '';
 
             // Navigate to Manage Tournaments home view
             this.creatingTournament = false;
@@ -286,7 +279,6 @@
 
             // Reset so this method will fire if same tournament edit button is selected next
             this.creatingTournament = false;
-            this.tournamentIdToUpdate = '';
             this.selected = 'clubSearch';
             history.pushState(null, null, '#tournament-manager');
           }
@@ -308,13 +300,14 @@
               return (this.roundIdToUpdate !== round.id);
             }, this);
 
-            // If the update rounds array length is zero we'll delete the tournament
-            if (updatedRoundsArray < 1) {
-              this.$.manageTournaments.showDialog();
-            }
+            // Update rounds with selected round now deleted
+            // ToDo: Maybe make tournament be deleted if no rounds left after deletion
+            this.hostedTournamentToUpdate.rounds = updatedRoundsArray;
+
+            // Send to Firebase
+            this.updateHostedTournament();
 
             // Reset so this method will fire if same tournament edit button is selected next
-            this.tournamentIdToUpdate = '';
             this.roundIdToUpdate = '';
           }
         },

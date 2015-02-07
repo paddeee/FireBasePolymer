@@ -14,19 +14,6 @@
              class="manage-tournaments-section  {{ {wide: wide} | tokenList }}"
              layout vertical>
 
-      <paper-action-dialog id="deleteTournamentDialog"
-                           backdrop
-                           autoCloseDisabled
-                           layered="false"
-                           heading="Delete Tournament"
-                           transition="core-transition-center">
-        <p>This will completely remove the tournament.</p>
-        <paper-button dismissive autofocus>Cancel</paper-button>
-        <paper-button affirmative autofocus
-                      on-tap="{{deleteTournament}}"
-                      tournamentId="{{tournament.id}}">Remove</paper-button>
-      </paper-action-dialog>
-
       <template repeat="{{tournament in hostedTournaments}}">
         <paper-shadow z="1" class="card">
           <div class="tournament-info" vertical layout>
@@ -38,6 +25,18 @@
             <paper-button raised
                           on-tap="{{showDialog}}"
                           transition="core-transition-center">DELETE</paper-button>
+            <paper-action-dialog id="DeleteTournamentDialog"
+                                 backdrop
+                                 autoCloseDisabled
+                                 layered="false"
+                                 heading="Delete Tournament"
+                                 transition="core-transition-center">
+              <p>This will completely remove the tournament.</p>
+              <paper-button dismissive autofocus>Cancel</paper-button>
+              <paper-button affirmative autofocus
+                            on-tap="{{deleteTournament}}"
+                            tournamentId="{{tournament.id}}">Remove</paper-button>
+            </paper-action-dialog>
             <paper-button raised on-tap="{{editTournament}}"
                           tournamentId="{{tournament.id}}">EDIT</paper-button>
           </div>
@@ -83,7 +82,13 @@
       Polymer({
 
         showDialog: function(event) {
-          this.$.manageTournamentsSection.querySelector('#deleteTournamentDialog').toggle();
+
+          var dialog = event.target.nextElementSibling;
+
+          if (!dialog) {
+            return;
+          }
+          dialog.toggle();
         },
 
         // When delete tournament button is tapped
