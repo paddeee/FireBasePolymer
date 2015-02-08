@@ -198,6 +198,12 @@
           tournamentToUpdate.set(this.hostedTournamentToUpdate);
         },
 
+        // Set an id on the hostedTournamentObject so it can be updated on the client
+        setIdOnHostedTournament: function(tournamentId) {
+          var tournament = this.hostedTournaments[this.hostedTournaments.length - 1];
+          tournament.id = tournamentId;
+        },
+
         // Called when a new tournament is pushed to the Firebase tournaments area
         createUserTournamentIndex: function(event) {
 
@@ -214,7 +220,8 @@
                 var result = snapshot.val();
                 result.id = event.detail.name;
                 tournament.set(result);
-              });
+                this.setIdOnHostedTournament(event.detail.name);
+              }.bind(this));
             }
 
             this.userHostedTournaments = this.userHostedTournaments || {};
