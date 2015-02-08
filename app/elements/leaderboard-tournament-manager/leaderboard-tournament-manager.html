@@ -245,6 +245,12 @@
           }
         },
 
+        // Hack to remove backdrop div created by paper-action-dialog which isn't getting removed correctly
+        removeBackdrop: function() {
+          var backDrop = document.querySelector('.core-overlay-backdrop');
+          document.body.removeChild(backDrop);
+        },
+
         // delete tournament from Firebase
         deleteTournament: function() {
           if (this.tournamentIdToUpdate) {
@@ -254,6 +260,9 @@
             this.hostedTournaments = this.hostedTournaments.filter(function (tournament) {
               return (this.tournamentIdToUpdate !== tournament.id);
             }, this);
+
+            // ToDo: remove if bug with paper-action-dialog
+            this.removeBackdrop();
           }
         },
 
