@@ -1,7 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 
 <polymer-element name="leaderboard-choose-course"
-                 attributes="showSaveTournamentButton wide hostedTournamentToUpdate chosenClub">
+                 attributes="showSaveTournamentButton wide hostedTournamentToUpdate chosenClub creatingRound">
   <template>
     <link rel="stylesheet" href="leaderboard-choose-course.css">
 
@@ -87,6 +87,7 @@
 
           if (this.chosenClub) {
             this.$.chooseCourseFireBase.location = 'https://incandescent-heat-3687.firebaseio.com/clubdetails/' + this.chosenClub;
+            this.clubId = this.chosenClub;
             this.chosenClub = null;
             this.updateCourseObject();
           }
@@ -221,7 +222,14 @@
           this.hostedTournamentToUpdate.date = this.$.datePicker.value;
           this.hostedTournamentToUpdate.rounds = [];
           this.hostedTournamentToUpdate.players = null;
-          this.hostedTournamentToUpdate.rounds.push(this.chosenRound);
+
+          // Adding a round
+          if (this.creatingRound) {
+            this.hostedTournamentToUpdate.rounds.push(this.chosenRound);
+          // Editing a round
+          } else {
+            console.log('Edit round');
+          }
 
           this.fire('set-hosted-tournament');
         },
@@ -241,8 +249,16 @@
               this.chosenRound = course;
               this.chosenRound.teebox = course.teeboxes[teeBoxIndex];
               this.chosenRound.venue = this.clubData.name;
+              this.chosenRound.clubId = this.clubData.name;
             }
           }.bind(this));
+        },
+
+        // Set field if creating or editing tournament
+        hostedTournamentToUpdateChanged: function() {
+          if (!this.creatingRound) {
+            this.chosenClub = this.hostedTournamentToUpdate.rounds[0].clubId;
+          }
         }
       });
 

@@ -53,6 +53,7 @@
                                             on-delete-tournament="{{deleteTournament}}"
                                             on-edit-tournament="{{editTournament}}"
                                             on-add-round="{{addNewRound}}"
+                                            on-edit-round="{{editRound}}"
                                             on-delete-round="{{deleteRound}}">
             </leaderboard-manage-tournaments>
 
@@ -75,6 +76,7 @@
                                        name="chooseCourse"
                                        showSaveTournamentButton="{{showSaveTournamentButton}}"
                                        userDetails="{{userDetails}}"
+                                       creatingRound="{{creatingRound}}"
                                        hostedTournamentToUpdate="{{hostedTournamentToUpdate}}"
                                        chosenClub="{{chosenClub}}"
                                        wide="{{wide}}"
@@ -111,7 +113,13 @@
 
         <paper-fab id="AddRoundButton"
                    icon="add"
-                   showing?="{{ selected === 'chooseCourse' && showSaveTournamentButton && !creatingTournament}}"
+                   showing?="{{ selected === 'chooseCourse' && showSaveTournamentButton && !creatingTournament && creatingRound}}"
+                   on-tap="{{ addRoundButtonHandler }}">
+        </paper-fab>
+
+        <paper-fab id="EditRoundButton"
+                   icon="check"
+                   showing?="{{ selected === 'chooseCourse' && showSaveTournamentButton && !creatingTournament && !creatingRound}}"
                    on-tap="{{ addRoundButtonHandler }}">
         </paper-fab>
 
@@ -147,6 +155,8 @@
         showSaveTournamentButton: false,
 
         creatingTournament: true,
+
+        creatingRound: true,
 
         selected: 'manageTournaments',
 
@@ -297,6 +307,33 @@
             this.creatingTournament = false;
             this.selected = 'clubSearch';
             history.pushState(null, null, '#tournament-manager');
+          }
+        },
+
+        // Edit a round in a tournament
+        editRound: function() {
+
+          if (this.tournamentIdToUpdate) {
+            this.hostedTournaments.forEach(function(tournament) {
+              if (tournament.id === this.tournamentIdToUpdate) {
+                this.hostedTournamentToUpdate = tournament;
+              }
+            }, this);
+
+            updatedRoundsArray = this.hostedTournamentToUpdate.rounds.filter(function (round) {
+              return (this.roundIdToUpdate === round.id);
+            }, this);
+
+            // Update rounds with selected round now deleted
+            // ToDo: Maybe make tournament be deleted if no rounds left after deletion
+            this.hostedTournamentToUpdate.rounds = updatedRoundsArray;
+
+            // Navigate to Choose Course
+            this.creatingTournament = false;
+            this.creatingRound = false;
+            this.selected = 'chooseCourse';
+            history.pushState(null, null, '#tournament-manager');
+
           }
         },
 

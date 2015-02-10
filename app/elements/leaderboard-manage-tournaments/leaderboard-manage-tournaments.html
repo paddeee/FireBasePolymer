@@ -50,7 +50,11 @@
           </div>
           <template repeat="{{round, roundIndex in tournament.rounds}}">
             <div class="rounds-list-item" horizontal center layout>
-              <div class="round-info" on-tap="{{editRound}}" flex>
+              <div class="round-info"
+                   tournamentId="{{tournament.id}}"
+                   roundId="{{round.id}}"
+                   on-tap="{{editRound}}"
+                   flex>
                 <div>Round {{roundIndex + 1}} - {{round.venue}}</div>
                 <div>
                   <span hidden?="{{round.name.length === 0}}">{{round.name}} - </span>
@@ -58,6 +62,8 @@
                 </div>
               </div>
               <paper-icon-button icon="chevron-right"
+                                 tournamentId="{{tournament.id}}"
+                                 roundId="{{round.id}}"
                                  on-tap="{{editRound}}">
               </paper-icon-button>
               <paper-icon-button class="remove-round"
@@ -111,7 +117,9 @@
 
         // When edit round button is tapped
         editRound: function(event) {
-          console.log(event.target.attributes);
+          this.tournamentIdToUpdate = event.target.attributes.tournamentId.value;
+          this.roundIdToUpdate = event.target.attributes.roundId.value;
+          this.fire('edit-round');
         },
 
         // When delete round button is tapped
