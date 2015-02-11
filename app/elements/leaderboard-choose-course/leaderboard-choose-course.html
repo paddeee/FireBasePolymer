@@ -249,16 +249,9 @@
               this.chosenRound = course;
               this.chosenRound.teebox = course.teeboxes[teeBoxIndex];
               this.chosenRound.venue = this.clubData.name;
-              this.chosenRound.clubId = this.clubData.name;
+              this.chosenRound.clubId = this.clubId;
             }
           }.bind(this));
-        },
-
-        // Set field if creating or editing tournament
-        hostedTournamentToUpdateChanged: function() {
-          if (!this.creatingRound) {
-            this.chosenClub = this.hostedTournamentToUpdate.rounds[0].clubId;
-          }
         }
       });
 

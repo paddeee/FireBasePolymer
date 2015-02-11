@@ -327,6 +327,7 @@
             // Update rounds with selected round now deleted
             // ToDo: Maybe make tournament be deleted if no rounds left after deletion
             this.hostedTournamentToUpdate.rounds = updatedRoundsArray;
+            this.chosenClub = this.hostedTournamentToUpdate.rounds[0].clubId;
 
             // Navigate to Choose Course
             this.creatingTournament = false;
