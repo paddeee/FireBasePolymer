@@ -223,14 +223,6 @@
           this.hostedTournamentToUpdate.rounds = [];
           this.hostedTournamentToUpdate.players = null;
 
-          // Adding a round
-          if (this.creatingRound) {
-            this.hostedTournamentToUpdate.rounds.push(this.chosenRound);
-          // Editing a round
-          } else {
-            console.log('Edit round');
-          }
-
           this.fire('set-hosted-tournament');
         },
 
@@ -240,6 +232,14 @@
           this.hostedTournamentToUpdate.rounds.push(this.chosenRound);
 
           this.fire('add-round');
+        },
+
+        // Update hostedTournamentToUpdate object and fire event
+        editRound: function() {
+          console.log('edits');
+          //this.hostedTournamentToUpdate.rounds.push(this.chosenRound);
+
+          this.fire('edit-round');
         },
 
         // Update chosenRound object
