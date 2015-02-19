@@ -239,6 +239,12 @@
           console.log('edits');
           //this.hostedTournamentToUpdate.rounds.push(this.chosenRound);
 
+          this.hostedTournamentToUpdate.rounds.forEach(function (round) {
+            if (this.chosenRound.id === round.id) {
+              console.log(round);
+            }
+          }, this);
+
           this.fire('edit-round');
         },
 

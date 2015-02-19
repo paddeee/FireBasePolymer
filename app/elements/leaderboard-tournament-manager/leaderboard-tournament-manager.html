@@ -81,7 +81,8 @@
                                        chosenClub="{{chosenClub}}"
                                        wide="{{wide}}"
                                        on-set-hosted-tournament="{{setHostedTournament}}"
-                                       on-add-round="{{updateHostedTournament}}">
+                                       on-add-round="{{updateHostedTournament}}"
+                                       on-edit-round="{{updateHostedTournament}}">
             </leaderboard-choose-course>
 
           </core-animated-pages>
@@ -324,10 +325,7 @@
               return (this.roundIdToUpdate === round.id);
             }, this);
 
-            // Update rounds with selected round now deleted
-            // ToDo: Maybe make tournament be deleted if no rounds left after deletion
-            this.hostedTournamentToUpdate.rounds = updatedRoundsArray;
-            this.chosenClub = this.hostedTournamentToUpdate.rounds[0].clubId;
+            this.chosenClub = updatedRoundsArray[0].clubId;
 
             // Navigate to Choose Course
             this.creatingTournament = false;
