@@ -199,9 +199,6 @@
 
           // Update UI
           this.hostedTournaments.push(this.hostedTournamentToUpdate);
-
-          // Reset hostedTournamentToUpdate
-          this.hostedTournamentToUpdate = {};
         },
 
         // Triggered when a tournament is edited
@@ -210,9 +207,6 @@
           // Update tournament in Firebase
           var tournamentToUpdate = new Firebase(this.tournamentsLocation + this.hostedTournamentToUpdate.id);
           tournamentToUpdate.set(this.hostedTournamentToUpdate);
-
-          // Reset hostedTournamentToUpdate
-          this.hostedTournamentToUpdate = {};
         },
 
         // Set an id on the hostedTournamentObject so it can be updated on the client
@@ -338,7 +332,6 @@
             this.creatingRound = false;
             this.selected = 'chooseCourse';
             history.pushState(null, null, '#tournament-manager');
-
           }
         },
 

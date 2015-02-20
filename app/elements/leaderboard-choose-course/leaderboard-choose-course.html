@@ -233,6 +233,9 @@
           this.chosenRound.roundId = this.hostedTournamentToUpdate.rounds.length.toString();
           this.hostedTournamentToUpdate.rounds.push(this.chosenRound);
 
+          // Reset parsedClubData
+          //this.parsedClubData = null;
+
           this.fire('add-round');
         },
 
@@ -247,6 +250,9 @@
             }
           }, this);
 
+          // Reset parsedClubData
+          this.parsedClubData = null;
+
           this.fire('edit-round');
         },
 
@@ -255,7 +261,7 @@
 
           this.parsedClubData.courses.forEach(function(course) {
             if (courseName === course.name) {
-              this.chosenRound = course;
+              this.chosenRound = Object.create(course);
               this.chosenRound.date = this.$.datePicker.value.toString();
               this.chosenRound.teebox = course.teeboxes[teeBoxIndex];
               this.chosenRound.venue = this.clubData.name;
