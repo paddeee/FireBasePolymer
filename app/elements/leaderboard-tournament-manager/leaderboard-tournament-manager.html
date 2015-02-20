@@ -349,7 +349,7 @@
             }, this);
 
             updatedRoundsArray = this.hostedTournamentToUpdate.rounds.filter(function (round) {
-              return (this.roundIdToUpdate === round.roundId);
+              return (this.roundIdToUpdate !== round.roundId);
             }, this);
 
             // Update rounds with selected round now deleted
