@@ -33,7 +33,9 @@
         tournamentFormat: 'Stableford',
 
         tournamentNameChanged: function() {
-          this.manageFabButton();
+          if (this.tournamentName) {
+            this.manageFabButton();
+          }
         },
 
         // Show/Hide Check Fab button as user enters data
