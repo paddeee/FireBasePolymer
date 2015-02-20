@@ -1,7 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 
 <polymer-element name="leaderboard-choose-course"
-                 attributes="showSaveTournamentButton wide hostedTournamentToUpdate chosenClub creatingRound">
+                 attributes="showSaveTournamentButton wide hostedTournamentToUpdate chosenClub roundIdToUpdate">
   <template>
     <link rel="stylesheet" href="leaderboard-choose-course.css">
 
@@ -219,9 +219,10 @@
         // Update hostedTournamentToUpdate object and fire event
         saveTournament: function() {
           this.hostedTournamentToUpdate.status = 'pending';
-          this.hostedTournamentToUpdate.date = this.$.datePicker.value;
           this.hostedTournamentToUpdate.rounds = [];
           this.hostedTournamentToUpdate.players = null;
+          this.chosenRound.roundId = this.hostedTournamentToUpdate.rounds.length.toString();
+          this.hostedTournamentToUpdate.rounds.push(this.chosenRound);
 
           this.fire('set-hosted-tournament');
         },
@@ -229,6 +230,7 @@
         // Update hostedTournamentToUpdate object and fire event
         addRound: function() {
           this.hostedTournamentToUpdate.date = this.$.datePicker.value;
+          this.chosenRound.roundId = this.hostedTournamentToUpdate.rounds.length.toString();
           this.hostedTournamentToUpdate.rounds.push(this.chosenRound);
 
           this.fire('add-round');
@@ -236,12 +238,11 @@
 
         // Update hostedTournamentToUpdate object and fire event
         editRound: function() {
-          console.log('edits');
-          //this.hostedTournamentToUpdate.rounds.push(this.chosenRound);
 
           this.hostedTournamentToUpdate.rounds.forEach(function (round) {
-            if (this.chosenRound.id === round.id) {
-              console.log(round);
+            if (this.roundIdToUpdate === round.roundId) {
+              round.teebox = this.chosenRound.teebox;
+              round.date = this.chosenRound.date;
             }
           }, this);
 
@@ -250,9 +251,11 @@
 
         // Update chosenRound object
         updateChosenRound: function(courseName, teeBoxIndex) {
+
           this.parsedClubData.courses.forEach(function(course) {
             if (courseName === course.name) {
               this.chosenRound = course;
+              this.chosenRound.date = this.$.datePicker.value.toString();
               this.chosenRound.teebox = course.teeboxes[teeBoxIndex];
               this.chosenRound.venue = this.clubData.name;
               this.chosenRound.clubId = this.clubId;

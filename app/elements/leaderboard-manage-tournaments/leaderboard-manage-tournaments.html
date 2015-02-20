@@ -52,7 +52,7 @@
             <div class="rounds-list-item" horizontal center layout>
               <div class="round-info"
                    tournamentId="{{tournament.id}}"
-                   roundId="{{round.id}}"
+                   roundId="{{round.roundId}}"
                    on-tap="{{editRound}}"
                    flex>
                 <div>Round {{roundIndex + 1}} - {{round.venue}}</div>
@@ -63,13 +63,13 @@
               </div>
               <paper-icon-button icon="chevron-right"
                                  tournamentId="{{tournament.id}}"
-                                 roundId="{{round.id}}"
+                                 roundId="{{round.roundId}}"
                                  on-tap="{{editRound}}">
               </paper-icon-button>
               <paper-icon-button class="remove-round"
                                  icon="remove-circle"
                                  tournamentId="{{tournament.id}}"
-                                 roundId="{{round.id}}"
+                                 roundId="{{round.roundId}}"
                                  on-tap="{{deleteRound}}">
               </paper-icon-button>
             </div>
@@ -99,33 +99,33 @@
 
         // When delete tournament button is tapped
         deleteTournament: function(event) {
-          this.tournamentIdToUpdate = event.target.attributes.tournamentId.value;
+          this.tournamentIdToUpdate = event.currentTarget.attributes.tournamentId.value;
           this.fire('delete-tournament');
         },
 
         // When edit tournament button is tapped set tournamentToEdit string to selected tournament id
         editTournament: function(event) {
-          this.tournamentIdToUpdate = event.target.attributes.tournamentId.value;
+          this.tournamentIdToUpdate = event.currentTarget.attributes.tournamentId.value;
           this.fire('edit-tournament');
         },
 
         // When add round button is tapped
         addRound: function(event) {
-          this.tournamentIdToUpdate = event.target.attributes.tournamentId.value;
+          this.tournamentIdToUpdate = event.currentTarget.attributes.tournamentId.value;
           this.fire('add-round');
         },
 
         // When edit round button is tapped
         editRound: function(event) {
-          this.tournamentIdToUpdate = event.target.attributes.tournamentId.value;
-          this.roundIdToUpdate = event.target.attributes.roundId.value;
+          this.tournamentIdToUpdate = event.currentTarget.attributes.tournamentId.value;
+          this.roundIdToUpdate = event.currentTarget.attributes.roundId.value;
           this.fire('edit-round');
         },
 
         // When delete round button is tapped
         deleteRound: function(event) {
-          this.tournamentIdToUpdate = event.target.attributes.tournamentId.value;
-          this.roundIdToUpdate = event.target.attributes.roundId.value;
+          this.tournamentIdToUpdate = event.currentTarget.attributes.tournamentId.value;
+          this.roundIdToUpdate = event.currentTarget.attributes.roundId.value;
           this.fire('delete-round');
         }
       });
