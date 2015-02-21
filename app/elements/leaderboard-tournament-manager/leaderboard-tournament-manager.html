@@ -306,6 +306,7 @@
 
             // Reset so this method will fire if same tournament edit button is selected next
             this.creatingTournament = false;
+            this.creatingRound = true;
             this.selected = 'clubSearch';
             history.pushState(null, null, '#tournament-manager');
           }
