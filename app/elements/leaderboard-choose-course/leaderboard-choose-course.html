@@ -85,18 +85,22 @@
         // If chosen club is set, get the details and then reset the chosen club
         chosenClubChanged: function() {
 
+          var parsedClubId;
+
           if (this.chosenClub) {
 
-            // If we've already visited this club
-            if (this.clubData) {
+            parsedClubId = this.chosenClub.substr(7);
+
+            // If this club was previous one chosen we'll need to manually trigger clubDataChanged method
+            if (this.clubData && this.clubData.id === parsedClubId) {
               this.clubDataChanged();
-              this.chosenClub = null;
             } else {
               this.$.chooseCourseFireBase.location = 'https://incandescent-heat-3687.firebaseio.com/clubdetails/' + this.chosenClub;
-              this.clubId = this.chosenClub;
-              this.chosenClub = null;
-              this.updateCourseObject();
             }
+
+            this.clubId = this.chosenClub;
+            this.chosenClub = null;
+            this.updateCourseObject();
           }
         },
 
