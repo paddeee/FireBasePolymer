@@ -237,7 +237,8 @@
         // Update hostedTournamentToUpdate object and fire event
         addRound: function() {
           this.hostedTournamentToUpdate.date = this.$.datePicker.value;
-          this.chosenRound.roundId = this.hostedTournamentToUpdate.rounds.length.toString();
+          //this.chosenRound.roundId = this.hostedTournamentToUpdate.rounds.length.toString();
+          this.chosenRound.roundId = this.getHighestRoundId(this.hostedTournamentToUpdate.rounds);
           this.hostedTournamentToUpdate.rounds.push(this.chosenRound);
 
           // Reset parsedClubData
@@ -275,6 +276,19 @@
               this.chosenRound.clubId = this.clubId;
             }
           }.bind(this));
+        },
+
+        getHighestRoundId: function (roundsArray) {
+
+          var roundIdArray = [];
+          var highestRoundId;
+
+          roundsArray.forEach(function(round) {
+            roundIdArray.push(round.roundId);
+          });
+
+          highestRoundId = Math.max.apply(Math, roundIdArray) + 1;
+          return highestRoundId.toString();
         }
       });
 
