@@ -86,10 +86,17 @@
         chosenClubChanged: function() {
 
           if (this.chosenClub) {
-            this.$.chooseCourseFireBase.location = 'https://incandescent-heat-3687.firebaseio.com/clubdetails/' + this.chosenClub;
-            this.clubId = this.chosenClub;
-            this.chosenClub = null;
-            this.updateCourseObject();
+
+            // If we've already visited this club
+            if (this.clubData) {
+              this.clubDataChanged();
+              this.chosenClub = null;
+            } else {
+              this.$.chooseCourseFireBase.location = 'https://incandescent-heat-3687.firebaseio.com/clubdetails/' + this.chosenClub;
+              this.clubId = this.chosenClub;
+              this.chosenClub = null;
+              this.updateCourseObject();
+            }
           }
         },
 
