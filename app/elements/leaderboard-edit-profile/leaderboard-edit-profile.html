@@ -41,6 +41,7 @@
             this.name = this.$.user.data.name;
             this.uid = this.$.user.data.uid;
             this.hostedTournaments = this.$.user.data.hostedtournaments;
+            this.tournaments = this.$.user.data.tournaments;
 
             this.userDetails = this.$.user.data;
           }
@@ -62,7 +63,8 @@
               handicap: this.handicap || this.userDetails.handicap || '',
               uid: this.user.uid || '',
               email: this.user.email || '',
-              hostedtournaments: this.userDetails.hostedtournaments || ''
+              hostedtournaments: this.userDetails.hostedtournaments || '',
+              tournaments: this.userDetails.tournaments || ''
             }
 
             this.userDetails = this.$.user.data;

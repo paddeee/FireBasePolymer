@@ -1,6 +1,8 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 
-    <polymer-element name="leaderboard-tournament-manager" attributes="selected userDetails wide">
+    <polymer-element
+      name="leaderboard-tournament-manager"
+      attributes="selected userDetails tournamentToJoinId joinTournament wide">
       <template>
         <link rel="stylesheet" href="leaderboard-tournament-manager.css">
 
@@ -10,6 +12,12 @@
                           location="{{'https://incandescent-heat-3687.firebaseio.com/users/' + userDetails.uid + '/hostedtournaments'}}"
                           dataReady="{{userHostedTournamentsReady}}"
                           data="{{userHostedTournaments}}">
+        </firebase-element>
+
+        <firebase-element id="userTournamentsFireBase"
+                          location="{{'https://incandescent-heat-3687.firebaseio.com/users/' + userDetails.uid + '/tournaments'}}"
+                          dataReady="{{userTournamentsReady}}"
+                          data="{{userTournaments}}">
         </firebase-element>
 
         <firebase-element id="tournamentsFireBase"
@@ -438,6 +446,35 @@
             this.selected = 'chooseCourse';
             history.pushState(null, null, '#tournament-manager');
           }
+        },
+
+        // Called when a tournamentToJoinId is set
+        tournamentToJoinIdChanged: function() {
+
+          if (this.userDetails && this.tournamentToJoinId.length > 0) {
+            this.addTournamentToUserDetails();
+            this.addUserIdToTournamentPlayers();
+
+            this.joinTournament = false;
+          }
+        },
+
+        // Called when a new tournament is pushed to the Firebase tournaments area
+        addTournamentToUserDetails: function() {
+
+            this.userTournaments = this.userTournaments || {};
+            this.userTournaments[this.tournamentToJoinId] = true;
+        },
+
+        // Add user id to tournaments/players in Firebase
+        addUserIdToTournamentPlayers: function() {
+
+          var tournamentPlayers = new Firebase(this.tournamentsLocation + this.tournamentToJoinId + '/players');
+          var player = {
+            'uid': this.userDetails.uid
+          }
+
+          tournamentPlayers.push(player);
         }
       });
 

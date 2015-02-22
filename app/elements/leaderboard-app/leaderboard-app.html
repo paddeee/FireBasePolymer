@@ -20,8 +20,12 @@
                             section="{{section}}" on-core-activate="{{sectionSelect}}">
           </leaderboard-menu>
 
-          <leaderboard-tournament-manager hash="tournament-manager" userDetails="{{userDetails}}"
-                                          wide="{{wide}}" vertical layout>
+          <leaderboard-tournament-manager hash="tournament-manager"
+                                          userDetails="{{userDetails}}"
+                                          wide="{{wide}}"
+                                          tournamentToJoinId="{{tournamentToJoinId}}"
+                                          joinTournament="{{joinTournament}}"
+                                          vertical layout>
           </leaderboard-tournament-manager>
 
           <leaderboard-scorecard hash="scorecard" userDetails="{{userDetails}}" wide="{{wide}}" vertical layout>
@@ -62,9 +66,17 @@
 
             Polymer({
 
+              observe: {
+                'userDetails': 'setJoinTournament'
+              },
+
               responsiveWidth: '900px',
 
               minSplashTime: 1000,
+
+              joinTournament: true,
+
+              tournamentToJoinId: '',
 
               // Set default hash to authentication if no hash specified in URL
               ready: function() {
@@ -150,6 +162,15 @@
                 if (this.section) {
                   sectionName = this.section.name;
                   this.route = sectionName;
+                }
+              },
+
+              // Parse query string and set tournament id if user is joining a tournament
+              setJoinTournament: function() {
+
+                if (this.userDetails && this.joinTournament) {
+                  var tournamentId = window.location.search;
+                  this.tournamentToJoinId = tournamentId.replace("?tournament=", '');
                 }
               }
             });
