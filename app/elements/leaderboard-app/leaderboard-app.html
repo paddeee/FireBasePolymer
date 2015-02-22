@@ -64,17 +64,31 @@
 
               responsiveWidth: '900px',
 
+              minSplashTime: 1000,
+
               // Set default hash to authentication if no hash specified in URL
               ready: function() {
+
+                this.readyTime = Date.now();
+
                 this.setGlobalStyles('auth');
                 this.route = this.route || 'profile';
+
+                if (!this.user) {
+                  this.startup();
+                }
               },
 
               routeChanged: function() {
-                if (this.route==="profile") {
-                  this.setGlobalStyles('auth');
+
+                if (!this.user) {
+                  this.completeStartup();
                 } else {
-                  this.setGlobalStyles('section');
+                  if (this.route === "profile") {
+                    this.setGlobalStyles('auth');
+                  } else {
+                    this.setGlobalStyles('section');
+                  }
                 }
               },
 
@@ -112,6 +126,20 @@
                   CoreStyle.g.paperInput.focusedColor = CoreStyle.g.theme.darkBgColour;
                   CoreStyle.g.paperInput.invalidColor = CoreStyle.g.theme.darkBgColour;
 
+                }
+              },
+
+              startup: function() {
+                var elapsed = Date.now() - this.readyTime;
+                var timeRemaining = this.minSplashTime - elapsed;
+                this.async('completeStartup', null, timeRemaining > 0 ? timeRemaining : 0);
+              },
+
+              completeStartup: function() {
+                if (this.user) {
+                  this.enterSite();
+                } else {
+                  this.enterAuthentication();
                 }
               },
 
