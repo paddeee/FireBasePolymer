@@ -469,12 +469,26 @@
         // Add user id to tournaments/players in Firebase
         addUserIdToTournamentPlayers: function() {
 
+          var self = this;
           var tournamentPlayers = new Firebase(this.tournamentsLocation + this.tournamentToJoinId + '/players');
           var player = {
             'uid': this.userDetails.uid
           }
 
-          tournamentPlayers.push(player);
+          tournamentPlayers.once('value', function(snap) {
+
+            var playerIdExists = false;
+
+            snap.forEach(function(userSnap) {
+              if (userSnap.val().uid === self.userDetails.uid) {
+                playerIdExists = true;
+              }
+            });
+
+            if (!playerIdExists) {
+              tournamentPlayers.push(player);
+            }
+          });
         }
       });
 
