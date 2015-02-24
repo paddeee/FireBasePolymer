@@ -9,13 +9,13 @@
         <core-style ref="section--content"></core-style>
 
         <firebase-element id="userHostedTournamentsFireBase"
-                          location="{{'https://incandescent-heat-3687.firebaseio.com/users/' + userDetails.uid + '/hostedtournaments'}}"
+                          location="{{userDetails ? 'https://incandescent-heat-3687.firebaseio.com/users/' + userDetails.uid + '/hostedtournaments' : null}}"
                           dataReady="{{userHostedTournamentsReady}}"
                           data="{{userHostedTournaments}}">
         </firebase-element>
 
         <firebase-element id="userTournamentsFireBase"
-                          location="{{'https://incandescent-heat-3687.firebaseio.com/users/' + userDetails.uid + '/tournaments'}}"
+                          location="{{userDetails ? 'https://incandescent-heat-3687.firebaseio.com/users/' + userDetails.uid + '/tournaments' : null}}"
                           dataReady="{{userTournamentsReady}}"
                           data="{{userTournaments}}">
         </firebase-element>
@@ -454,18 +454,14 @@
         // Called when a tournamentToJoinId is set
         tournamentToJoinIdChanged: function() {
 
-          if (this.userDetails && this.tournamentToJoinId.length > 0) {
             this.addTournamentToUserDetails();
             this.addUserIdToTournamentPlayers();
-
-            this.joinTournament = false;
-          }
         },
 
         // Called when a new tournament is pushed to the Firebase tournaments area
         addTournamentToUserDetails: function() {
 
-          if (this.userTournamentsReady && this.userDetails) {
+          if (this.userTournamentsReady && this.userDetails && this.tournamentToJoinId.length > 0) {
             this.userTournaments = this.userTournaments || {};
             this.userTournaments[this.tournamentToJoinId] = true;
           }
@@ -476,24 +472,30 @@
 
           var self = this;
           var tournamentPlayers = new Firebase(this.tournamentsLocation + this.tournamentToJoinId + '/players');
-          var player = {
-            'uid': this.userDetails.uid
-          }
+          var player;
 
-          tournamentPlayers.once('value', function(snap) {
+          if (this.userDetails && this.tournamentToJoinId.length > 0) {
 
-            var playerIdExists = false;
+            player = {
+              'uid': this.userDetails.uid
+            }
 
-            snap.forEach(function(userSnap) {
-              if (userSnap.val().uid === self.userDetails.uid) {
-                playerIdExists = true;
+            tournamentPlayers.once('value', function (snap) {
+
+              var playerIdExists = false;
+
+              snap.forEach(function (userSnap) {
+                if (userSnap.val().uid === self.userDetails.uid) {
+                  playerIdExists = true;
+                }
+              });
+
+              if (!playerIdExists) {
+                tournamentPlayers.push(player);
+                self.joinTournament = false;
               }
             });
-
-            if (!playerIdExists) {
-              tournamentPlayers.push(player);
-            }
-          });
+          }
         }
       });
 
