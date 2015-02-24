@@ -471,7 +471,7 @@
         addUserIdToTournamentPlayers: function() {
 
           var self = this;
-          var tournamentPlayers = new Firebase(this.tournamentsLocation + this.tournamentToJoinId + '/players');
+          var tournament = new Firebase(this.tournamentsLocation + this.tournamentToJoinId);
           var player;
 
           if (this.userDetails && this.tournamentToJoinId.length > 0) {
@@ -480,18 +480,18 @@
               'uid': this.userDetails.uid
             }
 
-            tournamentPlayers.once('value', function (snap) {
+            tournament.once('value', function (snap) {
 
               var playerIdExists = false;
 
-              snap.forEach(function (userSnap) {
+              snap.child('players').forEach(function (userSnap) {
                 if (userSnap.val().uid === self.userDetails.uid) {
                   playerIdExists = true;
                 }
               });
 
               if (!playerIdExists) {
-                tournamentPlayers.push(player);
+                tournament.child('players').push(player);
                 self.joinTournament = false;
 
                 // Show Dialog
