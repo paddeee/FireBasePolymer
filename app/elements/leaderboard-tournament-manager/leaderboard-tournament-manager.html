@@ -154,7 +154,8 @@
       Polymer({
 
         observe: {
-          'userHostedTournaments': 'getHostedTournaments'
+          'userHostedTournaments': 'getHostedTournaments',
+          'userTournamentsReady': 'addTournamentToUserDetails'
         },
 
         showClubSearchButton: false,
@@ -178,6 +179,8 @@
         tournamentIdToUpdate: '',
 
         roundIdToUpdate: '',
+
+        userTournamentsReady: false,
 
         sectionData: {
           'manageTournaments': {
@@ -462,8 +465,10 @@
         // Called when a new tournament is pushed to the Firebase tournaments area
         addTournamentToUserDetails: function() {
 
+          if (this.userTournamentsReady && this.userDetails) {
             this.userTournaments = this.userTournaments || {};
             this.userTournaments[this.tournamentToJoinId] = true;
+          }
         },
 
         // Add user id to tournaments/players in Firebase
