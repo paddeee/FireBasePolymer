@@ -43,6 +43,12 @@ $neutralBackgroundColour: #EEE;
   font-size: 14px;
 }
 
+.invite-players::shadow #icon {
+  width: 40px;
+  height: 40px;
+  color: $primaryBgColour;
+}
+
 paper-button {
   color: $primaryBgColour;
   font-size: 12px;

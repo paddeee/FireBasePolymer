@@ -1,7 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 
 <polymer-element name="leaderboard-manage-tournaments"
-                 attributes="hostedTournaments tournamentIdToUpdate roundIdToUpdate">
+                 attributes="hostedTournaments tournamentIdToUpdate tournamentIdToInvite tournamentNameToInvite roundIdToUpdate">
   <template>
     <link rel="stylesheet" href="leaderboard-manage-tournaments.css">
 
@@ -16,9 +16,17 @@
 
       <template repeat="{{tournament in hostedTournaments}}">
         <paper-shadow z="1" class="card">
-          <div class="tournament-info" vertical layout>
-            <div class="tournament-name">{{tournament.name}}</div>
-            <div class="tournament-format">{{tournament.format}}</div>
+          <div horizontal center layout>
+            <div class="tournament-info" vertical layout flex>
+              <div class="tournament-name">{{tournament.name}}</div>
+              <div class="tournament-format">{{tournament.format}}</div>
+            </div>
+            <paper-icon-button class="invite-players"
+                               icon="social:group-add"
+                               tournamentId="{{tournament.id}}"
+                               tournamentName="{{tournament.name}}"
+                               on-tap="{{invitePlayers}}">
+            </paper-icon-button>
           </div>
 
           <div class="button-holder" horizontal center layout>
@@ -127,6 +135,13 @@
           this.tournamentIdToUpdate = event.currentTarget.attributes.tournamentId.value;
           this.roundIdToUpdate = event.currentTarget.attributes.roundId.value;
           this.fire('delete-round');
+        },
+
+        // Invite a player to join tournament
+        invitePlayers: function() {
+          this.tournamentIdToInvite = event.currentTarget.attributes.tournamentId.value;
+          this.tournamentNameToInvite = event.currentTarget.attributes.tournamentName.value;
+          this.fire('invite-players');
         }
       });
 

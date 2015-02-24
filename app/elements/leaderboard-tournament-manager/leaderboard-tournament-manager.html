@@ -2,7 +2,7 @@
 
     <polymer-element
       name="leaderboard-tournament-manager"
-      attributes="selected userDetails tournamentToJoinId joinTournament tournamentJoinedName wide">
+      attributes="selected userDetails tournamentToJoinId hostUserId joinTournament tournamentJoinedName wide">
       <template>
         <link rel="stylesheet" href="leaderboard-tournament-manager.css">
 
@@ -57,12 +57,15 @@
                                             name="manageTournaments"
                                             hostedTournaments="{{hostedTournaments}}"
                                             tournamentIdToUpdate="{{tournamentIdToUpdate}}"
+                                            tournamentNameToInvite="{{tournamentNameToInvite}}"
+                                            tournamentIdToInvite="{{tournamentIdToInvite}}"
                                             roundIdToUpdate="{{roundIdToUpdate}}"
                                             on-delete-tournament="{{deleteTournament}}"
                                             on-edit-tournament="{{editTournament}}"
                                             on-add-round="{{addNewRound}}"
                                             on-edit-round="{{editRound}}"
-                                            on-delete-round="{{deleteRound}}">
+                                            on-delete-round="{{deleteRound}}"
+                                            on-invite-players="{{invitePlayers}}">
             </leaderboard-manage-tournaments>
 
             <leaderboard-tournament-details id="tournamentDetails"
@@ -454,8 +457,9 @@
         // Called when a tournamentToJoinId is set
         tournamentToJoinIdChanged: function() {
 
-            this.addTournamentToUserDetails();
-            this.addUserIdToTournamentPlayers();
+          this.addTournamentToUserDetails();
+          this.addUserIdToTournamentPlayers();
+          this.addPlayersToHost();
         },
 
         // Called when a new tournament is pushed to the Firebase tournaments area
@@ -464,6 +468,23 @@
           if (this.userTournamentsReady && this.userDetails && this.tournamentToJoinId.length > 0) {
             this.userTournaments = this.userTournaments || {};
             this.userTournaments[this.tournamentToJoinId] = true;
+          }
+        },
+
+        // Add a player id to a host user's players
+        addPlayersToHost: function() {
+
+          var hostPlayers;
+          var self = this;
+
+          if (this.userDetails && this.hostUserId.length > 0) {
+
+            hostPlayers = new Firebase('https://incandescent-heat-3687.firebaseio.com/users/' + this.hostUserId);
+
+            hostPlayers.once('value', function (snap) {
+              hostPlayers.child('players').push(self.userDetails.uid);
+            });
+
           }
         },
 
@@ -502,6 +523,21 @@
               }
             });
           }
+        },
+
+        // Invite players to a tournament using mailto
+        // ToDo - link to a route that can add players associated to tournament host
+        invitePlayers: function() {
+
+          var mailToLink = 'https://incandescent-heat-3687.firebaseapp.com/?tournament=' +
+          this.tournamentIdToInvite + '&host=' + this.userDetails.uid;
+
+          window.location.href = 'mailto:?subject=' + this.tournamentNameToInvite +
+          ' Golf Tournament Invite - ' + mailToLink +
+          '&?body=You%20are%20invited%20to the ' + this.tournamentNameToInvite +
+          ' golf tournament. Follow this link to join - ' + mailToLink;
+
+          console.log(mailToLink);
         }
       });
 

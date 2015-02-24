@@ -34,6 +34,7 @@
                                           userDetails="{{userDetails}}"
                                           wide="{{wide}}"
                                           tournamentToJoinId="{{tournamentToJoinId}}"
+                                          hostUserId="{{hostUserId}}"
                                           joinTournament="{{joinTournament}}"
                                           tournamentJoinedName="{{tournamentJoinedName}}"
                                           vertical layout
@@ -88,9 +89,13 @@
 
               joinTournament: true,
 
+              hostUserId: '',
+
               tournamentToJoinId: '',
 
               tournamentJoinedName: '',
+
+              landingRoute: 'menu',
 
               // Set default hash to authentication if no hash specified in URL
               ready: function() {
@@ -99,6 +104,12 @@
 
                 this.setGlobalStyles('auth');
                 this.route = this.route || 'profile';
+
+                // Set a landing route so user can be redirected after authentication route changes. Not needed for menu
+                // as that is default route.
+                if (this.route != 'menu') {
+                  this.landingRoute = this.route;
+                }
 
                 if (!this.user) {
                   this.startup();
@@ -163,7 +174,7 @@
 
               completeStartup: function() {
                 if (this.user) {
-                  this.enterSite();
+                  this.route = this.landingRoute;
                 } else {
                   this.enterAuthentication();
                 }
@@ -183,14 +194,21 @@
               setJoinTournament: function() {
 
                 if (this.userDetails && this.joinTournament) {
-                  var tournamentId = window.location.search;
-                  this.tournamentToJoinId = tournamentId.replace("?tournament=", '');
+                  this.tournamentToJoinId = this.getQueryParameters().tournament || '';
+                  this.hostUserId = this.getQueryParameters().host || '';
                 }
               },
 
               // Alert user to successfully joining tournament
               tournamentJoinSuccess: function() {
                 this.$.TournamentJoined.open();
+              },
+
+              // Helper to convert query string params to an object
+              getQueryParameters: function(str) {
+
+                return (str || document.location.search).replace(/(^\?)/,'')
+                  .split("&").map(function(n){return n = n.split("="),this[n[0]] = n[1],this}.bind({}))[0];
               }
             });
 
