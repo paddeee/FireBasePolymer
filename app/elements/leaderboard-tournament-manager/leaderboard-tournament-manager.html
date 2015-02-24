@@ -2,7 +2,7 @@
 
     <polymer-element
       name="leaderboard-tournament-manager"
-      attributes="selected userDetails tournamentToJoinId joinTournament wide">
+      attributes="selected userDetails tournamentToJoinId joinTournament tournamentJoinedName wide">
       <template>
         <link rel="stylesheet" href="leaderboard-tournament-manager.css">
 
@@ -483,6 +483,9 @@
             tournament.once('value', function (snap) {
 
               var playerIdExists = false;
+
+              // Set tournament name to be used in communicating to user.
+              self.tournamentJoinedName = snap.val().name;
 
               snap.child('players').forEach(function (userSnap) {
                 if (userSnap.val().uid === self.userDetails.uid) {
