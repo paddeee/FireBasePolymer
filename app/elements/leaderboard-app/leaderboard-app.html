@@ -8,6 +8,16 @@
 
         <flatiron-director route="{{route}}" autoHash></flatiron-director>
 
+        <paper-action-dialog id="TournamentJoined"
+                             backdrop
+                             autoCloseDisabled
+                             layered="true"
+                             heading="Joined Tournament"
+                             transition="core-transition-center">
+          <p>You have been added to the ... tournament.</p>
+          <paper-button affirmative autofocus>Continue</paper-button>
+        </paper-action-dialog>
+
         <core-animated-pages
           valueattr="hash"
           id="coreAnimatedPages"
@@ -25,7 +35,8 @@
                                           wide="{{wide}}"
                                           tournamentToJoinId="{{tournamentToJoinId}}"
                                           joinTournament="{{joinTournament}}"
-                                          vertical layout>
+                                          vertical layout
+                                          on-tournament-join-successful="{{tournamentJoinSuccess}}">
           </leaderboard-tournament-manager>
 
           <leaderboard-scorecard hash="scorecard" userDetails="{{userDetails}}" wide="{{wide}}" vertical layout>
@@ -172,6 +183,11 @@
                   var tournamentId = window.location.search;
                   this.tournamentToJoinId = tournamentId.replace("?tournament=", '');
                 }
+              },
+
+              // Alert user to successfully joining tournament
+              tournamentJoinSuccess: function() {
+                this.$.TournamentJoined.open();
               }
             });
 

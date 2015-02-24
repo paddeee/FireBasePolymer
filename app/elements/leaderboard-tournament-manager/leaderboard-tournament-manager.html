@@ -493,6 +493,9 @@
               if (!playerIdExists) {
                 tournamentPlayers.push(player);
                 self.joinTournament = false;
+
+                // Show Dialog
+                self.fire('tournament-join-successful');
               }
             });
           }
