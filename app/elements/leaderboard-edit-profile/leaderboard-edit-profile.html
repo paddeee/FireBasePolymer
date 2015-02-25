@@ -42,6 +42,7 @@
             this.uid = this.$.user.data.uid;
             this.hostedTournaments = this.$.user.data.hostedtournaments;
             this.tournaments = this.$.user.data.tournaments;
+            this.players = this.$.user.data.players;
 
             this.userDetails = this.$.user.data;
           }
@@ -64,7 +65,8 @@
               uid: this.user.uid || '',
               email: this.user.email || '',
               hostedtournaments: this.userDetails.hostedtournaments || '',
-              tournaments: this.userDetails.tournaments || ''
+              tournaments: this.userDetails.tournaments || '',
+              players: this.userDetails.players || ''
             }
 
             this.userDetails = this.$.user.data;
