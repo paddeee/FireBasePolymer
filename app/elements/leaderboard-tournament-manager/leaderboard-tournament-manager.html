@@ -482,9 +482,20 @@
             hostPlayers = new Firebase('https://incandescent-heat-3687.firebaseio.com/users/' + this.hostUserId);
 
             hostPlayers.once('value', function (snap) {
-              hostPlayers.child('players').push(self.userDetails.uid);
-            });
 
+              var playerIdExists = false;
+
+              snap.child('players').forEach(function (playerSnap) {
+                if (playerSnap.val() === self.userDetails.uid) {
+                  playerIdExists = true;
+                }
+              });
+
+              if (!playerIdExists) {
+                hostPlayers.child('players').push(self.userDetails.uid);
+                playerIdExists = true;
+              }
+            });
           }
         },
 
@@ -493,13 +504,8 @@
 
           var self = this;
           var tournament = new Firebase(this.tournamentsLocation + this.tournamentToJoinId);
-          var player;
 
           if (this.userDetails && this.tournamentToJoinId.length > 0) {
-
-            player = {
-              'uid': this.userDetails.uid
-            }
 
             tournament.once('value', function (snap) {
 
@@ -509,13 +515,13 @@
               self.tournamentJoinedName = snap.val().name;
 
               snap.child('players').forEach(function (userSnap) {
-                if (userSnap.val().uid === self.userDetails.uid) {
+                if (userSnap.val() === self.userDetails.uid) {
                   playerIdExists = true;
                 }
               });
 
               if (!playerIdExists) {
-                tournament.child('players').push(player);
+                tournament.child('players').push(self.userDetails.uid);
                 self.joinTournament = false;
 
                 // Show Dialog
