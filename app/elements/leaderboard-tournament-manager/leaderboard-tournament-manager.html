@@ -383,7 +383,9 @@
           if (this.selected === 'manageTournaments') {
             this.homeNavigation();
           } else {
-            this.selected = this.sectionData[this.selected].backNavigation;
+            //this.selected = this.sectionData[this.selected].backNavigation;
+            // For now back will always just go to top level of Tournamanet Manager
+            this.selected = 'manageTournaments';
           }
         },
 
