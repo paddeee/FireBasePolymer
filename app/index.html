@@ -11,6 +11,29 @@
   <meta name="apple-touch-fullscreen" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" >
   <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+  <style>
+    .splash--hide {
+      display:none;
+    }
+
+    .splash-fade {
+      background-color: #eee;
+      background-repeat: no-repeat;
+      background-position: 50%;
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 2;
+      -webkit-transition: opacity 350ms cubic-bezier(0.4, 0, 0.2, 1);
+      transition: opacity 350ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .splash-fade--fade-out {
+      opacity: 0;
+    }
+  </style>
 
   <!-- build:css styles/main.css -->
   <link rel="stylesheet" href="styles/main.css">
@@ -24,6 +47,10 @@
   <!-- endbuild-->
 </head>
 <body unresolved>
+
+    <div class="splash">
+      <span class="splash-fade"></span>
+    </div>
 
     <template is="auto-binding">
         <leaderboard-app></leaderboard-app>

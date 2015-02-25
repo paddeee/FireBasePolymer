@@ -97,6 +97,8 @@
 
               landingRoute: 'menu',
 
+              splashElement: document.querySelector('.splash'),
+
               // Set default hash to authentication if no hash specified in URL
               ready: function() {
 
@@ -107,7 +109,7 @@
 
                 // Set a landing route so user can be redirected after authentication route changes. Not needed for menu
                 // as that is default route.
-                if (this.route != 'menu') {
+                if (this.route != 'menu' && this.route != 'profile') {
                   this.landingRoute = this.route;
                 }
 
@@ -118,14 +120,10 @@
 
               routeChanged: function() {
 
-                if (!this.user) {
-                  this.completeStartup();
+                if (this.route === "profile") {
+                  this.setGlobalStyles('auth');
                 } else {
-                  if (this.route === "profile") {
-                    this.setGlobalStyles('auth');
-                  } else {
-                    this.setGlobalStyles('section');
-                  }
+                  this.setGlobalStyles('section');
                 }
               },
 
@@ -182,6 +180,13 @@
                 } else {
                   this.enterAuthentication();
                 }
+
+                // Fade out splash screen
+                this.splashElement.children[0].classList.add('splash-fade--fade-out');
+                this.async(function() {
+                  this.splashElement.classList.add('splash--hide');
+                }, null, 350);
+
               },
 
               sectionSelect: function() {
