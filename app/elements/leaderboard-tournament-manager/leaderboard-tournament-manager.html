@@ -488,6 +488,7 @@
               snap.child('players').forEach(function (playerSnap) {
                 if (playerSnap.val() === self.userDetails.uid) {
                   playerIdExists = true;
+                  return;
                 }
               });
 
@@ -503,29 +504,34 @@
         addUserIdToTournamentPlayers: function() {
 
           var self = this;
-          var tournament = new Firebase(this.tournamentsLocation + this.tournamentToJoinId);
+          var tournament;
 
           if (this.userDetails && this.tournamentToJoinId.length > 0) {
+
+            tournament = new Firebase(this.tournamentsLocation + this.tournamentToJoinId);
 
             tournament.once('value', function (snap) {
 
               var playerIdExists = false;
 
               // Set tournament name to be used in communicating to user.
-              self.tournamentJoinedName = snap.val().name;
+              if (snap.val()) {
+                self.tournamentJoinedName = snap.val().name;
 
-              snap.child('players').forEach(function (userSnap) {
-                if (userSnap.val() === self.userDetails.uid) {
-                  playerIdExists = true;
+                snap.child('players').forEach(function (userSnap) {
+                  if (userSnap.val() === self.userDetails.uid) {
+                    playerIdExists = true;
+                    return;
+                  }
+                });
+
+                if (!playerIdExists) {
+                  tournament.child('players').push(self.userDetails.uid);
+                  self.joinTournament = false;
+
+                  // Show Dialog
+                  self.fire('tournament-join-successful');
                 }
-              });
-
-              if (!playerIdExists) {
-                tournament.child('players').push(self.userDetails.uid);
-                self.joinTournament = false;
-
-                // Show Dialog
-                self.fire('tournament-join-successful');
               }
             });
           }
@@ -536,12 +542,11 @@
         invitePlayers: function() {
 
           var mailToLink = 'https://incandescent-heat-3687.firebaseapp.com/?tournament=' +
-          this.tournamentIdToInvite + '&host=' + this.userDetails.uid;
+          this.tournamentIdToInvite + '%36host=' + this.userDetails.uid;
 
           window.location.href = 'mailto:?subject=' + this.tournamentNameToInvite +
-          ' Golf Tournament Invite - ' + mailToLink +
-          '&?body=You%20are%20invited%20to the ' + this.tournamentNameToInvite +
-          ' golf tournament. Follow this link to join - ' + mailToLink;
+          ' Golf Tournament Invite&body=You%20are%20invited%20to%20the%20' + this.tournamentNameToInvite +
+          ' golf%20tournament.%20Follow%20this%20link%20to%20join%20-%20' + mailToLink;
 
           console.log(mailToLink);
         }
