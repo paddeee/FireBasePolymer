@@ -33,6 +33,8 @@
             <paper-button raised
                           on-tap="{{showDialog}}"
                           transition="core-transition-center">DELETE</paper-button>
+            <paper-button raised on-tap="{{editTournament}}"
+                          tournamentId="{{tournament.id}}">EDIT</paper-button>
             <paper-action-dialog id="DeleteTournamentDialog"
                                  backdrop
                                  autoCloseDisabled
@@ -45,8 +47,6 @@
                             on-tap="{{deleteTournament}}"
                             tournamentId="{{tournament.id}}">Remove</paper-button>
             </paper-action-dialog>
-            <paper-button raised on-tap="{{editTournament}}"
-                          tournamentId="{{tournament.id}}">EDIT</paper-button>
           </div>
 
           <div class="divider"></div>
@@ -97,7 +97,8 @@
 
         showDialog: function(event) {
 
-          var dialog = event.target.nextElementSibling;
+          // Dialog must be last child element
+          var dialog = event.target.parentNode.lastElementChild;
 
           if (!dialog) {
             return;
