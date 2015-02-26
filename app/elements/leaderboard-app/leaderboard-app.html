@@ -105,13 +105,13 @@
                 this.readyTime = Date.now();
 
                 this.setGlobalStyles('auth');
-                this.route = this.route || 'profile';
 
                 // Set a landing route so user can be redirected after authentication route changes. Not needed for menu
                 // as that is default route.
-                if (this.route != 'menu' && this.route != 'profile') {
-                  this.landingRoute = this.route;
-                }
+                this.landingRoute = this.route;
+
+                //this.route = this.route || 'profile';
+                this.route = 'profile';
 
                 if (!this.user) {
                   this.startup();
