@@ -1,3 +1,8 @@
 :host {
   overflow: hidden;
 }
+
+paper-button {
+  color: $primaryBgColour;
+  font-size: 12px;
+}
