@@ -2,7 +2,7 @@
 
     <polymer-element
       name="leaderboard-tournament-manager"
-      attributes="selected userDetails tournamentToJoinId hostUserId joinTournament tournamentJoinedName wide">
+      attributes="selected route userDetails tournamentToJoinId hostUserId joinTournament tournamentJoinedName wide">
       <template>
         <link rel="stylesheet" href="leaderboard-tournament-manager.css">
 
@@ -187,20 +187,45 @@
 
         sectionData: {
           'manageTournaments': {
-            'backNavigation': 'menu',
+            'selectedHash': 'tournament-manager',
+            'name': 'manageTournaments',
             'title': 'Tournament Manager'
           },
           'tournamentDetails': {
-            'backNavigation': 'manageTournaments',
+            'selectedHash': 'tournament-manager/tournament-details',
+            'name': 'tournamentDetails',
             'title': 'Tournament Details'
           },
           'clubSearch': {
-            'backNavigation': 'tournamentDetails',
+            'selectedHash': 'tournament-manager/club-search',
+            'name': 'clubSearch',
             'title': 'Find Golf Club'
           },
           'chooseCourse': {
-            'backNavigation': 'clubSearch',
+            'selectedHash': 'tournament-manager/choose-course',
+            'name': 'chooseCourse',
             'title': 'Choose Course'
+          }
+        },
+
+        // Internal handling for tournament-manager's route changes
+        routeChanged: function() {
+
+          switch (this.route) {
+            case 'tournament-manager':
+              this.selected = 'manageTournaments';
+              break;
+            case 'tournament-manager/tournament-details':
+              this.selected = 'tournamentDetails';
+              break;
+            case 'tournament-manager/club-search':
+              this.selected = 'clubSearch';
+              break;
+            case 'tournament-manager/choose-course':
+              this.selected = 'chooseCourse';
+              break;
+            default:
+              break;
           }
         },
 
@@ -286,8 +311,8 @@
               return (this.tournamentIdToUpdate !== tournament.id);
             }, this);
 
-            // ToDo: remove if bug with paper-action-dialog
-            this.removeBackdrop();
+            // ToDo: remove if bug with paper-action-dialog gets fixed
+            //this.removeBackdrop();
           }
         },
 
@@ -303,8 +328,7 @@
 
             // Navigate to Manage Tournaments home view
             this.creatingTournament = false;
-            this.selected = 'tournamentDetails';
-            history.pushState(null, null, '#tournament-manager');
+            this.navigateTo(this.sectionData.tournamentDetails);
           }
         },
 
@@ -321,8 +345,7 @@
             // Reset so this method will fire if same tournament edit button is selected next
             this.creatingTournament = false;
             this.creatingRound = true;
-            this.selected = 'clubSearch';
-            history.pushState(null, null, '#tournament-manager');
+            this.navigateTo(this.sectionData.clubSearch);
           }
         },
 
@@ -345,8 +368,7 @@
             // Navigate to Choose Course
             this.creatingTournament = false;
             this.creatingRound = false;
-            this.selected = 'chooseCourse';
-            history.pushState(null, null, '#tournament-manager');
+            this.navigateTo(this.sectionData.chooseCourse);
           }
         },
 
@@ -380,13 +402,7 @@
 
         // Handler for back button in toolbar
         backNavigation: function() {
-          if (this.selected === 'manageTournaments') {
-            this.homeNavigation();
-          } else {
-            //this.selected = this.sectionData[this.selected].backNavigation;
-            // For now back will always just go to top level of Tournamanet Manager
-            this.selected = 'manageTournaments';
-          }
+          window.history.back();
         },
 
         // Handler for home button in toolbar
@@ -398,8 +414,7 @@
         addTournamentButtonHandler: function() {
           this.creatingTournament = true;
           this.hostedTournamentToUpdate = {};
-          this.selected = 'tournamentDetails';
-          history.pushState(null, null, '#tournament-manager');
+          this.navigateTo(this.sectionData.tournamentDetails);
         },
 
         // Handler for Fab button on details page
@@ -407,12 +422,10 @@
 
           this.$.tournamentDetails.updateTournamentObject();
           if (this.creatingTournament) {
-            this.selected = 'clubSearch';
-            history.pushState(null, null, '#tournament-manager');
+            this.navigateTo(this.sectionData.clubSearch);
           } else {
             this.updateHostedTournament();
-            this.selected = 'manageTournaments';
-            history.pushState(null, null, '#tournament-manager');
+            this.navigateTo(this.sectionData.manageTournaments);
           }
         },
 
@@ -421,8 +434,7 @@
           this.$.chooseCourse.saveTournament();
 
           // Navigate to Manage Tournaments home view
-          this.selected = 'manageTournaments';
-          history.pushState(null, null, '#tournament-manager');
+          this.navigateTo(this.sectionData.manageTournaments);
         },
 
         // Handler for Add Round Fab button on courses page
@@ -430,8 +442,7 @@
           this.$.chooseCourse.addRound();
 
           // Navigate to Manage Tournaments home view
-          this.selected = 'manageTournaments';
-          history.pushState(null, null, '#tournament-manager');
+          this.navigateTo(this.sectionData.manageTournaments);
         },
 
         // Handler for Edit Round Fab button on courses page
@@ -439,8 +450,7 @@
           this.$.chooseCourse.editRound();
 
           // Navigate to Manage Tournaments home view
-          this.selected = 'manageTournaments';
-          history.pushState(null, null, '#tournament-manager');
+          this.navigateTo(this.sectionData.manageTournaments);
         },
 
         // Handler for Fab button on search page
@@ -451,8 +461,7 @@
         // Called when a user selects a result from the Club search
         chosenClubChanged: function() {
           if (this.chosenClub) {
-            this.selected = 'chooseCourse';
-            history.pushState(null, null, '#tournament-manager');
+            this.navigateTo(this.sectionData.chooseCourse);
           }
         },
 
@@ -537,6 +546,12 @@
               }
             });
           }
+        },
+
+        // Manage navigation and add history record in browser
+        navigateTo: function (sectionData) {
+          this.selected = sectionData.name;
+          window.location.hash = sectionData.selectedHash;
         },
 
         // Invite players to a tournament using mailto
