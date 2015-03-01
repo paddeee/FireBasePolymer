@@ -408,12 +408,17 @@
           window.history.back();
         },
 
-        // Handler for home button in toolbar
+        // Handler for home button in toolbar. If on top level route, go straight to menu. Otherwise go back to top level
+        // route and then go back to menu as deep routes won't be recognised in parent core animated pages element
         homeNavigation: function() {
-          this.navigateTo(this.sectionData.manageTournaments);
-          this.async(function() {
+          if (this.selected === this.sectionData.manageTournaments.name) {
             window.location.hash = 'menu';
-          }, null, 400);
+          } else {
+            this.navigateTo(this.sectionData.manageTournaments);
+            this.async(function () {
+              window.location.hash = 'menu';
+            }, null, 400);
+          }
         },
 
         // Handler for Fab button on manager page
