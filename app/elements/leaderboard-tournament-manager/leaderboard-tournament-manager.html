@@ -214,24 +214,21 @@
         // Internal handling for tournament-manager's route changes
         routeChanged: function() {
 
-          if (this.route !== 'menu') {
-
-            switch (this.route) {
-              case 'tournament-manager':
-                this.selected = 'manageTournaments';
-                break;
-              case 'tournament-manager/tournament-details':
-                this.selected = 'tournamentDetails';
-                break;
-              case 'tournament-manager/club-search':
-                this.selected = 'clubSearch';
-                break;
-              case 'tournament-manager/choose-course':
-                this.selected = 'chooseCourse';
-                break;
-              default:
-                break;
-            }
+          switch (this.route) {
+            case 'tournament-manager':
+              this.selected = 'manageTournaments';
+              break;
+            case 'tournament-manager/tournament-details':
+              this.selected = 'tournamentDetails';
+              break;
+            case 'tournament-manager/club-search':
+              this.selected = 'clubSearch';
+              break;
+            case 'tournament-manager/choose-course':
+              this.selected = 'chooseCourse';
+              break;
+            default:
+              break;
           }
         },
 

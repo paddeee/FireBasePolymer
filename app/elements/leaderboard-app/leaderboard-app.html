@@ -167,7 +167,12 @@
               completeStartup: function() {
                 if (this.user) {
                   if (this.landingRoute.length && this.landingRoute !== 'profile') {
-                    this.route = this.landingRoute;
+
+                    //Wrap in async as new sigup can mean this firing twice instantly which makes browser throw wobbly
+                    this.async(function() {
+                      this.route = this.landingRoute;
+                    }, null, 100);
+
                   } else {
                     this.route = 'menu';
                   }

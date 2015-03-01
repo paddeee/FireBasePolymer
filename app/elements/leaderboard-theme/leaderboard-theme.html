@@ -40,7 +40,12 @@
     }
 
     :host /deep/ paper-checkbox::shadow #checkbox.checked {
+        background-color: {{ g.theme.primaryAccentColour }};
         border-color: {{ g.theme.primaryAccentColour }};
+    }
+
+    :host /deep/ paper-checkbox::shadow #checkbox.checked #checkmark{
+      border-color: {{ g.theme.darkTextColour }};
     }
 
     :host /deep/ paper-checkbox::shadow #ink {
