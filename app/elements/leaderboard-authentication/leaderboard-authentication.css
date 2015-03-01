@@ -58,6 +58,16 @@ h2 {
   background-color: #fff;
   margin: 0; }
 
+:host ::shadow paper-slider{
+  width: auto;
+  max-width: 20em; }
+
+:host ::shadow .handicap-slider-container {
+  color: #FFF;
+  padding: 2em 0; }
+:host ::shadow .handicap-slider-container div {
+  padding: 10px 0 0; }
+
 .background-fade {
   background-color: #eee; }
 

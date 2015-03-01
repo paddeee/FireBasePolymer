@@ -75,9 +75,14 @@ h2 {
   margin: 0;
 }
 
+:host ::shadow paper-slider {
+  width: auto;
+  max-width: 20em;
+}
+
 :host ::shadow .handicap-slider-container {
   color: $primaryTextColour;
-  padding: 1.5em 0;
+  padding: 2em 0;
 
   div {
     padding: 10px 0 0;
