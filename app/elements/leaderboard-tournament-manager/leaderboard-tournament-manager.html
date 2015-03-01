@@ -51,6 +51,7 @@
           <core-animated-pages class="tournament-manager-pages"
                                selected="{{selected}}"
                                transitions="slide-from-right"
+                               on-core-animated-pages-transition-end="{{slideAnimationComplete}}"
                                auto>
 
             <leaderboard-manage-tournaments id="manageTournaments"
@@ -184,6 +185,8 @@
         roundIdToUpdate: '',
 
         userTournamentsReady: false,
+
+        backButtonTapped: false,
 
         sectionData: {
           'manageTournaments': {
@@ -414,10 +417,8 @@
           if (this.selected === this.sectionData.manageTournaments.name) {
             window.location.hash = 'menu';
           } else {
+            this.backButtonTapped = true;
             this.navigateTo(this.sectionData.manageTournaments);
-            this.async(function () {
-              window.location.hash = 'menu';
-            }, null, 800);
           }
         },
 
@@ -575,6 +576,16 @@
           window.location.href = 'mailto:?subject=' + this.tournamentNameToInvite +
           ' Golf Tournament Invite&body=You%20are%20invited%20to%20the%20' + this.tournamentNameToInvite +
           ' golf%20tournament.%20Follow%20this%20link%20to%20join%20-%20' + mailToLink;
+        },
+
+        // Slide completed so if home button was tapped we can navigate back to menu
+        slideAnimationComplete: function() {
+
+          if (this.backButtonTapped) {
+            window.location.hash = 'menu';
+          }
+
+          this.backButtonTapped = false;
         }
       });
 
