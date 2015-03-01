@@ -58,8 +58,8 @@ h2 {
   background-color: #fff;
   margin: 0; }
 
-:host ::shadow paper-slider{
-  width: auto;
+:host ::shadow paper-slider {
+  width: 100%;
   max-width: 20em; }
 
 :host ::shadow .handicap-slider-container {
