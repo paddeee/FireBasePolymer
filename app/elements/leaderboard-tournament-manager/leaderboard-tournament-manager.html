@@ -211,21 +211,24 @@
         // Internal handling for tournament-manager's route changes
         routeChanged: function() {
 
-          switch (this.route) {
-            case 'tournament-manager':
-              this.selected = 'manageTournaments';
-              break;
-            case 'tournament-manager/tournament-details':
-              this.selected = 'tournamentDetails';
-              break;
-            case 'tournament-manager/club-search':
-              this.selected = 'clubSearch';
-              break;
-            case 'tournament-manager/choose-course':
-              this.selected = 'chooseCourse';
-              break;
-            default:
-              break;
+          if (this.route !== 'menu') {
+
+            switch (this.route) {
+              case 'tournament-manager':
+                this.selected = 'manageTournaments';
+                break;
+              case 'tournament-manager/tournament-details':
+                this.selected = 'tournamentDetails';
+                break;
+              case 'tournament-manager/club-search':
+                this.selected = 'clubSearch';
+                break;
+              case 'tournament-manager/choose-course':
+                this.selected = 'chooseCourse';
+                break;
+              default:
+                break;
+            }
           }
         },
 
@@ -407,8 +410,10 @@
 
         // Handler for home button in toolbar
         homeNavigation: function() {
-          //this.navigateTo(this.sectionData.manageTournaments);
-          this.parentElement.selected = 'menu';
+          this.navigateTo(this.sectionData.manageTournaments);
+          this.async(function() {
+            window.location.hash = 'menu';
+          }, null, 400);
         },
 
         // Handler for Fab button on manager page
