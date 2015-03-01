@@ -63,9 +63,9 @@
 
           <leaderboard-authentication hash="profile" userDetails="{{userDetails}}" user="{{user}}"
                                       statusKnown="{{statusKnown}}" wide="{{wide}}" layout center vertical
-                                      on-user-logged-in="{{ enterSite }}"
+                                      on-user-logged-in="{{ completeStartup }}"
                                       on-user-logged-out="{{ enterAuthentication }}"
-                                      on-profile-changed="{{ enterSite }}">
+                                      on-profile-changed="{{ completeStartup }}">
           </leaderboard-authentication>
 
         </core-animated-pages>
@@ -121,7 +121,11 @@
 
               routeChanged: function() {
 
-                if (this.route === "profile") {
+                if (!this.user) {
+                  this.route = 'profile';
+                }
+
+                if (this.route === 'profile') {
                   this.setGlobalStyles('auth');
                 } else {
                   this.setGlobalStyles('section');
@@ -131,17 +135,6 @@
               // Triggered when user logged out to force users to authentication
               enterAuthentication: function() {
                 this.route = 'profile';
-              },
-
-              // Triggered when user logged in. If route isn't for authentication take them to the hash specified in URL
-              // Otherwise go to the menu.
-              enterSite: function() {
-
-                if (this.route !== 'profile') {
-                  this.route = this.route;
-                } else {
-                  this.route = 'menu';
-                }
               },
 
               // Hacky but necessary due to only being able to style certain parts of paper-inputs via the Global theme
@@ -173,7 +166,7 @@
 
               completeStartup: function() {
                 if (this.user) {
-                  if (this.route !== 'profile') {
+                  if (this.landingRoute !== 'profile') {
                     this.route = this.landingRoute;
                   } else {
                     this.route = 'menu';
