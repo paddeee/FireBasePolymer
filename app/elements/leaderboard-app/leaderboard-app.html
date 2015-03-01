@@ -109,7 +109,7 @@
 
                 // Set a landing route so user can be redirected after authentication route changes. Not needed for menu
                 // as that is default route.
-                this.landingRoute = this.route;
+                this.landingRoute = this.parseLandingRoute(this.route);
 
                 //this.route = this.route || 'profile';
                 this.route = 'profile';
@@ -166,7 +166,7 @@
 
               completeStartup: function() {
                 if (this.user) {
-                  if (this.landingRoute !== 'profile') {
+                  if (this.landingRoute.length && this.landingRoute !== 'profile') {
                     this.route = this.landingRoute;
                   } else {
                     this.route = 'menu';
@@ -212,6 +212,11 @@
 
                 return (str || document.location.search).replace(/(^\?)/,'')
                   .split("&").map(function(n){return n = n.split("="),this[n[0]] = n[1],this}.bind({}))[0];
+              },
+
+              // If route is more than one level deep, strip the end off
+              parseLandingRoute: function(landingRoute) {
+                return landingRoute.replace(/\/([^\/\?]+)/g, '');
               }
             });
 
