@@ -69,8 +69,10 @@ $primary-accent-colour: #eeff41;
   font-size: 16px;
   line-height: 26px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
   background-color: $primary-bg-colour;
   color: $primary-text-colour--light;
+  z-index:1;
 }
 
 .card > core-toolbar::shadow #topBar {
@@ -119,6 +121,7 @@ paper-fab {
   transform: scale(0);
   -webkit-transform-origin: 50% 50%;
   transform-origin: 50% 50%;
+  z-index:1;
 }
 
 :host([active]) paper-fab[showing] {

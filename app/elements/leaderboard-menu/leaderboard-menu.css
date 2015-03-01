@@ -11,8 +11,10 @@
 core-toolbar {
   background-color: #009688;
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+  border-bottom: 1px solid rgba(0,0,0,.15);
   color: #fff;
-  height: 100px; }
+  height: 100px;
+  z-index: 1;}
 
 .section-list {
   display: block;
