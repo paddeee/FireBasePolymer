@@ -11,9 +11,10 @@
     <paper-input label="Name (optional)" floatinglabel value="{{name}}"
                  type="name" id="name_input" layout vertical>
     </paper-input>
-    <paper-input label="Handicap (optional)" floatinglabel value="{{handicap}}"
-                 type="handicap" id="handicap_input" layout vertical>
-    </paper-input>
+    <div class="handicap-slider-container">
+      <div>Handicap</div>
+      <paper-slider id="handicap_input" min="0" max="36" value="{{handicap}}" editable pin></paper-slider>
+    </div>
     <div class="button-holder" horizontal center layout>
       <paper-button raised on-tap="{{signOut}}">Sign Out</paper-button>
       <div flex></div>

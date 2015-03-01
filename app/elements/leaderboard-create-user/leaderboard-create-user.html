@@ -13,12 +13,15 @@
       <input id="password_input" is="core-input" type="password" on-keyup="{{ validate }}"
              value="{{password}}" required>
     </paper-input-decorator>
-    <paper-input label="Name (optional)" floatinglabel value="{{name}}"
-                 type="name" id="name_input" layout vertical>
-    </paper-input>
-    <paper-input label="Handicap (optional)" floatinglabel value="{{handicap}}"
-                 type="handicap" id="handicap_input" layout vertical>
-    </paper-input>
+
+    <paper-input-decorator id="name" floatingLabel label="Name (optional)">
+      <input id="name_input" is="core-input" type="text"
+             value="{{name}}">
+    </paper-input-decorator>
+    <div class="handicap-slider-container">
+      <div>Handicap</div>
+      <paper-slider id="handicap_input" min="0" max="36" value="{{handicap}}" editable pin></paper-slider>
+    </div>
     <div class="button-holder" horizontal center layout>
       <div flex></div>
       <paper-fab id="CreateUserButton" icon="check"
@@ -39,6 +42,8 @@
         },
 
         showFab: false,
+
+        handicap: 18,
 
         // Paper-input-decorators need floating label resetting when value of child input is changed programmatically
         resetDecorators: function() {

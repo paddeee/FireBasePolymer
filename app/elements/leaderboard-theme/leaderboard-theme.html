@@ -73,6 +73,26 @@
       color: {{ g.theme.primaryTextColour }};
     }
 
+    :host /deep/ paper-slider::shadow #sliderBar::shadow #activeProgress {
+      background-color: {{ g.theme.primaryAccentColour }};
+    }
+
+    :host /deep/ paper-slider::shadow #sliderKnobInner {
+      background-color: {{ g.theme.primaryAccentColour }};
+    }
+
+    :host /deep/ paper-slider::shadow #sliderKnobInner::before {
+      background-color: {{ g.theme.primaryAccentColour }};
+    }
+
+    :host /deep/ paper-slider::shadow #sliderKnob > #sliderKnobInner::after {
+      color: {{ g.theme.darkTextColour }};
+    }
+
+    :host /deep/ paper-slider::shadow #sliderBar::shadow #progressContainer {
+      background-color: {{ g.theme.primaryTextColour }};
+    }
+
 </core-style>
 
 <core-style id="section--content">
