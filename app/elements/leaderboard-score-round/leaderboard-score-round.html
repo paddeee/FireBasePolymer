@@ -25,6 +25,22 @@
              hero-id="scoreround-background"
              hero="{{!wide}}">
 
+          <core-animated-pages class="tournament-manager-pages"
+                               selected="{{selected}}"
+                               transitions="slide-from-right"
+                               on-core-animated-pages-transition-end="{{slideAnimationComplete}}"
+                               auto>
+
+            <leaderboard-select-round id="selectRound"
+                                      name="selectRound">
+            </leaderboard-select-round>
+
+            <leaderboard-select-round id="selectRound"
+                                      name="selectRound">
+            </leaderboard-select-round>
+
+          </core-animated-pages>
+
         </div>
 
         <paper-fab class="check-button"
@@ -39,6 +55,12 @@
                          hero>
       </paper-icon-button>
 
+      <paper-icon-button class="home-button"
+                         icon="home"
+                         on-tap="{{homeNavigation}}"
+                         cross-fade>
+      </paper-icon-button>
+
     </div>
   </template>
   <script>
@@ -46,8 +68,33 @@
 
       Polymer({
 
+        sectionData: {
+          'selectRound': {
+            'selectedHash': 'score-round',
+            'name': 'selectRound',
+            'title': 'Select A Round'
+          },
+          'createGroup': {
+            'selectedHash': 'score-round/create-group',
+            'name': 'createGroup',
+            'title': 'Create Your Group'
+          },
+          'scoreGroup': {
+            'selectedHash': 'score-round/score-group',
+            'name': 'scoreGroup',
+            'title': 'Score The Round'
+          }
+        },
+
+        // Handler for back button in toolbar
         backNavigation: function() {
           window.history.back();
+        },
+
+        // Handler for home button in toolbar. If on top level route, go straight to menu. Otherwise go back to top level
+        // route and then go back to menu as deep routes won't be recognised in parent core animated pages element
+        homeNavigation: function() {
+          window.location.hash = 'menu';
         }
       });
 

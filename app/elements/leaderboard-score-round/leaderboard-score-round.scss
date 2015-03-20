@@ -35,7 +35,15 @@ $primary-accent-colour: #eeff41;
   position: absolute;
   top: 8px;
   left: 8px;
-  z-index: 10000;
+  z-index: 10;
+}
+
+.home-button {
+  color: $primary-text-colour--light;
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 10;
 }
 
 .wide > .back-button {
@@ -57,16 +65,18 @@ $primary-accent-colour: #eeff41;
 }
 
 .card > core-toolbar {
-  height: 150px;
+  height: 100px;
   font-size: 16px;
   line-height: 26px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.15);
-  background-color: $primary-bg-colour--dark;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+  background-color: $primary-bg-colour;
   color: $primary-text-colour--light;
+  z-index:1;
 }
 
 .card > core-toolbar::shadow #topBar {
-  height: 150px;
+  height: 100px;
 }
 
 .section-panel.wide > .card > core-toolbar {
@@ -77,15 +87,14 @@ $primary-accent-colour: #eeff41;
   padding: 0 8px;
 }
 
+.section-title {
+  padding-top: 30px;
+}
+
 .section-content {
-  background-color: #fff;
   overflow: auto;
   -webkit-overflow-scrolling: touch;
   position: relative;
-}
-
-.section-panel.wide .section-content {
-  overflow: inherit;
 }
 
 #sectionViews {
@@ -100,18 +109,24 @@ $primary-accent-colour: #eeff41;
   display: block;
 }
 
-paper-fab.check-button {
+paper-fab {
   position: absolute;
-  top: 148px;
+  top: 70px;
   right: 16px;
-  background-color: #f5f5f5;
-  color: #cdcdcd;
+  background-color: $primary-accent-colour;
+  color: $primary-text-colour--dark;
   transition: transform 500ms cubic-bezier(0.4, 0, 0.2, 1) 500ms, background-color 500ms cubic-bezier(0.4, 0, 0.2, 1);
   -webkit-transition: -webkit-transform 500ms cubic-bezier(0.4, 0, 0.2, 1) 500ms, background-color 500ms cubic-bezier(0.4, 0, 0.2, 1);
   -webkit-transform: scale(0);
   transform: scale(0);
   -webkit-transform-origin: 50% 50%;
   transform-origin: 50% 50%;
+  z-index:1;
+}
+
+:host([active]) paper-fab[showing] {
+  -webkit-transform: none;
+  transform: none;
 }
 
 :host([animate]) paper-fab {
