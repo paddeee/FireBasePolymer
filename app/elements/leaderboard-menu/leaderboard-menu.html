@@ -40,17 +40,17 @@
         </div>
       </div>
 
-      <div id="scorecard" class="menu-item scorecard" vertical layout>
+      <div id="score-round" class="menu-item scoreround" vertical layout>
         <div class="tile theme-bg-a" dummy fit></div>
         <div class="tile" flex vertical layout>
           <div flex relative>
-            <div fit layout vertical center center-justified hero-id="scorecard-background" hero>
+            <div fit layout vertical center center-justified hero-id="scoreround-background" hero>
               <div class="section-bg-wrapper" relative>
-                <core-icon icon="menu-tile-icons:scorecard" class="section-tile-bg" fit></core-icon>
+                <core-icon icon="menu-tile-icons:scoreround" class="section-tile-bg" fit></core-icon>
               </div>
             </div>
           </div>
-          <div class="section-name" horizontal center layout hero-id="scorecard-title" hero>
+          <div class="section-name" horizontal center layout hero-id="scoreround-title" hero>
             <div flex>
               <span cross-fade-delayed?="{{parentElement.lastSelected === 'tournament'}}">
                 Score Round
@@ -59,7 +59,7 @@
             <paper-icon-button
               class="section-icon"
               icon="arrow-forward"
-              hero-id="scorecard-back-button"
+              hero-id="scoreround-back-button"
               hero>
             </<paper-icon-button>
           </div>

@@ -1,8 +1,8 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 
-<polymer-element name="leaderboard-scorecard" attributes="userDetails wide">
+<polymer-element name="leaderboard-score-round" attributes="userDetails wide">
   <template>
-    <link rel="stylesheet" href="leaderboard-scorecard.css">
+    <link rel="stylesheet" href="leaderboard-score-round.css">
 
     <div id="sectionPanel" class="section-panel {{ {wide: wide} | tokenList }}"
          flex vertical layout?="{{!wide}}">
@@ -13,7 +13,7 @@
 
       <div class="card" flex?="{{!wide}}" vertical layout?="{{!wide}}" hero-p>
 
-        <core-toolbar class="menu-toolbar" hero-id="scorecard-title" hero>
+        <core-toolbar class="menu-toolbar" hero-id="scoreround-title" hero>
 
           <div class="section-title" flex cross-fade-delayed>Score Round</div>
 
@@ -22,7 +22,7 @@
         <div id="sectionContent"
              class="section-content"
              flex
-             hero-id="scorecard-background"
+             hero-id="scoreround-background"
              hero="{{!wide}}">
 
         </div>
@@ -35,7 +35,7 @@
       <paper-icon-button class="back-button"
                          icon="arrow-back"
                          on-tap="{{backNavigation}}"
-                         hero-id="scorecard-back-button"
+                         hero-id="scoreround-back-button"
                          hero>
       </paper-icon-button>
 
