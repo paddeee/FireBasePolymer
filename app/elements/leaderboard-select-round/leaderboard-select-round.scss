@@ -55,6 +55,21 @@ paper-button {
   font-size: 12px;
 }
 
+paper-fab {
+  position: absolute;
+  top: 70px;
+  right: 16px;
+  background-color: $primaryAccentColour;
+  color: $darkTextColour;
+  transition: transform 500ms cubic-bezier(0.4, 0, 0.2, 1) 500ms, background-color 500ms cubic-bezier(0.4, 0, 0.2, 1);
+  -webkit-transition: -webkit-transform 500ms cubic-bezier(0.4, 0, 0.2, 1) 500ms, background-color 500ms cubic-bezier(0.4, 0, 0.2, 1);
+  -webkit-transform: scale(0);
+  transform: scale(0);
+  -webkit-transform-origin: 50% 50%;
+  transform-origin: 50% 50%;
+  z-index:1;
+}
+
 .divider {
   background-color: rgba(0,0,0,0.12);
   height: 1px;

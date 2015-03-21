@@ -110,19 +110,20 @@
           this.parsedClubData = Object.create(this.clubData);
 
           if (this.parsedClubData.courses) {
-            this.calculateCourseLength(this.parsedClubData.courses);
+            this.calculateCourseLengths(this.parsedClubData.courses);
           }
         },
 
-        // Parse club details to add a course length property to display to user
+        // Parse club details to add a course length and par length properties to display to user
         // courses - Array
-        calculateCourseLength: function(courses) {
+        calculateCourseLengths: function(courses) {
           courses.forEach(this.iterateCourses.bind(this));
         },
 
-        // Iterate through each course
+        // Iterate through each course teebox
         iterateCourses: function(course) {
           course.teeboxes.forEach(this.iterateTeeBoxes.bind(this));
+          this.iterateParLengths(course.par);
         },
 
         // Iterate through each teebox of a course
@@ -133,6 +134,16 @@
           });
 
           teebox.distance.courseLength = courseLength;
+        },
+
+        // Iterate through each par hole length of a course
+        iterateParLengths: function(par) {
+
+          var parLength = par.reduce(function(previousValue, currentValue) {
+            return parseFloat(previousValue, 10) + parseFloat(currentValue, 10);
+          });
+
+          par.totalPar = parLength;
         },
 
         // When a radio input is selected find all other paper-input-groups
@@ -259,6 +270,7 @@
               round.teebox = this.chosenRound.teebox;
               round.date = this.chosenRound.date;
               round.name = this.chosenRound.name;
+              round.par = this.chosenRound.par;
             }
           }, this);
 
@@ -276,6 +288,7 @@
               this.chosenRound = Object.create(course);
               this.chosenRound.date = this.$.datePicker.value.toString();
               this.chosenRound.teebox = course.teeboxes[teeBoxIndex];
+              this.chosenRound.par = course.par;
               this.chosenRound.venue = this.clubData.name;
               this.chosenRound.clubId = this.clubId;
             }

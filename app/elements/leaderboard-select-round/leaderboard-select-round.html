@@ -23,16 +23,8 @@
             </div>
           </div>
 
-          <div class="button-holder" horizontal center layout>
-            <paper-button raised on-tap="{{editTournament}}"
-                          tournamentId="{{tournament.id}}">EDIT</paper-button>
-          </div>
-
           <div class="divider"></div>
 
-          <div class="rounds-container" horizontal center layout>
-            <div>Rounds</div>
-          </div>
           <template repeat="{{round, roundIndex in tournament.rounds}}">
             <div class="rounds-list-item" horizontal center layout>
               <div class="round-info"
@@ -40,29 +32,36 @@
                    roundId="{{round.roundId}}"
                    on-tap="{{editRound}}"
                    flex>
-                <div>Round {{roundIndex + 1}} - {{round.venue}}</div>
-                <div>
-                  <span hidden?="{{round.name.length === 0}}">{{round.name}} - </span>
-                  <span>{{round.teebox.name}} Tees</span>
+
+                <div horizontal center layout>
+                  <div vertical layout flex>
+                    <div>Round {{roundIndex + 1}}</div>
+                    <div>{{round.venue}}</div>
+                    <div hidden?="{{round.name.length === 0}}">{{round.name}}</div>
+                    <div>{{round.teebox.name}} Tees</div>
+                    <div>{{round.teebox.distance.courseLength}} {{round.teebox.distance.units}}</div>
+                    <div>Par {{round.par.totalPar}}</div>
+                  </div>
+                  <paper-icon-button class="create-group"
+                                     icon="social:group-add"
+                                     tournamentId="{{tournament.id}}"
+                                     tournamentName="{{tournament.name}}"
+                                     on-tap="{{createGroup}}">
+                  </paper-icon-button>
                 </div>
-                <paper-icon-button class="create-group"
-                                   icon="social:group-add"
-                                   tournamentId="{{tournament.id}}"
-                                   tournamentName="{{tournament.name}}"
-                                   on-tap="{{createGroup}}">
-                </paper-icon-button>
-
-                <paper-fab id="SelectRoundButton"
-                           icon="check"
-                           on-tap="{{ selectRoundButtonHandler }}">
-                </paper-fab>
               </div>
-            </div>
-            <div class="divider"></div>
-          </template>
 
-        </paper-shadow>
-      </template>
+              <paper-fab id="SelectRoundButton"
+                         icon="check"
+                         on-tap="{{ selectRoundButtonHandler }}">
+              </paper-fab>
+            </div>
+          </div>
+          <div class="divider"></div>
+        </template>
+
+      </paper-shadow>
+    </template>
 
     </section>
   </template>
