@@ -1,3 +1,79 @@
+/* Vars */
+$primaryBgColour: #009688;
+$lightBgColour: #B2DFDB;
+$darkBgColour: #00796b;
+$primaryAccentColour: #eeff41;
+$primaryTextColour: #FFF;
+$lightTextColour: #999;
+$darkTextColour: #000;
+$neutralBackgroundColour: #EEE;
+
 :host {
   display: block;
+}
+
+.no-tournaments {
+  background-color: $primaryTextColour;
+  height: calc(100% - 80px);
+  padding: 40px 16px;
+  position:relative;
+  text-align: center;
+}
+
+.upcoming-tournaments-section {
+  padding: 40px 0 16px;
+}
+
+.card {
+  margin: 8px;
+  background-color: $primaryTextColour;
+  border-radius: 2px;
+  color: $darkTextColour;
+  border: 1px solid #d8d8d8;
+  text-align: left;
+  padding: 0 0 8px;
+  position: relative;
+}
+
+.tournament-info {
+  margin: 8px 10px 10px;
+}
+
+.tournament-format {
+  color: $primaryBgColour;
+  font-size: 14px;
+}
+
+.create-group::shadow #icon {
+  width: 40px;
+  height: 40px;
+  color: $primaryBgColour;
+}
+
+paper-button {
+  color: $primaryBgColour;
+  font-size: 12px;
+}
+
+.divider {
+  background-color: rgba(0,0,0,0.12);
+  height: 1px;
+}
+
+.button-holder {
+  margin: 8px 4px 10px;
+}
+
+.rounds-list-item {
+  cursor: pointer;
+}
+
+.rounds-container {
+  font-size: 14px;
+  margin: 8px 8px 0;
+}
+
+.round-info {
+  font-size: 13px;
+  padding: 8px;
 }

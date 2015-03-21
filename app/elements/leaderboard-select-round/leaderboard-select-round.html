@@ -1,15 +1,76 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 
-<polymer-element name="leaderboard-select-round" attributes="">
+<polymer-element name="leaderboard-select-round"
+                 attributes="upcomingTournaments tournamentToScore tournamentToScoreId roundToScore roundToScoreId">
   <template>
     <link rel="stylesheet" href="leaderboard-select-round.css">
+
+    <section class="no-tournaments" hidden?="{{upcomingTournaments.length > 0}}">
+      You are not currently participating in any tournaments.
+    </section>
+
+    <section hidden?="{{upcomingTournaments.length === 0}}"
+             id="upcomingTournamentsSection"
+             class="upcoming-tournaments-section  {{ {wide: wide} | tokenList }}"§
+             layout vertical>
+
+      <template repeat="{{tournament in upcomingTournaments}}">
+        <paper-shadow z="1" class="card">
+          <div horizontal center layout>
+            <div class="tournament-info" vertical layout flex>
+              <div class="tournament-name">{{tournament.name}}</div>
+              <div class="tournament-format">{{tournament.format}}</div>
+            </div>
+          </div>
+
+          <div class="button-holder" horizontal center layout>
+            <paper-button raised on-tap="{{editTournament}}"
+                          tournamentId="{{tournament.id}}">EDIT</paper-button>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="rounds-container" horizontal center layout>
+            <div>Rounds</div>
+          </div>
+          <template repeat="{{round, roundIndex in tournament.rounds}}">
+            <div class="rounds-list-item" horizontal center layout>
+              <div class="round-info"
+                   tournamentId="{{tournament.id}}"
+                   roundId="{{round.roundId}}"
+                   on-tap="{{editRound}}"
+                   flex>
+                <div>Round {{roundIndex + 1}} - {{round.venue}}</div>
+                <div>
+                  <span hidden?="{{round.name.length === 0}}">{{round.name}} - </span>
+                  <span>{{round.teebox.name}} Tees</span>
+                </div>
+                <paper-icon-button class="create-group"
+                                   icon="social:group-add"
+                                   tournamentId="{{tournament.id}}"
+                                   tournamentName="{{tournament.name}}"
+                                   on-tap="{{createGroup}}">
+                </paper-icon-button>
+
+                <paper-fab id="SelectRoundButton"
+                           icon="check"
+                           on-tap="{{ selectRoundButtonHandler }}">
+                </paper-fab>
+              </div>
+            </div>
+            <div class="divider"></div>
+          </template>
+
+        </paper-shadow>
+      </template>
+
+    </section>
   </template>
   <script>
     (function () {
       'use strict';
 
       Polymer({
-        // define element prototype here
       });
 
     })();

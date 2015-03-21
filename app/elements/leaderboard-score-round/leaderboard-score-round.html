@@ -4,6 +4,12 @@
   <template>
     <link rel="stylesheet" href="leaderboard-score-round.css">
 
+    <firebase-element id="userTournamentsFireBase"
+                      location="{{userDetails ? 'https://incandescent-heat-3687.firebaseio.com/users/' + userDetails.uid + '/tournaments' : null}}"
+                      dataReady="{{userTournamentsReady}}"
+                      data="{{userTournaments}}">
+    </firebase-element>
+
     <div id="sectionPanel" class="section-panel {{ {wide: wide} | tokenList }}"
          flex vertical layout?="{{!wide}}">
 
@@ -25,14 +31,15 @@
              hero-id="scoreround-background"
              hero="{{!wide}}">
 
-          <core-animated-pages class="tournament-manager-pages"
+          <core-animated-pages class="score-round-pages"
                                selected="{{selected}}"
                                transitions="slide-from-right"
                                on-core-animated-pages-transition-end="{{slideAnimationComplete}}"
                                auto>
 
             <leaderboard-select-round id="selectRound"
-                                      name="selectRound">
+                                      name="selectRound"
+                                      upcomingTournaments="{{upcomingTournaments}}">
             </leaderboard-select-round>
 
             <leaderboard-select-round id="selectRound"
@@ -68,6 +75,18 @@
 
       Polymer({
 
+        observe: {
+          'userTournaments': 'getUserTournaments'
+        },
+
+        userDetails: null,
+
+        upcomingTournaments: [],
+
+        usersLocation: 'https://incandescent-heat-3687.firebaseio.com/users/',
+
+        tournamentsLocation: 'https://incandescent-heat-3687.firebaseio.com/tournaments/',
+
         sectionData: {
           'selectRound': {
             'selectedHash': 'score-round',
@@ -84,6 +103,31 @@
             'name': 'scoreGroup',
             'title': 'Score The Round'
           }
+        },
+
+        // Get an array of a user's associated tournament ids
+        getUserTournaments: function() {
+
+          var userTournamentKeys = [];
+
+          for (var tournamentKey in this.userTournaments) {
+            userTournamentKeys.push(tournamentKey);
+          }
+
+          // For each tournament key, call the getTournamentObject method
+          userTournamentKeys.forEach(this.getTournamentObject, this);
+        },
+
+        // Push a tournament object onto the upcomingTournaments collection
+        getTournamentObject: function(userTournamentKey) {
+
+          var tournament = new Firebase(this.tournamentsLocation + userTournamentKey);
+          var self = this;
+
+          tournament.once('value', function(snap) {
+            var result = snap.val();
+            self.upcomingTournaments.push(result);
+          });
         },
 
         // Handler for back button in toolbar
