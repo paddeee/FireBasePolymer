@@ -39,7 +39,10 @@
 
             <leaderboard-select-round id="selectRound"
                                       name="selectRound"
-                                      upcomingTournaments="{{upcomingTournaments}}">
+                                      upcomingTournaments="{{upcomingTournaments}}"
+                                      tournamentToScoreId="{{tournamentToScoreId}}"
+                                      roundToScoreId="{{roundToScoreId}}"
+                                      on-create-group="{{createGroup}}">
             </leaderboard-select-round>
 
             <leaderboard-select-round id="selectRound"
@@ -128,6 +131,14 @@
             var result = snap.val();
             self.upcomingTournaments.push(result);
           });
+        },
+
+        // Set tournamentToScore and roundToScore properties and navigate to create-group route
+        createGroup: function() {
+          console.log(this.tournamentToScoreId);
+          console.log(this.roundToScoreId);
+          console.log(this.upcomingTournaments);
+
         },
 
         // Handler for back button in toolbar

@@ -1,7 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 
 <polymer-element name="leaderboard-select-round"
-                 attributes="upcomingTournaments tournamentToScore tournamentToScoreId roundToScore roundToScoreId">
+                 attributes="upcomingTournaments tournamentToScoreId roundToScoreId">
   <template>
     <link rel="stylesheet" href="leaderboard-select-round.css">
 
@@ -11,7 +11,7 @@
 
     <section hidden?="{{upcomingTournaments.length === 0}}"
              id="upcomingTournamentsSection"
-             class="upcoming-tournaments-section  {{ {wide: wide} | tokenList }}"§
+             class="upcoming-tournaments-section  {{ {wide: wide} | tokenList }}"
              layout vertical>
 
       <template repeat="{{tournament in upcomingTournaments}}">
@@ -27,11 +27,7 @@
 
           <template repeat="{{round, roundIndex in tournament.rounds}}">
             <div class="rounds-list-item" horizontal center layout>
-              <div class="round-info"
-                   tournamentId="{{tournament.id}}"
-                   roundId="{{round.roundId}}"
-                   on-tap="{{editRound}}"
-                   flex>
+              <div class="round-info" flex>
 
                 <div horizontal center layout>
                   <div vertical layout flex>
@@ -45,14 +41,16 @@
                   <paper-icon-button class="create-group"
                                      icon="social:group-add"
                                      tournamentId="{{tournament.id}}"
-                                     tournamentName="{{tournament.name}}"
-                                     on-tap="{{createGroup}}">
+                                     roundId="{{round.roundId}}"
+                                     on-tap="{{createGroupHandler}}">
                   </paper-icon-button>
                 </div>
               </div>
 
               <paper-fab id="SelectRoundButton"
                          icon="check"
+                         tournamentId="{{tournament.id}}"
+                         roundId="{{round.roundId}}"
                          on-tap="{{ selectRoundButtonHandler }}">
               </paper-fab>
             </div>
@@ -70,6 +68,23 @@
       'use strict';
 
       Polymer({
+
+        // Choose tournament and round and begin 'Create Group' user journey
+        createGroupHandler: function(event) {
+
+          this.tournamentToScoreId = event.currentTarget.attributes.tournamentId.value;
+          this.roundToScoreId = event.currentTarget.attributes.roundId.value;
+
+          this.fire('create-group');
+        },
+
+        // Choose tournament and round and begin 'Score Group' user journey
+        selectRoundButtonHandler: function(event) {
+
+          this.tournamentToScoreId = event.currentTarget.attributes.tournamentId.value;
+          this.roundToScoreId = event.currentTarget.attributes.roundId.value;
+          this.fire('select-round');
+        }
       });
 
     })();
