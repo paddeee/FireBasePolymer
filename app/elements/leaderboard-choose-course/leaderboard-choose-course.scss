@@ -9,12 +9,7 @@ $darkTextColour: #000;
 $neutralBackgroundColour: #EEE;
 
 :host {
-  background-color: rgb(238, 238, 238);
   display: block;
-}
-
-.wide :host {
-  background-color: $primaryTextColour;
 }
 
 paper-progress {
@@ -34,6 +29,10 @@ paper-radio-button {
 .club-info {
   line-height: 1.3;
   padding: 20px 16px 16px;
+}
+
+.wide .club-info {
+  padding: 20px 10px 16px;
 }
 
 .club-address {

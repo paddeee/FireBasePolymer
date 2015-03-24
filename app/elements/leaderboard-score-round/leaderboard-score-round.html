@@ -11,13 +11,13 @@
     </firebase-element>
 
     <div id="sectionPanel" class="section-panel {{ {wide: wide} | tokenList }}"
-         flex vertical layout?="{{!wide}}">
+         flex vertical layout>
 
       <div class="background-fade  background-fade--themed"
            fit
            cross-fade></div>
 
-      <div class="card" flex?="{{!wide}}" vertical layout?="{{!wide}}" hero-p>
+      <div class="card" flex vertical layout hero-p>
 
         <core-toolbar class="menu-toolbar" hero-id="scoreround-title" hero>
 
@@ -56,21 +56,21 @@
         <paper-fab class="check-button"
                    icon="{{icon}}"></paper-fab>
 
+
+        <paper-icon-button class="back-button"
+                           icon="arrow-back"
+                           on-tap="{{backNavigation}}"
+                           hero-id="scoreround-back-button"
+                           hero>
+        </paper-icon-button>
+
+        <paper-icon-button class="home-button"
+                           icon="home"
+                           on-tap="{{homeNavigation}}"
+                           cross-fade>
+        </paper-icon-button>
+
       </div>
-
-      <paper-icon-button class="back-button"
-                         icon="arrow-back"
-                         on-tap="{{backNavigation}}"
-                         hero-id="scoreround-back-button"
-                         hero>
-      </paper-icon-button>
-
-      <paper-icon-button class="home-button"
-                         icon="home"
-                         on-tap="{{homeNavigation}}"
-                         cross-fade>
-      </paper-icon-button>
-
     </div>
   </template>
   <script>

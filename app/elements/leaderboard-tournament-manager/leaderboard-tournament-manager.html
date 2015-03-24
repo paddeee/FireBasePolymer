@@ -46,7 +46,7 @@
              class="section-content"
              flex
              hero-id="tournament-background"
-             hero="{{!wide}}">
+             hero>
 
           <core-animated-pages class="tournament-manager-pages"
                                selected="{{selected}}"
@@ -55,6 +55,7 @@
                                auto>
 
             <leaderboard-manage-tournaments id="manageTournaments"
+                                            class="manage-tournaments-view"
                                             name="manageTournaments"
                                             hostedTournaments="{{hostedTournaments}}"
                                             tournamentIdToUpdate="{{tournamentIdToUpdate}}"
@@ -70,6 +71,7 @@
             </leaderboard-manage-tournaments>
 
             <leaderboard-tournament-details id="tournamentDetails"
+                                            class="manage-tournaments-view"
                                             userDetails="{{userDetails}}"
                                             name="tournamentDetails"
                                             creatingTournament="{{creatingTournament}}"
@@ -78,6 +80,7 @@
             </leaderboard-tournament-details>
 
             <leaderboard-club-search id="clubSearch"
+                                     class="manage-tournaments-view"
                                      name="clubSearch"
                                      chosenClub="{{chosenClub}}"
                                      hostedTournamentToUpdate="{{hostedTournamentToUpdate}}"
@@ -85,6 +88,7 @@
             </leaderboard-club-search>
 
             <leaderboard-choose-course id="chooseCourse"
+                                       class="manage-tournaments-view"
                                        name="chooseCourse"
                                        showSaveTournamentButton="{{showSaveTournamentButton}}"
                                        userDetails="{{userDetails}}"
