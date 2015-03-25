@@ -1,6 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 
-<polymer-element name="leaderboard-score-round" attributes="userDetails wide">
+<polymer-element name="leaderboard-score-round"
+                 attributes="selected route userDetails wide">
   <template>
     <link rel="stylesheet" href="leaderboard-score-round.css">
 
@@ -43,12 +44,16 @@
                                       upcomingTournaments="{{upcomingTournaments}}"
                                       tournamentToScoreId="{{tournamentToScoreId}}"
                                       roundToScoreId="{{roundToScoreId}}"
-                                      on-create-group="{{createGroup}}">
+                                      on-create-group="{{createGroup}}"
+                                      on-score-group="{{scoreGroup}}">
             </leaderboard-select-round>
 
-            <leaderboard-select-round id="selectRound"
-                                      name="selectRound">
-            </leaderboard-select-round>
+            <leaderboard-create-group id="createGroup"
+                                      class="score-round-view"
+                                      name="createGroup"
+                                      roundToScore="{{roundToScore}}"
+                                      tournamentToScore="{{tournamentToScore}}">
+            </leaderboard-create-group>
 
           </core-animated-pages>
 
@@ -95,6 +100,8 @@
 
         tournamentsLocation: 'https://incandescent-heat-3687.firebaseio.com/tournaments/',
 
+        backButtonTapped: false,
+
         sectionData: {
           'selectRound': {
             'selectedHash': 'score-round',
@@ -110,6 +117,24 @@
             'selectedHash': 'score-round/score-group',
             'name': 'scoreGroup',
             'title': 'Score The Round'
+          }
+        },
+
+        // Internal handling for tournament-manager's route changes
+        routeChanged: function() {
+
+          switch (this.route) {
+            case 'score-round':
+              this.selected = 'selectRound';
+              break;
+            case 'score-round/create-group':
+              this.selected = 'createGroup';
+              break;
+            case 'score-round/score-group':
+              this.selected = 'scoreGroup';
+              break;
+            default:
+              break;
           }
         },
 
@@ -142,6 +167,7 @@
         createGroup: function() {
           this.setTournamentToScore();
           this.setRoundToScore();
+          this.navigateTo(this.sectionData.createGroup);
         },
 
         // Set tournamentToScore object
@@ -170,7 +196,28 @@
         // Handler for home button in toolbar. If on top level route, go straight to menu. Otherwise go back to top level
         // route and then go back to menu as deep routes won't be recognised in parent core animated pages element
         homeNavigation: function() {
-          window.location.hash = 'menu';
+          if (this.selected === this.sectionData.selectRound.name) {
+            window.location.hash = 'menu';
+          } else {
+            this.backButtonTapped = true;
+            this.navigateTo(this.sectionData.selectRound);
+          }
+        },
+
+        // Manage navigation and add history record in browser
+        navigateTo: function (sectionData) {
+          this.selected = sectionData.name;
+          window.location.hash = sectionData.selectedHash;
+        },
+
+        // Slide completed so if home button was tapped we can navigate back to menu
+        slideAnimationComplete: function() {
+
+          if (this.backButtonTapped) {
+            window.location.hash = 'menu';
+          }
+
+          this.backButtonTapped = false;
         }
       });
 
