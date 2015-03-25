@@ -85,6 +85,10 @@
 
         userDetails: null,
 
+        roundToScore: null,
+
+        tournamentToScore: null,
+
         upcomingTournaments: [],
 
         usersLocation: 'https://incandescent-heat-3687.firebaseio.com/users/',
@@ -136,10 +140,26 @@
 
         // Set tournamentToScore and roundToScore properties and navigate to create-group route
         createGroup: function() {
-          console.log(this.tournamentToScoreId);
-          console.log(this.roundToScoreId);
-          console.log(this.upcomingTournaments);
+          this.setTournamentToScore();
+          this.setRoundToScore();
+        },
 
+        // Set tournamentToScore object
+        setTournamentToScore: function() {
+          this.upcomingTournaments.forEach(function(tournament) {
+            if (tournament.id === this.tournamentToScoreId) {
+              this.tournamentToScore = tournament;
+            }
+          }, this);
+        },
+
+        // Set roundToScore object
+        setRoundToScore: function() {
+          this.tournamentToScore.rounds.forEach(function(round) {
+            if (this.roundToScoreId === round.roundId) {
+              this.roundToScore = round;
+            }
+          }, this);
         },
 
         // Handler for back button in toolbar
