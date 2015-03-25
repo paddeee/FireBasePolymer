@@ -1,9 +1,12 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 
-<polymer-element name="leaderboard-create-group" attributes="">
+<polymer-element name="leaderboard-create-group"
+                 attributes="roundToScore tournamentToScore">
   <template>
     <link rel="stylesheet" href="leaderboard-create-group.css">
-    <div>Create Group</div>
+    <div>{{tournamentToScore.name}}</div>
+    <div>{{roundToScore.venue}}</div>
+
   </template>
   <script>
     (function () {
