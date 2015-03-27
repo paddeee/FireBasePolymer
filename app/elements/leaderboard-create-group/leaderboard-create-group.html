@@ -11,7 +11,7 @@
 
       <core-list id="availablePlayersList"
                  class='available-players-list'
-                 data="{{tournamentPlayers}}"
+                 data="{{availablePlayers}}"
                  on-core-activate="{{playerSelected}}"
                  flex>
         <template>
@@ -53,10 +53,24 @@
         // the players collection, set the availablePlayers array
         getAvailablePlayers: function() {
 
-          this.tournamentPlayers.forEach(function(player) {
-            console.log(player.uid);
-          });
+          if (this.roundToScore && this.roundToScore.groupings) {
+            this.tournamentPlayers.forEach(function(player) {
+              this.addAvailablePlayer(player.uid);
+            }, this);
+          } else {
+            this.availablePlayers = this.tournamentPlayers;
+          }
+        },
+
+        // If player doesn't already exist in a grouping, add them to availablePlayers array
+        addAvailablePlayer: function(playerId) {
+
+          if (this.roundToScore.groupings.players) {
+            console.log(this.roundToScore.groupings.players);
+          }
+
         }
+
       });
 
     })();
