@@ -1,3 +1,19 @@
+/* Vars */
+$primaryBgColour: #009688;
+$lightBgColour: #b2dfdb;
+$darkBgColour: #00796b;
+$primaryAccentColour: #eeff41;
+$primaryTextColour: #FFF;
+$lightTextColour: #999;
+$darkTextColour: #000;
+$neutralBackgroundColour: #EEE;
+
 :host {
   display: block;
+}
+
+section {
+  background-color: $primaryTextColour;
+  height: 100%;
+  position:relative;
 }

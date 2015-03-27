@@ -1,11 +1,35 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 
 <polymer-element name="leaderboard-create-group"
-                 attributes="roundToScore tournamentToScore">
+                 attributes="roundToScore tournamentToScore tournamentPlayers tournamentPlayersLength groupTournamentScore">
   <template>
     <link rel="stylesheet" href="leaderboard-create-group.css">
-    <div>{{tournamentToScore.name}}</div>
-    <div>{{roundToScore.venue}}</div>
+
+    <section id="createGroupSection"
+             class="create-group-section  {{ {wide: wide} | tokenList }}"
+             layout vertical>
+
+      <core-list id="availablePlayersList"
+                 class='available-players-list'
+                 data="{{tournamentPlayers}}"
+                 on-core-activate="{{playerSelected}}"
+                 flex>
+        <template>
+          <div class="players-list__row {{ {selected: selected} | tokenList }}">
+            <div class="players-list__item">
+              <div class="player-name">{{model.name}}</div>
+              <div class="player-handicap">{{model.handicap}}</div>
+            </div>
+            <div class="divider">
+            </div>
+        </template>
+      </core-list>
+
+      <div>{{tournamentToScore.name}}</div>
+      <div>{{roundToScore.venue}}</div>
+      {{tournamentPlayersLength}}
+
+    </section>
 
   </template>
   <script>
@@ -13,7 +37,26 @@
       'use strict';
 
       Polymer({
-        // define element prototype here
+
+        availablePlayers: [],
+
+        tournamentPlayersLength: 0,
+
+        // When tournamentPlayers array has finished populating
+        tournamentPlayersChanged: function() {
+          if (this.tournamentPlayersLength === this.tournamentPlayers.length) {
+            this.getAvailablePlayers();
+          }
+        },
+
+        // Iterate the player ids of tournamentPlayers and if they exist in any of the groupings collection property in
+        // the players collection, set the availablePlayers array
+        getAvailablePlayers: function() {
+
+          this.tournamentPlayers.forEach(function(player) {
+            console.log(player.uid);
+          });
+        }
       });
 
     })();

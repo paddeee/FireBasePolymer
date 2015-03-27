@@ -22,7 +22,7 @@
 
         <core-toolbar class="menu-toolbar" hero-id="scoreround-title" hero>
 
-          <div class="section-title" flex cross-fade-delayed>Score Round</div>
+          <div class="section-title" flex cross-fade-delayed>{{sectionData[selected].title}}</div>
 
         </core-toolbar>
 
@@ -52,7 +52,10 @@
                                       class="score-round-view"
                                       name="createGroup"
                                       roundToScore="{{roundToScore}}"
-                                      tournamentToScore="{{tournamentToScore}}">
+                                      tournamentToScore="{{tournamentToScore}}"
+                                      tournamentPlayersLength="{{tournamentPlayersLength}}"
+                                      tournamentPlayers="{{tournamentPlayers}}"
+                                      groupTournamentScore="{{groupTournamentScore}}">
             </leaderboard-create-group>
 
           </core-animated-pages>
@@ -95,6 +98,10 @@
         tournamentToScore: null,
 
         upcomingTournaments: [],
+
+        tournamentPlayers: [],
+
+        tournamentPlayersLength: 0,
 
         usersLocation: 'https://incandescent-heat-3687.firebaseio.com/users/',
 
@@ -167,11 +174,15 @@
         createGroup: function() {
           this.setTournamentToScore();
           this.setRoundToScore();
+          this.getTournamentPlayers();
           this.navigateTo(this.sectionData.createGroup);
         },
 
         // Set tournamentToScore object
         setTournamentToScore: function() {
+
+          this.tournamentToScore = null;
+
           this.upcomingTournaments.forEach(function(tournament) {
             if (tournament.id === this.tournamentToScoreId) {
               this.tournamentToScore = tournament;
@@ -181,11 +192,45 @@
 
         // Set roundToScore object
         setRoundToScore: function() {
+
+          this.roundToScore = null;
+
           this.tournamentToScore.rounds.forEach(function(round) {
             if (this.roundToScoreId === round.roundId) {
               this.roundToScore = round;
             }
           }, this);
+        },
+
+        // Get an array of a tournment's associated player ids
+        getTournamentPlayers: function() {
+
+          var tournamentPlayerKeys = [];
+
+          for (var playerKey in this.tournamentToScore.players) {
+            tournamentPlayerKeys.push(this.tournamentToScore.players[playerKey]);
+          }
+
+          // Set tournamentPlayersLength so the create group element knows when the tournamentPlayers array has finished
+          // populating and is ready to use for other functionality
+          this.tournamentPlayersLength = tournamentPlayerKeys.length;
+
+          // For each tournament key, call the setTournamentPlayers method
+          tournamentPlayerKeys.forEach(this.setTournamentPlayers, this);
+        },
+
+        // Push a player object onto the tournamentPlayers collection
+        setTournamentPlayers: function(tournamentPlayerKey) {
+
+          var player = new Firebase(this.usersLocation + tournamentPlayerKey);
+          var self = this;
+
+          this.tournamentPlayers = [];
+
+          player.once('value', function(snap) {
+            var result = snap.val();
+            self.tournamentPlayers.push(result);
+          });
         },
 
         // Handler for back button in toolbar
