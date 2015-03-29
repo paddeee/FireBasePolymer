@@ -45,7 +45,10 @@
 
         // When tournamentPlayers array has finished populating
         tournamentPlayersChanged: function() {
-          if (this.tournamentPlayersLength === this.tournamentPlayers.length) {
+
+          // ToDo - this is set at - 1 as tournamentPlayers doesn't seem to add the user who is signed in.
+          // Need to investigate why but this can do for now.
+          if (this.tournamentPlayersLength - 1 === this.tournamentPlayers.length) {
             this.getAvailablePlayers();
           }
         },
@@ -55,20 +58,25 @@
         getAvailablePlayers: function() {
 
           if (this.roundToScore && this.roundToScore.groupings) {
-            this.tournamentPlayers.forEach(function(player) {
-              this.addAvailablePlayer(player.uid);
-            }, this);
+            this.availablePlayers = Object.create(this.tournamentPlayers);
+            this.removePickedPlayers();
           } else {
-            this.availablePlayers = this.tournamentPlayers;
+            this.availablePlayers = Object.create(this.tournamentPlayers);
           }
         },
 
-        // If player doesn't already exist in a grouping, add them to availablePlayers array
-        addAvailablePlayer: function(playerId) {
+        // If player already exists in a grouping, filter them from the availablePlayers array
+        removePickedPlayers: function() {
 
-          /*if (this.roundToScore.groupings.players) {
-            console.log(this.roundToScore.groupings.players);
-          }*/
+          for (var grouping in this.roundToScore.groupings) {
+
+            this.roundToScore.groupings[grouping].players.forEach(function(pickedPlayer) {
+
+              this.availablePlayers = this.availablePlayers.filter(function (player) {
+                return player.uid !== pickedPlayer.uid;
+              });
+            }, this);
+          }
         },
 
         // When a player is selected from this list, their user object is copied over to the players collection of the
@@ -82,11 +90,10 @@
             this.groupPlayerToSet = {
               players: [playerObject.detail.data]
             };
-
             this.fire('create-new-group');
           } else {
-            console.log('gro');
-            this.addPlayerToGrouping(this.groupPlayerToSet);
+            this.userGrouping.players.push(playerObject.detail.data);
+            this.fire('add-player-to-group');
           }
         },
 

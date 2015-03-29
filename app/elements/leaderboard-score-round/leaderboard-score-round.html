@@ -12,9 +12,9 @@
     </firebase-element>
 
     <firebase-element id="userGrouping"
-                      location="{{userDetails && tournamentToScoreId && roundToScoreId ? tournamentsLocation + tournamentToScoreId + '/rounds/' + roundToScoreId + '/groupings/' : null}}"
+                      location="{{userDetails && tournamentToScoreId && roundToScoreId ? tournamentsLocation + tournamentToScoreId + '/rounds/' + roundToScoreId + '/groupings/' + userDetails.uid : null}}"
                       dataReady="{{userGroupingReady}}"
-                      data="{{userGrouping}}">
+                      data="{{userGrouping}}" log>
     </firebase-element>
 
     <div id="sectionPanel" class="section-panel {{ {wide: wide} | tokenList }}"
@@ -64,7 +64,8 @@
                                       groupTournamentScore="{{groupTournamentScore}}"
                                       userGrouping="{{userGrouping}}"
                                       groupPlayerToSet="{{groupPlayerToSet}}"
-                                      on-create-new-group="{{createNewGroup}}">
+                                      on-create-new-group="{{createNewGroup}}"
+                                      on-add-player-to-group="{{addPlayerToGroup}}">
             </leaderboard-create-group>
 
           </core-animated-pages>
@@ -211,7 +212,7 @@
           }, this);
         },
 
-        // Get an array of a tournment's associated player ids
+        // Get an array of a tournament's associated player ids
         getTournamentPlayers: function() {
 
           var tournamentPlayerKeys = [];
@@ -220,7 +221,7 @@
             tournamentPlayerKeys.push(this.tournamentToScore.players[playerKey]);
           }
 
-          // Set tournamentPlayersLength so the create group element knows when the tournamentPlayers array has finished
+          // Set tournamentPlayersLength so the 'create-group' element knows when the tournamentPlayers array has finished
           // populating and is ready to use for other functionality
           this.tournamentPlayersLength = tournamentPlayerKeys.length;
 
@@ -236,20 +237,23 @@
 
           this.tournamentPlayers = [];
 
+          // ToDo - investigate why tournamentPlayers doesn't seem to add the user who is signed in in the push below
           player.once('value', function(snap) {
             var result = snap.val();
             self.tournamentPlayers.push(result);
           });
         },
 
-        // Push a new grouping object onto FireBase
+        // Create a new grouping object on FireBase
         createNewGroup: function() {
 
-          var round = new Firebase(this.tournamentsLocation + this.tournamentToScoreId + '/rounds/' + this.roundToScoreId + '/groupings/');
+          this.userGrouping = this.groupPlayerToSet;
+          this.groupPlayerToSet = null;
+        },
 
-          var grouping = round.child(this.userDetails.uid).set(this.groupPlayerToSet, function() {
-            this.groupPlayerToSet = null;
-          }.bind(this));
+        // Add a player to the group
+        addPlayerToGroup: function() {
+          this.$.userGrouping.commitProperty('players');
         },
 
         // Handler for back button in toolbar
