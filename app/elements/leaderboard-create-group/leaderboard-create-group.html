@@ -1,7 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 
 <polymer-element name="leaderboard-create-group"
-                 attributes="roundToScore tournamentToScore tournamentPlayers tournamentPlayersLength groupTournamentScore">
+                 attributes="roundToScore tournamentToScore tournamentPlayers tournamentPlayersLength groupTournamentScore groupPlayerToSet userGrouping">
   <template>
     <link rel="stylesheet" href="leaderboard-create-group.css">
 
@@ -27,7 +27,6 @@
 
       <div>{{tournamentToScore.name}}</div>
       <div>{{roundToScore.venue}}</div>
-      {{tournamentPlayersLength}}
 
     </section>
 
@@ -41,6 +40,8 @@
         availablePlayers: [],
 
         tournamentPlayersLength: 0,
+
+        groupingId: '',
 
         // When tournamentPlayers array has finished populating
         tournamentPlayersChanged: function() {
@@ -65,9 +66,32 @@
         // If player doesn't already exist in a grouping, add them to availablePlayers array
         addAvailablePlayer: function(playerId) {
 
-          if (this.roundToScore.groupings.players) {
+          /*if (this.roundToScore.groupings.players) {
             console.log(this.roundToScore.groupings.players);
+          }*/
+        },
+
+        // When a player is selected from this list, their user object is copied over to the players collection of the
+        // groupings collection in roundToScore
+        playerSelected: function(playerObject) {
+
+          // If first player is being added to this round, trigger 'create-new-group' event
+          if (!this.userGrouping) {
+
+            // Create array for players object containing the first record
+            this.groupPlayerToSet = {
+              players: [playerObject.detail.data]
+            };
+
+            this.fire('create-new-group');
+          } else {
+            console.log('gro');
+            this.addPlayerToGrouping(this.groupPlayerToSet);
           }
+        },
+
+        // Add a player object to the grouping collection of roundToScore
+        addPlayerToGrouping: function(playerObject) {
 
         }
 

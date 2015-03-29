@@ -11,6 +11,12 @@
                       data="{{userTournaments}}">
     </firebase-element>
 
+    <firebase-element id="userGrouping"
+                      location="{{userDetails && tournamentToScoreId && roundToScoreId ? tournamentsLocation + tournamentToScoreId + '/rounds/' + roundToScoreId + '/groupings/' : null}}"
+                      dataReady="{{userGroupingReady}}"
+                      data="{{userGrouping}}">
+    </firebase-element>
+
     <div id="sectionPanel" class="section-panel {{ {wide: wide} | tokenList }}"
          flex vertical layout>
 
@@ -55,7 +61,10 @@
                                       tournamentToScore="{{tournamentToScore}}"
                                       tournamentPlayersLength="{{tournamentPlayersLength}}"
                                       tournamentPlayers="{{tournamentPlayers}}"
-                                      groupTournamentScore="{{groupTournamentScore}}">
+                                      groupTournamentScore="{{groupTournamentScore}}"
+                                      userGrouping="{{userGrouping}}"
+                                      groupPlayerToSet="{{groupPlayerToSet}}"
+                                      on-create-new-group="{{createNewGroup}}">
             </leaderboard-create-group>
 
           </core-animated-pages>
@@ -231,6 +240,16 @@
             var result = snap.val();
             self.tournamentPlayers.push(result);
           });
+        },
+
+        // Push a new grouping object onto FireBase
+        createNewGroup: function() {
+
+          var round = new Firebase(this.tournamentsLocation + this.tournamentToScoreId + '/rounds/' + this.roundToScoreId + '/groupings/');
+
+          var grouping = round.child(this.userDetails.uid).set(this.groupPlayerToSet, function() {
+            this.groupPlayerToSet = null;
+          }.bind(this));
         },
 
         // Handler for back button in toolbar
