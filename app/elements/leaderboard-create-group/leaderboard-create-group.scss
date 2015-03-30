@@ -17,3 +17,50 @@ section {
   height: 100%;
   position:relative;
 }
+
+.players-list__row {
+  cursor: pointer;
+}
+
+.players-list__row.selected {
+  background-color: rgba(238, 255, 65, 0.02);
+}
+
+.players-title {
+  color: $darkBgColour;
+  padding: 0 16px 8px;
+}
+
+.players-list {
+  line-height: 1.6;
+}
+
+.players-list__item,
+.players-empty {
+  padding: 16px;
+}
+
+.divider {
+  background-color: rgba(0,0,0,0.12);
+  height: 1px;
+}
+
+.player-selected {
+  line-height: 2;
+  padding: 6px;
+  font-size: 14px;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-bottom: 0 none;
+}
+
+.player-selected:first-child {
+  border-right: 0 none;
+}
+
+.player-name {
+  color: $darkTextColour;
+}
+
+.player-handicap {
+  margin: 0 6px 0 0;
+}

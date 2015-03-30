@@ -1,7 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 
 <polymer-element name="leaderboard-create-group"
-                 attributes="roundToScore tournamentToScore tournamentPlayers tournamentPlayersLength groupTournamentScore groupPlayerToSet userGrouping">
+                 attributes="userDetails roundToScore tournamentToScore tournamentPlayers tournamentPlayersLength groupTournamentScore groupPlayerToSet userGrouping">
   <template>
     <link rel="stylesheet" href="leaderboard-create-group.css">
 
@@ -16,17 +16,25 @@
                  flex>
         <template>
           <div class="players-list__row {{ {selected: selected} | tokenList }}">
-            <div class="players-list__item">
-              <div class="player-name">{{model.name}}</div>
+            <div class="players-list__item" layout horizontal>
               <div class="player-handicap">{{model.handicap}}</div>
+              <div class="player-name">{{model.name}}</div>
             </div>
             <div class="divider">
             </div>
         </template>
       </core-list>
 
-      <div>{{tournamentToScore.name}}</div>
-      <div>{{roundToScore.venue}}</div>
+      <div class="players-selected-footer">
+        <div layout horizontal>
+          <div class="player-selected" flex>{{userDetails.name}}</div>
+          <div class="player-selected" flex>Player 2</div>
+        </div>
+        <div layout horizontal>
+          <div class="player-selected" flex>Player 3</div>
+          <div class="player-selected" flex>Player 4</div>
+        </div>
+      </div>
 
     </section>
 
