@@ -53,10 +53,7 @@
 
         // When tournamentPlayers array has finished populating
         tournamentPlayersChanged: function() {
-
-          // ToDo - this is set at - 1 as tournamentPlayers doesn't seem to add the user who is signed in.
-          // Need to investigate why but this can do for now.
-          if (this.tournamentPlayersLength - 1 === this.tournamentPlayers.length) {
+          if (this.tournamentPlayersLength === this.tournamentPlayers.length) {
             this.getAvailablePlayers();
           }
         },

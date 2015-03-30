@@ -226,6 +226,8 @@
           // populating and is ready to use for other functionality
           this.tournamentPlayersLength = tournamentPlayerKeys.length;
 
+          this.tournamentPlayers = [];
+
           // For each tournament key, call the setTournamentPlayers method
           tournamentPlayerKeys.forEach(this.setTournamentPlayers, this);
         },
@@ -236,9 +238,6 @@
           var player = new Firebase(this.usersLocation + tournamentPlayerKey);
           var self = this;
 
-          this.tournamentPlayers = [];
-
-          // ToDo - investigate why tournamentPlayers doesn't seem to add the user who is signed in in the push below
           player.once('value', function(snap) {
             var result = snap.val();
             self.tournamentPlayers.push(result);
