@@ -27,12 +27,12 @@
 
       <div class="players-selected-footer">
         <div layout horizontal>
-          <div class="player-selected" flex>{{userDetails.name}}</div>
-          <div class="player-selected" flex>Player 2</div>
+          <div class="player-selected" flex>{{userGrouping.players[0] ? userGrouping.players[0].name : pickedPlayerDefaults.player1 }}</div>
+          <div class="player-selected" flex>{{userGrouping.players[1] ? userGrouping.players[1].name : pickedPlayerDefaults.player2 }}</div>
         </div>
         <div layout horizontal>
-          <div class="player-selected" flex>Player 3</div>
-          <div class="player-selected" flex>Player 4</div>
+          <div class="player-selected" flex>{{userGrouping.players[2] ? userGrouping.players[2].name : pickedPlayerDefaults.player3 }}</div>
+          <div class="player-selected" flex>{{userGrouping.players[3] ? userGrouping.players[3].name : pickedPlayerDefaults.player4 }}</div>
         </div>
       </div>
 
@@ -50,6 +50,13 @@
         tournamentPlayersLength: 0,
 
         groupingId: '',
+
+        pickedPlayerDefaults: {
+          player1: 'Player 1',
+          player2: 'Player 2',
+          player3: 'Player 3',
+          player4: 'Player 4'
+        },
 
         // When tournamentPlayers array has finished populating
         tournamentPlayersChanged: function() {
@@ -98,13 +105,21 @@
             this.fire('create-new-group');
           } else {
             this.userGrouping.players.push(playerObject.detail.data);
+            this.updateAvailablePlayers(playerObject.detail.data, 'remove');
             this.fire('add-player-to-group');
           }
         },
 
-        // Add a player object to the grouping collection of roundToScore
-        addPlayerToGrouping: function(playerObject) {
+        // Update availablePlayers Collection when a player is added or removed
+        updateAvailablePlayers: function(player, action) {
 
+          if (action === 'add') {
+            this.availablePlayers.push(player);
+          } else if (action === 'remove') {
+            this.availablePlayers = this.availablePlayers.filter(function (availablePlayer) {
+              return availablePlayer.uid !== player.uid;
+            });
+          }
         }
 
       });
