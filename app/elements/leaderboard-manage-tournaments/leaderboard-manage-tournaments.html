@@ -139,7 +139,7 @@
         },
 
         // Invite a player to join tournament
-        invitePlayers: function() {
+        invitePlayers: function(event) {
           this.tournamentIdToInvite = event.currentTarget.attributes.tournamentId.value;
           this.tournamentNameToInvite = event.currentTarget.attributes.tournamentName.value;
           this.fire('invite-players');

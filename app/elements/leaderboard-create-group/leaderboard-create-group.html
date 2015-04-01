@@ -9,21 +9,21 @@
              class="create-group-section  {{ {wide: wide} | tokenList }}"
              layout vertical>
 
-      <core-list id="availablePlayersList"
-                 class='available-players-list'
-                 data="{{availablePlayers}}"
-                 on-core-activate="{{playerSelected}}"
+      <section id="availablePlayersList"
+                 class="players-list"
                  flex>
-        <template>
-          <div class="players-list__row {{ {selected: selected} | tokenList }}">
+        <template repeat="{{player in availablePlayers}}">
+          <div class="players-list__row {{ {selected: selected} | tokenList }}"
+               playerId="{{player.uid}}"
+               on-tap="{{playerSelected}}">
             <div class="players-list__item" layout horizontal>
-              <div class="player-handicap">{{model.handicap}}</div>
-              <div class="player-name">{{model.name}}</div>
+              <div class="player-name" flex>{{player.name}}</div>
+              <div class="player-handicap">{{player.handicap}}</div>
             </div>
-            <div class="divider">
-            </div>
+            <div class="divider"></div>
+          </div>
         </template>
-      </core-list>
+      </section>
 
       <div class="players-selected-footer">
         <div layout horizontal>
@@ -70,10 +70,10 @@
         getAvailablePlayers: function() {
 
           if (this.roundToScore && this.roundToScore.groupings) {
-            this.availablePlayers = Object.create(this.tournamentPlayers);
+            this.availablePlayers = this.tournamentPlayers;
             this.removePickedPlayers();
           } else {
-            this.availablePlayers = Object.create(this.tournamentPlayers);
+            this.availablePlayers = this.tournamentPlayers;
           }
         },
 
@@ -93,19 +93,21 @@
 
         // When a player is selected from this list, their user object is copied over to the players collection of the
         // groupings collection in roundToScore
-        playerSelected: function(playerObject) {
+        playerSelected: function(event) {
+
+          var playerObject = event.currentTarget.attributes.playerId.value;
 
           // If first player is being added to this round, trigger 'create-new-group' event
           if (!this.userGrouping) {
 
             // Create array for players object containing the first record
             this.groupPlayerToSet = {
-              players: [playerObject.detail.data]
+              players: [playerObject]
             };
             this.fire('create-new-group');
           } else {
-            this.userGrouping.players.push(playerObject.detail.data);
-            this.updateAvailablePlayers(playerObject.detail.data, 'remove');
+            this.userGrouping.players.push(playerObject);
+            this.updateAvailablePlayers(playerObject, 'remove');
             this.fire('add-player-to-group');
           }
         },
