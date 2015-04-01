@@ -95,7 +95,11 @@
         // groupings collection in roundToScore
         playerSelected: function(event) {
 
-          var playerObject = event.currentTarget.attributes.playerId.value;
+          var playerId = event.currentTarget.attributes.playerId.value;
+
+          var playerObject = this.availablePlayers.filter(function (availablePlayer) {
+            return availablePlayer.uid === playerId;
+          })[0];
 
           // If first player is being added to this round, trigger 'create-new-group' event
           if (!this.userGrouping) {
