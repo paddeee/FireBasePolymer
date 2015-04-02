@@ -38,6 +38,16 @@
 
     </section>
 
+    <paper-action-dialog id="GroupCompletedDialog"
+                         backdrop
+                         layered="true"
+                         heading="Group completed"
+                         transition="core-transition-center">
+      <p>There are already four players in the group.
+        Please delete one before adding another.</p>
+      <paper-button flex dismissive autofocus>OK</paper-button>
+    </paper-action-dialog>
+
   </template>
   <script>
     (function () {
@@ -56,6 +66,17 @@
           player2: 'Player 2',
           player3: 'Player 3',
           player4: 'Player 4'
+        },
+
+        showDialog: function() {
+
+          // Dialog must be last child element
+          var dialog = this.$.GroupCompletedDialog;
+
+          if (!dialog) {
+            return;
+          }
+          dialog.toggle();
         },
 
         // When tournamentPlayers array has finished populating
@@ -110,9 +131,14 @@
             };
             this.fire('create-new-group');
           } else {
-            this.userGrouping.players.push(playerObject);
-            this.updateAvailablePlayers(playerObject, 'remove');
-            this.fire('add-player-to-group');
+            // Maximum of 4 players in a group
+            if (this.userGrouping.players.length >= 4) {
+              this.showDialog();
+            } else {
+              this.userGrouping.players.push(playerObject);
+              this.updateAvailablePlayers(playerObject, 'remove');
+              this.fire('add-player-to-group');
+            }
           }
         },
 
