@@ -12,6 +12,10 @@ $neutralBackgroundColour: #EEE;
   display: block;
 }
 
+::-webkit-scrollbar {
+  display: none;
+}
+
 section {
   background-color: $primaryTextColour;
   height: 100%;

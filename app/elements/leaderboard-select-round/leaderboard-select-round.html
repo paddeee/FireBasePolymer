@@ -15,7 +15,7 @@
              layout vertical>
 
       <template repeat="{{tournament in upcomingTournaments}}">
-        <paper-shadow z="1" class="card" slide-up?="{{parentElement.selected === 'selectRound'}}">
+        <paper-shadow z="1" class="card">
           <div horizontal center layout>
             <div class="tournament-info" vertical layout flex>
               <div class="tournament-name">{{tournament.name}}</div>
