@@ -5,38 +5,87 @@
   <template>
     <link rel="stylesheet" href="leaderboard-create-group.css">
 
-    <section id="createGroupSection"
-             class="create-group-section  {{ {wide: wide} | tokenList }}"
-             layout vertical>
+    <core-animated-pages
+      id="coreAnimatedPages"
+      selected="{{selected}}"
+      transitions="hero-transition"
+      on-core-animated-pages-transition-end="{{updateAvailablePlayersTransitionComplete}}"
+      auto>
 
-      <section id="availablePlayersList"
-                 class="players-list"
-                 flex>
-        <template repeat="{{player in availablePlayers}}">
-          <div class="players-list__row {{ {selected: selected} | tokenList }}"
-               playerId="{{player.uid}}"
-               on-tap="{{playerSelected}}">
-            <div class="players-list__item" layout horizontal>
-              <div class="player-name" flex>{{player.name}}</div>
-              <div class="player-handicap">{{player.handicap}}</div>
+      <!-- 1st replica view of core-animated-pages to use hero transitions -->
+      <section id="createGroupSection1"
+               class="create-group-section  {{ {wide: wide} | tokenList }}"
+               layout vertical>
+
+        <section id="availablePlayersList"
+                   class="players-list"
+                   flex>
+          <template repeat="{{player in availablePlayers1}}">
+            <div class="players-list__row"
+                 playerId="{{player.uid}}"
+                 hero-id="{{player.uid}}"
+                 hero?="{{!selected}}"
+                 on-tap="{{playerSelected}}">
+              <div class="players-list__item" layout horizontal>
+                <div class="player-name" flex>{{player.name}}</div>
+                <div class="player-handicap">{{player.handicap}}</div>
+              </div>
+              <div class="divider"></div>
             </div>
-            <div class="divider"></div>
+          </template>
+        </section>
+
+        <div class="players-selected-footer">
+          <div layout horizontal>
+            <div class="player-selected" flex>{{userGrouping.players[0] ? userGrouping.players[0].name : pickedPlayerDefaults.player1 }}</div>
+            <div class="player-selected" flex>{{userGrouping.players[1] ? userGrouping.players[1].name : pickedPlayerDefaults.player2 }}</div>
           </div>
-        </template>
+          <div layout horizontal>
+            <div class="player-selected" flex>{{userGrouping.players[2] ? userGrouping.players[2].name : pickedPlayerDefaults.player3 }}</div>
+            <div class="player-selected" flex>{{userGrouping.players[3] ? userGrouping.players[3].name : pickedPlayerDefaults.player4 }}</div>
+          </div>
+        </div>
+
       </section>
 
-      <div class="players-selected-footer">
-        <div layout horizontal>
-          <div class="player-selected" flex>{{userGrouping.players[0] ? userGrouping.players[0].name : pickedPlayerDefaults.player1 }}</div>
-          <div class="player-selected" flex>{{userGrouping.players[1] ? userGrouping.players[1].name : pickedPlayerDefaults.player2 }}</div>
-        </div>
-        <div layout horizontal>
-          <div class="player-selected" flex>{{userGrouping.players[2] ? userGrouping.players[2].name : pickedPlayerDefaults.player3 }}</div>
-          <div class="player-selected" flex>{{userGrouping.players[3] ? userGrouping.players[3].name : pickedPlayerDefaults.player4 }}</div>
-        </div>
-      </div>
+      <!-- 2nd replica view of core-animated-pages to use hero transitions -->
+      <section id="createGroupSection2"
+               class="create-group-section  {{ {wide: wide} | tokenList }}"
+               layout vertical>
 
-    </section>
+        <section id="availablePlayersList"
+                 class="players-list"
+                 flex>
+          <template repeat="{{player in availablePlayers2}}">
+            <div class="players-list__row"
+                 playerId="{{player.uid}}"
+                 hero-id="{{player.uid}}"
+                 hero?="{{selected}}"
+
+                 on-tap="{{playerSelected}}">
+              <div class="players-list__item" layout horizontal>
+                <div class="player-name" flex>{{player.name}}</div>
+                <div class="player-handicap">{{player.handicap}}</div>
+              </div>
+              <div class="divider"></div>
+            </div>
+          </template>
+        </section>
+
+        <div class="players-selected-footer">
+          <div layout horizontal>
+            <div class="player-selected" flex>{{userGrouping.players[0] ? userGrouping.players[0].name : pickedPlayerDefaults.player1 }}</div>
+            <div class="player-selected" flex>{{userGrouping.players[1] ? userGrouping.players[1].name : pickedPlayerDefaults.player2 }}</div>
+          </div>
+          <div layout horizontal>
+            <div class="player-selected" flex>{{userGrouping.players[2] ? userGrouping.players[2].name : pickedPlayerDefaults.player3 }}</div>
+            <div class="player-selected" flex>{{userGrouping.players[3] ? userGrouping.players[3].name : pickedPlayerDefaults.player4 }}</div>
+          </div>
+        </div>
+
+      </section>
+
+    </core-animated-pages>
 
     <paper-action-dialog id="GroupCompletedDialog"
                          backdrop
@@ -55,7 +104,11 @@
 
       Polymer({
 
-        availablePlayers: [],
+        selected: 0,
+
+        availablePlayers1: [],
+
+        availablePlayers2: [],
 
         tournamentPlayersLength: 0,
 
@@ -91,10 +144,10 @@
         getAvailablePlayers: function() {
 
           if (this.roundToScore && this.roundToScore.groupings) {
-            this.availablePlayers = this.tournamentPlayers;
+            this.availablePlayers1 = this.availablePlayers2 = this.tournamentPlayers;
             this.removePickedPlayers();
           } else {
-            this.availablePlayers = this.tournamentPlayers;
+            this.availablePlayers1 = this.availablePlayers2 = this.tournamentPlayers;
           }
         },
 
@@ -105,7 +158,7 @@
 
             this.roundToScore.groupings[grouping].players.forEach(function(pickedPlayer) {
 
-              this.availablePlayers = this.availablePlayers.filter(function (player) {
+              this.availablePlayers1 = this.availablePlayers2 = this.availablePlayers1.filter(function (player) {
                 return player.uid !== pickedPlayer.uid;
               });
             }, this);
@@ -118,7 +171,7 @@
 
           var playerId = event.currentTarget.attributes.playerId.value;
 
-          var playerObject = this.availablePlayers.filter(function (availablePlayer) {
+          var playerObject = this.availablePlayers1.filter(function (availablePlayer) {
             return availablePlayer.uid === playerId;
           })[0];
 
@@ -145,13 +198,41 @@
         // Update availablePlayers Collection when a player is added or removed
         updateAvailablePlayers: function(player, action) {
 
+          var availablePlayers;
+
+          if (this.selected === 0) {
+            availablePlayers = this.availablePlayers1;
+          } else {
+            availablePlayers = this.availablePlayers2;
+          }
+
           if (action === 'add') {
-            this.availablePlayers.push(player);
+            availablePlayers.push(player);
           } else if (action === 'remove') {
-            this.availablePlayers = this.availablePlayers.filter(function (availablePlayer) {
+            availablePlayers = availablePlayers.filter(function (availablePlayer) {
               return availablePlayer.uid !== player.uid;
             });
           }
+
+          if (this.selected === 0) {
+            this.availablePlayers1 = availablePlayers;
+          } else {
+            this.availablePlayers2 = availablePlayers;
+          }
+
+          this.selected = this.selected ? 0 : 1;
+        },
+
+        // When hero transitions are complete syncyronise the duplicate objects
+        updateAvailablePlayersTransitionComplete: function() {
+
+          if (this.selected === 0) {
+            this.availablePlayers1 = this.availablePlayers2;
+          } else {
+            this.availablePlayers2 = this.availablePlayers1;
+          }
+
+          console.log('complete');
         }
 
       });
