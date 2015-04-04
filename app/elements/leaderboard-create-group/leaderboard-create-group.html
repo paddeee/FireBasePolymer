@@ -10,6 +10,7 @@
       selected="{{selected}}"
       transitions="hero-transition"
       on-core-animated-pages-transition-end="{{updateAvailablePlayersTransitionComplete}}"
+      notap
       auto>
 
       <!-- 1st replica view of core-animated-pages to use hero transitions -->
@@ -23,8 +24,7 @@
           <template repeat="{{player in availablePlayers1}}">
             <div class="players-list__row"
                  playerId="{{player.uid}}"
-                 hero-id="{{player.uid}}"
-                 hero?="{{!selected}}"
+                 hero-id="{{player.uid}}" hero
                  on-tap="{{playerSelected}}">
               <div class="players-list__item" layout horizontal>
                 <div class="player-name" flex>{{player.name}}</div>
@@ -59,9 +59,6 @@
           <template repeat="{{player in availablePlayers2}}">
             <div class="players-list__row"
                  playerId="{{player.uid}}"
-                 hero-id="{{player.uid}}"
-                 hero?="{{selected}}"
-
                  on-tap="{{playerSelected}}">
               <div class="players-list__item" layout horizontal>
                 <div class="player-name" flex>{{player.name}}</div>
@@ -79,7 +76,7 @@
           </div>
           <div layout horizontal>
             <div class="player-selected" flex>{{userGrouping.players[2] ? userGrouping.players[2].name : pickedPlayerDefaults.player3 }}</div>
-            <div class="player-selected" flex>{{userGrouping.players[3] ? userGrouping.players[3].name : pickedPlayerDefaults.player4 }}</div>
+            <div class="player-selected" hero-id="simplelogin:160" hero flex>{{userGrouping.players[3] ? userGrouping.players[3].name : pickedPlayerDefaults.player4 }}</div>
           </div>
         </div>
 
@@ -215,9 +212,9 @@
           }
 
           if (this.selected === 0) {
-            this.availablePlayers1 = availablePlayers;
-          } else {
             this.availablePlayers2 = availablePlayers;
+          } else {
+            this.availablePlayers1 = availablePlayers;
           }
 
           this.selected = this.selected ? 0 : 1;
@@ -227,9 +224,9 @@
         updateAvailablePlayersTransitionComplete: function() {
 
           if (this.selected === 0) {
-            this.availablePlayers1 = this.availablePlayers2;
-          } else {
             this.availablePlayers2 = this.availablePlayers1;
+          } else {
+            this.availablePlayers1 = this.availablePlayers2;
           }
 
           console.log('complete');
