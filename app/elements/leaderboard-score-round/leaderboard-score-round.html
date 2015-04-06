@@ -14,7 +14,17 @@
     <firebase-element id="userGrouping"
                       location="{{userDetails && tournamentToScoreId && roundToScoreId ? tournamentsLocation + tournamentToScoreId + '/rounds/' + roundToScoreId + '/groupings/' + userDetails.uid : null}}"
                       dataReady="{{userGroupingReady}}"
-                      data="{{userGrouping}}" log>
+                      data="{{userGrouping}}">
+    </firebase-element>
+
+    <firebase-element id="roundGroupings"
+                      location="{{userDetails && tournamentToScoreId && roundToScoreId ? tournamentsLocation + tournamentToScoreId + '/rounds/' + roundToScoreId + '/groupings/' : null}}"
+                      dataReady="{{roundGroupingsReady}}"
+                      on-child-added="{{groupingUpdated}}"
+                      on-child-changed="{{groupingUpdated}}"
+                      data="{{roundGroupings}}"
+                      childEvents
+                      log>
     </firebase-element>
 
     <div id="sectionPanel" class="section-panel {{ {wide: wide} | tokenList }}"
@@ -246,7 +256,6 @@
 
         // Create a new grouping object on FireBase
         createNewGroup: function() {
-
           this.userGrouping = this.groupPlayerToSet;
           this.groupPlayerToSet = null;
         },
@@ -254,6 +263,18 @@
         // Add a player to the group
         addPlayerToGroup: function() {
           this.$.userGrouping.commitProperty('players');
+        },
+
+        // When any grouping in the round has changed, update roundToScore object
+        groupingUpdated: function(event) {
+          if(this.roundToScore.groupings) {
+            this.roundToScore.groupings[this.userDetails.uid].players = event.detail.value.players;
+          } else {
+            this.roundToScore.groupings = {};
+            this.roundToScore.groupings[this.userDetails.uid] = {
+              players: event.detail.value.players
+            };
+          }
         },
 
         // Handler for back button in toolbar

@@ -223,6 +223,9 @@
             return availablePlayer.uid === playerId;
           })[0];
 
+          // Add raised class for use with shadow on player list item
+          event.currentTarget.classList.add("raised");
+
           // If first player is being added to this round, trigger 'create-new-group' event
           if (!this.userGrouping) {
 
@@ -290,7 +293,6 @@
 
           this.selectedPlayerId = '';
 
-          console.log('complete');
         }
 
       });

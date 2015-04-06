@@ -46,6 +46,14 @@ section {
   padding: 16px;
 }
 
+/* ToDo - Revisit to add lifted up effect to transition
+.players-list__row.raised {
+  box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  z-index: 10001 !important;
+  background-color: white;
+}*/
+
+
 .divider {
   background-color: rgba(0,0,0,0.12);
   height: 1px;
@@ -56,6 +64,7 @@ section {
   padding: 6px;
   border: 1px solid rgba(0, 0, 0, 0.12);
   border-bottom: 0 none;
+  border-top: 0 none;
   min-height: 34px;
 }
 

@@ -10,6 +10,7 @@ $primary-accent-colour: #eeff41;
 
 
 :host {
+  background-color: #fff;
   overflow: hidden;
 }
 
@@ -24,6 +25,14 @@ $primary-accent-colour: #eeff41;
 
 :host([animate]) .section-panel {
   overflow: visible;
+}
+
+// Transition create-group element's grouping footer to help with jumpiness on slide
+.slide-from-right .score-round-view::shadow .players-selected-footer {
+  transition: transform 1000ms cubic-bezier(0.4, 0, 0.2, 1) 1000ms, background-color 1000ms cubic-bezier(0.4, 0, 0.2, 1);
+  -webkit-transition: -webkit-transform 1000ms cubic-bezier(0.4, 0, 0.2, 1) 1000ms, background-color 1000ms cubic-bezier(0.4, 0, 0.2, 1);
+  -webkit-transform: translateY(-1000px);
+  transform: translateY(-1000px);
 }
 
 ::-webkit-scrollbar {
