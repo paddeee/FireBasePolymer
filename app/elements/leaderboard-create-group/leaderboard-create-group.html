@@ -37,12 +37,36 @@
 
         <div class="players-selected-footer">
           <div layout horizontal>
-            <div class="player-selected" flex>{{userGrouping.players[0] ? userGrouping.players[0].name : pickedPlayerDefaults.player1 }}</div>
-            <div class="player-selected" flex>{{userGrouping.players[1] ? userGrouping.players[1].name : pickedPlayerDefaults.player2 }}</div>
+            <div id="player-selected__one"
+                 hero-id="{{selectedPlayerId}}"
+                 hero?="{{selected===0 && userGrouping.players.length===1}}"
+                 flex>
+              <div class="player-selected__border  player-selected__border--one"></div>
+              <div class="player-selected">{{userGrouping.players[0] ? userGrouping.players[0].name : pickedPlayerDefaults.player1 }}</div>
+            </div>
+            <div id="player-selected__two"
+                 hero-id="{{selectedPlayerId}}"
+                 hero?="{{selected===0 && userGrouping.players.length===2}}"
+                 flex>
+              <div class="player-selected__border  player-selected__border--two"></div>
+              <div class="player-selected">{{userGrouping.players[1] ? userGrouping.players[1].name : pickedPlayerDefaults.player2 }}</div>
+            </div>
           </div>
           <div layout horizontal>
-            <div class="player-selected" flex>{{userGrouping.players[2] ? userGrouping.players[2].name : pickedPlayerDefaults.player3 }}</div>
-            <div class="player-selected" flex>{{userGrouping.players[3] ? userGrouping.players[3].name : pickedPlayerDefaults.player4 }}</div>
+            <div id="player-selected__three"
+                 hero-id="{{selectedPlayerId}}"
+                 hero?="{{selected===0 && userGrouping.players.length===3}}"
+                 flex>
+              <div class="player-selected__border  player-selected__border--three"></div>
+              <div class="player-selected">{{userGrouping.players[2] ? userGrouping.players[2].name : pickedPlayerDefaults.player3 }}</div>
+            </div>
+            <div id="player-selected__four"
+                 hero-id="{{selectedPlayerId}}"
+                 hero?="{{selected===0 && userGrouping.players.length===4}}"
+                 flex>
+              <div class="player-selected__border  player-selected__border--four"></div>
+              <div class="player-selected">{{userGrouping.players[3] ? userGrouping.players[3].name : pickedPlayerDefaults.player4 }}</div>
+            </div>
           </div>
         </div>
 
@@ -59,6 +83,7 @@
           <template repeat="{{player in availablePlayers2}}">
             <div class="players-list__row"
                  playerId="{{player.uid}}"
+                 hero-id="{{player.uid}}" hero
                  on-tap="{{playerSelected}}">
               <div class="players-list__item" layout horizontal>
                 <div class="player-name" flex>{{player.name}}</div>
@@ -71,12 +96,36 @@
 
         <div class="players-selected-footer">
           <div layout horizontal>
-            <div class="player-selected" flex>{{userGrouping.players[0] ? userGrouping.players[0].name : pickedPlayerDefaults.player1 }}</div>
-            <div class="player-selected" flex>{{userGrouping.players[1] ? userGrouping.players[1].name : pickedPlayerDefaults.player2 }}</div>
+            <div id="player-selected__one"
+                 hero-id="{{selectedPlayerId}}"
+                 hero?="{{selected===1 && userGrouping.players.length===1}}"
+                 flex>
+              <div class="player-selected__border  player-selected__border--one"></div>
+              <div class="player-selected">{{userGrouping.players[0] ? userGrouping.players[0].name : pickedPlayerDefaults.player1 }}</div>
+            </div>
+            <div id="player-selected__two"
+                 hero-id="{{selectedPlayerId}}"
+                 hero?="{{selected===1 && userGrouping.players.length===2}}"
+                 flex>
+              <div class="player-selected__border  player-selected__border--two"></div>
+              <div class="player-selected">{{userGrouping.players[1] ? userGrouping.players[1].name : pickedPlayerDefaults.player2 }}</div>
+            </div>
           </div>
           <div layout horizontal>
-            <div class="player-selected" flex>{{userGrouping.players[2] ? userGrouping.players[2].name : pickedPlayerDefaults.player3 }}</div>
-            <div class="player-selected" hero-id="simplelogin:160" hero flex>{{userGrouping.players[3] ? userGrouping.players[3].name : pickedPlayerDefaults.player4 }}</div>
+            <div id="player-selected__three"
+                 hero-id="{{selectedPlayerId}}"
+                 hero?="{{selected===1 && userGrouping.players.length===3}}"
+                 flex>
+              <div class="player-selected__border  player-selected__border--three"></div>
+              <div class="player-selected">{{userGrouping.players[2] ? userGrouping.players[2].name : pickedPlayerDefaults.player3 }}</div>
+            </div>
+            <div id="player-selected__four"
+                 hero-id="{{selectedPlayerId}}"
+                 hero?="{{selected===1 && userGrouping.players.length===4}}"
+                 flex>
+              <div class="player-selected__border  player-selected__border--four"></div>
+              <div class="player-selected">{{userGrouping.players[3] ? userGrouping.players[3].name : pickedPlayerDefaults.player4 }}</div>
+            </div>
           </div>
         </div>
 
@@ -102,6 +151,8 @@
       Polymer({
 
         selected: 0,
+
+        selectedPlayerId: '',
 
         availablePlayers1: [],
 
@@ -179,6 +230,12 @@
             this.groupPlayerToSet = {
               players: [playerObject]
             };
+
+            this.userGrouping = {
+              players: [playerObject]
+            }
+
+            this.updateAvailablePlayers(playerObject, 'remove');
             this.fire('create-new-group');
           } else {
             // Maximum of 4 players in a group
@@ -197,10 +254,12 @@
 
           var availablePlayers;
 
+          this.selectedPlayerId = player.uid;
+
           if (this.selected === 0) {
-            availablePlayers = this.availablePlayers1;
-          } else {
             availablePlayers = this.availablePlayers2;
+          } else {
+            availablePlayers = this.availablePlayers1;
           }
 
           if (action === 'add') {
@@ -228,6 +287,8 @@
           } else {
             this.availablePlayers1 = this.availablePlayers2;
           }
+
+          this.selectedPlayerId = '';
 
           console.log('complete');
         }

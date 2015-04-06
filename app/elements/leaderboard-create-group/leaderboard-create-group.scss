@@ -63,6 +63,26 @@ section {
   border-right: 0 none;
 }
 
+.player-selected__border {
+  height: 4px;
+}
+
+.player-selected__border--one {
+  background-color: #ff5252;
+}
+
+.player-selected__border--two {
+  background-color: #03A9F4;
+}
+
+.player-selected__border--three {
+  background-color: #ffeb3b;
+}
+
+.player-selected__border--four {
+  background-color: #1de9b6;
+}
+
 .player-name {
   color: $darkTextColour;
 }
