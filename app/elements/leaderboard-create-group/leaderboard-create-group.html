@@ -191,11 +191,10 @@
         // the players collection, set the availablePlayers array
         getAvailablePlayers: function() {
 
+          this.availablePlayers1 = this.availablePlayers2 = this.tournamentPlayers;
+
           if (this.roundToScore && this.roundToScore.groupings) {
-            this.availablePlayers1 = this.availablePlayers2 = this.tournamentPlayers;
             this.removePickedPlayers();
-          } else {
-            this.availablePlayers1 = this.availablePlayers2 = this.tournamentPlayers;
           }
         },
 
