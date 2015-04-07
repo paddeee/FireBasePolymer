@@ -22,6 +22,7 @@
                       dataReady="{{roundGroupingsReady}}"
                       on-child-added="{{groupingUpdated}}"
                       on-child-changed="{{groupingUpdated}}"
+                      on-child-removed="{{groupingUpdated}}"
                       data="{{roundGroupings}}"
                       childEvents
                       log>
@@ -269,7 +270,7 @@
         groupingUpdated: function(event) {
 
           if(this.roundToScore.groupings) {
-            this.roundToScore.groupings[this.userDetails.uid].players = event.detail.value.players;
+            this.roundToScore.groupings[event.detail.name].players = event.detail.value.players;
           } else {
             this.roundToScore.groupings = {};
             this.roundToScore.groupings[this.userDetails.uid] = {

@@ -194,22 +194,36 @@
           this.availablePlayers1 = this.availablePlayers2 = this.tournamentPlayers;
 
           if (this.roundToScore && this.roundToScore.groupings) {
-            this.removePickedPlayers();
+            this.setAvailablePlayers();
           }
         },
 
-        // If player already exists in a grouping, filter them from the availablePlayers array
-        removePickedPlayers: function() {
+        // Remove array of picked players from availablePlayers arrays
+        setAvailablePlayers: function() {
+
+          this.getPickedPlayers().forEach(function(pickedPlayerId) {
+            this.availablePlayers1 = this.availablePlayers2 = this.availablePlayers1.filter(function(player) {
+              return player.uid !== pickedPlayerId;
+            });
+          }, this);
+        },
+
+        // Return a new array of players already picked in a grouping
+        getPickedPlayers: function() {
+
+          var pickedPlayers = [];
 
           for (var grouping in this.roundToScore.groupings) {
 
             this.roundToScore.groupings[grouping].players.forEach(function(pickedPlayer) {
 
-              this.availablePlayers1 = this.availablePlayers2 = this.availablePlayers1.filter(function (player) {
-                return player.uid !== pickedPlayer.uid;
-              });
+              if (pickedPlayers.indexOf(pickedPlayer.uid) === -1) {
+                pickedPlayers.push(pickedPlayer.uid);
+              }
             }, this);
           }
+
+          return pickedPlayers;
         },
 
         // When a player is selected from this list, their user object is copied over to the players collection of the
