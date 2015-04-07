@@ -14,7 +14,8 @@
     <firebase-element id="userGrouping"
                       location="{{userDetails && tournamentToScoreId && roundToScoreId ? tournamentsLocation + tournamentToScoreId + '/rounds/' + roundToScoreId + '/groupings/' + userDetails.uid : null}}"
                       dataReady="{{userGroupingReady}}"
-                      data="{{userGrouping}}">
+                      data="{{userGrouping}}"
+                      log>
     </firebase-element>
 
     <firebase-element id="roundGroupings"
@@ -24,8 +25,7 @@
                       on-child-changed="{{groupingUpdated}}"
                       on-child-removed="{{groupingUpdated}}"
                       data="{{roundGroupings}}"
-                      childEvents
-                      log>
+                      childEvents>
     </firebase-element>
 
     <div id="sectionPanel" class="section-panel {{ {wide: wide} | tokenList }}"
@@ -269,7 +269,7 @@
         // When any grouping in the round has changed, update roundToScore object
         groupingUpdated: function(event) {
 
-          if(this.roundToScore.groupings) {
+          if(this.roundToScore.groupings && this.roundToScore.groupings[event.detail.name]) {
             this.roundToScore.groupings[event.detail.name].players = event.detail.value.players;
           } else {
             this.roundToScore.groupings = {};
