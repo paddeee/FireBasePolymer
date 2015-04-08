@@ -75,6 +75,7 @@
                                       tournamentPlayers="{{tournamentPlayers}}"
                                       groupTournamentScore="{{groupTournamentScore}}"
                                       userGrouping="{{userGrouping}}"
+                                      showScoreGroupButton="{{showScoreGroupButton}}"
                                       groupPlayerToSet="{{groupPlayerToSet}}"
                                       on-create-new-group="{{createNewGroup}}"
                                       on-add-player-to-group="{{addPlayerToGroup}}">
@@ -84,9 +85,10 @@
 
         </div>
 
-        <paper-fab class="check-button"
-                   icon="{{icon}}"></paper-fab>
-
+        <paper-fab icon="add"
+                   showing?="{{selected === 'createGroup' && showScoreGroupButton}}"
+                   on-tap="{{addTournamentButtonHandler}}">
+        </paper-fab>
 
         <paper-icon-button class="back-button"
                            icon="arrow-back"
@@ -110,8 +112,11 @@
       Polymer({
 
         observe: {
-          'userTournaments': 'getUserTournaments'
+          'userTournaments': 'getUserTournaments',
+          'userGrouping.players': 'manageFabButton'
         },
+
+        userGrouping: null,
 
         userDetails: null,
 
@@ -124,6 +129,8 @@
         tournamentPlayers: [],
 
         tournamentPlayersLength: 0,
+
+        showScoreGroupButton: false,
 
         usersLocation: 'https://incandescent-heat-3687.firebaseio.com/users/',
 
@@ -165,6 +172,16 @@
             default:
               break;
           }
+        },
+
+        // Show/Hide Check Fab button as user enters data
+        manageFabButton: function() {
+          if (this.userGrouping && this.userGrouping.players && this.userGrouping.players.length) {
+            this.showScoreGroupButton = true;
+          } else {
+            this.showScoreGroupButton = false;
+          }
+          console.log('fab');
         },
 
         // Get an array of a user's associated tournament ids
