@@ -8,14 +8,14 @@
     <firebase-element id="userTournamentsFireBase"
                       location="{{userDetails ? 'https://incandescent-heat-3687.firebaseio.com/users/' + userDetails.uid + '/tournaments' : null}}"
                       dataReady="{{userTournamentsReady}}"
-                      data="{{userTournaments}}">
+                      data="{{userTournaments}}"
+                      log>
     </firebase-element>
 
     <firebase-element id="userGrouping"
                       location="{{userDetails && tournamentToScoreId && roundToScoreId ? tournamentsLocation + tournamentToScoreId + '/rounds/' + roundToScoreId + '/groupings/' + userDetails.uid : null}}"
                       dataReady="{{userGroupingReady}}"
-                      data="{{userGrouping}}"
-                      log>
+                      data="{{userGrouping}}">
     </firebase-element>
 
     <firebase-element id="roundGroupings"
@@ -181,7 +181,6 @@
           } else {
             this.showScoreGroupButton = false;
           }
-          console.log('fab');
         },
 
         // Get an array of a user's associated tournament ids

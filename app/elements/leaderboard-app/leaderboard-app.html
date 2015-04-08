@@ -216,7 +216,7 @@
               // Parse query string and set tournament id if user is joining a tournament
               setJoinTournament: function() {
 
-                if (this.userDetails && this.joinTournament) {
+                if (this.user && this.userDetails && this.joinTournament) {
                   this.tournamentToJoinId = this.getQueryParameters().tournament || '';
                   this.hostUserId = this.getQueryParameters().host || '';
                 }
@@ -225,6 +225,7 @@
               // Alert user to successfully joining tournament
               tournamentJoinSuccess: function() {
                 this.$.TournamentJoined.open();
+                this.tournamentToJoinId = '';
               },
 
               // Helper to convert query string params to an object

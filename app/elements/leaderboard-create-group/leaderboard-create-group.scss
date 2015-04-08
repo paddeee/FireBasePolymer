@@ -23,10 +23,6 @@ section {
   position:relative;
 }
 
-.create-group-section {
-  margin-top: 8px;
-}
-
 .players-list__row {
   cursor: pointer;
 }
@@ -41,6 +37,7 @@ section {
 }
 
 .players-list {
+  padding-top: 16px;
   overflow: auto;
   -webkit-overflow-scrolling: touch;
 }
