@@ -8,8 +8,7 @@
     <firebase-element id="userTournamentsFireBase"
                       location="{{userDetails ? 'https://incandescent-heat-3687.firebaseio.com/users/' + userDetails.uid + '/tournaments' : null}}"
                       dataReady="{{userTournamentsReady}}"
-                      data="{{userTournaments}}"
-                      log>
+                      data="{{userTournaments}}">
     </firebase-element>
 
     <firebase-element id="userGrouping"
@@ -21,11 +20,12 @@
     <firebase-element id="roundGroupings"
                       location="{{userDetails && tournamentToScoreId && roundToScoreId ? tournamentsLocation + tournamentToScoreId + '/rounds/' + roundToScoreId + '/groupings/' : null}}"
                       dataReady="{{roundGroupingsReady}}"
-                      on-child-added="{{groupingUpdated}}"
-                      on-child-changed="{{groupingUpdated}}"
-                      on-child-removed="{{groupingUpdated}}"
+                      on-child-added="{{playerAddedToGrouping}}"
+                      on-child-changed="{{groupingChanged}}"
+                      on-child-removed="{{playerRemovedFromGrouping}}"
                       data="{{roundGroupings}}"
-                      childEvents>
+                      childEvents
+                      log>
     </firebase-element>
 
     <div id="sectionPanel" class="section-panel {{ {wide: wide} | tokenList }}"
@@ -282,14 +282,39 @@
           this.$.userGrouping.commitProperty('players');
         },
 
-        // When any grouping in the round has changed, update roundToScore object
-        groupingUpdated: function(event) {
+        // When any grouping in the round has its last player removed
+        playerRemovedFromGrouping: function(event) {
 
-          if(this.roundToScore.groupings && this.roundToScore.groupings[event.detail.name]) {
+          delete this.roundToScore.groupings[event.detail.name];
+
+          // If group update comes from a different grouping, update available players on create-group element directly
+          if (event.detail.name !== this.userDetails.uid) {
+            this.$.createGroup.getAvailablePlayers();
+          }
+        },
+
+        // When any grouping in the round has a player added or removed but not the last player in the group
+        groupingChanged: function(event) {
+
+          if (this.roundToScore.groupings && this.roundToScore.groupings[event.detail.name]) {
+
+            this.roundToScore.groupings[event.detail.name].players = event.detail.value.players;
+          }
+
+          // If group update comes from a different grouping, update available players on create-group element directly
+          if (event.detail.name !== this.userDetails.uid) {
+            this.$.createGroup.getAvailablePlayers();
+          }
+        },
+
+        // When any grouping in the round has a player added
+        playerAddedToGrouping: function(event) {
+
+          // If this user has a group set up
+          if (this.roundToScore.groupings[this.userDetails.uid]) {
             this.roundToScore.groupings[event.detail.name].players = event.detail.value.players;
           } else {
-            this.roundToScore.groupings = {};
-            this.roundToScore.groupings[this.userDetails.uid] = {
+            this.roundToScore.groupings[event.detail.name] = {
               players: event.detail.value.players
             };
           }
