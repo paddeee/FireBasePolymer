@@ -8,13 +8,24 @@
     <firebase-element id="userTournamentsFireBase"
                       location="{{userDetails ? 'https://incandescent-heat-3687.firebaseio.com/users/' + userDetails.uid + '/tournaments' : null}}"
                       dataReady="{{userTournamentsReady}}"
-                      data="{{userTournaments}}">
+                      data="{{userTournaments}}"
+                      on-child-added="{{userJoinedTournament}}"
+                      childEvents>
     </firebase-element>
 
     <firebase-element id="userGrouping"
                       location="{{userDetails && tournamentToScoreId && roundToScoreId ? tournamentsLocation + tournamentToScoreId + '/rounds/' + roundToScoreId + '/groupings/' + userDetails.uid : null}}"
                       dataReady="{{userGroupingReady}}"
                       data="{{userGrouping}}">
+    </firebase-element>
+
+    <firebase-element id="tournamentPlayerIdsFireBase"
+                      location="{{userDetails && tournamentToScoreId ? tournamentsLocation + tournamentToScoreId + '/players/' : null}}"
+                      dataReady="{{tournamentPlayerIdsReady}}"
+                      data="{{tournamentPlayerIds}}"
+                      on-child-added="{{playerAddedToTournament}}"
+                      childEvents
+                      log>
     </firebase-element>
 
     <firebase-element id="roundGroupings"
@@ -24,8 +35,7 @@
                       on-child-changed="{{groupingChanged}}"
                       on-child-removed="{{playerRemovedFromGrouping}}"
                       data="{{roundGroupings}}"
-                      childEvents
-                      log>
+                      childEvents>
     </firebase-element>
 
     <div id="sectionPanel" class="section-panel {{ {wide: wide} | tokenList }}"
@@ -112,7 +122,6 @@
       Polymer({
 
         observe: {
-          'userTournaments': 'getUserTournaments',
           'userGrouping.players': 'manageFabButton'
         },
 
@@ -310,6 +319,11 @@
         // When any grouping in the round has a player added
         playerAddedToGrouping: function(event) {
 
+          // If this is the first grouping
+          if (!this.roundToScore.groupings) {
+            this.roundToScore.groupings = {};
+          }
+
           // If this user has a group set up
           if (this.roundToScore.groupings[this.userDetails.uid]) {
             this.roundToScore.groupings[event.detail.name].players = event.detail.value.players;
@@ -323,6 +337,16 @@
           if (event.detail.name !== this.userDetails.uid) {
             this.$.createGroup.getAvailablePlayers();
           }
+        },
+
+        // When a user has a tournament key added to their tournaments, update the upComing tournaments
+        userJoinedTournament: function(event) {
+          this.getTournamentObject(event.detail.name);
+        },
+
+        // When a tournament has a new user assigned, update the roundToScore object
+        playerAddedToTournament: function(event) {
+          console.log(event.detail.name);
         },
 
         // Handler for back button in toolbar
