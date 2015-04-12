@@ -87,7 +87,8 @@
                                       showScoreGroupButton="{{showScoreGroupButton}}"
                                       groupPlayerToSet="{{groupPlayerToSet}}"
                                       on-create-new-group="{{createNewGroup}}"
-                                      on-add-player-to-group="{{addPlayerToGroup}}">
+                                      on-add-player-to-group="{{updateGroup}}"
+                                      on-remove-player-from-group="{{updateGroup}}">
             </leaderboard-create-group>
 
           </core-animated-pages>
@@ -285,8 +286,8 @@
           this.groupPlayerToSet = null;
         },
 
-        // Add a player to the group
-        addPlayerToGroup: function() {
+        // Add/Remove a player to/from the group
+        updateGroup: function() {
           this.$.userGrouping.commitProperty('players');
         },
 

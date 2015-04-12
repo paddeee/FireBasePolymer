@@ -44,7 +44,7 @@ section {
 
 .players-list__item,
 .players-empty {
-  padding: 16px;
+  padding: 12px;
 }
 
 /* ToDo - Revisit to add lifted up effect to transition
@@ -95,8 +95,25 @@ section {
 
 .player-name {
   color: $darkTextColour;
+  margin-right: 16px;
 }
 
 .player-handicap {
+  color: $primaryBgColour;
+  font-size: 14px;
   margin: 0 6px 0 0;
+}
+
+.add-to-group {
+  color: $primaryBgColour;
+  padding-right: 0;
+}
+
+.remove-from-group {
+  color: red;
+  display: none;
+}
+
+.remove-from-group[showing] {
+  display: block;
 }

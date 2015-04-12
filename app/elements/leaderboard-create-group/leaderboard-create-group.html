@@ -26,9 +26,14 @@
                  playerId="{{player.uid}}"
                  hero-id="{{player.uid}}" hero
                  on-tap="{{playerSelected}}">
-              <div class="players-list__item" layout horizontal>
-                <div class="player-name" flex>{{player.name}}</div>
-                <div class="player-handicap">{{player.handicap}}</div>
+              <div class="players-list__item" layout horizontal center>
+                <div class="player-list__player-info" flex>
+                  <div class="player-name">{{player.name}}</div>
+                  <div class="player-handicap">Hcp - {{player.handicap}}</div>
+                </div>
+                <paper-icon-button class="add-to-group"
+                                   icon="add-circle">
+                </paper-icon-button>
               </div>
               <div class="divider"></div>
             </div>
@@ -42,14 +47,30 @@
                  hero?="{{selected===0 && userGrouping.players.length===1}}"
                  flex>
               <div class="player-selected__border  player-selected__border--one"></div>
-              <div class="player-selected">{{userGrouping.players[0] ? userGrouping.players[0].name : pickedPlayerDefaults.player1 }}</div>
+              <div class="player-selected__player-info" layout horizontal center flex>
+                <div class="player-selected" flex>{{userGrouping.players[0] ? userGrouping.players[0].name : pickedPlayerDefaults.player1 }}</div>
+                <paper-icon-button class="remove-from-group"
+                                   icon="remove-circle"
+                                   showing?="{{userGrouping.players[0]}}"
+                                   playerId="{{userGrouping.players[0].uid}}"
+                                   on-tap="{{playerRemoved}}">
+                </paper-icon-button>
+              </div>
             </div>
             <div id="player-selected__two"
                  hero-id="{{selectedPlayerId}}"
                  hero?="{{selected===0 && userGrouping.players.length===2}}"
                  flex>
               <div class="player-selected__border  player-selected__border--two"></div>
-              <div class="player-selected">{{userGrouping.players[1] ? userGrouping.players[1].name : pickedPlayerDefaults.player2 }}</div>
+              <div class="player-selected__player-info" layout horizontal center flex>
+                <div class="player-selected" flex>{{userGrouping.players[1] ? userGrouping.players[1].name : pickedPlayerDefaults.player2 }}</div>
+                <paper-icon-button class="remove-from-group"
+                                   icon="remove-circle"
+                                   showing?="{{userGrouping.players[1]}}"
+                                   playerId="{{userGrouping.players[1].uid}}"
+                                   on-tap="{{playerRemoved}}">
+                </paper-icon-button>
+              </div>
             </div>
           </div>
           <div layout horizontal>
@@ -58,14 +79,30 @@
                  hero?="{{selected===0 && userGrouping.players.length===3}}"
                  flex>
               <div class="player-selected__border  player-selected__border--three"></div>
-              <div class="player-selected">{{userGrouping.players[2] ? userGrouping.players[2].name : pickedPlayerDefaults.player3 }}</div>
+              <div class="player-selected__player-info" layout horizontal center flex>
+                <div class="player-selected" flex>{{userGrouping.players[2] ? userGrouping.players[2].name : pickedPlayerDefaults.player3 }}</div>
+                <paper-icon-button class="remove-from-group"
+                                   icon="remove-circle"
+                                   showing?="{{userGrouping.players[2]}}"
+                                   playerId="{{userGrouping.players[2].uid}}"
+                                   on-tap="{{playerRemoved}}">
+                </paper-icon-button>
+              </div>
             </div>
             <div id="player-selected__four"
                  hero-id="{{selectedPlayerId}}"
                  hero?="{{selected===0 && userGrouping.players.length===4}}"
                  flex>
               <div class="player-selected__border  player-selected__border--four"></div>
-              <div class="player-selected">{{userGrouping.players[3] ? userGrouping.players[3].name : pickedPlayerDefaults.player4 }}</div>
+              <div class="player-selected__player-info" layout horizontal center flex>
+                <div class="player-selected" flex>{{userGrouping.players[3] ? userGrouping.players[3].name : pickedPlayerDefaults.player4 }}</div>
+                <paper-icon-button class="remove-from-group"
+                                   icon="remove-circle"
+                                   showing?="{{userGrouping.players[3]}}"
+                                   playerId="{{userGrouping.players[3].uid}}"
+                                   on-tap="{{playerRemoved}}">
+                </paper-icon-button>
+              </div>
             </div>
           </div>
         </div>
@@ -85,9 +122,14 @@
                  playerId="{{player.uid}}"
                  hero-id="{{player.uid}}" hero
                  on-tap="{{playerSelected}}">
-              <div class="players-list__item" layout horizontal>
-                <div class="player-name" flex>{{player.name}}</div>
-                <div class="player-handicap">{{player.handicap}}</div>
+              <div class="players-list__item" layout horizontal center>
+                <div class="player-list__player-info" flex>
+                  <div class="player-name">{{player.name}}</div>
+                  <div class="player-handicap">Hcp - {{player.handicap}}</div>
+                </div>
+                <paper-icon-button class="add-to-group"
+                                   icon="add-circle">
+                </paper-icon-button>
               </div>
               <div class="divider"></div>
             </div>
@@ -101,14 +143,30 @@
                  hero?="{{selected===1 && userGrouping.players.length===1}}"
                  flex>
               <div class="player-selected__border  player-selected__border--one"></div>
-              <div class="player-selected">{{userGrouping.players[0] ? userGrouping.players[0].name : pickedPlayerDefaults.player1 }}</div>
+              <div class="player-selected__player-info" layout horizontal center flex>
+                <div class="player-selected" flex>{{userGrouping.players[0] ? userGrouping.players[0].name : pickedPlayerDefaults.player1 }}</div>
+                <paper-icon-button class="remove-from-group"
+                                   icon="remove-circle"
+                                   showing?="{{userGrouping.players[0]}}"
+                                   playerId="{{userGrouping.players[0].uid}}"
+                                   on-tap="{{playerRemoved}}">
+                </paper-icon-button>
+              </div>
             </div>
             <div id="player-selected__two"
                  hero-id="{{selectedPlayerId}}"
                  hero?="{{selected===1 && userGrouping.players.length===2}}"
                  flex>
               <div class="player-selected__border  player-selected__border--two"></div>
-              <div class="player-selected">{{userGrouping.players[1] ? userGrouping.players[1].name : pickedPlayerDefaults.player2 }}</div>
+              <div class="player-selected__player-info" layout horizontal center flex>
+                <div class="player-selected" flex>{{userGrouping.players[1] ? userGrouping.players[1].name : pickedPlayerDefaults.player2 }}</div>
+                <paper-icon-button class="remove-from-group"
+                                   icon="remove-circle"
+                                   showing?="{{userGrouping.players[1]}}"
+                                   playerId="{{userGrouping.players[1].uid}}"
+                                   on-tap="{{playerRemoved}}">
+                </paper-icon-button>
+              </div>
             </div>
           </div>
           <div layout horizontal>
@@ -117,14 +175,30 @@
                  hero?="{{selected===1 && userGrouping.players.length===3}}"
                  flex>
               <div class="player-selected__border  player-selected__border--three"></div>
-              <div class="player-selected">{{userGrouping.players[2] ? userGrouping.players[2].name : pickedPlayerDefaults.player3 }}</div>
+              <div class="player-selected__player-info" layout horizontal center flex>
+                <div class="player-selected" flex>{{userGrouping.players[2] ? userGrouping.players[2].name : pickedPlayerDefaults.player3 }}</div>
+                <paper-icon-button class="remove-from-group"
+                                   icon="remove-circle"
+                                   showing?="{{userGrouping.players[2]}}"
+                                   playerId="{{userGrouping.players[2].uid}}"
+                                   on-tap="{{playerRemoved}}">
+                </paper-icon-button>
+              </div>
             </div>
             <div id="player-selected__four"
                  hero-id="{{selectedPlayerId}}"
                  hero?="{{selected===1 && userGrouping.players.length===4}}"
                  flex>
               <div class="player-selected__border  player-selected__border--four"></div>
-              <div class="player-selected">{{userGrouping.players[3] ? userGrouping.players[3].name : pickedPlayerDefaults.player4 }}</div>
+              <div class="player-selected__player-info" layout horizontal center flex>
+                <div class="player-selected" flex>{{userGrouping.players[3] ? userGrouping.players[3].name : pickedPlayerDefaults.player4 }}</div>
+                <paper-icon-button class="remove-from-group"
+                                   icon="remove-circle"
+                                   showing?="{{userGrouping.players[3]}}"
+                                   playerId="{{userGrouping.players[3].uid}}"
+                                   on-tap="{{playerRemoved}}">
+                </paper-icon-button>
+              </div>
             </div>
           </div>
         </div>
@@ -206,7 +280,6 @@
               return player.uid !== pickedPlayerId;
             });
           }, this);
-          console.log(this.tournamentPlayers);
         },
 
         // Return a new array of players already picked in a grouping
@@ -266,6 +339,27 @@
           }
         },
 
+        //
+        playerRemoved: function(event) {
+
+          var playerId = event.currentTarget.attributes.playerId.value;
+
+          var playerObject = this.userGrouping.players.filter(function(player) {
+            return player.uid === playerId;
+          })[0];
+
+          // Add raised class for use with shadow on player list item
+          event.currentTarget.classList.add("raised");
+
+          this.userGrouping.players = this.userGrouping.players.filter(function(player) {
+            return player.uid !== playerId;
+          });
+
+          this.updateAvailablePlayers(playerObject, 'add');
+          this.fire('remove-player-from-group');
+
+        },
+
         // Update availablePlayers Collection when a player is added or removed
         updateAvailablePlayers: function(player, action) {
 
@@ -306,7 +400,6 @@
           }
 
           this.selectedPlayerId = '';
-
         }
 
       });
