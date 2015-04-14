@@ -190,12 +190,10 @@
                   }
 
                   // Fade out splash screen after delay
+                  this.splashElement.children[0].classList.add('splash-fade--fade-out');
                   this.async(function () {
-                    this.splashElement.children[0].classList.add('splash-fade--fade-out');
-                    this.async(function () {
-                      this.splashElement.classList.add('splash--hide');
-                    }, null, 350);
-                  }, null, 100);
+                    this.splashElement.classList.add('splash--hide');
+                  }, null, 350);
 
                 } else {
                   this.completeStartup();

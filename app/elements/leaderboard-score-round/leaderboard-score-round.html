@@ -91,11 +91,11 @@
                                       on-remove-player-from-group="{{updateGroup}}">
             </leaderboard-create-group>
 
-            <leaderboard-score-round id="scoreGroup"
+            <leaderboard-score-group id="scoreGroup"
                                      class="score-round-view"
                                      name="scoreGroup"
                                      userDetails="{{userDetails}}">
-            </leaderboard-score-round>
+            </leaderboard-score-group>
 
           </core-animated-pages>
 
@@ -103,7 +103,7 @@
 
         <paper-fab icon="image:edit"
                    showing?="{{selected === 'createGroup' && showScoreGroupButton}}"
-                   on-tap="{{addTournamentButtonHandler}}">
+                   on-tap="{{scoreGroupButtonHandler}}">
         </paper-fab>
 
         <paper-icon-button class="back-button"
@@ -353,6 +353,13 @@
         // When a tournament has a new user assigned, update the roundToScore object
         playerAddedToTournament: function(event) {
           console.log(event.detail.name);
+        },
+
+        // Handler for Score Group Fab button on create group page
+        scoreGroupButtonHandler: function() {
+
+          // Navigate to Score Group home view
+          this.navigateTo(this.sectionData.scoreGroup);
         },
 
         // Handler for back button in toolbar

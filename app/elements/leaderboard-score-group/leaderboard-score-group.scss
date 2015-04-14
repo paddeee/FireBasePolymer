@@ -1,3 +1,20 @@
 :host {
   display: block;
 }
+
+.group-content {
+  background-color: #fff;
+  overflow: auto;
+  position: relative;
+  -webkit-overflow-scrolling: touch;
+}
+
+.four-quarter {
+  display: block;
+  box-sizing: border-box;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
