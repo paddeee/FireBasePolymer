@@ -47,13 +47,11 @@ section {
   padding: 12px;
 }
 
-/* ToDo - Revisit to add lifted up effect to transition
-.players-list__row.raised {
+.player-selected.raised {
   box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   z-index: 10001 !important;
   background-color: white;
-}*/
-
+}
 
 .divider {
   background-color: rgba(0,0,0,0.12);
@@ -106,7 +104,7 @@ section {
 
 .add-to-group {
   color: $primaryBgColour;
-  padding-right: 0;
+  padding-right: 4px;
 }
 
 .remove-from-group {
