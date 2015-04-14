@@ -72,22 +72,23 @@ section {
 }
 
 .player-selected__border {
+  background-color: gainsboro;
   height: 4px;
 }
 
-.player-selected__border--one {
+.player-selected__border--one.selected {
   background-color: #ff5252;
 }
 
-.player-selected__border--two {
+.player-selected__border--two.selected {
   background-color: #03A9F4;
 }
 
-.player-selected__border--three {
+.player-selected__border--three.selected {
   background-color: #ffeb3b;
 }
 
-.player-selected__border--four {
+.player-selected__border--four.selected {
   background-color: #1de9b6;
 }
 

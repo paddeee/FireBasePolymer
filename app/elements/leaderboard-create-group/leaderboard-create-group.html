@@ -47,7 +47,7 @@
                  hero-id="{{selectedPlayerId}}"
                  hero?="{{selected===0 && userGrouping.players.length===1}}"
                  flex>
-              <div class="player-selected__border  player-selected__border--one"></div>
+              <div class="player-selected__border  player-selected__border--one  {{userGrouping.players.length >= 1 ? 'selected':''}}"></div>
               <div layout horizontal center flex>
                 <div class="player-selected__player-info" flex>{{userGrouping.players[0] ? userGrouping.players[0].name : pickedPlayerDefaults.player1 }}</div>
                 <paper-icon-button class="remove-from-group"
@@ -63,7 +63,7 @@
                  hero-id="{{selectedPlayerId}}"
                  hero?="{{selected===0 && userGrouping.players.length===2}}"
                  flex>
-              <div class="player-selected__border  player-selected__border--two"></div>
+              <div class="player-selected__border  player-selected__border--two  {{userGrouping.players.length >= 2 ? 'selected':''}}"></div>
               <div layout horizontal center flex>
                 <div class="player-selected__player-info" flex>{{userGrouping.players[1] ? userGrouping.players[1].name : pickedPlayerDefaults.player2 }}</div>
                 <paper-icon-button class="remove-from-group"
@@ -81,7 +81,7 @@
                  hero-id="{{selectedPlayerId}}"
                  hero?="{{selected===0 && userGrouping.players.length===3}}"
                  flex>
-              <div class="player-selected__border  player-selected__border--three"></div>
+              <div class="player-selected__border  player-selected__border--three  {{userGrouping.players.length >=3 ? 'selected':''}}"></div>
               <div layout horizontal center flex>
                 <div class="player-selected__player-info" flex>{{userGrouping.players[2] ? userGrouping.players[2].name : pickedPlayerDefaults.player3 }}</div>
                 <paper-icon-button class="remove-from-group"
@@ -97,7 +97,7 @@
                  hero-id="{{selectedPlayerId}}"
                  hero?="{{selected===0 && userGrouping.players.length===4}}"
                  flex>
-              <div class="player-selected__border  player-selected__border--four"></div>
+              <div class="player-selected__border  player-selected__border--four  {{userGrouping.players.length ===4 ? 'selected':''}}"></div>
               <div layout horizontal center flex>
                 <div class="player-selected__player-info" flex>{{userGrouping.players[3] ? userGrouping.players[3].name : pickedPlayerDefaults.player4 }}</div>
                 <paper-icon-button class="remove-from-group"
@@ -147,7 +147,7 @@
                  hero-id="{{selectedPlayerId}}"
                  hero?="{{selected===1 && userGrouping.players.length===1}}"
                  flex>
-              <div class="player-selected__border  player-selected__border--one"></div>
+              <div class="player-selected__border  player-selected__border--one  {{userGrouping.players.length >= 1 ? 'selected':''}}"></div>
               <div layout horizontal center flex>
                 <div class="player-selected__player-info" flex>{{userGrouping.players[0] ? userGrouping.players[0].name : pickedPlayerDefaults.player1 }}</div>
                 <paper-icon-button class="remove-from-group"
@@ -163,7 +163,7 @@
                  hero-id="{{selectedPlayerId}}"
                  hero?="{{selected===1 && userGrouping.players.length===2}}"
                  flex>
-              <div class="player-selected__border  player-selected__border--two"></div>
+              <div class="player-selected__border  player-selected__border--two  {{userGrouping.players.length >= 2 ? 'selected':''}}"></div>
               <div layout horizontal center flex>
                 <div class="player-selected__player-info" flex>{{userGrouping.players[1] ? userGrouping.players[1].name : pickedPlayerDefaults.player2 }}</div>
                 <paper-icon-button class="remove-from-group"
@@ -181,7 +181,7 @@
                  hero-id="{{selectedPlayerId}}"
                  hero?="{{selected===1 && userGrouping.players.length===3}}"
                  flex>
-              <div class="player-selected__border  player-selected__border--three"></div>
+              <div class="player-selected__border  player-selected__border--three  {{userGrouping.players.length >= 3 ? 'selected':''}}"></div>
               <div layout horizontal center flex>
                 <div class="player-selected__player-info" flex>{{userGrouping.players[2] ? userGrouping.players[2].name : pickedPlayerDefaults.player3 }}</div>
                 <paper-icon-button class="remove-from-group"
@@ -197,7 +197,7 @@
                  hero-id="{{selectedPlayerId}}"
                  hero?="{{selected===1 && userGrouping.players.length===4}}"
                  flex>
-              <div class="player-selected__border  player-selected__border--four"></div>
+              <div class="player-selected__border  player-selected__border--four  {{userGrouping.players.length === 4 ? 'selected':''}}"></div>
               <div layout horizontal center flex>
                 <div class="player-selected__player-info" flex>{{userGrouping.players[3] ? userGrouping.players[3].name : pickedPlayerDefaults.player4 }}</div>
                 <paper-icon-button class="remove-from-group"
@@ -222,7 +222,7 @@
                          transition="core-transition-center">
       <p>There are already four players in the group.
         Please delete one before adding another.</p>
-      <paper-button flex dismissive autofocus>OK</paper-button>
+      <paper-button dismissive autofocus>OK</paper-button>
     </paper-action-dialog>
 
   </template>
@@ -405,6 +405,11 @@
             this.availablePlayers2 = this.availablePlayers1;
           } else {
             this.availablePlayers1 = this.availablePlayers2;
+          }
+
+          // Remove raised shadow after transition
+          if (this.shadowRoot.querySelector('.player-selected.raised')) {
+            this.shadowRoot.querySelector('.player-selected.raised').classList.remove('raised');
           }
 
           this.selectedPlayerId = '';
