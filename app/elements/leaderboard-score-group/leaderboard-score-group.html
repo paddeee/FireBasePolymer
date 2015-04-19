@@ -3,14 +3,20 @@
 <polymer-element name="leaderboard-score-group" attributes="userDetails">
   <template>
     <link rel="stylesheet" href="leaderboard-score-group.css">
-    <div id="GroupContent" class="group-content">
-      <div class="four-quarter">
-      <div id="players" fit horizontal wrap layout>
-        <div>1</div>
-        <div>2</div>
-        <div>3</div>
-        <div>4</div>
-      </div>
+      <div id="GroupContent" class="group-content" flex vertical layout>
+        <div class="card" flex vertical layout>
+          <div class="group-view" flex>
+            <div class="four-quarter">
+              <div id="players" fit horizontal wrap layout>
+                <div class="player-score">1</div>
+                <div class="player-score">2</div>
+                <div class="player-score">3</div>
+                <div class="player-score">4</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      <div class="score-navigation-footer"></div>
     </div>
   </template>
   <script>
