@@ -1,6 +1,6 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 
-<polymer-element name="leaderboard-score-group" attributes="userDetails holeNumber">
+<polymer-element name="leaderboard-score-group" attributes="userDetails holeNumber roundToScore">
   <template>
     <link rel="stylesheet" href="leaderboard-score-group.css">
       <div id="GroupContent" class="group-content" flex vertical layout>
@@ -16,7 +16,28 @@
             </div>
           </div>
         </div>
-      <div class="score-navigation-footer"></div>
+      <div class="score-navigation-footer">
+        <div layout horizontal>
+          <template repeat="{{hole, holeIndex in holeNumbers}}">
+            <div class="hole-number" horizontal center-justified center layout flex>
+              <div class="ink-container">
+                <paper-ripple fit></paper-ripple>
+              </div>
+              <div class="hole-number__text">{{holeIndex + 1}}</div>
+            </div>
+          </template>
+        </div>
+        <div layout horizontal>
+          <template repeat="{{hole, holeIndex in holeNumbers}}">
+            <div class="hole-number" horizontal center-justified center layout flex>
+              <div class="ink-container">
+                <paper-ripple fit></paper-ripple>
+              </div>
+              <div class="hole-number__text">{{holeIndex + 10}}</div>
+            </div>
+          </template>
+        </div>
+      </div>
     </div>
   </template>
   <script>
@@ -27,6 +48,27 @@
 
         // Number of hole being scored
         holeNumber: 1,
+
+        // Array to use for template to jump to holes navigation
+        holeNumbers: [],
+
+        // Array to use for template to jump to holes navigation
+        nineHole: false,
+
+        roundToScore: null,
+
+        roundToScoreChanged: function() {
+
+          if (this.roundToScore) {
+
+            // Set arrays to use for jump to hole navigation
+            this.holeNumbers.length = '9';
+
+            if (this.roundToScore['length'] > 9) {
+              this.nineHole = true;
+            }
+          }
+        }
       });
 
     })();

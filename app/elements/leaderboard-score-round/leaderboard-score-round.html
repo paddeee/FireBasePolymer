@@ -13,18 +13,15 @@
                       childEvents>
     </firebase-element>
 
+    <firebase-element id="tournamentToScoreFireBase"
+                      location="{{userDetails && tournamentToScoreId ? tournamentsLocation + tournamentToScoreId : null}}"
+                      data="{{tournamentToScore}}">
+    </firebase-element>
+
     <firebase-element id="userGrouping"
                       location="{{userDetails && tournamentToScoreId && roundToScoreId ? tournamentsLocation + tournamentToScoreId + '/rounds/' + roundToScoreId + '/groupings/' + userDetails.uid : null}}"
                       dataReady="{{userGroupingReady}}"
                       data="{{userGrouping}}">
-    </firebase-element>
-
-    <firebase-element id="tournamentPlayerIdsFireBase"
-                      location="{{userDetails && tournamentToScoreId ? tournamentsLocation + tournamentToScoreId + '/players/' : null}}"
-                      dataReady="{{tournamentPlayerIdsReady}}"
-                      data="{{tournamentPlayerIds}}"
-                      on-child-added="{{playerAddedToTournament}}"
-                      childEvents>
     </firebase-element>
 
     <firebase-element id="roundGroupings"
@@ -105,6 +102,7 @@
                                      name="scoreGroup"
                                      userDetails="{{userDetails}}"
                                      holeNumber="{{holeNumber}}"
+                                     roundToScore="{{roundToScore}}"
                                      vertical layout>
             </leaderboard-score-group>
 
@@ -209,19 +207,6 @@
           }
         },
 
-        // Get an array of a user's associated tournament ids
-        getUserTournaments: function() {
-
-          var userTournamentKeys = [];
-
-          for (var tournamentKey in this.userTournaments) {
-            userTournamentKeys.push(tournamentKey);
-          }
-
-          // For each tournament key, call the getTournamentObject method
-          userTournamentKeys.forEach(this.getTournamentObject, this);
-        },
-
         // Push a tournament object onto the upcomingTournaments collection
         getTournamentObject: function(userTournamentKey) {
 
@@ -234,24 +219,18 @@
           });
         },
 
-        // Set tournamentToScore and roundToScore properties and navigate to create-group route
-        createGroup: function() {
-          this.setTournamentToScore();
-          this.setRoundToScore();
-          this.getTournamentPlayers();
-          this.navigateTo(this.sectionData.createGroup);
+        // Called when a round is selected and the data is returned
+        tournamentToScoreChanged: function() {
+          this.createGroup();
         },
 
-        // Set tournamentToScore object
-        setTournamentToScore: function() {
-
-          this.tournamentToScore = null;
-
-          this.upcomingTournaments.forEach(function(tournament) {
-            if (tournament.id === this.tournamentToScoreId) {
-              this.tournamentToScore = tournament;
-            }
-          }, this);
+        // Set tournamentToScore and roundToScore properties and navigate to create-group route
+        createGroup: function() {
+          if (this.tournamentToScore) {
+            this.setRoundToScore();
+            this.getTournamentPlayers();
+            this.navigateTo(this.sectionData.createGroup);
+          }
         },
 
         // Set roundToScore object
@@ -336,6 +315,10 @@
         // When any grouping in the round has a player added
         playerAddedToGrouping: function(event) {
 
+          if (!this.roundToScore) {
+            return;
+          }
+
           // If this is the first grouping
           if (!this.roundToScore.groupings) {
             this.roundToScore.groupings = {};
@@ -359,11 +342,6 @@
         // When a user has a tournament key added to their tournaments, update the upComing tournaments
         userJoinedTournament: function(event) {
           this.getTournamentObject(event.detail.name);
-        },
-
-        // When a tournament has a new user assigned, update the roundToScore object
-        playerAddedToTournament: function(event) {
-          console.log(event.detail.name);
         },
 
         // Handler for Score Group Fab button on create group page
