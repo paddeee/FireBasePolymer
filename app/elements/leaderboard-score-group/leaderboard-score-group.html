@@ -16,26 +16,59 @@
             </div>
           </div>
         </div>
-      <div class="score-navigation-footer">
-        <div layout horizontal>
-          <template repeat="{{hole, holeIndex in holeNumbers}}">
-            <div class="hole-number" horizontal center-justified center layout flex>
-              <div class="ink-container">
-                <paper-ripple fit></paper-ripple>
+      <div class="score-navigation-footer" layout vertical>
+        <div class="hole-number-navigation">
+          <div layout horizontal>
+            <template repeat="{{hole, holeIndex in holeNumbers}}">
+              <div class="hole-number"
+                   hole="{{holeIndex + 1}}"
+                   on-tap="{{showHoleNumber}}"
+                   horizontal center-justified center layout flex>
+                <div class="ink-container">
+                  <paper-ripple class="circle recenteringTouch" fit></paper-ripple>
+                </div>
+                <div class="hole-number__text  {{holeIndex + 1 === holeNumber ? 'hole-number__text--selected' : ''}}">{{holeIndex + 1}}</div>
               </div>
-              <div class="hole-number__text">{{holeIndex + 1}}</div>
-            </div>
-          </template>
+            </template>
+          </div>
+          <div layout horizontal>
+            <template repeat="{{hole, holeIndex in holeNumbers}}">
+              <div class="hole-number"
+                   hole="{{holeIndex + 10}}"
+                   on-tap="{{showHoleNumber}}"
+                   horizontal center-justified center layout flex>
+                <div class="ink-container">
+                  <paper-ripple class="circle recenteringTouch" fit></paper-ripple>
+                </div>
+                <div class="hole-number__text  {{holeIndex + 10 === holeNumber ? 'hole-number__text--selected' : ''}}">{{holeIndex + 10}}</div>
+              </div>
+            </template>
+          </div>
         </div>
-        <div layout horizontal>
-          <template repeat="{{hole, holeIndex in holeNumbers}}">
-            <div class="hole-number" horizontal center-justified center layout flex>
-              <div class="ink-container">
-                <paper-ripple fit></paper-ripple>
-              </div>
-              <div class="hole-number__text">{{holeIndex + 10}}</div>
-            </div>
-          </template>
+        <div flex>
+          <div class="button-container" layout horizontal>
+            <paper-button showing?="{{holeNumber > 1}}"
+                          raised
+                          class="button-container__button  previous-hole-button"
+                          on-tap="{{showPreviousHole}}"
+                          transition="core-transition-center"
+                          flex>
+                          <core-icon icon="arrow-back"></core-icon>
+                            HOLE {{holeNumber === 1 ? 1 : holeNumber - 1}}</paper-button>
+            <paper-button raised
+                          class="scorecard-button"
+                          on-tap="{{showScorecard}}"
+                          transition="core-transition-center"
+                          flex>SCORECARD</paper-button>
+            <paper-button showing?="{{holeNumber < 18}}"
+                          raised
+                          class="button-container__button  next-hole-button"
+                          on-tap="{{showNextHole}}"
+                          transition="core-transition-center"
+                          flex>HOLE {{holeNumber === 18 ? 18 : holeNumber + 1}}
+                          <core-icon icon="arrow-forward"></core-icon>
+            </paper-button>
+          </div>
         </div>
       </div>
     </div>
@@ -68,6 +101,21 @@
               this.nineHole = true;
             }
           }
+        },
+
+        // Transition to specific hole number
+        showHoleNumber: function(event) {
+          this.holeNumber = parseInt(event.currentTarget.attributes.hole.value, 10);
+        },
+
+        // Transition to previous hole
+        showPreviousHole: function() {
+          this.holeNumber = this.holeNumber - 1;
+        },
+
+        // Transition to next hole
+        showNextHole: function(event) {
+          this.holeNumber = this.holeNumber + 1;
         }
       });
 

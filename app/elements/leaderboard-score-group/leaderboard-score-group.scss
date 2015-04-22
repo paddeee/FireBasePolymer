@@ -1,3 +1,13 @@
+/* Vars */
+$primary-bg-colour: #009688;
+$primary-bg-colour--light: #b2dfdb;
+$primary-bg-colour--dark: #00796b;
+$primary-text-colour--light: #FFF;
+$primary-text-colour--dark: #000;
+$neutralBackgroundColour: #EEE;
+
+$primary-accent-colour: #eeff41;
+
 :host {
   display: block;
 }
@@ -38,13 +48,76 @@
   box-shadow: inset 0 12px 12px rgba(0, 0, 0, 0.25);
   color: #fff;
   height: 94px;
+  overflow: hidden;
 }
 
 .hole-number {
   cursor: pointer;
   position: relative;
+  padding-top: 4px;
+}
+
+.hole-number-navigation {
+  margin-bottom: 4px;
 }
 
 .hole-number__text {
-  padding: 8px 8px 4px;
+  padding: 4px 8px;
+}
+
+.hole-number__text--selected {
+  border-radius: 100%;
+  background: $primary-accent-colour;
+  color: $primary-text-colour--dark;
+}
+
+/*.button-container__button {
+  background-color: $primary-bg-colour;
+  font-size: 0.8em;
+  transition: transform 400ms cubic-bezier(0.4, 0, 0.2, 1) 400ms, background-color 400ms cubic-bezier(0.4, 0, 0.2, 1);
+  -webkit-transition: -webkit-transform 400ms cubic-bezier(0.4, 0, 0.2, 1) 400ms, background-color 400ms cubic-bezier(0.4, 0, 0.2, 1);
+  -webkit-transform: translateY(1000px);
+  transform: translateY(1000px);
+}*/
+
+.button-container__button {
+  background-color: $primary-bg-colour;
+  font-size: 0.8em;
+  transition: transform 500ms cubic-bezier(0.4, 0, 0.2, 1) 500ms, background-color 500ms cubic-bezier(0.4, 0, 0.2, 1);
+  -webkit-transition: -webkit-transform 500ms cubic-bezier(0.4, 0, 0.2, 1) 500ms, background-color 500ms cubic-bezier(0.4, 0, 0.2, 1);
+  -webkit-transform: scale(0);
+  transform: scale(0);
+  -webkit-transform-origin: 50% 50%;
+  transform-origin: 50% 50%;
+}
+
+.button-container__button[showing]  {
+  -webkit-transform: none;
+  transform: none;
+}
+
+.previous-hole-button {
+
+  core-icon {
+    position: absolute;
+    left: 4px;
+    height: 16px;
+    top: 8px;
+  }
+}
+
+.next-hole-button {
+
+  core-icon {
+    position: absolute;
+    right: 4px;
+    top: 8px;
+    height: 16px;
+  }
+}
+
+.scorecard-button {
+  background-color: $primary-accent-colour;
+  color: $primary-text-colour--dark;
+  font-size: 0.8em;
 }
