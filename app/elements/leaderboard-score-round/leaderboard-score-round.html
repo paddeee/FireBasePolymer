@@ -48,7 +48,16 @@
 
         <core-toolbar class="menu-toolbar" hero-id="scoreround-title" hero>
 
-          <div class="section-title" flex cross-fade-delayed>{{sectionData[selected].title}}</div>
+          <div class="section-title" showing?="{{selected != 'scoreGroup'}}" flex cross-fade-delayed>{{sectionData[selected].title}}</div>
+
+          <div class="hole-info" fit layout vertical showing?="{{selected === 'scoreGroup'}}">
+            <div class="hole-info__hole-number">Hole {{holeNumber}}</div>
+            <div class="hole-info__hole-details" layout horizontal>
+              <div flex>{{roundToScore.teebox.distance.length[holeNumber - 1]}} {{roundToScore.teebox.distance.units}}</div>
+              <div flex>Par {{roundToScore.par[holeNumber - 1]}}</div>
+              <div flex>Stroke {{roundToScore.stroke[holeNumber - 1]}}</div>
+            </div>
+          </div>
 
         </core-toolbar>
 
@@ -95,6 +104,7 @@
                                      class="score-round-view"
                                      name="scoreGroup"
                                      userDetails="{{userDetails}}"
+                                     holeNumber="{{holeNumber}}"
                                      vertical layout>
             </leaderboard-score-group>
 

@@ -1,6 +1,6 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 
-<polymer-element name="leaderboard-score-group" attributes="userDetails">
+<polymer-element name="leaderboard-score-group" attributes="userDetails holeNumber">
   <template>
     <link rel="stylesheet" href="leaderboard-score-group.css">
       <div id="GroupContent" class="group-content" flex vertical layout>
@@ -24,7 +24,9 @@
       'use strict';
 
       Polymer({
-        // define element prototype here
+
+        // Number of hole being scored
+        holeNumber: 1,
       });
 
     })();
