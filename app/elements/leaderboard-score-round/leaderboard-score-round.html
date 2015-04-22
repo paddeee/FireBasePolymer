@@ -324,18 +324,22 @@
             this.roundToScore.groupings = {};
           }
 
-          // If this user has a group set up
-          if (this.roundToScore.groupings[this.userDetails.uid]) {
-            this.roundToScore.groupings[event.detail.name].players = event.detail.value.players;
-          } else {
-            this.roundToScore.groupings[event.detail.name] = {
-              players: event.detail.value.players
-            };
-          }
-
           // If group update comes from a different grouping, update available players on create-group element directly
           if (event.detail.name !== this.userDetails.uid) {
+
             this.$.createGroup.getAvailablePlayers();
+
+          } else {
+
+            // If this user has a group set up
+            if (this.roundToScore.groupings[this.userDetails.uid]) {
+              this.roundToScore.groupings[event.detail.name].players = event.detail.value.players;
+            } else {
+              this.roundToScore.groupings[event.detail.name] = {
+                players: event.detail.value.players
+              };
+            }
+
           }
         },
 
