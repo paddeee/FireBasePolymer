@@ -22,6 +22,14 @@ section {
   position:relative;
 }
 
+.no-players {
+  background-color: $primaryTextColour;
+  height: calc(100% - 180px);
+  padding: 40px 16px;
+  position:relative;
+  text-align: center;
+}
+
 .players-list__row {
   background-color: #FFF;
   cursor: pointer;
