@@ -136,6 +136,7 @@
           this.roundToScore.groupings[this.userDetails.uid].players.forEach(function(player) {
             player.shotsOnCurrentHole = this.getShots(player.handicap);
           }, this);
+          console.log(this.roundToScore);
         },
 
         // Calculate shots based on relevant factors
