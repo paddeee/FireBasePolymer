@@ -104,6 +104,7 @@
                                      userDetails="{{userDetails}}"
                                      holeNumber="{{holeNumber}}"
                                      roundToScore="{{roundToScore}}"
+                                     tournamentToScore="{{tournamentToScore}}"
                                      vertical layout>
             </leaderboard-score-group>
 
@@ -251,6 +252,10 @@
           if (this.tournamentToScore) {
             this.setRoundToScore();
             this.getTournamentPlayers();
+
+            // Set holeNumber
+            this.holeNumber = 1;
+
             this.navigateTo(this.sectionData.scoreGroup);
           } else {
             // Set temporary flag so if this method is called by tournamentToScoreChanged we know where to navigate
@@ -391,6 +396,9 @@
 
         // Handler for Score Group Fab button on create group page
         scoreGroupButtonHandler: function() {
+
+          // Set holeNumber
+          this.holeNumber = 1;
 
           // Navigate to Score Group home view
           this.navigateTo(this.sectionData.scoreGroup);

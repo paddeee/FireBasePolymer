@@ -1,6 +1,6 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 
-<polymer-element name="leaderboard-score-group" attributes="userDetails holeNumber roundToScore">
+<polymer-element name="leaderboard-score-group" attributes="userDetails holeNumber tournamentToScore roundToScore">
   <template>
     <link rel="stylesheet" href="leaderboard-score-group.css">
       <div id="GroupContent" class="group-content" flex vertical layout>
@@ -9,7 +9,44 @@
             <div class="four-quarter">
               <div id="players" fit horizontal wrap layout>
                 <template repeat="{{player in roundToScore.groupings[userDetails.uid].players}}">
-                  <div class="player-score">{{player.name}}</div>
+                  <div class="player" layout vertical>
+                    <div class="player__info" layout horizontal>
+                      <div class="player__name">{{player.name}}</div>
+                      <div class="player__handicap">{{player.handicap}}</div>
+                      <div class="player__score" flex>{{player.score ? player.score: '0'}} pts</div>
+                    </div>
+                    <div class="player__score" layout vertical flex>
+                      <div class="player__score-input-container" layout horizontal center-center flex>
+                        <div class="player__score-input-minus">
+                          <paper-fab mini icon="remove"></paper-fab>
+                        </div>
+                        <div class="player__score-input" flex>5</div>
+                        <div class="player__score-input-plus">
+                          <paper-fab mini icon="add"></paper-fab></div>
+                      </div>
+                      <!-- ToDo - Look into a tall media query so we can add quick buttons -->
+                      <div showing?="{{tall}}" class="player__score-quick-button-container" layout horizontal>
+                        <div class="player__score-quick-button  player__score-quick-button--birdie" flex>
+                          <span>-1</span>
+                        </div>
+                        <div class="player__score-quick-button  player__score-quick-button--par" flex>
+                          <span>par</span>
+                        </div>
+                        <div class="player__score-quick-button  player__score-quick-button--bogey" flex>
+                          <span>+1</span>
+                        </div>
+                        <div class="player__score-quick-button  player__score-quick-button--double-bogey" flex>
+                          <span>+2</span>
+                        </div>
+                        <div class="player__score-quick-button  player__score-quick-button--blob" flex>
+                          <span>blob</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="player__shots-on-hole">
+                      Shots on this hole: <span>{{player.shotsOnCurrentHole}}</span>
+                    </div>
+                  </div>
                 </template>
               </div>
             </div>
@@ -79,7 +116,7 @@
       Polymer({
 
         // Number of hole being scored
-        holeNumber: 1,
+        holeNumber: 0,
 
         // Array to use for template to jump to holes navigation
         holeNumbers: [],
@@ -88,6 +125,29 @@
         nineHole: false,
 
         roundToScore: null,
+
+        // When holeNumber changes sync up some updates
+        holeNumberChanged: function() {
+          this.setShotsOnCurrentHole();
+        },
+
+        // Set property on each player to show how many shots they receive on the current hole
+        setShotsOnCurrentHole: function() {
+          this.roundToScore.groupings[this.userDetails.uid].players.forEach(function(player) {
+            player.shotsOnCurrentHole = this.getShots(player.handicap);
+          }, this);
+        },
+
+        // Calculate shots based on relevant factors
+        getShots: function(handicap) {
+
+          var strokeIndex = parseInt(this.roundToScore.stroke[this.holeNumber - 1], 10);
+
+          // Add 0.01 if the handicap is same as stroke so it will ceil() to 1 instead of 0.
+          var shots = Math.ceil(((handicap - strokeIndex) / 18) + 0.01);
+
+          return shots;
+        },
 
         roundToScoreChanged: function() {
 
@@ -113,7 +173,7 @@
         },
 
         // Transition to next hole
-        showNextHole: function(event) {
+        showNextHole: function() {
           this.holeNumber = this.holeNumber + 1;
         }
       });
