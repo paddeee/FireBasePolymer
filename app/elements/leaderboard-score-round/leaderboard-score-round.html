@@ -76,6 +76,7 @@
                                       upcomingTournaments="{{upcomingTournaments}}"
                                       tournamentToScoreId="{{tournamentToScoreId}}"
                                       roundToScoreId="{{roundToScoreId}}"
+                                      userDetails="{{userDetails}}"
                                       on-create-group="{{createGroup}}"
                                       on-score-group="{{scoreGroup}}">
             </leaderboard-select-round>
@@ -233,6 +234,16 @@
           }
         },
 
+        // Set tournamentToScore and roundToScore properties and navigate to score-group route
+        scoreGroup: function() {
+          if (this.tournamentToScore) {
+            this.setRoundToScore();
+            this.getTournamentPlayers();
+            this.navigateTo(this.sectionData.scoreGroup);
+          }
+          console.log(this.tournamentToScoreId);
+        },
+
         // Set roundToScore object
         setRoundToScore: function() {
 
@@ -280,11 +291,31 @@
         createNewGroup: function() {
           this.userGrouping = this.groupPlayerToSet;
           this.groupPlayerToSet = null;
+          this.updateUpcomingTournaments();
         },
 
         // Add/Remove a player to/from the group
         updateGroup: function() {
           this.$.userGrouping.commitProperty('players');
+          this.updateUpcomingTournaments();
+        },
+
+        // When a player is added or removed, update upComingTournaments object so the select round page is kept in sync
+        updateUpcomingTournaments: function() {
+
+          var indexOfTournament;
+
+          this.upcomingTournaments = this.upcomingTournaments.filter(function(tournament, index) {
+
+            // Set the position in the array of the tournament so it can pushed back into the same place
+            if (this.tournamentToScore.id === tournament.id) {
+              indexOfTournament = index;
+            }
+            return this.tournamentToScore.id !== tournament.id;
+          }, this);
+
+          // Add the updated tournament back into the correct place in upcomingTournaments
+          this.upcomingTournaments.splice(indexOfTournament, 0, this.tournamentToScore);
         },
 
         // When any grouping in the round has its last player removed

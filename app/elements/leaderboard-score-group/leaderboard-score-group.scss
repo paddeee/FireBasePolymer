@@ -71,15 +71,6 @@ $primary-accent-colour: #eeff41;
   color: $primary-text-colour--dark;
 }
 
-/*.button-container__button {
-  background-color: $primary-bg-colour;
-  font-size: 0.8em;
-  transition: transform 400ms cubic-bezier(0.4, 0, 0.2, 1) 400ms, background-color 400ms cubic-bezier(0.4, 0, 0.2, 1);
-  -webkit-transition: -webkit-transform 400ms cubic-bezier(0.4, 0, 0.2, 1) 400ms, background-color 400ms cubic-bezier(0.4, 0, 0.2, 1);
-  -webkit-transform: translateY(1000px);
-  transform: translateY(1000px);
-}*/
-
 .button-container__button {
   background-color: $primary-bg-colour;
   font-size: 0.8em;
