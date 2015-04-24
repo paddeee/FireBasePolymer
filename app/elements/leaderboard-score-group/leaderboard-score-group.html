@@ -8,7 +8,7 @@
           <div class="group-view" flex>
             <div class="four-quarter">
               <div id="players" fit horizontal wrap layout>
-                <template repeat="{{player in roundToScore.groupings[userDetails.uid].players}}">
+                <template repeat="{{player in players}}">
                   <div class="player" layout vertical>
                     <div class="player__info" layout horizontal>
                       <div class="player__name">{{player.name}}</div>
@@ -20,8 +20,12 @@
                         <div class="player__score-input-minus">
                           <paper-fab mini icon="remove"></paper-fab>
                         </div>
-                        <div class="player__score-input" flex>5</div>
-                        <div class="player__score-input-plus">
+                        <div class="player__score-input" flex>
+                          {{player.roundScorecard[holeNumber] ? player.roundScorecard[holeNumber] : '-'}}
+                        </div>
+                        <div class="player__score-input-plus"
+                             playerHoleScore="{{player.roundScorecard[holeNumber]}}"
+                             on-tap="{{scoreAddOne}}">
                           <paper-fab mini icon="add"></paper-fab></div>
                       </div>
                       <!-- ToDo - Look into a tall media query so we can add quick buttons -->
@@ -90,18 +94,23 @@
                           transition="core-transition-center"
                           flex>
                           <core-icon icon="arrow-back"></core-icon>
-                            HOLE {{holeNumber === 1 ? 1 : holeNumber - 1}}</paper-button>
+                          {{holeNumber === 1 ? holeNumberText[1] : holeNumberText[holeNumber - 1]}}</paper-button>
             <paper-button raised
                           class="scorecard-button"
                           on-tap="{{showScorecard}}"
                           transition="core-transition-center"
-                          flex>SCORECARD</paper-button>
+                          flex>Card</paper-button>
+            <paper-button raised
+                          class="scorecard-button"
+                          on-tap="{{showScorecard}}"
+                          transition="core-transition-center"
+                          flex>Live</paper-button>
             <paper-button showing?="{{holeNumber < 18}}"
                           raised
                           class="button-container__button  next-hole-button"
                           on-tap="{{showNextHole}}"
                           transition="core-transition-center"
-                          flex>HOLE {{holeNumber === 18 ? 18 : holeNumber + 1}}
+                          flex>{{holeNumber === 18 ? holeNumberText[18] : holeNumberText[holeNumber + 1]}}
                           <core-icon icon="arrow-forward"></core-icon>
             </paper-button>
           </div>
@@ -124,7 +133,32 @@
         // Array to use for template to jump to holes navigation
         nineHole: false,
 
+        // Array to use for players to be used in template binding
+        players: [],
+
         roundToScore: null,
+
+        // Object to use to display hole numbers
+        holeNumberText: {
+          1: '1st',
+          2: '2nd',
+          3: '3rd',
+          4: '4th',
+          5: '5th',
+          6: '6th',
+          7: '7th',
+          8: '8th',
+          9: '9th',
+          10: '10th',
+          11: '11th',
+          12: '12th',
+          13: '13th',
+          14: '14th',
+          15: '15th',
+          16: '16th',
+          17: '17th',
+          18: '18th'
+        },
 
         // When holeNumber changes sync up some updates
         holeNumberChanged: function() {
@@ -133,10 +167,9 @@
 
         // Set property on each player to show how many shots they receive on the current hole
         setShotsOnCurrentHole: function() {
-          this.roundToScore.groupings[this.userDetails.uid].players.forEach(function(player) {
+          this.players.forEach(function(player) {
             player.shotsOnCurrentHole = this.getShots(player.handicap);
           }, this);
-          console.log(this.roundToScore);
         },
 
         // Calculate shots based on relevant factors
@@ -160,7 +193,13 @@
             if (this.roundToScore['length'] > 9) {
               this.nineHole = true;
             }
+
+            // If roundToScore changes update players so the template binding is updated
+            this.players = this.roundToScore.groupings[this.userDetails.uid].players;
           }
+
+          // Update shots for each player
+          this.setShotsOnCurrentHole();
         },
 
         // Transition to specific hole number
@@ -176,6 +215,20 @@
         // Transition to next hole
         showNextHole: function() {
           this.holeNumber = this.holeNumber + 1;
+        },
+
+        // Add one to a players score
+        scoreAddOne: function(event, detail) {
+
+          var currentScore = event.currentTarget.attributes.playerHoleScore.value;
+          var par = this.roundToScore.par[this.holeNumber];
+
+
+          if (currentScore) {
+
+          } else {
+            console.log(parseInt(par, 10) + 1);
+          }
         }
       });
 
