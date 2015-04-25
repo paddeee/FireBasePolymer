@@ -21,10 +21,11 @@
                           <paper-fab mini icon="remove"></paper-fab>
                         </div>
                         <div class="player__score-input" flex>
-                          {{player.roundScorecard[holeNumber] ? player.roundScorecard[holeNumber] : '-'}}
+                          {{player.roundScorecard[holeNumber - 1] ? player.roundScorecard[holeNumber - 1] : '-'}}
                         </div>
                         <div class="player__score-input-plus"
                              playerHoleScore="{{player.roundScorecard[holeNumber]}}"
+                             playerId="{{player.uid}}"
                              on-tap="{{scoreAddOne}}">
                           <paper-fab mini icon="add"></paper-fab></div>
                       </div>
@@ -221,14 +222,33 @@
         scoreAddOne: function(event, detail) {
 
           var currentScore = event.currentTarget.attributes.playerHoleScore.value;
-          var par = this.roundToScore.par[this.holeNumber];
+          var playerId = event.currentTarget.attributes.playerId.value;
 
 
           if (currentScore) {
 
           } else {
-            console.log(parseInt(par, 10) + 1);
+            this.setPlayerScore(playerId);
           }
+        },
+
+        // Iterate through a players collection and return the player object by Id
+        setPlayerScore: function(playerId) {
+
+          var par = this.roundToScore.par[this.holeNumber -1];
+
+          this.players.forEach(function(player) {
+            if (player.uid === playerId) {
+
+              // If no score has been entered for this hole add one to the par score for this player
+              if (player.roundScorecard) {
+                player.roundScorecard[this.holeNumber - 1] = parseInt(par, 10) + 1;
+              } else {
+                player.roundScorecard = [];
+                player.roundScorecard.push(parseInt(par, 10) + 1);
+              }
+            }
+          });
         }
       });
 
