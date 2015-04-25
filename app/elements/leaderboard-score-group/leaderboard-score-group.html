@@ -17,14 +17,17 @@
                     </div>
                     <div class="player__score" layout vertical flex>
                       <div class="player__score-input-container" layout horizontal center-center flex>
-                        <div class="player__score-input-minus">
+                        <div class="player__score-input-minus"
+                             playerHoleScore="{{player.roundScorecard[holeNumber - 1]}}"
+                             playerId="{{player.uid}}"
+                             on-tap="{{scoreMinusOne}}">
                           <paper-fab mini icon="remove"></paper-fab>
                         </div>
                         <div class="player__score-input" flex>
                           {{player.roundScorecard[holeNumber - 1] ? player.roundScorecard[holeNumber - 1] : '-'}}
                         </div>
                         <div class="player__score-input-plus"
-                             playerHoleScore="{{player.roundScorecard[holeNumber]}}"
+                             playerHoleScore="{{player.roundScorecard[holeNumber - 1]}}"
                              playerId="{{player.uid}}"
                              on-tap="{{scoreAddOne}}">
                           <paper-fab mini icon="add"></paper-fab></div>
@@ -128,6 +131,9 @@
         // Number of hole being scored
         holeNumber: 0,
 
+        // Keep record of previos hole number so it can be used after navigating away
+        previousHoleNumber: 0,
+
         // Array to use for template to jump to holes navigation
         holeNumbers: [],
 
@@ -164,6 +170,7 @@
         // When holeNumber changes sync up some updates
         holeNumberChanged: function() {
           this.setShotsOnCurrentHole();
+          this.updateRoundToScore();
         },
 
         // Set property on each player to show how many shots they receive on the current hole
@@ -205,16 +212,19 @@
 
         // Transition to specific hole number
         showHoleNumber: function(event) {
+          this.previousHoleNumber = this.holeNumber;
           this.holeNumber = parseInt(event.currentTarget.attributes.hole.value, 10);
         },
 
         // Transition to previous hole
         showPreviousHole: function() {
+          this.previousHoleNumber = this.holeNumber;
           this.holeNumber = this.holeNumber - 1;
         },
 
         // Transition to next hole
         showNextHole: function() {
+          this.previousHoleNumber = this.holeNumber;
           this.holeNumber = this.holeNumber + 1;
         },
 
@@ -223,32 +233,65 @@
 
           var currentScore = event.currentTarget.attributes.playerHoleScore.value;
           var playerId = event.currentTarget.attributes.playerId.value;
-
+          var player = this.getPlayerById(playerId);
+          var par = this.roundToScore.par[this.holeNumber -1];
 
           if (currentScore) {
-
+            player.roundScorecard[this.holeNumber - 1] = player.roundScorecard[this.holeNumber - 1] + 1;
           } else {
-            this.setPlayerScore(playerId);
+            // If no score has been entered for this hole add one to the par score for this player
+            if (player.roundScorecard) {
+              player.roundScorecard[this.holeNumber - 1] = parseInt(par, 10) + 1;
+            } else {
+              player.roundScorecard = [];
+              player.roundScorecard.push(parseInt(par, 10) + 1);
+            }
+          }
+        },
+
+        // Remove one from a players score
+        scoreMinusOne: function(event, detail) {
+
+          var currentScore = event.currentTarget.attributes.playerHoleScore.value;
+          var playerId = event.currentTarget.attributes.playerId.value;
+          var player = this.getPlayerById(playerId);
+          var par = this.roundToScore.par[this.holeNumber -1];
+
+          if (currentScore) {
+            if (player.roundScorecard[this.holeNumber - 1] > 0) {
+              player.roundScorecard[this.holeNumber - 1] = player.roundScorecard[this.holeNumber - 1] - 1;
+            }
+          } else {
+            // If no score has been entered for this hole add one to the par score for this player
+            if (player.roundScorecard) {
+              player.roundScorecard[this.holeNumber - 1] = parseInt(par, 10);
+            } else {
+              player.roundScorecard = [];
+              player.roundScorecard.push(parseInt(par, 10));
+            }
           }
         },
 
         // Iterate through a players collection and return the player object by Id
-        setPlayerScore: function(playerId) {
+        getPlayerById: function(playerId) {
+          return this.players.filter(function(player) {
+            return player.uid === playerId;
+          }, this)[0];
+        },
 
-          var par = this.roundToScore.par[this.holeNumber -1];
+        updateRoundToScore: function() {
+
+          var playersScoredOnHole = [];
 
           this.players.forEach(function(player) {
-            if (player.uid === playerId) {
-
-              // If no score has been entered for this hole add one to the par score for this player
-              if (player.roundScorecard) {
-                player.roundScorecard[this.holeNumber - 1] = parseInt(par, 10) + 1;
-              } else {
-                player.roundScorecard = [];
-                player.roundScorecard.push(parseInt(par, 10) + 1);
-              }
+            if (player.roundScorecard && player.roundScorecard[this.previousHoleNumber - 1]) {
+              playersScoredOnHole.push(player.roundScorecard[this.previousHoleNumber - 1]);
             }
-          });
+          }, this);
+
+          if (this.players.length > 0 && this.players.length === playersScoredOnHole.length) {
+            console.log('hole score completed');
+          }
         }
       });
 
