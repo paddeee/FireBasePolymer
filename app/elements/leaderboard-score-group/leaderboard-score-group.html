@@ -238,14 +238,15 @@
 
           if (currentScore) {
             player.roundScorecard[this.holeNumber - 1] = player.roundScorecard[this.holeNumber - 1] + 1;
+
+          // If no score has been entered for this hole add one to the par score for this player
           } else {
-            // If no score has been entered for this hole add one to the par score for this player
-            if (player.roundScorecard) {
-              player.roundScorecard[this.holeNumber - 1] = parseInt(par, 10) + 1;
-            } else {
+
+            if (!player.roundScorecard) {
               player.roundScorecard = [];
-              player.roundScorecard.push(parseInt(par, 10) + 1);
             }
+
+            player.roundScorecard[this.holeNumber - 1] = parseInt(par, 10) + 1;
           }
         },
 
@@ -262,13 +263,12 @@
               player.roundScorecard[this.holeNumber - 1] = player.roundScorecard[this.holeNumber - 1] - 1;
             }
           } else {
-            // If no score has been entered for this hole add one to the par score for this player
-            if (player.roundScorecard) {
-              player.roundScorecard[this.holeNumber - 1] = parseInt(par, 10);
-            } else {
+
+            if (!player.roundScorecard) {
               player.roundScorecard = [];
-              player.roundScorecard.push(parseInt(par, 10));
             }
+
+            player.roundScorecard[this.holeNumber - 1] = parseInt(par, 10);
           }
         },
 
