@@ -104,7 +104,9 @@
                                      userDetails="{{userDetails}}"
                                      holeNumber="{{holeNumber}}"
                                      roundToScore="{{roundToScore}}"
+                                     userGrouping="{{userGrouping}}"
                                      tournamentToScore="{{tournamentToScore}}"
+                                     on-hole-score-completed="{{updateScores}}"
                                      vertical layout>
             </leaderboard-score-group>
 
@@ -317,8 +319,13 @@
 
         // Add/Remove a player to/from the group
         updateGroup: function() {
-          this.$.userGrouping.commitProperty('players');
+          this.updateScores();
           this.updateUpcomingTournaments();
+        },
+
+        // Update scores in userGrouping
+        updateScores: function() {
+          this.$.userGrouping.commitProperty('players');
         },
 
         // When a player is added or removed, update upComingTournaments object so the select round page is kept in sync

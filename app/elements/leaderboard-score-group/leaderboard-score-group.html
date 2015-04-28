@@ -1,6 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 
-<polymer-element name="leaderboard-score-group" attributes="userDetails holeNumber tournamentToScore roundToScore">
+<polymer-element name="leaderboard-score-group"
+                 attributes="userDetails holeNumber tournamentToScore roundToScore userGrouping">
   <template>
     <link rel="stylesheet" href="leaderboard-score-group.css">
       <div id="GroupContent" class="group-content" flex vertical layout>
@@ -290,7 +291,8 @@
           }, this);
 
           if (this.players.length > 0 && this.players.length === playersScoredOnHole.length) {
-            console.log('hole score completed');
+            this.userGrouping.players = this.players;
+            this.fire('hole-score-completed');
           }
         }
       });
