@@ -158,7 +158,7 @@ $primary-accent-colour: #eeff41;
   display: block;
 }
 
-paper-fab {
+:host .fab-button {
   position: absolute;
   top: 70px;
   right: 16px;
@@ -173,16 +173,16 @@ paper-fab {
   z-index:1;
 }
 
-:host([active]) paper-fab[showing] {
+:host([active]) .fab-button[showing] {
   -webkit-transform: none;
   transform: none;
 }
 
-:host([animate]) paper-fab {
+:host([animate]) .fab-button {
   visibility: hidden;
 }
 
-.section-panel.wide paper-fab.check-button {
+.section-panel.wide .fab-button {
   right: 24px;
 }
 

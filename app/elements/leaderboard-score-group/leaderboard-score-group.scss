@@ -80,7 +80,7 @@ $primary-accent-colour: #eeff41;
 
 .player__handicap {
   background-color: #db4437;
-  color: #fff;
+  color: $primary-text-colour--light;
   font-size: 13px;
   line-height: 22px;
   margin: 0 5px;
@@ -100,6 +100,7 @@ $primary-accent-colour: #eeff41;
 
 paper-fab[mini] {
   background: $primary-bg-colour;
+  color: $primary-text-colour--light;
   height: 30px;
   padding: 3px;
   width: 30px;
@@ -186,6 +187,7 @@ paper-fab[mini] {
 
 .button-container__button {
   background-color: $primary-bg-colour;
+  color: $primary-text-colour--light;
   font-size: 0.8em;
   transition: transform 500ms cubic-bezier(0.4, 0, 0.2, 1) 500ms, background-color 500ms cubic-bezier(0.4, 0, 0.2, 1);
   -webkit-transition: -webkit-transform 500ms cubic-bezier(0.4, 0, 0.2, 1) 500ms, background-color 500ms cubic-bezier(0.4, 0, 0.2, 1);
