@@ -14,7 +14,7 @@
                     <div class="player__info" layout horizontal>
                       <div class="player__name">{{player.name}}</div>
                       <div class="player__handicap">{{player.handicap}}</div>
-                      <div class="player__score" flex>{{player.roundScore ? player.roundScore: '0'}} pts</div>
+                      <div class="player__score" flex>{{player.totalScore ? player.totalScore: '0'}} pts</div>
                     </div>
                     <div class="player__score" layout vertical flex>
                       <div class="player__score-input-container" layout horizontal center-center flex>
@@ -170,22 +170,23 @@
 
         // When holeNumber changes sync up some updates
         holeNumberChanged: function() {
-          	this.setShotsOnCurrentHole();
-          	this.updateHoleScore();
-			this.updateRoundScore();
+
+          this.players.forEach(function(player) {
+            this.setShotsOnCurrentHole(player);
+          }, this);
+
+          this.updateHoleScore();
         },
 
         // Set property on each player to show how many shots they receive on the current hole
-        setShotsOnCurrentHole: function() {
-          this.players.forEach(function(player) {
-            player.shotsOnCurrentHole = this.getShots(player.handicap);
-          }, this);
+        setShotsOnCurrentHole: function(player) {
+          player.shotsOnCurrentHole = this.getShots(player.handicap, this.holeNumber);
         },
 
         // Calculate shots based on relevant factors
-        getShots: function(handicap) {
+        getShots: function(handicap, holeNumber) {
 
-          var strokeIndex = parseInt(this.roundToScore.stroke[this.holeNumber - 1], 10);
+          var strokeIndex = parseInt(this.roundToScore.stroke[holeNumber - 1], 10);
 
           // Add 0.01 if the handicap is same as stroke so it will ceil() to 1 instead of 0.
           var shots = Math.ceil(((handicap - strokeIndex) / 18) + 0.01);
@@ -208,8 +209,15 @@
             this.players = this.roundToScore.groupings[this.userDetails.uid].players;
           }
 
-          // Update shots for each player
-          this.setShotsOnCurrentHole();
+          this.players.forEach(function(player) {
+
+            // Update shots for each player
+            this.setShotsOnCurrentHole(player);
+
+            // Update Total Score for each player
+            this.setTotalRoundScore(player);
+
+          }, this);
         },
 
         // Transition to specific hole number
@@ -291,20 +299,54 @@
             }
           }, this);
 
+          // If all scores added to a hole
           if (this.players.length > 0 && this.players.length === playersScoredOnHole.length) {
+
+            // For each player, update the points, e.g Stableford
+            this.players.forEach(function(player) {
+              this.updateRoundScore(player, this.previousHoleNumber);
+              this.setTotalRoundScore(player);
+            }, this);
+
+            // Sync the players score
             this.userGrouping.players = this.players;
             this.fire('hole-score-completed');
           }
         },
 
-		  updateRoundScore: function() {
+        // Calculate score for round for a player
+        // ToDo - Stableford done, StrokePlay, etc.
+        updateRoundScore: function(player, holeNumber) {
 
-			  var par = this.roundToScore.par[this.holeNumber -1];
+          var par = this.roundToScore.par[holeNumber - 1];
+          var score = player.roundScorecard[holeNumber - 1];
+          var shots = this.getShots(player.handicap, holeNumber);
+          var stableFordPointsMap = {
+            '1': 1,
+            '0': 2,
+            '-1': 3,
+            '-2': 4,
+            '-3': 5,
+            '-4': 6
+          };
+          var roundScore = stableFordPointsMap[(score - shots) - par] || 0;
 
-			  this.players.forEach(function(player) {
-				player.roundScore = player.roundScorecard[this.holeNumber -1] - par;
-			  }, this);
-		  }
+          // Set roundScore array property on the player
+          if (!player.roundScore) {
+            player.roundScore = [];
+          }
+
+          player.roundScore[holeNumber - 1] = roundScore;
+
+        },
+
+        // Calculate total score for all rounds for a player
+        // ToDo - Stableford done, StrokePlay, etc.
+        setTotalRoundScore: function(player) {
+          player.totalScore = player.roundScore.reduce(function(previousValue, currentValue, index, array) {
+            return previousValue + currentValue;
+          });
+        }
       });
 
     })();
