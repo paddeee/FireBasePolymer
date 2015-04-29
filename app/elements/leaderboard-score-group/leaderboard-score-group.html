@@ -14,7 +14,7 @@
                     <div class="player__info" layout horizontal>
                       <div class="player__name">{{player.name}}</div>
                       <div class="player__handicap">{{player.handicap}}</div>
-                      <div class="player__score" flex>{{player.score ? player.score: '0'}} pts</div>
+                      <div class="player__score" flex>{{player.roundScore ? player.roundScore: '0'}} pts</div>
                     </div>
                     <div class="player__score" layout vertical flex>
                       <div class="player__score-input-container" layout horizontal center-center flex>
@@ -170,8 +170,9 @@
 
         // When holeNumber changes sync up some updates
         holeNumberChanged: function() {
-          this.setShotsOnCurrentHole();
-          this.updateRoundToScore();
+          	this.setShotsOnCurrentHole();
+          	this.updateHoleScore();
+			this.updateRoundScore();
         },
 
         // Set property on each player to show how many shots they receive on the current hole
@@ -280,7 +281,7 @@
           }, this)[0];
         },
 
-        updateRoundToScore: function() {
+        updateHoleScore: function() {
 
           var playersScoredOnHole = [];
 
@@ -294,7 +295,16 @@
             this.userGrouping.players = this.players;
             this.fire('hole-score-completed');
           }
-        }
+        },
+
+		  updateRoundScore: function() {
+
+			  var par = this.roundToScore.par[this.holeNumber -1];
+
+			  this.players.forEach(function(player) {
+				player.roundScore = player.roundScorecard[this.holeNumber -1] - par;
+			  }, this);
+		  }
       });
 
     })();
