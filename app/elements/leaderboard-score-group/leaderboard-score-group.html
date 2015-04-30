@@ -110,13 +110,13 @@
                           on-tap="{{showScorecard}}"
                           transition="core-transition-center"
                           flex>Live</paper-button>
-            <paper-button showing?="{{holeNumber < 18}}"
+            <paper-button showing?="{{holeNumber <= 18}}"
                           raised
                           class="button-container__button  next-hole-button"
                           on-tap="{{showNextHole}}"
                           transition="core-transition-center"
-                          flex>{{holeNumber === 18 ? holeNumberText[18] : holeNumberText[holeNumber + 1]}}
-                          <core-icon icon="arrow-forward"></core-icon>
+                          flex>{{holeNumber === 18 ? 'Done' : holeNumberText[holeNumber + 1]}}
+                          <core-icon showing?="{{holeNumber < 18}}" icon="arrow-forward"></core-icon>
             </paper-button>
           </div>
         </div>
@@ -234,6 +234,12 @@
 
         // Transition to next hole
         showNextHole: function() {
+
+			if (this.holeNumber === 18) {
+				this.completeRound();
+				return;
+			}
+
           this.previousHoleNumber = this.holeNumber;
           this.holeNumber = this.holeNumber + 1;
         },
@@ -308,6 +314,13 @@
               this.setTotalRoundScore(player);
             }, this);
 
+			// Update holesCompleted
+			if (!this.userGrouping.holesCompleted) {
+				this.userGrouping.holesCompleted = [];
+			}
+
+			this.userGrouping.holesCompleted[this.previousHoleNumber - 1] = 'true';
+
             // Sync the players score
             this.userGrouping.players = this.players;
             this.fire('hole-score-completed');
@@ -346,7 +359,12 @@
           player.totalScore = player.roundScore.reduce(function(previousValue, currentValue, index, array) {
             return previousValue + currentValue;
           });
-        }
+        },
+
+		  // Decide whether round is full complete
+		  completeRound: function() {
+			  console.log('round complete');
+		  }
       });
 
     })();

@@ -215,6 +215,10 @@ paper-fab[mini] {
 .next-hole-button {
 
   core-icon {
+    display:none;
+  }
+
+  core-icon[showing] {
     position: absolute;
     right: 0;
     top: 8px;
