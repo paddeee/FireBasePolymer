@@ -44,13 +44,9 @@ $neutralBackgroundColour: #EEE;
   font-size: 14px;
 }
 
-.create-group::shadow #icon {
-  width: 40px;
-  height: 40px;
-  color: $primaryBgColour;
-}
-
-.score-group {
+.score-group,
+.create-group
+{
   transition: transform 500ms cubic-bezier(0.4, 0, 0.2, 1) 500ms, background-color 500ms cubic-bezier(0.4, 0, 0.2, 1);
   -webkit-transition: -webkit-transform 500ms cubic-bezier(0.4, 0, 0.2, 1) 500ms, background-color 500ms cubic-bezier(0.4, 0, 0.2, 1);
   -webkit-transform: scale(0);
@@ -59,9 +55,16 @@ $neutralBackgroundColour: #EEE;
   transform-origin: 50% 50%;
 }
 
-.score-group[showing]  {
+.score-group[showing],
+.create-group[showing] {
   -webkit-transform: none;
   transform: none;
+}
+
+.create-group::shadow #icon {
+  width: 40px;
+  height: 40px;
+  color: $primaryBgColour;
 }
 
 .score-group::shadow #icon {

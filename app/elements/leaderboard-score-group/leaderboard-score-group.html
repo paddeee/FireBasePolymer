@@ -206,7 +206,9 @@
             }
 
             // If roundToScore changes update players so the template binding is updated
-            this.players = this.roundToScore.groupings[this.userDetails.uid].players;
+            if (this.roundToScore.groupings) {
+              this.players = this.roundToScore.groupings[this.userDetails.uid].players;
+            }
           }
 
           this.players.forEach(function(player) {
@@ -235,10 +237,10 @@
         // Transition to next hole
         showNextHole: function() {
 
-			if (this.holeNumber === 18) {
-				this.completeRound();
-				return;
-			}
+          if (this.holeNumber === 18) {
+            this.completeRound();
+            return;
+          }
 
           this.previousHoleNumber = this.holeNumber;
           this.holeNumber = this.holeNumber + 1;
@@ -314,12 +316,12 @@
               this.setTotalRoundScore(player);
             }, this);
 
-			// Update holesCompleted
-			if (!this.userGrouping.holesCompleted) {
-				this.userGrouping.holesCompleted = [];
-			}
+            // Update holesCompleted
+            if (!this.userGrouping.holesCompleted) {
+              this.userGrouping.holesCompleted = [];
+            }
 
-			this.userGrouping.holesCompleted[this.previousHoleNumber - 1] = 'true';
+            this.userGrouping.holesCompleted[this.previousHoleNumber - 1] = 'true';
 
             // Sync the players score
             this.userGrouping.players = this.players;
@@ -350,21 +352,22 @@
           }
 
           player.roundScore[holeNumber - 1] = roundScore;
-
         },
 
         // Calculate total score for all rounds for a player
         // ToDo - Stableford done, StrokePlay, etc.
         setTotalRoundScore: function(player) {
-          player.totalScore = player.roundScore.reduce(function(previousValue, currentValue, index, array) {
-            return previousValue + currentValue;
-          });
+          if (player.roundScore) {
+            player.totalScore = player.roundScore.reduce(function (previousValue, currentValue, index, array) {
+              return previousValue + currentValue;
+            });
+          }
         },
 
-		  // Decide whether round is full complete
-		  completeRound: function() {
-			  console.log('round complete');
-		  }
+        // Decide whether round is full complete
+        completeRound: function() {
+          console.log('round complete');
+        }
       });
 
     })();

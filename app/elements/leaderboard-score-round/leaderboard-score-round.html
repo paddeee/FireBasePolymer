@@ -240,20 +240,24 @@
 
         // Set tournamentToScore and roundToScore properties and navigate to create-group route
         createGroup: function() {
+
+          // Set temporary flag so if this method is called by tournamentToScoreChanged we know where to navigate
+          this.selectRoundButtonSelected = 'create-group';
+
           if (this.tournamentToScore) {
             this.setRoundToScore();
             this.getTournamentPlayers();
             this.navigateTo(this.sectionData.createGroup);
-          } else {
-            // Set temporary flag so if this method is called by tournamentToScoreChanged we know where to navigate
-            this.selectRoundButtonSelected = 'create-group';
           }
         },
 
         // Set tournamentToScore and roundToScore properties and navigate to score-group route
         scoreGroup: function() {
 
-          if (this.tournamentToScore) {
+          // Set temporary flag so if this method is called by tournamentToScoreChanged we know where to navigate
+          this.selectRoundButtonSelected = 'score-group';
+
+          if (this.tournamentToScore && this.tournamentToScore.id === this.tournamentToScoreId) {
             this.setRoundToScore();
             this.getTournamentPlayers();
 
@@ -261,9 +265,6 @@
             this.holeNumber = 1;
 
             this.navigateTo(this.sectionData.scoreGroup);
-          } else {
-            // Set temporary flag so if this method is called by tournamentToScoreChanged we know where to navigate
-            this.selectRoundButtonSelected = 'score-group';
           }
         },
 
@@ -408,6 +409,8 @@
 
           // Set holeNumber
           this.holeNumber = 1;
+
+          this.$.scoreGroup.roundToScoreChanged();
 
           // Navigate to Score Group home view
           this.navigateTo(this.sectionData.scoreGroup);
