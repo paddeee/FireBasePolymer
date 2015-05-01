@@ -158,16 +158,20 @@
         <div class="tile theme-bg-a" dummy fit></div>
         <div class="tile" flex vertical layout>
           <div flex relative>
-            <!-- sizing wrapper -->
-            <div fit layout vertical center center-justified>
+            <div fit layout vertical center center-justified hero-id="betting-background" hero>
               <div class="section-bg-wrapper" relative>
                 <core-icon icon="menu-tile-icons:betting" class="section-tile-bg" fit></core-icon>
               </div>
             </div>
           </div>
-          <div class="section-name" horizontal center layout>
-            <div flex>Bet On The Golf</div>
-            <core-icon class="section-icon" icon="arrow-forward"></core-icon>
+          <div class="section-name" horizontal center layout hero-id="betting-title" hero>
+            <div flex>Betting</div>
+            <paper-icon-button
+                    class="section-icon"
+                    icon="arrow-forward"
+                    hero-id="betting-back-button"
+                    hero>
+            </<paper-icon-button>
           </div>
         </div>
       </div>
@@ -176,34 +180,42 @@
         <div class="tile theme-bg-a" dummy fit></div>
         <div class="tile" flex vertical layout>
           <div flex relative>
-            <!-- sizing wrapper -->
-            <div fit layout vertical center center-justified>
+            <div fit layout vertical center center-justified hero-id="about-background" hero>
               <div class="section-bg-wrapper" relative>
                 <core-icon icon="menu-tile-icons:about" class="section-tile-bg" fit></core-icon>
               </div>
             </div>
           </div>
-          <div class="section-name" horizontal center layout>
-            <div flex>About Leaderboard</div>
-            <core-icon class="section-icon" icon="arrow-forward"></core-icon>
+          <div class="section-name" horizontal center layout hero-id="about-title" hero>
+            <div flex>About</div>
+            <paper-icon-button
+                    class="section-icon"
+                    icon="arrow-forward"
+                    hero-id="about-back-button"
+                    hero>
+            </<paper-icon-button>
           </div>
         </div>
       </div>
 
-      <div id="courseinformation" class="menu-item courseinformation" vertical layout>
+      <div id="courseinformation" class="menu-item  courseinformation" vertical layout>
         <div class="tile theme-bg-a" dummy fit></div>
         <div class="tile" flex vertical layout>
           <div flex relative>
-            <!-- sizing wrapper -->
-            <div fit layout vertical center center-justified>
+            <div fit layout vertical center center-justified hero-id="courseinformation-background" hero>
               <div class="section-bg-wrapper" relative>
                 <core-icon icon="menu-tile-icons:courseinformation" class="section-tile-bg" fit></core-icon>
               </div>
             </div>
           </div>
-          <div class="section-name" horizontal center layout>
-            <div flex>Submit Course Information</div>
-            <core-icon class="section-icon" icon="arrow-forward"></core-icon>
+          <div class="section-name" horizontal center layout hero-id="courseinformation-title" hero>
+            <div flex>Submit Course Info</div>
+            <paper-icon-button
+                    class="section-icon"
+                    icon="arrow-forward"
+                    hero-id="courseinformation-back-button"
+                    hero>
+            </<paper-icon-button>
           </div>
         </div>
       </div>
