@@ -1,0 +1,61 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<polymer-element name="leaderboard-betting" attributes="">
+  <template>
+    <link rel="stylesheet" href="leaderboard-betting.css">
+    <div id="sectionPanel" class="section-panel {{ {wide: wide} | tokenList }}"
+         flex vertical layout?="{{!wide}}">
+
+      <div class="background-fade  background-fade--themed"
+           fit
+           cross-fade></div>
+
+      <div class="card" flex?="{{!wide}}" vertical layout?="{{!wide}}" hero-p>
+
+        <core-toolbar class="menu-toolbar" hero-id="betting-title" hero>
+
+          <div class="section-title" flex cross-fade-delayed>Betting</div>
+
+        </core-toolbar>
+
+        <div id="sectionContent"
+             class="section-content"
+             flex
+             hero-id="betting-background"
+             hero="{{!wide}}">
+
+        </div>
+
+        <paper-fab class="fab-button"
+                   icon="{{icon}}"></paper-fab>
+
+      </div>
+
+      <paper-icon-button class="back-button"
+                         icon="arrow-back"
+                         on-tap="{{backNavigation}}"
+                         hero-id="betting-back-button"
+                         hero>
+      </paper-icon-button>
+
+      <paper-icon-button class="home-button"
+                         icon="home"
+                         on-tap="{{homeNavigation}}"
+                         cross-fade>
+      </paper-icon-button>
+
+    </div>
+  </template>
+  <script>
+    (function () {
+
+      Polymer({
+
+        backNavigation: function() {
+          window.history.back();
+        }
+      });
+
+    })();
+  </script>
+</polymer-element>
