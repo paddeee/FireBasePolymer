@@ -27,7 +27,7 @@
 
         </div>
 
-        <paper-fab class="check-button"
+        <paper-fab class="fab-button"
                    icon="{{icon}}"></paper-fab>
 
       </div>
@@ -38,6 +38,12 @@
                          hero-id="scoreboard-back-button"
                          hero>
       </paper-icon-button>
+
+        <paper-icon-button class="home-button"
+                           icon="home"
+                           on-tap="{{homeNavigation}}"
+                           cross-fade>
+        </paper-icon-button>
 
     </div>
   </template>
