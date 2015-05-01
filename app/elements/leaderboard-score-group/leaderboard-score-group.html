@@ -194,9 +194,11 @@
           return shots;
         },
 
-        roundToScoreChanged: function() {
+        // If a round to score is changed
+        roundToScoreUpdated: function() {
 
           if (this.roundToScore) {
+            console.log(this.roundToScore.groupings[this.userDetails.uid].players);
 
             // Set arrays to use for jump to hole navigation
             this.holeNumbers.length = '9';

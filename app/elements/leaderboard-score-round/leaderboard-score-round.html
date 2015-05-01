@@ -264,6 +264,8 @@
             // Set holeNumber
             this.holeNumber = 1;
 
+            this.$.scoreGroup.roundToScoreUpdated();
+
             this.navigateTo(this.sectionData.scoreGroup);
           }
         },
@@ -410,7 +412,9 @@
           // Set holeNumber
           this.holeNumber = 1;
 
-          this.$.scoreGroup.roundToScoreChanged();
+          // Manually triggering child's method rather than using ***Changed as it wasn't updating
+          // roundToScore as expected
+          this.$.scoreGroup.roundToScoreUpdated();
 
           // Navigate to Score Group home view
           this.navigateTo(this.sectionData.scoreGroup);

@@ -123,7 +123,12 @@
                class="create-group-section  {{ {wide: wide} | tokenList }}"
                layout vertical>
 
+        <section class="no-players" hidden?="{{availablePlayers2.length > 0}}">
+          All players have been put in a group.
+        </section>
+
         <section id="availablePlayersList"
+                 hidden?="{{availablePlayers2.length === 0}}"
                  class="players-list"
                  flex>
           <template repeat="{{player in availablePlayers2}}">
