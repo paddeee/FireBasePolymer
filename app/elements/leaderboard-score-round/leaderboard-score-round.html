@@ -329,6 +329,7 @@
         // Update scores in userGrouping
         updateScores: function() {
           this.$.userGrouping.commitProperty('players');
+          this.$.userGrouping.commitProperty('holesCompleted');
         },
 
         // When a player is added or removed, update upComingTournaments object so the select round page is kept in sync

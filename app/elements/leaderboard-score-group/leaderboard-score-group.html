@@ -4,6 +4,17 @@
                  attributes="userDetails holeNumber tournamentToScore roundToScore userGrouping">
   <template>
     <link rel="stylesheet" href="leaderboard-score-group.css">
+
+    <paper-action-dialog id="RoundNotComplete"
+                         backdrop
+                         autoCloseDisabled
+                         layered="true"
+                         heading="Round Not Complete"
+                         transition="core-transition-center">
+      <p>You need to complete all player's scores for this round.</p>
+      <paper-button affirmative autofocus>Continue</paper-button>
+    </paper-action-dialog>
+
       <div id="GroupContent" class="group-content" flex vertical layout>
         <div class="card" flex vertical layout>
           <div class="group-view" flex>
@@ -198,7 +209,6 @@
         roundToScoreUpdated: function() {
 
           if (this.roundToScore) {
-            console.log(this.roundToScore.groupings[this.userDetails.uid].players);
 
             // Set arrays to use for jump to hole navigation
             this.holeNumbers.length = '9';
@@ -306,17 +316,13 @@
           this.players.forEach(function(player) {
             if (player.roundScorecard && player.roundScorecard[this.previousHoleNumber - 1]) {
               playersScoredOnHole.push(player.roundScorecard[this.previousHoleNumber - 1]);
+              this.updateRoundScore(player, this.previousHoleNumber);
+              this.setTotalRoundScore(player);
             }
           }, this);
 
           // If all scores added to a hole
           if (this.players.length > 0 && this.players.length === playersScoredOnHole.length) {
-
-            // For each player, update the points, e.g Stableford
-            this.players.forEach(function(player) {
-              this.updateRoundScore(player, this.previousHoleNumber);
-              this.setTotalRoundScore(player);
-            }, this);
 
             // Update holesCompleted
             if (!this.userGrouping.holesCompleted) {
@@ -368,7 +374,11 @@
 
         // Decide whether round is full complete
         completeRound: function() {
-          console.log('round complete');
+          if (this.userGrouping.holesCompleted.length < 18) {
+            this.$.RoundNotComplete.open();
+          } else {
+            console.log('round complete');
+          }
         }
       });
 
