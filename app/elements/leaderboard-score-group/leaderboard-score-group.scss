@@ -176,6 +176,7 @@ paper-fab[mini] {
 }
 
 .hole-number__text {
+  font-size: 4vw;
   padding: 4px 8px;
 }
 
@@ -183,6 +184,21 @@ paper-fab[mini] {
   border-radius: 100%;
   background: $primary-accent-colour;
   color: $primary-text-colour--dark;
+}
+
+.hole-number--hole-complete {
+
+  .hole-number__text {
+    border-radius: 100%;
+    background: $primary-bg-colour;
+    color: $primary-text-colour--light;
+  }
+
+  .hole-number__text--selected {
+    border-radius: 100%;
+    background: $primary-accent-colour;
+    color: $primary-text-colour--dark;
+  }
 }
 
 .button-container__button {

@@ -83,6 +83,10 @@ $primary-accent-colour: #eeff41;
   }
 }
 
+.wide .score-round-view::shadow .card:nth-of-type(1) {
+  border-top: 0 none;
+}
+
 .wide .score-round-view::shadow .card::shadow #shadow-bottom {
   box-shadow: none;
 }

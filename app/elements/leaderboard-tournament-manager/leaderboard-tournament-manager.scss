@@ -83,6 +83,10 @@ $primary-accent-colour: #eeff41;
   box-shadow: none;
 }
 
+.wide .manage-tournaments-view::shadow .card:nth-of-type(1) {
+  border-top: 0 none;
+}
+
 .card > core-toolbar {
   height: 100px;
   font-size: 16px;

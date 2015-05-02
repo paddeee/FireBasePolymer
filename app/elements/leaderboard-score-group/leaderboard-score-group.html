@@ -76,7 +76,7 @@
         <div class="hole-number-navigation">
           <div layout horizontal>
             <template repeat="{{hole, holeIndex in holeNumbers}}">
-              <div class="hole-number"
+              <div class="hole-number  {{userGrouping.holesCompleted[holeIndex] && 'hole-number--hole-complete'}}"
                    hole="{{holeIndex + 1}}"
                    on-tap="{{showHoleNumber}}"
                    horizontal center-justified center layout flex>
@@ -89,7 +89,7 @@
           </div>
           <div layout horizontal>
             <template repeat="{{hole, holeIndex in holeNumbers}}">
-              <div class="hole-number"
+              <div class="hole-number  {{userGrouping.holesCompleted[holeIndex + 9] && 'hole-number--hole-complete'}}"
                    hole="{{holeIndex + 10}}"
                    on-tap="{{showHoleNumber}}"
                    horizontal center-justified center layout flex>
@@ -126,7 +126,7 @@
                           class="button-container__button  next-hole-button"
                           on-tap="{{showNextHole}}"
                           transition="core-transition-center"
-                          flex>{{holeNumber === 18 ? 'Done' : holeNumberText[holeNumber + 1]}}
+                          flex>{{holesCompletedLength === 18 || holeNumber === 18 ? 'Done' : holeNumberText[holeNumber + 1]}}
                           <core-icon showing?="{{holeNumber < 18}}" icon="arrow-forward"></core-icon>
             </paper-button>
           </div>
@@ -139,6 +139,10 @@
       'use strict';
 
       Polymer({
+
+        observe: {
+          'userGrouping.holesCompleted': 'updateHolesCompletedLength'
+        },
 
         // Number of hole being scored
         holeNumber: 0,
@@ -249,7 +253,7 @@
         // Transition to next hole
         showNextHole: function() {
 
-          if (this.holeNumber === 18) {
+          if (this.holesCompletedLength === 18 || this.holeNumber === 18) {
             this.completeRound();
             return;
           }
@@ -374,11 +378,20 @@
 
         // Decide whether round is full complete
         completeRound: function() {
-          if (this.userGrouping.holesCompleted.length < 18) {
+
+          if (this.holesCompletedLength < 18) {
             this.$.RoundNotComplete.open();
           } else {
-            console.log('round complete');
+            this.userGrouping.roundStatus = 'pending';
           }
+        },
+
+        // Set true length of holesCompleted array
+        updateHolesCompletedLength: function() {
+
+          this.holesCompletedLength = this.userGrouping.holesCompleted.filter(function(completed) {
+            return completed !== undefined;
+          }).length;
         }
       });
 
