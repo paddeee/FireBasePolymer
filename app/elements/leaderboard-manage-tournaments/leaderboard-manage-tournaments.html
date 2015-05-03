@@ -16,37 +16,38 @@
 
       <template repeat="{{tournament in hostedTournaments}}">
         <paper-shadow z="1" class="card">
-          <div horizontal center layout>
-            <div class="tournament-info" vertical layout flex>
-              <div class="tournament-name">{{tournament.name}}</div>
-              <div class="tournament-format">{{tournament.format}}</div>
+          <div class="card__header" layout vertical>
+            <div horizontal center layout>
+              <div class="tournament-info" vertical layout flex>
+                <div class="tournament-name">{{tournament.name}}</div>
+                <div class="tournament-format">{{tournament.format}}</div>
+              </div>
+              <paper-icon-button class="invite-players"
+                                 icon="social:group-add"
+                                 tournamentId="{{tournament.id}}"
+                                 tournamentName="{{tournament.name}}"
+                                 on-tap="{{invitePlayers}}">
+              </paper-icon-button>
             </div>
-            <paper-icon-button class="invite-players"
-                               icon="social:group-add"
-                               tournamentId="{{tournament.id}}"
-                               tournamentName="{{tournament.name}}"
-                               on-tap="{{invitePlayers}}">
-            </paper-icon-button>
-          </div>
 
-          <div class="button-holder" horizontal center layout>
-            <paper-button raised
-                          on-tap="{{showDialog}}"
-                          transition="core-transition-center">DELETE</paper-button>
-            <paper-button raised on-tap="{{editTournament}}"
-                          tournamentId="{{tournament.id}}">EDIT</paper-button>
-            <paper-action-dialog id="DeleteTournamentDialog"
-                                 backdrop
-                                 autoCloseDisabled
-                                 layered="true"
-                                 heading="Delete Tournament"
-                                 transition="core-transition-center">
-              <p>This will completely remove the tournament.</p>
-              <paper-button dismissive autofocus>Cancel</paper-button>
-              <paper-button affirmative autofocus
-                            on-tap="{{deleteTournament}}"
-                            tournamentId="{{tournament.id}}">Remove</paper-button>
-            </paper-action-dialog>
+            <div class="button-holder" horizontal center layout>
+              <paper-button on-tap="{{showDialog}}"
+                            transition="core-transition-center">DELETE</paper-button>
+              <paper-button on-tap="{{editTournament}}"
+                            tournamentId="{{tournament.id}}">EDIT</paper-button>
+              <paper-action-dialog id="DeleteTournamentDialog"
+                                   backdrop
+                                   autoCloseDisabled
+                                   layered="true"
+                                   heading="Delete Tournament"
+                                   transition="core-transition-center">
+                <p>This will completely remove the tournament.</p>
+                <paper-button dismissive autofocus>Cancel</paper-button>
+                <paper-button affirmative autofocus
+                              on-tap="{{deleteTournament}}"
+                              tournamentId="{{tournament.id}}">Remove</paper-button>
+              </paper-action-dialog>
+            </div>
           </div>
 
           <div class="divider"></div>

@@ -45,7 +45,9 @@ paper-radio-button {
 }
 
 .course-info {
-  margin: 8px 0px 10px;
+  background-color: $primaryBgColour;
+  color: $primaryTextColour;
+  padding: 8px 0px 10px;
 }
 
 .course-name {

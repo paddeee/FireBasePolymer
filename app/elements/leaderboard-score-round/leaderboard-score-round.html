@@ -107,6 +107,8 @@
                                      userGrouping="{{userGrouping}}"
                                      tournamentToScore="{{tournamentToScore}}"
                                      on-hole-score-completed="{{updateScores}}"
+                                     on-go-to-score-round="{{goToScoreRound}}"
+                                     on-go-to-menu="{{gotToMenu}}"
                                      vertical layout>
             </leaderboard-score-group>
 
@@ -424,6 +426,16 @@
           this.navigateTo(this.sectionData.scoreGroup);
         },
 
+        // Slide completed so if home button was tapped we can navigate back to menu
+        slideAnimationComplete: function() {
+
+          if (this.backButtonTapped) {
+            window.location.hash = 'menu';
+          }
+
+          this.backButtonTapped = false;
+        },
+
         // Handler for back button in toolbar
         backNavigation: function() {
           window.history.back();
@@ -446,14 +458,14 @@
           window.location.hash = sectionData.selectedHash;
         },
 
-        // Slide completed so if home button was tapped we can navigate back to menu
-        slideAnimationComplete: function() {
+        // Navigate to Score Round
+        goToScoreRound: function() {
+          this.navigateTo(this.sectionData.selectRound);
+        },
 
-          if (this.backButtonTapped) {
-            window.location.hash = 'menu';
-          }
-
-          this.backButtonTapped = false;
+        // Navigate to Menu
+        gotToMenu: function() {
+          this.homeNavigation();
         }
       });
 

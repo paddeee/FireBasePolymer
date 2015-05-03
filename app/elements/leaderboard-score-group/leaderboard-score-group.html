@@ -5,6 +5,20 @@
   <template>
     <link rel="stylesheet" href="leaderboard-score-group.css">
 
+    <paper-action-dialog id="RoundComplete"
+                         backdrop
+                         autoCloseDisabled
+                         layered="true"
+                         heading="Round Scores Complete"
+                         transition="core-transition-center">
+      <p>Review and Sign Off Scorecards in the 19th hole.</p>
+      <paper-button affirmative
+                    on-tap="{{goToScoreRound}}">Score Round</paper-button>
+      <paper-button affirmative
+                    on-tap="{{goToMenu}}"
+                    autofocus>Menu</paper-button>
+    </paper-action-dialog>
+
     <paper-action-dialog id="RoundNotComplete"
                          backdrop
                          autoCloseDisabled
@@ -383,6 +397,7 @@
             this.$.RoundNotComplete.open();
           } else {
             this.userGrouping.roundStatus = 'pending';
+            this.$.RoundComplete.open();
           }
         },
 
@@ -392,6 +407,16 @@
           this.holesCompletedLength = this.userGrouping.holesCompleted.filter(function(completed) {
             return completed !== undefined;
           }).length;
+        },
+
+        // Navigate to Score Round
+        goToScoreRound: function() {
+          this.fire('go-to-score-round');
+        },
+
+        // Navigate to menu
+        goToMenu: function() {
+          this.fire('go-to-menu');
         }
       });
 
