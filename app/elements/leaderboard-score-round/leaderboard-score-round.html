@@ -290,7 +290,14 @@
           var tournamentPlayerKeys = [];
 
           for (var playerKey in this.tournamentToScore.players) {
-            tournamentPlayerKeys.push(this.tournamentToScore.players[playerKey]);
+
+            // Need this check as playerKey value changes from string of user id to an object.
+            // ToDo: Probably not a best practice to do this so maybe better to set this key up as an object in first place
+            if (typeof this.tournamentToScore.players[playerKey] === 'string') {
+              tournamentPlayerKeys.push(this.tournamentToScore.players[playerKey]);
+            } else if (typeof this.tournamentToScore.players[playerKey] === 'object') {
+              tournamentPlayerKeys.push(this.tournamentToScore.players[playerKey].uid);
+            }
           }
 
           // Set tournamentPlayersLength so the 'create-group' element knows when the tournamentPlayers array has finished
@@ -330,11 +337,14 @@
 
         // Update scores in userGrouping
         updateScores: function() {
+
           this.$.userGrouping.commitProperty('players');
 
-          if (this.userGrouping.holesCompleted) {
+          if (this.userGrouping && this.userGrouping.holesCompleted) {
             this.$.userGrouping.commitProperty('holesCompleted');
           }
+
+          this.$.tournamentToScoreFireBase.commitProperty('players');
         },
 
         // When a player is added or removed, update upComingTournaments object so the select round page is kept in sync

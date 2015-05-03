@@ -349,6 +349,8 @@
 
             this.userGrouping.holesCompleted[this.previousHoleNumber - 1] = 'true';
 
+            this.updateTournamentScore();
+
             // Sync the players score
             this.userGrouping.players = this.players;
             this.fire('hole-score-completed');
@@ -384,10 +386,80 @@
         // ToDo - Stableford done, StrokePlay, etc.
         setTotalRoundScore: function(player) {
           if (player.roundScore) {
-            player.totalScore = player.roundScore.reduce(function (previousValue, currentValue, index, array) {
-              return previousValue + currentValue;
-            });
+            player.totalScore = this.getArrayTotal(player.roundScore);
           }
+        },
+
+        // Update the scores for this group at tournament level
+        updateTournamentScore: function() {
+
+          this.players.forEach(function(player) {
+
+            for (var playerKey in this.tournamentToScore.players) {
+
+
+              if (typeof this.tournamentToScore.players[playerKey] === 'string') {
+
+                if (this.tournamentToScore.players[playerKey] === player.uid) {
+                  this.updateTournamentPlayerScore(playerKey, player, true);
+                }
+              } else if (typeof this.tournamentToScore.players[playerKey] === 'object') {
+
+                if (this.tournamentToScore.players[playerKey].uid === player.uid) {
+                  this.updateTournamentPlayerScore(playerKey, player, false);
+                }
+              }
+
+            }
+          }, this);
+        },
+
+        // Manage object that tracks a player's score in the tournament
+        updateTournamentPlayerScore: function(playerKey, player, newScores) {
+
+          if (newScores) {
+            this.setTournamentPlayerScoreObject(playerKey, player);
+          } else {
+            this.updateTournamentPlayerScoreObject(playerKey, player);
+          }
+        },
+
+        // Create object that tracks a player's score in the tournament
+        setTournamentPlayerScoreObject: function(playerKey, player) {
+
+          var tournamentPlayerScoreObject = {
+            'uid': this.tournamentToScore.players[playerKey],
+            'tournamentScorecard': {
+              'currentRound': {
+                'thru': this.previousHoleNumber,
+                'scorecard': player.roundScorecard[this.previousHoleNumber - 1],
+                'score': player.roundScore[this.previousHoleNumber - 1],
+                'roundHandicap': player.handicap,
+                'name': player.name
+              }
+            }
+          }
+
+          this.tournamentToScore.players[playerKey] = tournamentPlayerScoreObject;
+        },
+
+        // Update object that tracks a player's score in the tournament
+        updateTournamentPlayerScoreObject: function(playerKey, player) {
+
+          var currentRound = this.tournamentToScore.players[playerKey].tournamentScorecard.currentRound;
+
+          currentRound.thru = this.previousHoleNumber;
+          currentRound.scorecard = this.getArrayTotal(player.roundScorecard);
+          currentRound.score = this.getArrayTotal(player.roundScore);
+
+          this.tournamentToScore.players[playerKey].tournamentScorecard.currentRound = currentRound;
+        },
+
+        // Return sum of an array
+        getArrayTotal: function(arrayToSum) {
+          return arrayToSum.reduce(function(previousValue, currentValue) {
+            return previousValue + currentValue;
+          });
         },
 
         // Decide whether round is full complete
@@ -404,9 +476,11 @@
         // Set true length of holesCompleted array
         updateHolesCompletedLength: function() {
 
-          this.holesCompletedLength = this.userGrouping.holesCompleted.filter(function(completed) {
-            return completed !== undefined;
-          }).length;
+          if (this.userGrouping) {
+            this.holesCompletedLength = this.userGrouping.holesCompleted.filter(function(completed) {
+              return completed !== undefined;
+            }).length;
+          }
         },
 
         // Navigate to Score Round
