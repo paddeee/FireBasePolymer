@@ -23,11 +23,10 @@
               <div class="tournament-name">{{name}}</div>
               <div class="tournament-format">{{format}}</div>
 
-              <template repeat="{{grouping in groupings}}">
+              <template id="groupingTemplate" repeat="{{grouping in groupings}}">
                   <div horizontal center layout class="card__header">
                     <div class="tournament-info" vertical layout flex>
-                      <div class="tournament-name">{{player.name}}</div>
-                      <div class="tournament-format">{{player.handicap}}</div>
+                      <div class="tournament-name">{{grouping.roundStatus}}</div>
                     </div>
                   </div>
 
