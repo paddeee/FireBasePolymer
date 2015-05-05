@@ -8,6 +8,7 @@ $neutralBackgroundColour: #EEE;
 
 $primary-accent-colour: #eeff41;
 
+
 :host {
   overflow: hidden;
 }
@@ -82,6 +83,10 @@ $primary-accent-colour: #eeff41;
   }
 }
 
+.wide .score-round-view::shadow .card:nth-of-type(1) {
+  border-top: 0 none;
+}
+
 .wide .score-round-view::shadow .card::shadow #shadow-bottom {
   box-shadow: none;
 }
@@ -107,6 +112,24 @@ $primary-accent-colour: #eeff41;
 
 .section-title {
   padding-top: 30px;
+}
+
+.section-content {
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  position: relative;
+}
+
+#sectionViews {
+  display: block;
+}
+
+#sectionViews > * {
+  display: none;
+}
+
+#sectionViews > .core-selected {
+  display: block;
 }
 
 :host .fab-button {
@@ -135,4 +158,12 @@ $primary-accent-colour: #eeff41;
 
 .section-panel.wide .fab-button {
   right: 24px;
+}
+
+.club-house-pages {
+  position: absolute;
+  top:0;
+  right: 0;
+  bottom: 0;
+  left: 0;
 }

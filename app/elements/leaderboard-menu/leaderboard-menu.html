@@ -41,25 +41,22 @@
         </div>
       </div>
 
-      <div id="tournament-manager" class="menu-item tournament" vertical layout>
+      <div id="clubhouse" class="menu-item  clubhouse" vertical layout>
+        <div class="tile theme-bg-a" dummy fit></div>
         <div class="tile" flex vertical layout>
           <div flex relative>
-            <div fit layout vertical center center-justified hero-id="tournament-background" hero>
+            <div fit layout vertical center center-justified hero-id="clubhouse-background" hero>
               <div class="section-bg-wrapper" relative>
-                <core-icon icon="menu-tile-icons:tournament" class="section-tile-bg" fit></core-icon>
+                <core-icon icon="menu-tile-icons:clubhouse" class="section-tile-bg" fit></core-icon>
               </div>
             </div>
           </div>
-          <div class="section-name" horizontal center layout hero-id="tournament-title" hero>
-            <div flex>
-              <span cross-fade-delayed?="{{parentElement.lastSelected === 'tournament'}}">
-                Tournament Manager
-              </span>
-            </div>
+          <div class="section-name" horizontal center layout hero-id="clubhouse-title" hero>
+            <div flex>Club House</div>
             <paper-icon-button
               class="section-icon"
               icon="arrow-forward"
-              hero-id="tournament-back-button"
+              hero-id="clubhouse-back-button"
               hero>
             </<paper-icon-button>
           </div>
@@ -88,23 +85,26 @@
         </div>
       </div>
 
-      <div id="clubhouse" class="menu-item  clubhouse" vertical layout>
-        <div class="tile theme-bg-a" dummy fit></div>
+      <div id="tournament-manager" class="menu-item tournament" vertical layout>
         <div class="tile" flex vertical layout>
           <div flex relative>
-            <div fit layout vertical center center-justified hero-id="clubhouse-background" hero>
+            <div fit layout vertical center center-justified hero-id="tournament-background" hero>
               <div class="section-bg-wrapper" relative>
-                <core-icon icon="menu-tile-icons:clubhouse" class="section-tile-bg" fit></core-icon>
+                <core-icon icon="menu-tile-icons:tournament" class="section-tile-bg" fit></core-icon>
               </div>
             </div>
           </div>
-          <div class="section-name" horizontal center layout hero-id="clubhouse-title" hero>
-            <div flex>Club House</div>
+          <div class="section-name" horizontal center layout hero-id="tournament-title" hero>
+            <div flex>
+              <span cross-fade-delayed?="{{parentElement.lastSelected === 'tournament'}}">
+                Tournament Manager
+              </span>
+            </div>
             <paper-icon-button
-                    class="section-icon"
-                    icon="arrow-forward"
-                    hero-id="clubhouse-back-button"
-                    hero>
+              class="section-icon"
+              icon="arrow-forward"
+              hero-id="tournament-back-button"
+              hero>
             </<paper-icon-button>
           </div>
         </div>

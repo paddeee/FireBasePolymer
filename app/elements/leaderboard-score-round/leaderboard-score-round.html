@@ -1,7 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 
 <polymer-element name="leaderboard-score-round"
-                 attributes="selected route userDetails wide">
+                 attributes="upcomingTournaments selected route userDetails wide">
   <template>
     <link rel="stylesheet" href="leaderboard-score-round.css">
 
@@ -66,8 +66,8 @@
 
           <core-animated-pages class="score-round-pages"
                                selected="{{selected}}"
-                               transitions="slide-from-right"
-                               on-core-animated-pages-transition-end="{{slideAnimationComplete}}"
+                               transitions="cross-fade"
+                               on-core-animated-pages-transition-end="{{animationComplete}}"
                                auto>
 
             <leaderboard-select-round id="selectRound"
@@ -436,8 +436,8 @@
           this.navigateTo(this.sectionData.scoreGroup);
         },
 
-        // Slide completed so if home button was tapped we can navigate back to menu
-        slideAnimationComplete: function() {
+        // Animation completed so if home button was tapped we can navigate back to menu
+        animationComplete: function() {
 
           if (this.backButtonTapped) {
             window.location.hash = 'menu';

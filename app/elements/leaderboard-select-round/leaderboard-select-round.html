@@ -5,11 +5,14 @@
   <template>
     <link rel="stylesheet" href="leaderboard-select-round.css">
 
-    <section class="no-tournaments" hidden?="{{upcomingTournaments.length > 0}}">
+    <section class="no-tournaments"
+             cross-fade
+             hidden?="{{upcomingTournaments.length > 0}}">
       You are not currently participating in any tournaments.
     </section>
 
-    <section hidden?="{{upcomingTournaments.length === 0}}"
+    <section cross-fade
+             hidden?="{{upcomingTournaments.length === 0}}"
              id="upcomingTournamentsSection"
              class="upcoming-tournaments-section  {{ {wide: wide} | tokenList }}"
              layout vertical>

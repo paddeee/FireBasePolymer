@@ -44,6 +44,7 @@
 
           <leaderboard-score-round hash="score-round"
                                    userDetails="{{userDetails}}"
+                                   upcomingTournaments="{{upcomingTournaments}}"
                                    route="{{route}}"
                                    wide="{{wide}}"
                                    vertical layout>
@@ -52,7 +53,11 @@
           <leaderboard-scoreboard hash="scoreboard" userDetails="{{userDetails}}" wide="{{wide}}" vertical layout>
           </leaderboard-scoreboard>
 
-          <leaderboard-clubhouse hash="clubhouse" userDetails="{{userDetails}}" wide="{{wide}}" vertical layout>
+          <leaderboard-clubhouse hash="clubhouse"
+                                 userDetails="{{userDetails}}"
+                                 upcomingTournaments="{{upcomingTournaments}}"
+                                 wide="{{wide}}"
+                                 vertical layout>
           </leaderboard-clubhouse>
 
             <leaderboard-betting hash="betting" userDetails="{{userDetails}}" wide="{{wide}}" vertical layout>

@@ -1,6 +1,6 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 
-<polymer-element name="leaderboard-clubhouse" attributes="">
+<polymer-element name="leaderboard-clubhouse" attributes="upcomingTournaments wide">
   <template>
     <link rel="stylesheet" href="leaderboard-clubhouse.css">
     <div id="sectionPanel" class="section-panel {{ {wide: wide} | tokenList }}"
@@ -14,7 +14,7 @@
 
         <core-toolbar class="menu-toolbar" hero-id="clubhouse-title" hero>
 
-          <div class="section-title" flex cross-fade-delayed>Club House</div>
+          <div class="section-title" flex cross-fade-delayed>Submit Cards</div>
 
         </core-toolbar>
 
@@ -23,6 +23,19 @@
              flex
              hero-id="clubhouse-background"
              hero="{{!wide}}">
+
+          <core-animated-pages class="club-house-pages"
+                               selected="{{selected}}"
+                               transitions="slide-from-right"
+                               auto>
+
+            <leaderboard-submit-cards id="submitCards"
+                                      class="submit-cards-view"
+                                      name="submitCards"
+                                      activeTournament="{{activeTournament}}">
+            </leaderboard-submit-card>
+
+          </core-animated-pages>
 
         </div>
 
@@ -51,9 +64,35 @@
 
       Polymer({
 
-          backNavigation: function() {
-              window.history.back();
+        // List of tournaments the user is associated with
+        upcomingTournaments: null,
+
+        // Tournament that is currently active
+        activeTournament: null,
+
+        // Set activeTournament based on upcomingTournaments collection
+        // ToDo - upcomingTournaments firebase element is in score-round. Should probably be at app level
+        upcomingTournamentsChanged: function() {
+
+          if (this.upcomingTournaments) {
+
+            this.upcomingTournaments.forEach(function(tournament) {
+              if (tournament.status === 'active') {
+                this.activeTournament = tournament;
+              }
+            }, this);
           }
+        },
+
+        backNavigation: function() {
+            window.history.back();
+        },
+
+        // Handler for home button in toolbar. If on top level route, go straight to menu. Otherwise go back to top level
+        // route and then go back to menu as deep routes won't be recognised in parent core animated pages element
+        homeNavigation: function() {
+          window.location.hash = 'menu';
+        }
       });
 
     })();
