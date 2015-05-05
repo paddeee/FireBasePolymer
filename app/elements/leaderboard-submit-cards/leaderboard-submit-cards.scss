@@ -1,0 +1,21 @@
+/* Vars */
+$primaryBgColour: #009688;
+$lightBgColour: #B2DFDB;
+$darkBgColour: #00796b;
+$primaryAccentColour: #eeff41;
+$primaryTextColour: #FFF;
+$lightTextColour: #999;
+$darkTextColour: #000;
+$neutralBackgroundColour: #EEE;
+
+:host {
+  display: block;
+}
+
+.no-tournaments {
+  background-color: $primaryTextColour;
+  height: calc(100% - 80px);
+  padding: 40px 16px;
+  position:relative;
+  text-align: center;
+}

@@ -1,0 +1,79 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<polymer-element name="leaderboard-submit-cards" attributes="activeTournament">
+  <template>
+    <link rel="stylesheet" href="leaderboard-submit-cards.css">
+
+    <section class="no-tournaments"
+             cross-fade
+             hidden?="{{activeTournament}}">
+      There are no active tournaments with outstanding scorecards.
+    </section>
+
+    <section cross-fade
+             hidden?="{{!activeTournament}}"
+             id="activeTournamentsSection"
+             class="active-tournaments-section  {{ {wide: wide} | tokenList }}"
+             layout vertical>
+
+      <template bind="{{activeTournament}}">
+        <paper-shadow z="1" class="card">
+          <div horizontal center layout class="card__header">
+            <div class="tournament-info" vertical layout flex>
+              <div class="tournament-name">{{name}}</div>
+              <div class="tournament-format">{{format}}</div>
+
+              <template repeat="{{grouping in groupings}}">
+                  <div horizontal center layout class="card__header">
+                    <div class="tournament-info" vertical layout flex>
+                      <div class="tournament-name">{{player.name}}</div>
+                      <div class="tournament-format">{{player.handicap}}</div>
+                    </div>
+                  </div>
+
+                  <div class="divider"></div>
+              </template>
+
+            </div>
+          </div>
+
+          <div class="divider"></div>
+
+        </paper-shadow>
+      </template>
+
+    </section>
+  </template>
+  <script>
+    (function () {
+
+      Polymer({
+
+        // Collection of groupings in the active round
+        groupings: [],
+
+        // Current tournament object
+        activeTournamentChanged: function() {
+
+          this.activeTournament.rounds.forEach(this.getPendingGroups, this);
+        },
+
+        // Iterate through rounds and create groupings array
+        getPendingGroups: function(round) {
+
+          // If the round is waiting for cards to be submitted
+          if (round.roundStatus === 'pending') {
+
+            for (var groupingKey in round.groupings) {
+
+              if (round.groupings[groupingKey].groupStatus === 'pending') {
+                this.groupings.push(round.groupings[groupingKey]);
+              }
+            }
+          }
+        }
+      });
+
+    })();
+  </script>
+</polymer-element>

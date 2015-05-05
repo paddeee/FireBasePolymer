@@ -473,7 +473,11 @@
           if (this.holesCompletedLength < 18) {
             this.$.RoundNotComplete.open();
           } else {
+
+            // Set statuses at grouping and round level
+            this.tournamentToScore.rounds[this.roundToScore.roundId].roundStatus = 'pending';
             this.userGrouping.groupStatus = 'pending';
+            this.fire('hole-score-completed');
             this.$.RoundComplete.open();
           }
         },
