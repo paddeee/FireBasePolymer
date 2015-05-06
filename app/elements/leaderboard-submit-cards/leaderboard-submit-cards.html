@@ -16,22 +16,12 @@
              class="active-tournaments-section  {{ {wide: wide} | tokenList }}"
              layout vertical>
 
-      <template bind="{{activeTournament}}">
+     <template bind="{{activeTournament}}">
         <paper-shadow z="1" class="card">
           <div horizontal center layout class="card__header">
             <div class="tournament-info" vertical layout flex>
               <div class="tournament-name">{{name}}</div>
-              <div class="tournament-format">{{format}}</div>
-
-              <template id="groupingTemplate" repeat="{{grouping in groupings}}">
-                  <div horizontal center layout class="card__header">
-                    <div class="tournament-info" vertical layout flex>
-                      <div class="tournament-name">{{grouping.roundStatus}}</div>
-                    </div>
-                  </div>
-
-                  <div class="divider"></div>
-              </template>
+              <div class="tournament-format">{{format}}</div
 
             </div>
           </div>
@@ -39,6 +29,16 @@
           <div class="divider"></div>
 
         </paper-shadow>
+      </template>
+
+      <template id="groupingTemplate" repeat="{{grouping, groupingIndex in groupings}}">
+        <div horizontal center layout class="card__header">
+          <div class="tournament-info" vertical layout flex>
+            <div class="tournament-name">{{grouping.groupStatus}}</div>
+          </div>
+        </div>
+
+        <div class="divider"></div>
       </template>
 
     </section>
