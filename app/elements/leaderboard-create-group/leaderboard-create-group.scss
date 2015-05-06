@@ -16,6 +16,10 @@ $neutralBackgroundColour: #EEE;
   display: none;
 }
 
+core-animated-pages {
+  background-color: $primaryTextColour;
+}
+
 core-animated-pages,
 section {
   height: 100%;
@@ -123,4 +127,8 @@ section {
 
 .remove-from-group[showing] {
   display: block;
+}
+
+.players-selected-footer {
+  background-color: #FFF;
 }

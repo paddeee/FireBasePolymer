@@ -9,6 +9,7 @@ $darkTextColour: #000;
 $neutralBackgroundColour: #EEE;
 
 :host {
+  background-color: $neutralBackgroundColour;
   display: block;
 }
 
@@ -18,4 +19,103 @@ $neutralBackgroundColour: #EEE;
   padding: 40px 16px;
   position:relative;
   text-align: center;
+}
+
+.active-tournaments-section {
+  padding: 10px 0 16px;
+}
+
+.tournament-name {
+  margin: 8px 10px 10px;
+}
+
+.grouping--name {
+  font-size: 18px;
+  margin: 8px 10px 10px;
+}
+
+.card {
+  margin: 8px;
+  background-color: $primaryTextColour;
+  border-radius: 2px;
+  color: $darkTextColour;
+  border: 1px solid #d8d8d8;
+  text-align: left;
+  padding: 0 0 8px;
+  position: relative;
+}
+
+.card__header {
+  background-color: $primaryBgColour;
+  color: $primaryTextColour;
+  padding: 4px 4px 4px 0;
+
+  paper-button {
+    background-color: $primaryTextColour;
+    font-size: 12px;
+    color: $darkTextColour;
+  }
+}
+
+.divider {
+  background-color: rgba(0,0,0,0.12);
+  height: 1px;
+}
+
+.player__info {
+  font-size: 16px;
+  padding: 16px 8px;
+}
+
+.player__handicap {
+  color: $primaryTextColour;
+  font-size: 13px;
+  line-height: 22px;
+  margin: 0 5px;
+  padding: 0 2px;
+  text-align: center;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+  height: 22px;
+  width: 22px;
+}
+
+.players-list-item:nth-of-type(3) {
+
+  .player__handicap {
+    background-color: #ff5252;
+  }
+}
+
+.players-list-item:nth-of-type(4) {
+
+  .player__handicap {
+    background-color: #03A9F4;
+  }
+}
+
+.players-list-item:nth-of-type(5) {
+
+  .player__handicap {
+    background-color: #ffeb3b;
+    color: #000;
+  }
+}
+
+.players-list-item:nth-of-type(6) {
+
+  .player__handicap {
+    background-color: #1de9b6;
+    color: #000;
+  }
+}
+
+.player__score{
+  color: $primaryBgColour;
+}
+
+.player__scorecard {
+  margin-right: 16px;
 }
