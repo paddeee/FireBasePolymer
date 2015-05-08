@@ -12,12 +12,16 @@
                       childEvents>
     </firebase-element>
 
-    <firebase-element id="roundGroupings"
+    <firebase-element id="clubhouseGroupings"
                       location="{{userDetails && tournamentToScoreId && roundToScoreId ? tournamentsLocation + tournamentToScoreId + '/rounds/' + roundToScoreId + '/groupings/' : null}}"
-                      dataReady="{{roundGroupingsReady}}"
                       on-child-changed="{{groupingChanged}}"
                       data="{{clubhouseGroupings}}"
                       childEvents>
+    </firebase-element>
+
+    <firebase-element id="cardToSubmit"
+                      location="{{userDetails && tournamentToScoreId && roundToScoreId && submitGroupingId ? tournamentsLocation + tournamentToScoreId + '/rounds/' + roundToScoreId + '/groupings/' + submitGroupingId : null}}"
+                      data="{{cardToSubmit}}">
     </firebase-element>
 
     <div id="sectionPanel" class="section-panel {{ {wide: wide} | tokenList }}"
@@ -51,7 +55,9 @@
                                       name="submitCards"
                                       tournamentToScoreId="{{tournamentToScoreId}}"
                                       roundToScoreId="{{roundToScoreId}}"
+                                      submitGroupingId="{{submitGroupingId}}"
                                       submitCardsGroupings="{{submitCardsGroupings}}"
+                                      cardToSubmit="{{cardToSubmit}}"
                                       activeTournament="{{activeTournament}}">
             </leaderboard-submit-card>
 
@@ -90,7 +96,11 @@
         // Tournament that is currently active
         activeTournament: null,
 
+        // Object that will be set when a grouping changes on firebase
         submitCardsGroupings: null,
+
+        // Id of group to submit
+        submitGroupingId: '',
 
         tournamentsLocation: 'https://incandescent-heat-3687.firebaseio.com/tournaments/',
 

@@ -1,7 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 
 <polymer-element name="leaderboard-submit-cards"
-                 attributes="activeTournament tournamentToScoreId roundToScoreId submitCardsGroupings">
+                 attributes="activeTournament tournamentToScoreId roundToScoreId submitCardsGroupings submitGroupingId cardToSubmit">
   <template>
     <link rel="stylesheet" href="leaderboard-submit-cards.css">
 
@@ -31,7 +31,7 @@
             <paper-button on-tap="{{showGroupCard}}"
                           transition="core-transition-center">Card</paper-button>
             <paper-button on-tap="{{submitGroupCard}}"
-                          groupingIndex="{{groupingIndex}}">Submit</paper-button>
+                          groupingId="{{grouping.id}}">Submit</paper-button>
           </div>
 
           <div class="divider"></div>
@@ -71,6 +71,9 @@
         // Round id that is currently active
         roundToScoreId: '',
 
+        // Object that will be sent when a card is submitted
+        cardToSubmit: null,
+
         // Current tournament object
         activeTournamentChanged: function() {
 
@@ -96,11 +99,14 @@
         },
 
         // Iterate through groups and create groupings array
+        // Set id property on a grouping so we can update the correct one later
         getPendingGroups: function(groupings) {
 
           this.groupings = [];
 
           for (var groupingKey in groupings) {
+
+            groupings[groupingKey].id = groupingKey;
 
             if (groupings[groupingKey].groupStatus === 'pending') {
               this.groupings.push(groupings[groupingKey]);
@@ -143,10 +149,27 @@
         },
 
         // Set the grouping status for the active round to 'complete'
+        // Check to see if round status can be set to 'complete'
         // Update the groupings so view gets updated
         // Call update handicaps method
         submitGroupCard: function(event) {
 
+          this.completeGroupingStatus();
+          this.submitCardsGroupingsUpdated();
+        },
+
+        // Set the grouping status for the active round to 'complete'
+        completeGroupingStatus: function () {
+
+          // Update the grouping in the groupings collection that matches the one passed in from the tap event
+          this.groupings.forEach(function(grouping) {
+
+            if (grouping.id == event.currentTarget.attributes.groupingId.value) {
+              grouping.groupStatus = 'complete';
+              this.submitGroupingId = grouping.id;
+              this.cardToSubmit = grouping;
+            }
+          }, this);
         }
       });
 
