@@ -1,6 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 
-<polymer-element name="leaderboard-submit-cards" attributes="activeTournament">
+<polymer-element name="leaderboard-submit-cards"
+                 attributes="activeTournament tournamentToScoreId roundToScoreId submitCardsGroupings">
   <template>
     <link rel="stylesheet" href="leaderboard-submit-cards.css">
 
@@ -27,10 +28,10 @@
               <div class="grouping--name">Group {{groupingIndex + 1}}</div>
             </div>
 
-            <paper-button on-tap="{{showDialog}}"
+            <paper-button on-tap="{{showGroupCard}}"
                           transition="core-transition-center">Card</paper-button>
-            <paper-button on-tap="{{editTournament}}"
-                          tournamentId="{{tournament.id}}">Submit</paper-button>
+            <paper-button on-tap="{{submitGroupCard}}"
+                          groupingIndex="{{groupingIndex}}">Submit</paper-button>
           </div>
 
           <div class="divider"></div>
@@ -61,10 +62,19 @@
         // Collection of groupings in the active round
         groupings: [],
 
+        // Grouping passed in from firebase
+        submitCardsGroupings: null,
+
+        // Tournament id that is currently active
+        tournamentToScoreId: '',
+
+        // Round id that is currently active
+        roundToScoreId: '',
+
         // Current tournament object
         activeTournamentChanged: function() {
 
-          this.activeTournament.rounds.forEach(this.getPendingGroups, this);
+          this.activeTournament.rounds.forEach(this.getPendingRounds, this);
 
           if (this.groupings) {
             this.groupings.forEach(function(grouping) {
@@ -73,19 +83,36 @@
           }
         },
 
-        // Iterate through rounds and create groupings array
-        getPendingGroups: function(round) {
+        // Iterate through rounds for pending round
+        getPendingRounds: function(round) {
 
           // If the round is waiting for cards to be submitted
           if (round.roundStatus === 'pending') {
 
-            for (var groupingKey in round.groupings) {
+            this.getPendingGroups(round.groupings);
 
-              if (round.groupings[groupingKey].groupStatus === 'pending') {
-                this.groupings.push(round.groupings[groupingKey]);
-              }
+            this.setTournamentIds(round);
+          }
+        },
+
+        // Iterate through groups and create groupings array
+        getPendingGroups: function(groupings) {
+
+          this.groupings = [];
+
+          for (var groupingKey in groupings) {
+
+            if (groupings[groupingKey].groupStatus === 'pending') {
+              this.groupings.push(groupings[groupingKey]);
             }
           }
+        },
+
+        // Set the ids for the active tournament and pending round
+        setTournamentIds: function(round) {
+
+          this.tournamentToScoreId = this.activeTournament.id;
+          this.roundToScoreId = round.roundId;
         },
 
         // Iterate through players and add score and scorecard totals to groupings players array
@@ -102,6 +129,25 @@
             return previousValue + currentValue;
           });
         },
+
+        // Fired from parent element when grouping firebase data is updated
+        submitCardsGroupingsUpdated: function () {
+
+          this.getPendingGroups(this.submitCardsGroupings);
+
+          if (this.groupings) {
+            this.groupings.forEach(function(grouping) {
+              grouping.players.forEach(this.getPlayerScores, this);
+            }, this);
+          }
+        },
+
+        // Set the grouping status for the active round to 'complete'
+        // Update the groupings so view gets updated
+        // Call update handicaps method
+        submitGroupCard: function(event) {
+
+        }
       });
 
     })();

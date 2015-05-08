@@ -12,6 +12,14 @@
                       childEvents>
     </firebase-element>
 
+    <firebase-element id="roundGroupings"
+                      location="{{userDetails && tournamentToScoreId && roundToScoreId ? tournamentsLocation + tournamentToScoreId + '/rounds/' + roundToScoreId + '/groupings/' : null}}"
+                      dataReady="{{roundGroupingsReady}}"
+                      on-child-changed="{{groupingChanged}}"
+                      data="{{clubhouseGroupings}}"
+                      childEvents>
+    </firebase-element>
+
     <div id="sectionPanel" class="section-panel {{ {wide: wide} | tokenList }}"
          flex vertical layout?="{{!wide}}">
 
@@ -41,6 +49,9 @@
             <leaderboard-submit-cards id="submitCards"
                                       class="submit-cards-view"
                                       name="submitCards"
+                                      tournamentToScoreId="{{tournamentToScoreId}}"
+                                      roundToScoreId="{{roundToScoreId}}"
+                                      submitCardsGroupings="{{submitCardsGroupings}}"
                                       activeTournament="{{activeTournament}}">
             </leaderboard-submit-card>
 
@@ -79,6 +90,8 @@
         // Tournament that is currently active
         activeTournament: null,
 
+        submitCardsGroupings: null,
+
         tournamentsLocation: 'https://incandescent-heat-3687.firebaseio.com/tournaments/',
 
         // When a user has a tournament key added to their tournaments, update the upComing tournaments
@@ -86,7 +99,7 @@
           this.getTournamentObject(event.detail.name);
         },
 
-        // Push a tournament object onto the upcomingTournaments collection
+        // Push a tournament object onto the activeTournaments collection
         getTournamentObject: function(userTournamentKey) {
 
           var tournament = new Firebase(this.tournamentsLocation + userTournamentKey);
@@ -105,9 +118,17 @@
 
             this.activeTournaments.forEach(function(tournament) {
               if (tournament.status === 'active') {
-                this.activeTournament = Object.create(tournament);;
+                this.activeTournament = Object.create(tournament);
               }
             }, this);
+          }
+        },
+
+        // When firebase grouping child changes
+        groupingChanged: function(event) {
+          if (event.detail.value.groupStatus && event.detail.value.groupStatus === 'pending') {
+            this.submitCardsGroupings = this.clubhouseGroupings;
+            this.$.submitCards.submitCardsGroupingsUpdated();
           }
         },
 
