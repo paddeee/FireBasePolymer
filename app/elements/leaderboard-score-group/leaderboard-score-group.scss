@@ -147,6 +147,16 @@ paper-fab[mini] {
   }
 }
 
+.player__score-blob-button-container {
+
+  paper-button {
+    background-color: $primary-bg-colour;
+    color: $primary-text-colour--light;
+    font-size: 12px;
+    margin-bottom: 16px;
+  }
+}
+
 .player__shots-on-hole {
   font-size: 12px;
   text-align: center;

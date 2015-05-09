@@ -28,8 +28,7 @@
               <div class="grouping--name">Group {{groupingIndex + 1}}</div>
             </div>
 
-            <paper-button on-tap="{{showGroupCard}}"
-                          transition="core-transition-center">Card</paper-button>
+            <paper-button on-tap="{{showGroupCard}}">Card</paper-button>
             <paper-button on-tap="{{submitGroupCard}}"
                           groupingId="{{grouping.id}}">Submit</paper-button>
           </div>
@@ -53,6 +52,12 @@
       </template>
 
     </section>
+
+    <leaderboard-handicap-adjust id="handicapAdjust"
+                                 name="handicapAdjust"
+                                 players="{{handicapPlayers}}"
+                                 round="{{handicapRound}}">
+    </leaderboard-handicap-adjust>
   </template>
   <script>
     (function () {
@@ -70,6 +75,9 @@
 
         // Round id that is currently active
         roundToScoreId: '',
+
+        // Round object that is currently pending
+        roundToSubmit: '',
 
         // Object that will be sent when a card is submitted
         cardToSubmit: null,
@@ -118,6 +126,7 @@
         setTournamentIds: function(round) {
 
           this.tournamentToScoreId = this.activeTournament.id;
+          this.roundToSubmit = round;
           this.roundToScoreId = round.roundId;
         },
 
@@ -154,22 +163,31 @@
         // Call update handicaps method
         submitGroupCard: function(event) {
 
-          this.completeGroupingStatus();
-          this.submitCardsGroupingsUpdated();
+          this.completeGroupingStatus(event);
+          //this.submitCardsGroupingsUpdated();
+          this.adjustHandicaps();
         },
 
         // Set the grouping status for the active round to 'complete'
-        completeGroupingStatus: function () {
+        completeGroupingStatus: function (event) {
 
           // Update the grouping in the groupings collection that matches the one passed in from the tap event
           this.groupings.forEach(function(grouping) {
 
             if (grouping.id == event.currentTarget.attributes.groupingId.value) {
-              grouping.groupStatus = 'complete';
-              this.submitGroupingId = grouping.id;
+              //grouping.groupStatus = 'complete';
+              //this.submitGroupingId = grouping.id;
               this.cardToSubmit = grouping;
             }
           }, this);
+        },
+
+        // Adjust handicaps for each player
+        adjustHandicaps: function () {
+
+          this.handicapPlayers = this.cardToSubmit.players;
+          this.handicapRound = this.roundToSubmit;
+          this.$.handicapAdjust.updateHandicaps();
         }
       });
 

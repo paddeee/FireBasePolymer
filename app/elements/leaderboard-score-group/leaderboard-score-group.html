@@ -76,6 +76,12 @@
                           <span>blob</span>
                         </div>
                       </div>
+                      <!-- ToDo - Get rid of following button if tall media query gets implemented -->
+                      <div class="player__score-blob-button-container" layout center-center horizontal>
+                        <paper-button on-tap="{{blobHole}}"
+                                      playerHoleScore="{{player.roundScorecard[holeNumber - 1]}}"
+                                      playerId="{{player.uid}}">Blob</paper-button>
+                      </div>
                     </div>
                     <div class="player__shots-on-hole">
                       Shots on this hole: <span>{{player.shotsOnCurrentHole}}</span>
@@ -318,6 +324,16 @@
 
             player.roundScorecard[this.holeNumber - 1] = parseInt(par, 10);
           }
+        },
+
+        // Set player's hole score to lowest score that returns 0 points
+        blobHole: function(event, detail) {
+
+          var playerId = event.currentTarget.attributes.playerId.value;
+          var player = this.getPlayerById(playerId);
+          var par = this.roundToScore.par[this.holeNumber -1];
+
+          player.roundScorecard[this.holeNumber - 1] = parseInt(par, 10) + 2 + parseInt(player.shotsOnCurrentHole, 10);
         },
 
         // Iterate through a players collection and return the player object by Id
