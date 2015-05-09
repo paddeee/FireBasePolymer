@@ -1,0 +1,144 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<polymer-element name="leaderboard-handicap-adjust" attributes="players round">
+  <template>
+    <style>
+      :host {
+        display: none;
+      }
+    </style>
+  </template>
+  <script>
+    (function () {
+
+      Polymer({
+
+        // Handicap Categories used to adjust player scores
+        handicapCategories: [
+          {
+          category: 1,
+          minHcp: 0.1,
+          maxHcp: 5.4,
+          bufferZone: 1,
+          reductionPerShot: 0.1,
+          increasePerRound: 0.1
+          },
+          {
+            category: 2,
+            minHcp: 5.5,
+            maxHcp: 12.4,
+            bufferZone: 2,
+            reductionPerShot: 0.2,
+            increasePerRound: 0.1
+          },
+          {
+            category: 3,
+            minHcp: 12.5,
+            maxHcp: 20.4,
+            bufferZone: 3,
+            reductionPerShot: 0.3,
+            increasePerRound: 0.1
+          },
+          {
+            category: 2,
+            minHcp: 20.5,
+            maxHcp: 28.0,
+            bufferZone: 4,
+            reductionPerShot: 0.4,
+            increasePerRound: 0.1
+          },
+          {
+            category: 2,
+            minHcp: 28.1,
+            maxHcp: 36.0,
+            bufferZone: 5,
+            reductionPerShot: 0.5,
+            increasePerRound: 0.1
+          }
+        ],
+
+        // When data changes for players
+        updateHandicaps: function() {
+          this.players.forEach(this.updatePlayerHandicap, this);
+        },
+
+        // Adjust handicap for all players
+        updatePlayerHandicap: function(player) {
+
+          var handicap = parseInt(player.handicap, 10);
+          var adjustedGrossScore = this.getAdjustedGrossScore(player);
+          var nettScore = this.getNetScore(handicap, adjustedGrossScore);
+          var playerHandicapCategory = this.getHandicapCategory(handicap);
+
+          // If nett score is greater than buffer zone add increasePerRound to handicap
+          if (nettScore > playerHandicapCategory.bufferZone) {
+            handicap = handicap + 0.1;
+          }
+
+          // If Nett score is negative then for each shot less than 0, the Golfers Handicap is reduced by the amount
+          // specified by the category they are currently in.
+          if (nettScore < 0) {
+            nettScore = Math.abs(nettScore);
+            handicap = handicap - (nettScore * playerHandicapCategory.reductionPerShot);
+          }
+
+          console.log(handicap);
+        },
+
+        // Iterate through a player's Stableford score for each hole. If the score is 0, set the gross score on the hole
+        // to be the smallest non-scoring total possible.
+        getAdjustedGrossScore: function(player) {
+
+          var adjustedScorecard = player.roundScorecard;
+
+          player.roundScore.forEach(function(score, index) {
+
+            if (score === 0) {
+              adjustedScorecard[index] = parseInt(this.round.par[index], 10) + this.getShotsForHole(player.handicap, index, this.round) + 2;
+            }
+          }, this);
+
+          return this.getArrayTotal(adjustedScorecard);
+        },
+
+        // Calculate shots based on relevant factors
+        getShotsForHole: function(handicap, holeNumber, round) {
+
+          var strokeIndex = parseInt(round.stroke[holeNumber], 10);
+
+          // Add 0.01 if the handicap is same as stroke so it will ceil() to 1 instead of 0.
+          var shots = Math.ceil(((handicap - strokeIndex) / 18) + 0.01);
+
+          return shots;
+        },
+
+        // Calculate net score based on adjusted gross score - handicap - rating
+        getNetScore: function(handicap, score) {
+          return score - parseInt(this.round.teebox.rating, 10) - parseInt(handicap, 10);
+        },
+
+        // Get Handicap Category object
+        getHandicapCategory: function(handicap) {
+
+          var handicapCategoryObject;
+
+          this.handicapCategories.forEach(function(category) {
+            if (category.minHcp < handicap && category.maxHcp >= handicap) {
+              handicapCategoryObject = category;
+            }
+          }, this);
+
+          return handicapCategoryObject;
+        },
+
+        // Return sum of an array
+        getArrayTotal: function(arrayToSum) {
+          return arrayToSum.reduce(function(previousValue, currentValue) {
+            return previousValue + currentValue;
+          });
+        },
+      });
+
+    })();
+  </script>
+</polymer-element>
