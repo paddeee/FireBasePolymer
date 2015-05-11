@@ -19,7 +19,7 @@
 
       <div class="round-details" layout vertical>
         <div class="tournament-name">{{activeTournament.name}}</div>
-        <div class="round-name">Round {{roundToScoreId + 1}} - {{roundToSubmit.venue}}</div>
+        <div class="round-name">{{roundToSubmit.venue}}</div>
         <div class="round-date">{{roundToSubmit.date}}</div>
       </div>
 
@@ -129,7 +129,7 @@
 
           this.tournamentToScoreId = this.activeTournament.id;
           this.roundToSubmit = round;
-          this.roundToScoreId = parseInt(round.roundId, 10);
+          this.roundToScoreId = round.roundId;
         },
 
         // Iterate through players and add score and scorecard totals to groupings players array
