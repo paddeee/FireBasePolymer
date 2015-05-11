@@ -16,12 +16,19 @@
                       location="{{userDetails && tournamentToScoreId && roundToScoreId ? tournamentsLocation + tournamentToScoreId + '/rounds/' + roundToScoreId + '/groupings/' : null}}"
                       on-child-changed="{{groupingChanged}}"
                       data="{{clubhouseGroupings}}"
-                      childEvents>
+                      childEvents
+      log>
     </firebase-element>
 
     <firebase-element id="cardToSubmit"
                       location="{{userDetails && tournamentToScoreId && roundToScoreId && submitGroupingId ? tournamentsLocation + tournamentToScoreId + '/rounds/' + roundToScoreId + '/groupings/' + submitGroupingId : null}}"
                       data="{{cardToSubmit}}">
+    </firebase-element>
+
+    <firebase-element id="userHandicapsFireBase"
+                      location="{{handicapPlayerId ? 'https://incandescent-heat-3687.firebaseio.com/users/' + handicapPlayerId + '/handicap': null}}"
+                      data="{{handicap}}"
+      log>
     </firebase-element>
 
     <div id="sectionPanel" class="section-panel {{ {wide: wide} | tokenList }}"
@@ -58,7 +65,9 @@
                                       submitGroupingId="{{submitGroupingId}}"
                                       submitCardsGroupings="{{submitCardsGroupings}}"
                                       cardToSubmit="{{cardToSubmit}}"
-                                      activeTournament="{{activeTournament}}">
+                                      handicapPlayers="{{handicapPlayers}}"
+                                      activeTournament="{{activeTournament}}"
+                                      on-handicaps-adjusted="{{updateUserHandicaps}}">
             </leaderboard-submit-card>
 
           </core-animated-pages>
@@ -102,6 +111,9 @@
         // Id of group to submit
         submitGroupingId: '',
 
+        // User id used to update user handicap
+        handicapPlayerId: '',
+
         tournamentsLocation: 'https://incandescent-heat-3687.firebaseio.com/tournaments/',
 
         // When a user has a tournament key added to their tournaments, update the upComing tournaments
@@ -140,6 +152,21 @@
             this.submitCardsGroupings = this.clubhouseGroupings;
             this.$.submitCards.submitCardsGroupingsUpdated();
           }
+        },
+
+        // Set new handicaps for users
+        updateUserHandicaps: function () {
+
+          this.handicapPlayerId = '';
+          this.handicap = '';
+
+          this.handicapPlayers.forEach(function(player) {
+
+            this.handicapPlayerId = player.uid;
+
+            this.handicap = player.newHandicap;
+
+          }, this);
         },
 
         backNavigation: function() {

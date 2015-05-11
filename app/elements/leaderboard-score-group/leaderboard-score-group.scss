@@ -108,7 +108,7 @@ paper-fab[mini] {
 
 .player__score-input {
   font-size: 4em;
-  font-size: 10vh;
+  font-size: 8vh;
   text-align: center;
 }
 
@@ -152,8 +152,8 @@ paper-fab[mini] {
   paper-button {
     background-color: $primary-bg-colour;
     color: $primary-text-colour--light;
-    font-size: 12px;
-    margin-bottom: 16px;
+    font-size: 11px;
+    margin: 4px;
   }
 }
 

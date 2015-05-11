@@ -60,6 +60,8 @@
         // When data changes for players
         updateHandicaps: function() {
           this.players.forEach(this.updatePlayerHandicap, this);
+
+          this.fire('handicaps-adjusted');
         },
 
         // Adjust handicap for all players
@@ -73,17 +75,19 @@
 
           // If nett score is greater than buffer zone add increasePerRound to handicap
           if (nettScore > playerHandicapCategory.bufferZone) {
-            newHandicap = handicap + 0.1;
+            player.newHandicap = handicap + 0.1;
           }
 
           // If Nett score is negative then for each shot less than 0, the Golfers Handicap is reduced by the amount
           // specified by the category they are currently in.
-          if (nettScore < 0) {
+          else if (nettScore < 0) {
             nettScore = Math.abs(nettScore);
-            newHandicap = handicap - (nettScore * playerHandicapCategory.reductionPerShot);
+            player.newHandicap = handicap - (nettScore * playerHandicapCategory.reductionPerShot);
           }
 
-          console.log(newHandicap);
+          else {
+            player.newHandicap = handicap;
+          }
         },
 
         // Iterate through a player's Stableford score for each hole. If the score is 0, set the gross score on the hole

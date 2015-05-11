@@ -333,6 +333,10 @@
           var player = this.getPlayerById(playerId);
           var par = this.roundToScore.par[this.holeNumber -1];
 
+          if (!player.roundScorecard) {
+            player.roundScorecard = [];
+          }
+
           player.roundScorecard[this.holeNumber - 1] = parseInt(par, 10) + 2 + parseInt(player.shotsOnCurrentHole, 10);
         },
 

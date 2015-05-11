@@ -9,7 +9,6 @@ $darkTextColour: #000;
 $neutralBackgroundColour: #EEE;
 
 :host {
-  background-color: $neutralBackgroundColour;
   display: block;
 }
 
@@ -25,8 +24,16 @@ $neutralBackgroundColour: #EEE;
   padding: 10px 0 16px;
 }
 
-.tournament-name {
+.round-details {
   margin: 8px 10px 10px;
+}
+
+.round-name {
+  font-size:14px;
+}
+
+.round-date {
+  font-size:13px;
 }
 
 .grouping--name {

@@ -1,7 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 
 <polymer-element name="leaderboard-submit-cards"
-                 attributes="activeTournament tournamentToScoreId roundToScoreId submitCardsGroupings submitGroupingId cardToSubmit">
+                 attributes="activeTournament tournamentToScoreId roundToScoreId submitCardsGroupings submitGroupingId cardToSubmit handicapPlayers">
   <template>
     <link rel="stylesheet" href="leaderboard-submit-cards.css">
 
@@ -17,9 +17,11 @@
              class="active-tournaments-section  {{ {wide: wide} | tokenList }}"
              layout vertical>
 
-     <template bind="{{activeTournament}}">
-       <div class="tournament-name">{{name}}</div>
-      </template>
+      <div class="round-details" layout vertical>
+        <div class="tournament-name">{{activeTournament.name}}</div>
+        <div class="round-name">Round {{roundToScoreId + 1}} - {{roundToSubmit.venue}}</div>
+        <div class="round-date">{{roundToSubmit.date}}</div>
+      </div>
 
       <template id="groupingTemplate" repeat="{{grouping, groupingIndex in groupings}}">
         <paper-shadow z="1" class="card">
@@ -127,7 +129,7 @@
 
           this.tournamentToScoreId = this.activeTournament.id;
           this.roundToSubmit = round;
-          this.roundToScoreId = round.roundId;
+          this.roundToScoreId = parseInt(round.roundId, 10);
         },
 
         // Iterate through players and add score and scorecard totals to groupings players array
