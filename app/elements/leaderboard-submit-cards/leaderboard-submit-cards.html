@@ -166,7 +166,7 @@
         submitGroupCard: function(event) {
 
           this.completeGroupingStatus(event);
-          //this.submitCardsGroupingsUpdated();
+          this.submitCardsGroupingsUpdated();
           this.adjustHandicaps();
         },
 
@@ -177,8 +177,8 @@
           this.groupings.forEach(function(grouping) {
 
             if (grouping.id == event.currentTarget.attributes.groupingId.value) {
-              //grouping.groupStatus = 'complete';
-              //this.submitGroupingId = grouping.id;
+              grouping.groupStatus = 'complete';
+              this.submitGroupingId = grouping.id;
               this.cardToSubmit = grouping;
             }
           }, this);
