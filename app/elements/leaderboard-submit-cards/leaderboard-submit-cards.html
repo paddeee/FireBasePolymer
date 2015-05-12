@@ -7,19 +7,19 @@
 
     <section class="no-tournaments"
              cross-fade
-             hidden?="{{activeTournament}}">
+             hidden?="{{groupings.length}}">
       There are no active tournaments with outstanding scorecards.
     </section>
 
     <section cross-fade
-             hidden?="{{!activeTournament}}"
+             hidden?="{{!groupings.length}}"
              id="activeTournamentsSection"
              class="active-tournaments-section  {{ {wide: wide} | tokenList }}"
              layout vertical>
 
       <div class="round-details" layout vertical>
-        <div class="tournament-name">{{activeTournament.name}}</div>
-        <div class="round-name">{{roundToSubmit.venue}}</div>
+        <div class="tournament-name">Active tournament - {{activeTournament.name}}</div>
+        <div class="round-name">Current round - {{roundToSubmit.venue}}</div>
         <div class="round-date">{{roundToSubmit.date}}</div>
       </div>
 
@@ -170,18 +170,31 @@
           this.adjustHandicaps();
         },
 
-        // Set the grouping status for the active round to 'complete'
+        // Set the grouping status for each completed grouping to 'complete'
         completeGroupingStatus: function (event) {
 
+          var roundComplete = true;
+
           // Update the grouping in the groupings collection that matches the one passed in from the tap event
+          // If all grouping statuses are complete, set the round status to complete
           this.groupings.forEach(function(grouping) {
 
             if (grouping.id == event.currentTarget.attributes.groupingId.value) {
+
               grouping.groupStatus = 'complete';
               this.submitGroupingId = grouping.id;
               this.cardToSubmit = grouping;
             }
+
+            // Set roundStatus if all groupings submitted
+            if (grouping.groupStatus !== 'complete') {
+              roundComplete = false;
+            }
           }, this);
+
+          if (roundComplete) {
+            this.fire('round-complete');
+          }
         },
 
         // Adjust handicaps for each player

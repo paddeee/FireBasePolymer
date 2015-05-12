@@ -16,8 +16,7 @@
                       location="{{userDetails && tournamentToScoreId && roundToScoreId ? tournamentsLocation + tournamentToScoreId + '/rounds/' + roundToScoreId + '/groupings/' : null}}"
                       on-child-changed="{{groupingChanged}}"
                       data="{{clubhouseGroupings}}"
-                      childEvents
-      log>
+                      childEvents>
     </firebase-element>
 
     <firebase-element id="cardToSubmit"
@@ -25,10 +24,9 @@
                       data="{{cardToSubmit}}">
     </firebase-element>
 
-    <firebase-element id="userHandicapsFireBase"
-                      location="{{handicapPlayerId ? 'https://incandescent-heat-3687.firebaseio.com/users/' + handicapPlayerId + '/handicap': null}}"
-                      data="{{handicap}}"
-      log>
+    <firebase-element id="roundStatusFireBase"
+                      location="{{roundToScoreId && roundStatus ? tournamentsLocation + tournamentToScoreId + '/rounds/' + roundToScoreId + '/roundStatus': null}}"
+                      data="{{roundStatus}}">
     </firebase-element>
 
     <div id="sectionPanel" class="section-panel {{ {wide: wide} | tokenList }}"
@@ -67,7 +65,8 @@
                                       cardToSubmit="{{cardToSubmit}}"
                                       handicapPlayers="{{handicapPlayers}}"
                                       activeTournament="{{activeTournament}}"
-                                      on-handicaps-adjusted="{{updateUserHandicaps}}">
+                                      on-handicaps-adjusted="{{updateUserHandicaps}}"
+                                      on-round-complete="{{setRoundCompleteStatus}}">
             </leaderboard-submit-card>
 
           </core-animated-pages>
@@ -114,6 +113,9 @@
         // User id used to update user handicap
         handicapPlayerId: '',
 
+        // Current status of the round
+        roundStatus: '',
+
         tournamentsLocation: 'https://incandescent-heat-3687.firebaseio.com/tournaments/',
 
         // When a user has a tournament key added to their tournaments, update the upComing tournaments
@@ -154,19 +156,23 @@
           }
         },
 
-        // Set new handicaps for users
+        // Set new handicaps for users in Firebase
         updateUserHandicaps: function () {
 
-          this.handicapPlayerId = '';
-          this.handicap = '';
+          var user;
 
           this.handicapPlayers.forEach(function(player) {
 
-            this.handicapPlayerId = player.uid;
-
-            this.handicap = player.newHandicap;
+            handicapPlayerId = player.uid;
+            user = new Firebase('https://incandescent-heat-3687.firebaseio.com/users/' + handicapPlayerId + '/handicap');
+            user.set(player.newHandicap);
 
           }, this);
+        },
+
+        // Set round status to complete
+        setRoundCompleteStatus: function() {
+          this.roundStatus= 'complete';
         },
 
         backNavigation: function() {
