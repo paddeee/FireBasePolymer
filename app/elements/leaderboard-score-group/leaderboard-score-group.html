@@ -352,9 +352,9 @@
           var playersScoredOnHole = [];
 
           // Called after last hole has been updated so return
-          if (this.holesCompletedLength === 18) {
+          /*if (this.holesCompletedLength === 18) {
             return;
-          }
+          }*/
 
           this.players.forEach(function(player) {
             if (player.roundScorecard && player.roundScorecard[this.previousHoleNumber - 1]) {
