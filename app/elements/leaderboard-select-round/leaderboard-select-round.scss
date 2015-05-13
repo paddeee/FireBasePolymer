@@ -96,7 +96,36 @@ paper-button {
   margin: 8px 8px 0;
 }
 
+.rounds-list-item {
+  position: relative;
+}
+
 .round-info {
   font-size: 13px;
   padding: 8px;
+}
+
+.round-complete {
+  display: none;
+}
+
+.round-complete[showing] {
+  background-color: rgba(0, 150, 136, 0.88);
+  display: block;
+
+  > div {
+    height: 100%;
+  }
+
+  .round-complete__text {
+    font-size: 10vw;
+    color: $primaryTextColour;
+  }
+}
+
+.wide .round-complete[showing] {
+
+  .round-complete__text {
+    font-size: 6vw;
+  }
 }

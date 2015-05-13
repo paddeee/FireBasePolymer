@@ -37,11 +37,11 @@
 
           <div class="divider"></div>
 
-          <template repeat="{{player in grouping.players}}">
+          <template repeat="{{player, playerIndex in grouping.players}}">
             <div class="players-list-item" horizontal center layout>
               <div class="player__info" layout horizontal flex>
                 <div>{{player.name}}</div>
-                <div class="player__handicap">{{player.handicap}}</div>
+                <div class="player__handicap  player__handicap--{{playerIndex + 1}}">{{player.handicap}}</div>
                 <div flex layout horizontal end-justified class="player__scores">
                   <div class="player__scorecard">{{player.roundScorecardTotal}}</div>
                   <div class="player__score">{{player.roundScoreTotal}}pts</div>

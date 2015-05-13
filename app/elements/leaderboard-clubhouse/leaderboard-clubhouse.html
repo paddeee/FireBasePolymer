@@ -92,6 +92,19 @@
       </paper-icon-button>
 
     </div>
+
+    <paper-action-dialog id="HandicapChanges"
+                         backdrop
+                         autoCloseDisabled
+                         layered="true"
+                         heading="Updated Handicaps"
+                         transition="core-transition-center">
+      <template repeat="{{player in handicapChanges}}">
+        <div class="player-adjusted"><span class="player-adjusted__name">{{player.name}}</span> has been adjusted from {{player.oldHandicap}} to {{player.newHandicap}}.</div>
+      </template>
+      <paper-button affirmative autofocus>Continue</paper-button>
+    </paper-action-dialog>
+
   </template>
   <script>
     (function () {
@@ -100,6 +113,9 @@
 
         // List of tournaments the user is associated with
         activeTournaments: [],
+
+        // Collection to use to template the notification to user of handicap changes when card submitted
+        handicapChanges: [],
 
         // Tournament that is currently active
         activeTournament: null,
@@ -168,6 +184,34 @@
             user.set(player.newHandicap);
 
           }, this);
+
+          this.displayHandicapChanges();
+        },
+
+        // Display each player's handicap adjustment
+        displayHandicapChanges: function() {
+
+          var handicapChanges = [];
+          var handicapPlayer;
+
+          this.handicapPlayers.forEach(function(player) {
+
+            if (player.handicap !== player.newHandicap) {
+              handicapPlayer = {
+                name: player.name,
+                oldHandicap: player.handicap,
+                newHandicap: player.newHandicap
+              }
+
+              handicapChanges.push(handicapPlayer);
+            }
+          }, this);
+
+          // If any players have handicap changes notify user
+          if (handicapChanges.length > 0) {
+            this.handicapChanges = handicapChanges;
+            this.$.HandicapChanges.open();
+          }
         },
 
         // Set round status to complete

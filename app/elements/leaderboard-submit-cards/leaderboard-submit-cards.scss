@@ -89,34 +89,22 @@ $neutralBackgroundColour: #EEE;
   width: 22px;
 }
 
-.players-list-item:nth-of-type(3) {
-
-  .player__handicap {
-    background-color: #ff5252;
-  }
+.player__handicap--1 {
+  background-color: #ff5252;
 }
 
-.players-list-item:nth-of-type(4) {
-
-  .player__handicap {
-    background-color: #03A9F4;
-  }
+.player__handicap--2 {
+  background-color: #03A9F4;
 }
 
-.players-list-item:nth-of-type(5) {
-
-  .player__handicap {
-    background-color: #ffeb3b;
-    color: #000;
-  }
+.player__handicap--3 {
+  background-color: #ffeb3b;
+  color: #000;
 }
 
-.players-list-item:nth-of-type(6) {
-
-  .player__handicap {
-    background-color: #1de9b6;
-    color: #000;
-  }
+.player__handicap--4 {
+  background-color: #1de9b6;
+  color: #000;
 }
 
 .player__score{

@@ -1,7 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 
 <polymer-element name="leaderboard-select-round"
-                 attributes="userDetails upcomingTournaments tournamentToScoreId roundToScoreId">
+                 attributes="userDetails upcomingTournaments tournamentToScoreId roundToScoreId wide">
   <template>
     <link rel="stylesheet" href="leaderboard-select-round.css">
 
@@ -30,7 +30,18 @@
 
           <template repeat="{{round, roundIndex in tournament.rounds}}">
             <div class="rounds-list-item" horizontal center layout>
-              <div class="round-info" flex>
+
+              <div class="round-complete"
+                   showing?="{{round.roundStatus === 'complete'}}"
+                   fit>
+                <div layout vertical center center-center>
+                  <div class="round-complete__text">Round Complete</div>
+                </div>
+              </div>
+
+              <div class="round-info"
+                   showing?="{{round.roundStatus !== 'complete'}}"
+                   flex>
 
                 <div horizontal center layout>
                   <div vertical layout flex>
@@ -50,7 +61,7 @@
                                        roundId="{{round.roundId}}"
                                        on-tap="{{createGroupHandler}}">
                     </paper-icon-button>
-                    <paper-icon-button showing?="{{round.groupings[userDetails.uid]}}"
+                    <paper-icon-button showing?="{{round.groupings[userDetails.uid] && round.groupings[userDetails.uid].groupStatus != 'complete'}}"
                                        class="score-group"
                                        icon="create"
                                        tournamentId="{{tournament.id}}"
