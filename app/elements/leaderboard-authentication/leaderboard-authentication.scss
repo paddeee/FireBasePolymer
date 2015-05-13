@@ -16,6 +16,7 @@ $neutralBackgroundColour: #EEE;
   padding: 20px 16px;
   box-sizing: border-box;
   -moz-box-sizing: border-box;
+  overflow-y: scroll;
 }
 
 .wide.card {
@@ -83,10 +84,6 @@ h2 {
 :host ::shadow .handicap-slider-container {
   color: $primaryTextColour;
   padding: 2em 0;
-
-  > div {
-    padding: 10px 0 0;
-  }
 }
 
 .main {
