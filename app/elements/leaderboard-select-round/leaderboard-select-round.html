@@ -61,7 +61,7 @@
                                        roundId="{{round.roundId}}"
                                        on-tap="{{createGroupHandler}}">
                     </paper-icon-button>
-                    <paper-icon-button showing?="{{round.groupings[userDetails.uid] && round.groupings[userDetails.uid].groupStatus != 'complete'}}"
+                    <paper-icon-button showing?="{{round.groupings[userDetails.uid] && (!round.groupings[userDetails.uid].groupStatus || round.groupings[userDetails.uid].groupStatus != 'complete')}}"
                                        class="score-group"
                                        icon="create"
                                        tournamentId="{{tournament.id}}"

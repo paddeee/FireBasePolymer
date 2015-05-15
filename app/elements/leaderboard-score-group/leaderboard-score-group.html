@@ -226,6 +226,11 @@
           // Add 0.01 if the handicap is same as stroke so it will ceil() to 1 instead of 0.
           var shots = Math.ceil(((handicap - strokeIndex) / 18) + 0.01);
 
+          // Set this so Firebase doesn't have to cope with a NaN value
+          if (isNaN(shots)) {
+            shots = 0;
+          }
+
           return shots;
         },
 

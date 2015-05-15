@@ -187,7 +187,7 @@
             }
 
             // Set roundStatus if all groupings submitted
-            if (grouping.groupStatus !== 'complete') {
+            if (!grouping.groupStatus || grouping.groupStatus !== 'complete') {
               roundComplete = false;
             }
           }, this);
