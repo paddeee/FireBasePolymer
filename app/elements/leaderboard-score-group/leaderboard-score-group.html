@@ -38,7 +38,7 @@
                   <div class="player" layout vertical>
                     <div class="player__info" layout horizontal>
                       <div class="player__name">{{player.name}}</div>
-                      <div class="player__handicap">{{player.handicap}}</div>
+                      <div class="player__handicap">{{player.roundHandicap}}</div>
                       <div class="player__score" flex>{{player.totalScore ? player.totalScore: '0'}} pts</div>
                     </div>
                     <div class="player__score" layout vertical flex>
@@ -215,7 +215,7 @@
 
         // Set property on each player to show how many shots they receive on the current hole
         setShotsOnCurrentHole: function(player) {
-          player.shotsOnCurrentHole = this.getShots(player.handicap, this.holeNumber);
+          player.shotsOnCurrentHole = this.getShots(player.roundHandicap, this.holeNumber);
         },
 
         // Calculate shots based on relevant factors
@@ -398,7 +398,7 @@
 
           var par = this.roundToScore.par[holeNumber - 1];
           var score = player.roundScorecard[holeNumber - 1];
-          var shots = this.getShots(player.handicap, holeNumber);
+          var shots = this.getShots(player.roundHandicap, holeNumber);
           var stableFordPointsMap = {
             '1': 1,
             '0': 2,
@@ -469,7 +469,7 @@
                 'thru': this.previousHoleNumber,
                 'scorecard': player.roundScorecard[this.previousHoleNumber - 1],
                 'score': player.roundScore[this.previousHoleNumber - 1],
-                'roundHandicap': player.handicap,
+                'roundHandicap': player.roundHandicap,
                 'name': player.name
               }
             }

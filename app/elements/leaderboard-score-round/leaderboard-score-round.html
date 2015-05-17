@@ -18,7 +18,7 @@
                       data="{{tournamentToScore}}">
     </firebase-element>
 
-    <firebase-element id="tournamentToScoreFireBase"
+    <firebase-element id="roundStatusToUpdateFireBase"
                       location="{{userDetails && tournamentOfRoundCompleted ? tournamentsLocation + tournamentOfRoundCompleted.id : null}}"
                       data="{{tournamentToScore}}"
                       on-child-added="{{roundCompleted}}"
@@ -114,7 +114,7 @@
                                      roundToScore="{{roundToScore}}"
                                      userGrouping="{{userGrouping}}"
                                      tournamentToScore="{{tournamentToScore}}"
-                                     on-hole-score-completed="{{updateScore}}"
+                                     on-hole-score-completed="{{updateScores}}"
                                      on-go-to-score-round="{{goToScoreRound}}"
                                      on-go-to-menu="{{gotToMenu}}"
                                      vertical layout>
@@ -336,7 +336,7 @@
         createNewGroup: function() {
           this.userGrouping = this.groupPlayerToSet;
           this.groupPlayerToSet = null;
-          this.updateUpcomingTournaments(his.tournamentToScore.id, this.tournamentToScore);
+          this.updateUpcomingTournaments(this.tournamentToScore.id, this.tournamentToScore);
         },
 
         // Add/Remove a player to/from the group

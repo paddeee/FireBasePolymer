@@ -14,6 +14,7 @@
 
     <firebase-element id="clubhouseGroupings"
                       location="{{userDetails && tournamentToScoreId && roundToScoreId ? tournamentsLocation + tournamentToScoreId + '/rounds/' + roundToScoreId + '/groupings/' : null}}"
+                      on-child-added="{{groupingChanged}}"
                       on-child-changed="{{groupingChanged}}"
                       data="{{clubhouseGroupings}}"
                       childEvents>

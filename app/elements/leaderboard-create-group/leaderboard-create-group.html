@@ -330,6 +330,9 @@
             return availablePlayer.uid === playerId;
           })[0];
 
+          // Set players roundHandicap which is rounded up or down
+          playerObject.roundHandicap = Math.round(playerObject.handicap);
+
           // Add raised class for use with shadow on player list item
           event.currentTarget.classList.add("raised");
 
