@@ -42,8 +42,10 @@
                                           on-tournament-join-successful="{{tournamentJoinSuccess}}">
           </leaderboard-tournament-manager>
 
-          <leaderboard-score-round hash="score-round"
+          <leaderboard-score-round id="scoreRound"
+                                   hash="score-round"
                                    userDetails="{{userDetails}}"
+                                   tournamentOfRoundCompleted="{{tournamentOfRoundCompleted}}"
                                    route="{{route}}"
                                    wide="{{wide}}"
                                    vertical layout>
@@ -54,15 +56,16 @@
 
           <leaderboard-clubhouse hash="clubhouse"
                                  userDetails="{{userDetails}}"
+                                 tournamentOfRoundCompleted="{{tournamentOfRoundCompleted}}"
                                  wide="{{wide}}"
                                  vertical layout>
           </leaderboard-clubhouse>
 
-            <leaderboard-betting hash="betting" userDetails="{{userDetails}}" wide="{{wide}}" vertical layout>
-            </leaderboard-betting>
+          <leaderboard-betting hash="betting" userDetails="{{userDetails}}" wide="{{wide}}" vertical layout>
+          </leaderboard-betting>
 
-            <leaderboard-about hash="about" userDetails="{{userDetails}}" wide="{{wide}}" vertical layout>
-            </leaderboard-about>
+          <leaderboard-about hash="about" userDetails="{{userDetails}}" wide="{{wide}}" vertical layout>
+          </leaderboard-about>
 
           <leaderboard-stats hash="stats" userDetails="{{userDetails}}" wide="{{wide}}" vertical layout>
           </leaderboard-stats>

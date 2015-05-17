@@ -1,7 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 
 <polymer-element name="leaderboard-score-round"
-                 attributes="selected route userDetails wide">
+                 attributes="selected route userDetails tournamentOfRoundCompleted wide">
   <template>
     <link rel="stylesheet" href="leaderboard-score-round.css">
 
@@ -16,6 +16,13 @@
     <firebase-element id="tournamentToScoreFireBase"
                       location="{{userDetails && tournamentToScoreId ? tournamentsLocation + tournamentToScoreId : null}}"
                       data="{{tournamentToScore}}">
+    </firebase-element>
+
+    <firebase-element id="tournamentToScoreFireBase"
+                      location="{{userDetails && tournamentOfRoundCompleted ? tournamentsLocation + tournamentOfRoundCompleted.id : null}}"
+                      data="{{tournamentToScore}}"
+                      on-child-added="{{roundCompleted}}"
+                      childEvents>
     </firebase-element>
 
     <firebase-element id="userGrouping"
@@ -157,6 +164,8 @@
         roundToScore: null,
 
         tournamentToScore: null,
+
+        tournamentOfRoundCompleted: null,
 
         upcomingTournaments: [],
 
@@ -327,7 +336,7 @@
         createNewGroup: function() {
           this.userGrouping = this.groupPlayerToSet;
           this.groupPlayerToSet = null;
-          this.updateUpcomingTournaments();
+          this.updateUpcomingTournaments(his.tournamentToScore.id, this.tournamentToScore);
         },
 
         // Add/Remove a player to/from the group
@@ -436,6 +445,11 @@
 
           // Navigate to Score Group home view
           this.navigateTo(this.sectionData.scoreGroup);
+        },
+
+        // Sync the round complete status
+        roundCompleted: function() {
+          this.updateUpcomingTournaments(this.tournamentOfRoundCompleted.id, this.tournamentOfRoundCompleted);
         },
 
         // Animation completed so if home button was tapped we can navigate back to menu

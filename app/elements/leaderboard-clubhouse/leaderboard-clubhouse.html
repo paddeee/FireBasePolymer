@@ -1,6 +1,6 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 
-<polymer-element name="leaderboard-clubhouse" attributes="userDetails wide">
+<polymer-element name="leaderboard-clubhouse" attributes="userDetails tournamentOfRoundCompleted wide">
   <template>
     <link rel="stylesheet" href="leaderboard-clubhouse.css">
 
@@ -226,8 +226,11 @@
         setRoundCompleteStatus: function() {
 
           this.roundStatus = 'complete';
+          this.activeTournament.rounds[this.roundToScoreId].roundStatus = 'complete';
 
           this.setTournamentStatus();
+
+          this.tournamentOfRoundCompleted = this.activeTournament;
         },
 
         // If all rounds are complete, set tournament status to 'complete'
