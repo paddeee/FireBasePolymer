@@ -24,6 +24,11 @@
                       data="{{cardToSubmit}}">
     </firebase-element>
 
+    <firebase-element id="tournamentStatusFireBase"
+                      location="{{tournamentToScoreId && tournamentStatus ? tournamentsLocation + tournamentToScoreId + '/status/' : null}}"
+                      data="{{tournamentStatus}}">
+    </firebase-element>
+
     <firebase-element id="roundStatusFireBase"
                       location="{{roundToScoreId && roundStatus ? tournamentsLocation + tournamentToScoreId + '/rounds/' + roundToScoreId + '/roundStatus': null}}"
                       data="{{roundStatus}}">
@@ -132,6 +137,9 @@
         // Current status of the round
         roundStatus: '',
 
+        // Current status of the tournament
+        tournamentStatus: '',
+
         tournamentsLocation: 'https://incandescent-heat-3687.firebaseio.com/tournaments/',
 
         // When a user has a tournament key added to their tournaments, update the upComing tournaments
@@ -216,7 +224,27 @@
 
         // Set round status to complete
         setRoundCompleteStatus: function() {
-          this.roundStatus= 'complete';
+
+          this.roundStatus = 'complete';
+
+          this.setTournamentStatus();
+        },
+
+        // If all rounds are complete, set tournament status to 'complete'
+        setTournamentStatus: function() {
+
+          var tournamentComplete = true;
+
+          this.activeTournament.rounds.forEach(function(round) {
+
+            if (round.roundStatus !== 'complete') {
+              tournamentComplete = false;
+            }
+          });
+
+          if (tournamentComplete) {
+            this.tournamentStatus = 'complete';
+          }
         },
 
         backNavigation: function() {

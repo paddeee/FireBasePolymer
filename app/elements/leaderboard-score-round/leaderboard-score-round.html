@@ -107,7 +107,7 @@
                                      roundToScore="{{roundToScore}}"
                                      userGrouping="{{userGrouping}}"
                                      tournamentToScore="{{tournamentToScore}}"
-                                     on-hole-score-completed="{{updateGroup}}"
+                                     on-hole-score-completed="{{updateScore}}"
                                      on-go-to-score-round="{{goToScoreRound}}"
                                      on-go-to-menu="{{gotToMenu}}"
                                      vertical layout>
@@ -333,7 +333,7 @@
         // Add/Remove a player to/from the group
         updateGroup: function() {
           this.updateScores();
-          this.updateUpcomingTournaments();
+          this.updateUpcomingTournaments(this.tournamentToScore.id, this.tournamentToScore);
         },
 
         // Update scores in userGrouping
@@ -350,21 +350,21 @@
         },
 
         // When a player is added or removed, update upComingTournaments object so the select round page is kept in sync
-        updateUpcomingTournaments: function() {
+        updateUpcomingTournaments: function(tournamentId, tournament) {
 
           var indexOfTournament;
 
           this.upcomingTournaments = this.upcomingTournaments.filter(function(tournament, index) {
 
             // Set the position in the array of the tournament so it can pushed back into the same place
-            if (this.tournamentToScore.id === tournament.id) {
+            if (tournamentId === tournament.id) {
               indexOfTournament = index;
             }
-            return this.tournamentToScore.id !== tournament.id;
+            return tournamentId !== tournament.id;
           }, this);
 
           // Add the updated tournament back into the correct place in upcomingTournaments
-          this.upcomingTournaments.splice(indexOfTournament, 0, this.tournamentToScore);
+          this.upcomingTournaments.splice(indexOfTournament, 0, tournament);
         },
 
         // When any grouping in the round has its last player removed
