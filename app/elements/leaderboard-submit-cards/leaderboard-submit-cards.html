@@ -150,8 +150,12 @@
         // Fired from parent element when grouping firebase data is updated
         submitCardsGroupingsUpdated: function () {
 
+          // If group added to Firebase
           if (this.submitCardsGroupings) {
             this.getPendingGroups(this.submitCardsGroupings);
+          // Group added by user
+          } else {
+            this.getPendingGroups(this.roundToSubmit.groupings);
           }
 
           if (this.groupings) {
@@ -179,15 +183,17 @@
           var groupings = this.roundToSubmit.groupings;
 
           // Update the grouping in the groupings collection that matches the one passed in from the tap event
+          this.groupings.forEach(function(grouping) {
+            if (grouping.id == event.currentTarget.attributes.groupingId.value) {
+
+              grouping.groupStatus = 'complete';
+              this.submitGroupingId = grouping.id;
+              this.cardToSubmit = grouping;
+            }
+          }, this);
+
           // If all grouping statuses are complete, set the round status to complete
           for (var groupingKey in groupings) {
-
-            if (groupings[groupingKey].id == event.currentTarget.attributes.groupingId.value) {
-
-              groupings[groupingKey].groupStatus = 'complete';
-              this.submitGroupingId = groupings[groupingKey].id;
-              this.cardToSubmit = groupings[groupingKey];
-            }
 
             // Set roundStatus if all groupings submitted
             if (!groupings[groupingKey].groupStatus || groupings[groupingKey].groupStatus !== 'complete') {

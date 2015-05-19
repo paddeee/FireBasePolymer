@@ -356,11 +356,6 @@
 
           var playersScoredOnHole = [];
 
-          // Called after last hole has been updated so return
-          /*if (this.holesCompletedLength === 18) {
-            return;
-          }*/
-
           this.players.forEach(function(player) {
             if (player.roundScorecard && player.roundScorecard[this.previousHoleNumber - 1]) {
               playersScoredOnHole.push(player.roundScorecard[this.previousHoleNumber - 1]);
@@ -500,25 +495,20 @@
         // Decide whether round is full complete
         completeRound: function() {
 
-          if (this.holesCompletedLength === 18) {
-
-            this.roundComplete();
-
-          } else {
+          if (this.holesCompletedLength >= 17) {
 
             // Could have completed 17 holes and be clicking done on the current hole with 4 completed
-            if (this.holesCompletedLength === 17) {
+            if (this.isHoleScoreComplete()) {
 
-              if (this.isHoleScoreComplete()) {
+              this.previousHoleNumber = this.holeNumber;
+              this.holeNumber = this.holeNumber + 1;
 
-                this.previousHoleNumber = this.holeNumber;
-                this.holeNumber = this.holeNumber + 1;
-
-                this.updateHoleScore();
-                this.roundComplete();
-                return;
-              }
+              this.updateHoleScore();
+              this.roundComplete();
+              return;
             }
+
+          } else {
 
             this.$.RoundNotComplete.open();
           }
