@@ -492,7 +492,7 @@
           });
         },
 
-        // Decide whether round is full complete
+        // Decide whether round is fully complete
         completeRound: function() {
 
           if (this.holesCompletedLength >= 17) {
@@ -520,11 +520,12 @@
           // Set statuses at grouping and round level
           this.tournamentToScore.rounds[this.roundToScore.roundId].roundStatus = 'pending';
           this.userGrouping.groupStatus = 'pending';
+
           this.fire('hole-score-completed');
           this.$.RoundComplete.open();
         },
 
-        // Decide whether round is full complete
+        // Decide whether hole is fully complete
         isHoleScoreComplete: function() {
 
           var holeComplete = true;

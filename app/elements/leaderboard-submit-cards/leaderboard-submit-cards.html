@@ -1,7 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 
 <polymer-element name="leaderboard-submit-cards"
-                 attributes="activeTournament tournamentToScoreId roundToScoreId submitCardsGroupings submitGroupingId cardToSubmit handicapPlayers">
+                 attributes="activeTournament tournamentOfRoundCompleted tournamentToScoreId roundToScoreId submitCardsGroupings submitGroupingId cardToSubmit handicapPlayers">
   <template>
     <link rel="stylesheet" href="leaderboard-submit-cards.css">
 
@@ -147,32 +147,16 @@
           });
         },
 
-        // Fired from parent element when grouping firebase data is updated
-        submitCardsGroupingsUpdated: function () {
-
-          // If group added to Firebase
-          if (this.submitCardsGroupings) {
-            this.getPendingGroups(this.submitCardsGroupings);
-          // Group added by user
-          } else {
-            this.getPendingGroups(this.roundToSubmit.groupings);
-          }
-
-          if (this.groupings) {
-            this.groupings.forEach(function(grouping) {
-              grouping.players.forEach(this.getPlayerScores, this);
-            }, this);
-          }
-        },
-
         // Set the grouping status for the active round to 'complete'
         // Check to see if round status can be set to 'complete'
         // Update the groupings so view gets updated
+        // Update tournament player scores
         // Call update handicaps method
         submitGroupCard: function(event) {
 
           this.completeGroupingStatus(event);
           this.submitCardsGroupingsUpdated();
+          this.updateTournamentPlayerScores(event);
           this.adjustHandicaps();
         },
 
@@ -204,6 +188,47 @@
           if (roundComplete) {
             this.fire('round-complete');
           }
+        },
+
+        // Fired from parent element when grouping firebase data is updated
+        submitCardsGroupingsUpdated: function () {
+
+          // If group added to Firebase
+          if (this.submitCardsGroupings) {
+            this.getPendingGroups(this.submitCardsGroupings);
+            // Group added by user
+          } else {
+            this.getPendingGroups(this.roundToSubmit.groupings);
+          }
+
+          if (this.groupings) {
+            this.groupings.forEach(function(grouping) {
+              grouping.players.forEach(this.getPlayerScores, this);
+            }, this);
+          }
+        },
+
+        // Update tournament player scores
+        updateTournamentPlayerScores: function(event) {
+
+          var groupingSubmitted;
+
+          for (var groupingKey in this.roundToSubmit.groupings) {
+
+            if (groupingKey == event.currentTarget.attributes.groupingId.value) {
+              groupingSubmitted = this.roundToSubmit.groupings[groupingKey];
+            }
+          };
+
+          groupingSubmitted.players.forEach(function(player) {
+
+            for (var playerKey in this.tournamentOfRoundCompleted.players) {
+
+              if (this.tournamentOfRoundCompleted.players[playerKey].uid === player.uid) {
+                console.log(this.tournamentOfRoundCompleted.players[playerKey]);
+              }
+            }
+          }, this);
         },
 
         // Adjust handicaps for each player
