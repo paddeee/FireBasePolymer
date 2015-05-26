@@ -1,7 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 
 <polymer-element name="leaderboard-submit-cards"
-                 attributes="activeTournament tournamentOfRoundCompleted tournamentToScoreId roundToScoreId submitCardsGroupings submitGroupingId cardToSubmit handicapPlayers">
+                 attributes="activeTournament tournamentToScoreId roundToScoreId submitCardsGroupings submitGroupingId cardToSubmit handicapPlayers">
   <template>
     <link rel="stylesheet" href="leaderboard-submit-cards.css">
 
@@ -222,13 +222,27 @@
 
           groupingSubmitted.players.forEach(function(player) {
 
-            for (var playerKey in this.tournamentOfRoundCompleted.players) {
+            for (var playerKey in this.activeTournament.players) {
 
-              if (this.tournamentOfRoundCompleted.players[playerKey].uid === player.uid) {
-                console.log(this.tournamentOfRoundCompleted.players[playerKey]);
+              if (this.activeTournament.players[playerKey].uid === player.uid) {
+                this.updatePreviousRoundScores(this.activeTournament.players[playerKey].tournamentScorecard, playerKey);
               }
             }
           }, this);
+        },
+
+        // Update tournament player previous round scores
+        updatePreviousRoundScores: function(tournamentScorecard, playerKey) {
+
+          if (!tournamentScorecard.previousRounds) {
+            tournamentScorecard.previousRounds = [];
+          }
+
+          tournamentScorecard.previousRounds.push(tournamentScorecard.currentRound);
+          tournamentScorecard.currentRound = null;
+
+          this.activeTournament.players[playerKey].tournamentScorecard = tournamentScorecard;
+          this.fire('previous-round-score-complete');
         },
 
         // Adjust handicaps for each player

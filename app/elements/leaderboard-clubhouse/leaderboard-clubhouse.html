@@ -25,6 +25,11 @@
                       data="{{cardToSubmit}}">
     </firebase-element>
 
+    <firebase-element id="tournamentToScoreFireBase"
+                      location="{{userDetails && tournamentToScoreId && tournamentPlayers ? tournamentsLocation + tournamentToScoreId : null}}"
+                      data="{{tournamentPlayers}}">
+    </firebase-element>
+
     <firebase-element id="tournamentStatusFireBase"
                       location="{{tournamentToScoreId && tournamentStatus ? tournamentsLocation + tournamentToScoreId + '/status/' : null}}"
                       data="{{tournamentStatus}}">
@@ -74,7 +79,8 @@
                                       activeTournament="{{activeTournament}}"
                                       on-handicaps-adjusted="{{updateUserHandicaps}}"
                                       on-group-complete="{{setRoundCompleteStatus}}"
-                                      on-round-complete="{{setRoundCompleteStatus}}">
+                                      on-round-complete="{{setRoundCompleteStatus}}"
+                                      on-previous-round-score-complete="{{setTournamentPlayerScore}}">
             </leaderboard-submit-card>
 
           </core-animated-pages>
@@ -130,6 +136,9 @@
 
         // Object that will be set when a grouping changes on firebase
         submitCardsGroupings: null,
+
+        // Object that holds tournament player info such as tournament score
+        tournamentPlayers: null,
 
         // Id of group to submit
         submitGroupingId: '',
@@ -250,6 +259,13 @@
 
           if (tournamentComplete) {
             this.tournamentStatus = 'complete';
+          }
+        },
+
+        // Set tournament score for players after a round is completed on Firebase
+        setTournamentPlayerScore: function() {
+          if (this.activeTournament) {
+            this.tournamentPlayers = this.activeTournament;
           }
         },
 
