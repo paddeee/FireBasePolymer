@@ -220,15 +220,18 @@
             }
           };
 
-          groupingSubmitted.players.forEach(function(player) {
+          if (groupingSubmitted) {
 
-            for (var playerKey in this.activeTournament.players) {
+            groupingSubmitted.players.forEach(function(player) {
 
-              if (this.activeTournament.players[playerKey].uid === player.uid) {
-                this.updatePreviousRoundScores(this.activeTournament.players[playerKey].tournamentScorecard, playerKey);
+              for (var playerKey in this.activeTournament.players) {
+
+                if (this.activeTournament.players[playerKey].uid === player.uid) {
+                  this.updatePreviousRoundScores(this.activeTournament.players[playerKey].tournamentScorecard, playerKey);
+                }
               }
-            }
-          }, this);
+            }, this);
+          }
         },
 
         // Update tournament player previous round scores
