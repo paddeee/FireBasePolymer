@@ -534,7 +534,7 @@
                 self.tournamentJoinedName = snap.val().name;
 
                 snap.child('players').forEach(function (userSnap) {
-                  if (userSnap.val() === self.userDetails.uid) {
+                  if (userSnap.val() === self.userDetails.uid || userSnap.val().uid === self.userDetails.uid) {
                     playerIdExists = true;
                     return;
                   }
