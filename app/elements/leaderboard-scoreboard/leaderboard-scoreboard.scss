@@ -20,7 +20,7 @@ $primary-accent-colour: #eeff41;
 }
 
 .wide.card:not(.tvmode) {
-  width: 512px;
+  width: 712px;
   margin-top: 64px;
 }
 
@@ -128,7 +128,6 @@ $primary-accent-colour: #eeff41;
 }
 
 .name {
-  padding-left: 48px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
