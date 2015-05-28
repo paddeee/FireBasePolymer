@@ -3,7 +3,7 @@
     <link rel="stylesheet" href="leaderboard-menu.css">
 
     <core-toolbar class="menu-toolbar"
-                  slide-down?="{{wide || (parentElement.lastSelected === 'profile' || parentElement.selected === 'profile')}}">
+                  slide-down?="{{wide || (parentElement.lastSelected === 'profile' || parentElement.selected === 'profile' || (parentElement.lastSelected === 'scoreboard' || parentElement.selected === 'scoreboard'))}}">
 
       <div fade flex class="user-name">{{userDetails.name}}</div>
       <div cross-fade>{{userDetails.handicap}}</div>
@@ -11,8 +11,9 @@
     </core-toolbar>
 
     <core-selector valueattr="id"
-                   class="section-list content {{ {wide: wide} | tokenList }}" selected="{{selected}}"
-                   tile-cascade?="{{parentElement.lastSelected === 'profile'}}"
+                   class="section-list content {{ {wide: wide} | tokenList }}"
+                   selected="{{selected}}"
+                   tile-cascade?="{{parentElement.lastSelected === 'profile' || parentElement.lastSelected === 'scoreboard'}}"
                    fade?="true">
 
       <div id="score-round" class="menu-item scoreround" vertical layout>
@@ -67,7 +68,7 @@
         <div class="tile theme-bg-a" dummy fit></div>
         <div class="tile" flex vertical layout>
           <div flex relative>
-            <div fit layout vertical center center-justified hero-id="scoreboard-background" hero>
+            <div fit layout vertical center center-justified>
               <div class="section-bg-wrapper" relative>
                 <core-icon icon="menu-tile-icons:scoreboard" class="section-tile-bg" fit></core-icon>
               </div>

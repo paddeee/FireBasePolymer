@@ -51,7 +51,10 @@
                                    vertical layout>
           </leaderboard-score-round>
 
-          <leaderboard-scoreboard hash="scoreboard" userDetails="{{userDetails}}" wide="{{wide}}" vertical layout>
+          <leaderboard-scoreboard hash="scoreboard"
+                                  userDetails="{{userDetails}}"
+                                  wide="{{wide}}"
+                                  vertical layout>
           </leaderboard-scoreboard>
 
           <leaderboard-clubhouse hash="clubhouse"
@@ -61,24 +64,42 @@
                                  vertical layout>
           </leaderboard-clubhouse>
 
-          <leaderboard-betting hash="betting" userDetails="{{userDetails}}" wide="{{wide}}" vertical layout>
+          <leaderboard-betting hash="betting"
+                               userDetails="{{userDetails}}"
+                               wide="{{wide}}"
+                               vertical layout>
           </leaderboard-betting>
 
-          <leaderboard-about hash="about" userDetails="{{userDetails}}" wide="{{wide}}" vertical layout>
+          <leaderboard-about hash="about"
+                             userDetails="{{userDetails}}"
+                             wide="{{wide}}"
+                             vertical layout>
           </leaderboard-about>
 
-          <leaderboard-stats hash="stats" userDetails="{{userDetails}}" wide="{{wide}}" vertical layout>
+          <leaderboard-stats hash="stats"
+                             userDetails="{{userDetails}}"
+                             wide="{{wide}}"
+                             vertical layout>
           </leaderboard-stats>
 
-          <leaderboard-results hash="results" userDetails="{{userDetails}}" wide="{{wide}}" vertical layout>
+          <leaderboard-results hash="results"
+                               userDetails="{{userDetails}}"
+                               wide="{{wide}}"
+                               vertical layout>
           </leaderboard-results>
 
-          <leaderboard-course-information hash="courseinformation" userDetails="{{userDetails}}" wide="{{wide}}"
+          <leaderboard-course-information hash="courseinformation"
+                                          userDetails="{{userDetails}}"
+                                          wide="{{wide}}"
                                           vertical layout>
           </leaderboard-course-information>
 
-          <leaderboard-authentication hash="profile" userDetails="{{userDetails}}" user="{{user}}"
-                                      statusKnown="{{statusKnown}}" wide="{{wide}}" layout center vertical
+          <leaderboard-authentication hash="profile"
+                                      userDetails="{{userDetails}}"
+                                      user="{{user}}"
+                                      statusKnown="{{statusKnown}}"
+                                      wide="{{wide}}"
+                                      layout center vertical
                                       on-user-logged-in="{{ completeStartup }}"
                                       on-user-logged-out="{{ enterAuthentication }}"
                                       on-profile-changed="{{ completeStartup }}">
