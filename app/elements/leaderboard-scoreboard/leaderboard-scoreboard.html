@@ -4,7 +4,12 @@
   <template>
     <link rel="stylesheet" href="leaderboard-scoreboard.css">
 
-    <firebase-element id="fbLeaderboard" location="{{offline ? null : 'https://polymer-topeka.firebaseio.com/users'}}" on-data-change="{{leaderboardChange}}" data="{{leaderboard}}" limit="{{limit}}"></firebase-element>
+    <firebase-element id="tournamentToViewFireBase"
+                      location="{{tournamentToViewId ? tournamentsLocation + tournamentToViewId : null}}"
+                      on-data-change="{{scoreChange}}"
+                      data="{{tournamentToView}}"
+                      limit="{{limit}}">
+    </firebase-element>
 
     <div class="bg" fit dummy cross-fade></div>
 
@@ -15,56 +20,79 @@
            class="card {{ {wide: wide, 'multi-column': columns>1, tvmode: tvmode} | tokenList }}"
            relative>
 
-        <core-toolbar>
-          <div class="section-title">Leaderboard</div>
-        </core-toolbar>
+          <core-toolbar>
+            <div class="section-title">Leaderboard</div>
+          </core-toolbar>
 
-        <div class="{{ {scroll: !wide} | tokenList }}" layout vertical flex>
+          <div class="{{ {scroll: !wide} | tokenList }}" layout vertical flex>
 
-          <core-animated-pages id="pages"
-                               selected="{{selected}}"
-                               on-core-animated-pages-transition-end="{{done}}"
-                               transitions="hero-transition"
-                               layout
-                               flex
-                               no-transition?="{{disabled}}">
+            <div class="scoreboard-empty" showing?="{{tournamentToView == null}}">
+              There are no live tournaments to view.
+            </div>
 
-            <section class="list" layout>
-              <template repeat="{{u,i in items1}}">
-                <div hero hero-id="{{u.uid}}"
-                     class="item {{u.rising ? 'rising':''}}"
-                     style="{{ columns>1 ? 'width:' + (1/columns*100) + '%' : '' }}"
-                     layout horizontal center>
-                  <div class="rank">
-                    <div class="rankNo">{{i+1}}</div>
-                    <core-icon class="arrow" icon="arrow-back"></core-icon>
+            <div hidden?="{{tournamentToView == null}}">
+
+            <div class="headings"
+                 style="{{ columns>1 ? 'width:' + (1/columns*100) + '%' : '' }}"
+                 layout horizontal center>
+              <div class="rank">
+                <div>Pos</div>
+              </div>
+              <div layout flex class="name">Player</div>
+              <div layout flex class="score">Tot</div>
+              <div layout flex class="thru">Thru</div>
+              <div>Rnd</div>
+            </div>
+
+            <core-animated-pages id="pages"
+                                 selected="{{selected}}"
+                                 on-core-animated-pages-transition-end="{{done}}"
+                                 transitions="hero-transition"
+                                 layout
+                                 flex
+                                 no-transition?="{{disabled}}">
+
+              <section class="list" layout>
+                <template repeat="{{player,i in items1}}">
+                  <div hero hero-id="{{player.uid}}"
+                       class="item {{player.rising ? 'rising':''}}"
+                       style="{{ columns>1 ? 'width:' + (1/columns*100) + '%' : '' }}"
+                       layout horizontal center>
+                    <div class="rank">
+                      <div class="rankNo">{{i+1}}</div>
+                      <core-icon class="arrow" icon="arrow-back"></core-icon>
+                    </div>
+                    <div layout flex class="name">{{player.name}}</div>
+                    <div layout flex class="score">{{player.score}}</div>
+                    <div layout flex class="thru">{{player.thru}}</div>
+                    <div class="delta" hidden?="{{!player.delta || !player.rising}}">{{player.delta}}</div>
+                    <div>{{player.roundScore}}</div>
                   </div>
-                  <div layout flex class="name">{{u.name}}</div>
-                  <div class="delta" hidden?="{{!u.delta || !u.rising}}">{{u.delta}}</div>
-                  <div>{{u.score}}</div>
-                </div>
-              </template>
-            </section>
+                </template>
+              </section>
 
-            <section class="list" layout>
-              <template repeat="{{u,i in items2}}">
-                <div hero hero-id="{{u.uid}}"
-                     class="item {{u.rising ? 'rising':''}}"
-                     style="{{ columns>1 ? 'width:' + (1/columns*100) + '%' : '' }}"
-                     layout horizontal center>
-                  <div class="rank">
-                    <div class="rankNo">{{i+1}}</div>
-                    <core-icon class="arrow" icon="arrow-back"></core-icon>
+              <section class="list" layout>
+                <template repeat="{{player,i in items2}}">
+                  <div hero hero-id="{{player.uid}}"
+                       class="item {{player.rising ? 'rising':''}}"
+                       style="{{ columns>1 ? 'width:' + (1/columns*100) + '%' : '' }}"
+                       layout horizontal center>
+                    <div class="rank">
+                      <div class="rankNo">{{i+1}}</div>
+                      <core-icon class="arrow" icon="arrow-back"></core-icon>
+                    </div>
+                    <div layout flex class="name">{{player.name}}</div>
+                    <div layout flex class="score">{{player.score}}</div>
+                    <div layout flex class="thru">{{player.thru}}</div>
+                    <div class="delta" hidden?="{{!player.delta || !player.rising}}">{{player.delta}}</div>
+                    <div>{{player.roundScore}}</div>
                   </div>
-                  <div layout flex class="name">{{u.name}}</div>
-                  <div class="delta" hidden?="{{!u.delta || !u.rising}}">{{u.delta}}</div>
-                  <div>{{u.score}}</div>
-                </div>
-              </template>
-            </section>
+                </template>
+              </section>
 
-          </core-animated-pages>
+            </core-animated-pages>
 
+          </div>
         </div>
       </div>
 
@@ -85,6 +113,10 @@
       Polymer({
 
         publish: {
+          tournamentsLocation: 'https://incandescent-heat-3687.firebaseio.com/tournaments/',
+          tournamentToView: null,
+          tournamentToViewId: '',
+          upcomingTournaments: [],
           disabled: false,
           limit: 20,
           columns: 1,
@@ -95,49 +127,21 @@
           offline: false
         },
 
-        observe: {
-          'limit offline': 'updateLeaderboard'
-        },
-
         selected: 0,
 
         MAX: 1800,
 
-        names: ['James','John','Robert','Michael','William','David','Richard','Joseph','Charles','Thomas','Christopher','Daniel','Matthew','Donald','Anthony','Paul','Mark','George','Steven','Kenneth','Andrew','Edward','Joshua','Brian','Kevin','Ronald','Timothy','Jason','Jeffrey','Gary','Ryan','Nicholas','Eric','Jacob','Stephen','Jonathan','Larry','Frank','Scott','Justin','Brandon','Raymond','Gregory','Samuel','Benjamin','Patrick','Jack','Dennis','Jerry','Alexander','Tyler','Henry','Douglas','Peter','Aaron','Walter','Jose','Adam','Zachary','Harold','Nathan','Kyle','Carl','Arthur','Gerald','Roger','Lawrence','Keith','Albert','Jeremy','Terry','Joe','Sean','Willie','Jesse','Austin','Christian','Ralph','Billy','Bruce','Bryan','Roy','Eugene','Ethan','Louis','Wayne','Jordan','Harry','Russell','Alan','Juan','Philip','Randy','Dylan','Howard','Vincent','Bobby','Johnny','Phillip','Shawn','Mary','Patricia','Jennifer','Elizabeth','Linda','Barbara','Susan','Margaret','Jessica','Dorothy','Sarah','Karen','Nancy','Betty','Lisa','Sandra','Helen','Ashley','Donna','Kimberly','Carol','Michelle','Emily','Amanda','Melissa','Deborah','Laura','Stephanie','Rebecca','Sharon','Cynthia','Kathleen','Ruth','Anna','Shirley','Amy','Angela','Virginia','Brenda','Pamela','Catherine','Katherine','Nicole','Christine','Janet','Debra','Samantha','Carolyn','Rachel','Heather','Maria','Diane','Frances','Joyce','Julie','Emma','Evelyn','Martha','Joan','Kelly','Christina','Lauren','Judith','Alice','Victoria','Doris','Ann','Jean','Cheryl','Marie','Megan','Kathryn','Andrea','Jacqueline','Gloria','Teresa','Janice','Sara','Rose','Hannah','Julia','Theresa','Judy','Grace','Beverly','Denise','Marilyn','Mildred','Amber','Danielle','Brittany','Olivia','Diana','Jane','Lori','Madison','Tiffany','Kathy','Tammy','Crystal'],
-
         ready: function() {
           this.lastScores = {};
-          if (!this.offline) {
-            this.offline =
-              window.location.search.indexOf('offline') >= 0 ||
-              window.location.search.indexOf('test') >= 0;
-          }
         },
 
-        updateLeaderboard: function() {
-          if (this.offline) {
-            this.generateLeaderboard();
-          } else {
-            if (this.bumpTimeout) {
-              clearTimeout(this.bumpTimeout);
+        upcomingTournamentsChanged: function() {
+
+          this.upcomingTournaments.forEach(function(tournament) {
+            if (tournament.status === 'active') {
+              this.tournamentToViewId = tournament.id;
             }
-            this.items1 = this.items2 = this.queuedItems = null;
-          }
-        },
-
-        generateLeaderboard: function() {
-          var lb = {};
-          var n = this.names.slice();
-          for (var i=0; i<this.limit; i++) {
-            var f = Math.floor(Math.random()*n.length);
-            var l = Math.floor(Math.random()*26);
-            lb['u'+i] = {
-              name: n.splice(f, 1)[0] + ' ' + String.fromCharCode(65 + l),
-              avatar: Math.floor(Math.random()*16)+1,
-              score: 0};
-          }
-          this.leaderboard = lb;
-          this.bumpScores();
+          }, this);
         },
 
         disabledChanged: function() {
@@ -146,21 +150,12 @@
             setTimeout(function() {
               this.holdoff = false;
             }.bind(this), 2000);
-            if (this.offline) {
-              this.bumpScores();
-            }
             if (this.queuedItems) {
               this.items1 = this.items2 = this.queuedItems;
               this.queuedItems = null;
             }
           } else {
             this.selected = 0;
-          }
-        },
-
-        userChanged: function() {
-          if (this.offline && this.user) {
-            this.leaderboard.me = this.user;
           }
         },
 
@@ -179,21 +174,33 @@
           }.bind(this), Math.random() * 5000);
         },
 
-        leaderboardChange: function() {
-          if (!this.leaderboard) {
+        scoreChange: function() {
+
+          if (!this.tournamentToView) {
+
             // Leaderboard was nuked
             this.items1 = this.items2 = this.queuedItems = null;
             return;
           }
-          var data = this.leaderboard;
-          var uids = Object.keys(data);
+          var tournamentToView = this.tournamentToView;
+          var playerIds = Object.keys(this.tournamentToView.players);
           this.newScores = {};
-          var items = uids.map(function(u) {
-            this.newScores[u] = data[u].score;
-            return { uid: u, name: data[u].name, avatar: data[u].avatar, score: data[u].score};
+
+          var items = playerIds.map(function(playerId) {
+
+            var totalScore = this.getTotalScore(tournamentToView.players[playerId].tournamentScorecard);
+            var playerScore = this.getPlayerScore(tournamentToView.players[playerId].tournamentScorecard);
+
+            playerScore.uid = playerId;
+
+            this.newScores[playerId] = totalScore;
+
+            return playerScore;
+
           }.bind(this)).sort(function(a, b) {
             return b.score - a.score || a.name && b.name && a.name.localeCompare(b.name);
           });
+
           if (this.holdoff) {
             if (!this.items1) {
               this.items1 = items;
@@ -205,6 +212,70 @@
           } else {
             this.flipPages(items);
           }
+        },
+
+        // Return a current round score for a player
+        getRoundScore: function(tournamentScorecard) {
+
+          var roundScore = 0;
+
+          if (tournamentScorecard.currentRound) {
+            roundScore = tournamentScorecard.currentRound.score;
+          }
+
+          return roundScore;
+        },
+
+        // Return an object with current score info for a player
+        getPlayerScore: function(tournamentScorecard) {
+
+          var playerScore = {};
+          var playerName = '';
+          var totalScore = 0;
+          var roundScore = 0;
+          var thru = '-';
+
+          if (tournamentScorecard.previousRounds && tournamentScorecard.previousRounds.length) {
+
+            tournamentScorecard.previousRounds.forEach(function(round) {
+              totalScore = totalScore + round.score;
+              playerName = round.name;
+            });
+          }
+
+          if (tournamentScorecard.currentRound) {
+            roundScore = tournamentScorecard.currentRound.score;
+            playerName = tournamentScorecard.currentRound.name;
+            thru = tournamentScorecard.currentRound.thru;
+          }
+
+          totalScore = totalScore + roundScore;
+
+          playerScore = {
+            name: playerName,
+            score: totalScore,
+            roundScore: roundScore,
+            thru: thru
+          };
+
+          return playerScore;
+        },
+
+        // Return a total tournament score for a player
+        getTotalScore: function(tournamentScorecard) {
+
+          var totalScore = 0;
+
+          if (tournamentScorecard.previousRounds && tournamentScorecard.previousRounds.length) {
+
+            tournamentScorecard.previousRounds.forEach(function(round) {
+              totalScore = totalScore + round.score;
+            });
+          }
+
+          totalScore = totalScore + this.getRoundScore(tournamentScorecard);
+
+          return totalScore;
         },
 
         flipPages: function(newItems) {

@@ -46,6 +46,7 @@
                                    hash="score-round"
                                    userDetails="{{userDetails}}"
                                    tournamentOfRoundCompleted="{{tournamentOfRoundCompleted}}"
+                                   upcomingTournaments="{{upcomingTournaments}}"
                                    route="{{route}}"
                                    wide="{{wide}}"
                                    vertical layout>
@@ -53,6 +54,8 @@
 
           <leaderboard-scoreboard hash="scoreboard"
                                   userDetails="{{userDetails}}"
+                                  tournamentToViewId="{{tournamentToViewId}}"
+                                  upcomingTournaments="{{upcomingTournaments}}"
                                   wide="{{wide}}"
                                   vertical layout>
           </leaderboard-scoreboard>
@@ -159,7 +162,11 @@
               routeChanged: function() {
 
                 if (!this.user) {
-                  this.route = 'profile';
+                  if (this.landingRoute === 'scoreboard') {
+                    this.route = 'scoreboard';
+                  } else {
+                    this.route = 'profile';
+                  }
                 }
 
                 if (this.route === 'profile') {
@@ -202,6 +209,7 @@
               },
 
               completeStartup: function() {
+
                 if (this.statusKnown) {
                   if (this.user) {
                     if (this.landingRoute.length && this.landingRoute !== 'profile') {
@@ -216,7 +224,9 @@
                     }
 
                     // Reset landingRoute
-                    this.landingRoute = 'menu';
+                    if (this.landingRoute !== 'scoreboard') {
+                      this.landingRoute = 'menu';
+                    }
 
                   } else {
                     this.enterAuthentication();

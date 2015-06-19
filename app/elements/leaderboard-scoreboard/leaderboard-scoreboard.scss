@@ -14,6 +14,16 @@ $primary-accent-colour: #eeff41;
   width: 100%;
 }
 
+.scoreboard-empty {
+  display: none;
+}
+
+.scoreboard-empty[showing] {
+  display: block;
+  padding: 40px 16px;
+  text-align: center;
+}
+
 .card > core-toolbar {
   background-color: $primary-bg-colour;
   color: $primary-text-colour--light;
@@ -71,7 +81,8 @@ $primary-accent-colour: #eeff41;
   align-content: stretch;
 }
 
-.item {
+.item,
+.headings {
   background-color: white;
   height: 56px;
   padding: 8px 24px;
@@ -79,6 +90,12 @@ $primary-accent-colour: #eeff41;
   position: relative;
   font-size: 18px;
   transition: box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.28s;
+}
+
+.headings {
+  font-size: 16px;
+  font-weight: bold;
+  padding: 0 20px;
 }
 
 .multi-column .item {
