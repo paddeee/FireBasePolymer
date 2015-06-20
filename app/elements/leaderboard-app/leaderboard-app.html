@@ -55,6 +55,7 @@
           <leaderboard-scoreboard hash="scoreboard"
                                   userDetails="{{userDetails}}"
                                   tournamentToViewId="{{tournamentToViewId}}"
+                                  liveId="{{liveId}}"
                                   upcomingTournaments="{{upcomingTournaments}}"
                                   wide="{{wide}}"
                                   vertical layout>
@@ -150,6 +151,9 @@
                 // Set a landing route so user can be redirected after authentication route changes. Not needed for menu
                 // as that is default route.
                 this.landingRoute = this.parseLandingRoute(this.route);
+
+                // Get tournament parameter for scoreboard if exists
+                this.liveId = this.getQueryParameters().live || '';
 
                 //this.route = this.route || 'profile';
                 this.route = 'profile';

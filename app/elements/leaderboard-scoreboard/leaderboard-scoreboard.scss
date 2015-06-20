@@ -53,7 +53,7 @@ $primary-accent-colour: #eeff41;
   color: #424242;
 }
 
-.section-title {
+.card:not(.tvmode) .section-title {
   padding-left: 56px;
   font-size: 16px;
 }

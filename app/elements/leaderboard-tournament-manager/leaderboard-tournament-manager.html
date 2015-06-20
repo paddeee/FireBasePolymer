@@ -565,9 +565,13 @@
           var mailToLink = 'https%3A%2F%2Fincandescent-heat-3687.firebaseapp.com%2F%3Ftournament%3D' +
           this.tournamentIdToInvite + '%26host%3D' + this.userDetails.uid;
 
+          var liveLink = 'https%3A%2F%2Fincandescent-heat-3687.firebaseapp.com%2F%3Flive%3D' +
+            this.tournamentIdToInvite + '#scoreboard';
+
           window.location.href = 'mailto:?subject=' + this.tournamentNameToInvite +
           ' Golf Tournament Invite&body=You%20are%20invited%20to%20the%20' + this.tournamentNameToInvite +
-          ' golf%20tournament.%20Follow%20this%20link%20to%20join%20-%20' + mailToLink;
+          ' golf%20tournament.%20Follow%20this%20link%20to%20join%20-%20' + mailToLink +
+          '.%20Anyone%20is%20free%20to%20view%20the%20tournament%20at%20this%20address%20-%20' + liveLink;
         },
 
         // Slide completed so if home button was tapped we can navigate back to menu

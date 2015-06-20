@@ -116,6 +116,7 @@
           tournamentsLocation: 'https://incandescent-heat-3687.firebaseio.com/tournaments/',
           tournamentToView: null,
           tournamentToViewId: '',
+          liveId: '',
           upcomingTournaments: [],
           disabled: false,
           limit: 20,
@@ -133,6 +134,15 @@
 
         ready: function() {
           this.lastScores = {};
+        },
+
+        // If id passed in via query string
+        liveIdChanged: function() {
+
+          if (this.liveId) {
+            this.tournamentToViewId = this.liveId;
+            this.tvmode = true;
+          }
         },
 
         upcomingTournamentsChanged: function() {
@@ -176,7 +186,7 @@
 
         scoreChange: function() {
 
-          if (!this.tournamentToView) {
+          if (!this.tournamentToView || !this.tournamentToView.players) {
 
             // Leaderboard was nuked
             this.items1 = this.items2 = this.queuedItems = null;
