@@ -57,6 +57,7 @@
                     <paper-icon-button showing?="{{!round.groupings[userDetails.uid].holesCompleted.length}}"
                                        class="create-group"
                                        icon="social:group-add"
+                                       label="Create Group"
                                        tournamentId="{{tournament.id}}"
                                        roundId="{{round.roundId}}"
                                        on-tap="{{createGroupHandler}}">
@@ -64,6 +65,7 @@
                     <paper-icon-button showing?="{{round.groupings[userDetails.uid] && (!round.groupings[userDetails.uid].groupStatus || round.groupings[userDetails.uid].groupStatus != 'complete')}}"
                                        class="score-group"
                                        icon="create"
+                                       label="Score Group"
                                        tournamentId="{{tournament.id}}"
                                        roundId="{{round.roundId}}"
                                        on-tap="{{scoreGroupHandler}}">

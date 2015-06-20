@@ -138,7 +138,7 @@
                           flex>Card</paper-button>
             <paper-button raised
                           class="scorecard-button"
-                          on-tap="{{showScorecard}}"
+                          on-tap="{{showLiveScores}}"
                           transition="core-transition-center"
                           flex>Live</paper-button>
             <paper-button showing?="{{holeNumber <= 18}}"
@@ -553,6 +553,11 @@
         // Navigate to Score Round
         goToScoreRound: function() {
           this.fire('go-to-score-round');
+        },
+
+        // Show Live Scores Leaderboard
+        showLiveScores: function() {
+          this.fire('go-to-live-scores');
         },
 
         // Navigate to menu

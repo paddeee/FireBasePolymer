@@ -73,7 +73,7 @@
 
           <core-animated-pages class="score-round-pages"
                                selected="{{selected}}"
-                               transitions="cross-fade"
+                               transitions="cross-fade slide-up-offscreen"
                                on-core-animated-pages-transition-end="{{animationComplete}}"
                                auto>
 
@@ -116,9 +116,19 @@
                                      tournamentToScore="{{tournamentToScore}}"
                                      on-hole-score-completed="{{updateScores}}"
                                      on-go-to-score-round="{{goToScoreRound}}"
+                                     on-go-to-live-scores="{{goToLiveScores}}"
                                      on-go-to-menu="{{gotToMenu}}"
                                      vertical layout>
             </leaderboard-score-group>
+
+            <leaderboard-scoreboard id="liveScores"
+                                    name="liveScores"
+                                    userDetails="{{userDetails}}"
+                                    tournamentToViewId="{{tournamentToViewId}}"
+                                    upcomingTournaments="{{upcomingTournaments}}"
+                                    wide="{{wide}}"
+                                    vertical layout>
+            </leaderboard-scoreboard>
 
           </core-animated-pages>
 
@@ -196,6 +206,11 @@
             'selectedHash': 'score-round/score-group',
             'name': 'scoreGroup',
             'title': 'Score The Round'
+          },
+          'liveScores': {
+            'selectedHash': 'score-round/live-scores',
+            'name': 'liveScores',
+            'title': 'Live Scores'
           }
         },
 
@@ -211,6 +226,9 @@
               break;
             case 'score-round/score-group':
               this.selected = 'scoreGroup';
+              break;
+            case 'score-round/live-scores':
+              this.selected = 'liveScores';
               break;
             default:
               break;
@@ -487,6 +505,11 @@
         // Navigate to Score Round
         goToScoreRound: function() {
           this.navigateTo(this.sectionData.selectRound);
+        },
+
+        // Navigate to Live Scores
+        goToLiveScores: function() {
+          this.navigateTo(this.sectionData.liveScores);
         },
 
         // Navigate to Menu

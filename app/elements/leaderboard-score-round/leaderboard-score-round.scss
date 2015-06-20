@@ -38,6 +38,10 @@ $primary-accent-colour: #eeff41;
   z-index: 10;
 }
 
+.back-button[hidden] {
+  display: none;
+}
+
 .home-button {
   color: $primary-text-colour--light;
   position: absolute;

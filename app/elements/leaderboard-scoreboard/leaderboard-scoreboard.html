@@ -15,12 +15,12 @@
 
     <div class="main {{ {scroll: wide} | tokenList }}" flex center layout vertical hero-p>
       <div flex vertical layout
-           slide-up-offscreen?="{{parentElement.selected === 'scoreboard'}}"
-           cross-fade="{{!wide && parentElement.selected !== 'scoreboard'}}"
+           slide-up-offscreen?="{{parentElement.selected === 'scoreboard' || parentElement.selected === 'liveScores'}}"
+           cross-fade="{{!wide && parentElement.selected !== 'scoreboard' && parentElement.selected !== 'liveScores'}}"
            class="card {{ {wide: wide, 'multi-column': columns>1, tvmode: tvmode} | tokenList }}"
            relative>
 
-          <core-toolbar>
+          <core-toolbar hidden?="{{parentElement.selected === 'liveScores' || parentElement.selected === 'scoreGroup'}}">
             <div class="section-title">Leaderboard</div>
           </core-toolbar>
 
@@ -98,7 +98,7 @@
 
       <paper-icon-button class="back-button {{ {wide: wide} | tokenList }}"
                          icon="arrow-back"
-                         hidden?="{{tvmode}}"
+                         hidden?="{{tvmode || parentElement.selected === 'liveScores'}}"
                          on-tap="{{backNavigation}}"
                          hero-id="scoreboard-back-button"
                          hero>
@@ -141,7 +141,7 @@
 
           if (this.liveId) {
             this.tournamentToViewId = this.liveId;
-            this.tvmode = true;
+            this.tvmode
           }
         },
 
