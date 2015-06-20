@@ -188,6 +188,11 @@
 
           var items = playerIds.map(function(playerId) {
 
+            // If tournament player hasn't been added to any group of a tournament
+            if (!tournamentToView.players[playerId].tournamentScorecard) {
+              return null;
+            }
+
             var totalScore = this.getTotalScore(tournamentToView.players[playerId].tournamentScorecard);
             var playerScore = this.getPlayerScore(tournamentToView.players[playerId].tournamentScorecard);
 
@@ -197,8 +202,20 @@
 
             return playerScore;
 
-          }.bind(this)).sort(function(a, b) {
-            return b.score - a.score || a.name && b.name && a.name.localeCompare(b.name);
+          }.bind(this));
+
+          items = items.filter(function(player) {
+            if (player) {
+              return player;
+            }
+          }, this);
+
+          items.sort(function(a, b) {
+
+            if (a && b) {
+              return b.score - a.score || a.name && b.name && a.name.localeCompare(b.name);
+            }
+            return null;
           });
 
           if (this.holdoff) {
