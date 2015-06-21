@@ -370,11 +370,6 @@
           // If all scores added to a hole
           if (this.players.length > 0 && this.players.length === playersScoredOnHole.length) {
 
-            // Update thru value
-            if (this.userGrouping.holesCompleted.length > this.thru) {
-              this.thru = this.userGrouping.holesCompleted.length;
-            }
-
             // Update holesCompleted
             if (!this.userGrouping.holesCompleted) {
               this.userGrouping.holesCompleted = [];
@@ -386,6 +381,11 @@
             }
 
             this.userGrouping.holesCompleted[this.previousHoleNumber - 1] = 'true';
+
+            // Update thru value
+            if (this.userGrouping.holesCompleted && this.userGrouping.holesCompleted.length >= this.thru) {
+              this.thru = this.userGrouping.holesCompleted.length;
+            }
 
             this.updateTournamentScore();
 
