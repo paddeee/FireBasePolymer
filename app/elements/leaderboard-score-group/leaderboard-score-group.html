@@ -371,8 +371,8 @@
           if (this.players.length > 0 && this.players.length === playersScoredOnHole.length) {
 
             // Update thru value
-            if (this.previousHoleNumber > this.thru) {
-              this.thru = this.previousHoleNumber;
+            if (this.userGrouping.holesCompleted.length > this.thru) {
+              this.thru = this.userGrouping.holesCompleted.length;
             }
 
             // Update holesCompleted
