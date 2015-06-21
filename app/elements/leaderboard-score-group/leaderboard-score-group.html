@@ -167,6 +167,9 @@
         // Number of hole being scored
         holeNumber: 0,
 
+        // Number of hole group is thru
+        thru: 0,
+
         // Keep record of previos hole number so it can be used after navigating away
         previousHoleNumber: 0,
 
@@ -367,6 +370,11 @@
           // If all scores added to a hole
           if (this.players.length > 0 && this.players.length === playersScoredOnHole.length) {
 
+            // Update thru value
+            if (this.previousHoleNumber > this.thru) {
+              this.thru = this.previousHoleNumber;
+            }
+
             // Update holesCompleted
             if (!this.userGrouping.holesCompleted) {
               this.userGrouping.holesCompleted = [];
@@ -461,7 +469,7 @@
             'uid': this.tournamentToScore.players[playerKey],
             'tournamentScorecard': {
               'currentRound': {
-                'thru': this.previousHoleNumber,
+                'thru': this.thru,
                 'scorecard': player.roundScorecard[this.previousHoleNumber - 1],
                 'score': player.roundScore[this.previousHoleNumber - 1],
                 'roundHandicap': player.roundHandicap,
@@ -478,7 +486,7 @@
 
           var currentRound = this.tournamentToScore.players[playerKey].tournamentScorecard.currentRound;
 
-          currentRound.thru = this.previousHoleNumber;
+          currentRound.thru = this.thru;
           currentRound.scorecard = this.getArrayTotal(player.roundScorecard);
           currentRound.score = this.getArrayTotal(player.roundScore);
 
