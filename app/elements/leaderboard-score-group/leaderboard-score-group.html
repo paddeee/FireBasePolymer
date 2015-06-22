@@ -484,7 +484,9 @@
         // Update object that tracks a player's score in the tournament
         updateTournamentPlayerScoreObject: function(playerKey, player) {
 
-          var currentRound = this.tournamentToScore.players[playerKey].tournamentScorecard.currentRound;
+          var currentRound = this.tournamentToScore.players[playerKey].tournamentScorecard.currentRound || {
+              'name': player.name
+            };
 
           currentRound.thru = this.thru;
           currentRound.scorecard = this.getArrayTotal(player.roundScorecard);

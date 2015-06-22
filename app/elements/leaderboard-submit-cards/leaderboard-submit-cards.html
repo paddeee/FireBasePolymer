@@ -18,8 +18,7 @@
              layout vertical>
 
       <div class="round-details" layout vertical>
-        <div class="tournament-name">Active tournament - {{activeTournament.name}}</div>
-        <div class="round-name">Current round - {{roundToSubmit.venue}}</div>
+        <div class="tournament-name">Tournament - {{activeTournament.name}}</div>
         <div class="round-date">{{roundToSubmit.date}}</div>
       </div>
 
@@ -75,7 +74,7 @@
         // Tournament id that is currently active
         tournamentToScoreId: '',
 
-        // Round id that is currently active
+        // Round id that is currently pending
         roundToScoreId: '',
 
         // Round object that is currently pending
@@ -83,6 +82,8 @@
 
         // Object that will be sent when a card is submitted
         cardToSubmit: null,
+
+        tournamentOfRoundCompleted: '',
 
         // Current tournament object
         activeTournamentChanged: function() {

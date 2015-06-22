@@ -1,7 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 
 <polymer-element name="leaderboard-score-round"
-                 attributes="selected route userDetails upcomingTournaments tournamentOfRoundCompleted wide">
+                 attributes="selected route userDetails upcomingTournaments tournamentToScoreId roundToScore roundToScoreId tournamentOfRoundCompleted wide">
   <template>
     <link rel="stylesheet" href="leaderboard-score-round.css">
 
@@ -408,7 +408,7 @@
         // When any grouping in the round has a player added or removed but not the last player in the group
         groupingChanged: function(event) {
 
-          if (this.roundToScore.groupings && this.roundToScore.groupings[event.detail.name]) {
+          if (this.roundToScore && this.roundToScore.groupings && this.roundToScore.groupings[event.detail.name]) {
 
             this.roundToScore.groupings[event.detail.name].players = event.detail.value.players;
           }
