@@ -188,13 +188,9 @@
         // When firebase grouping child changes
         groupingChanged: function(event) {
 
-          if (this.roundToScore) {
-            this.$.submitCards.setTournamentIds(this.roundToScore);
-          }
-
+          // If the grouping has changed, keep the activeTournament object in sync so Submit Cards is up to date
           if (event.detail.value.groupStatus && event.detail.value.groupStatus === 'pending') {
-            this.submitCardsGroupings = this.clubhouseGroupings;
-            this.$.submitCards.submitCardsGroupingsUpdated();
+            this.getTournamentObject(this.activeTournament.id);
           }
         },
 
