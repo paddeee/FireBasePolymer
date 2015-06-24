@@ -8,13 +8,19 @@
                       dataReady="{{userReady}}">
     </firebase-element>
 
-    <paper-input label="Name (optional)" floatinglabel value="{{name}}"
-                 type="name" id="name_input" layout vertical>
-    </paper-input>
-    <div class="handicap-slider-container">
+    <paper-input-decorator id="name" floatingLabel label="Name">
+      <input id="name_input" is="core-input" type="text" value="{{name}}" required>
+    </paper-input-decorator>
+
+    <paper-input-decorator id="handicap" floatingLabel label="Handicap (optional)" >
+      <input id="handicap_input" floatinglabel is="core-input" type="number" value="{{handicap}}">
+      </paper-input>
+    </paper-input-decorator>
+
+    <!--<div class="handicap-slider-container">
       <div>Handicap</div>
       <paper-slider id="handicap_input" min="0" max="36" value="{{handicap}}" editable pin></paper-slider>
-    </div>
+    </div>-->
     <div class="button-holder" horizontal center layout>
       <paper-button raised on-tap="{{signOut}}">Sign Out</paper-button>
       <div flex></div>
@@ -28,6 +34,8 @@
       'use strict';
 
       Polymer({
+
+        handicap: 18,
 
         observe: {
           'userReady': 'getUserDetails'

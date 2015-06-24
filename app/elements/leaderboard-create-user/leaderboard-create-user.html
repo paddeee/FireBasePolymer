@@ -14,14 +14,18 @@
              value="{{password}}" required>
     </paper-input-decorator>
 
-    <paper-input-decorator id="name" floatingLabel label="Name (optional)">
-      <input id="name_input" is="core-input" type="text"
-             value="{{name}}">
+    <paper-input-decorator id="name" floatingLabel label="Name">
+      <input id="name_input" is="core-input" type="text" value="{{name}}" required>
     </paper-input-decorator>
-    <div class="handicap-slider-container" layout vertical>
+
+    <paper-input-decorator id="handicap" floatingLabel label="Handicap (optional)" >
+      <input id="handicap_input" floatinglabel is="core-input" type="number" value="{{handicap}}">
+    </paper-input>
+    </paper-input-decorator>
+    <!--<div class="handicap-slider-container">
       <div>Handicap</div>
       <paper-slider id="handicap_input" min="0" max="36" value="{{handicap}}" editable pin></paper-slider>
-    </div>
+    </div>-->
     <div class="button-holder" horizontal center layout>
       <div flex></div>
       <paper-fab id="CreateUserButton" icon="check"

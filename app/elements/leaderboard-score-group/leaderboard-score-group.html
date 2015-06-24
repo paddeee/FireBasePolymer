@@ -160,6 +160,10 @@
 
       Polymer({
 
+        observe: {
+          'userGrouping.holesCompleted': 'updateHolesCompletedLength'
+        },
+
         // Number of hole being scored
         holeNumber: 0,
 
@@ -378,9 +382,6 @@
 
             this.userGrouping.holesCompleted[this.previousHoleNumber - 1] = 'true';
 
-            // Update holes completed
-            this.updateHolesCompletedLength();
-
             // Update thru value
             if (this.userGrouping.holesCompleted && this.userGrouping.holesCompleted.length >= this.thru) {
               this.thru = this.userGrouping.holesCompleted.length;
@@ -484,7 +485,7 @@
         updateTournamentPlayerScoreObject: function(playerKey, player) {
 
           var currentRound = this.tournamentToScore.players[playerKey].tournamentScorecard.currentRound || {
-              'name': player.name
+
             };
 
           currentRound.thru = this.thru;
