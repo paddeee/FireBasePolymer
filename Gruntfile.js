@@ -62,6 +62,60 @@ module.exports = function (grunt) {
         tasks: ['sass:server', 'autoprefixer:server']
       }
     },
+
+    // Create appcache manifest file
+    manifest: {
+      app: {
+        options: {
+          basePath: '<%= yeoman.app %>/',
+          cache: [],
+          network: ['*'],
+          //fallback: ['/ /offline.html'],
+          //exclude: ['js/jquery.min.js'],
+          preferOnline: true,
+          verbose: true,
+          timestamp: true,
+          hash: false,
+          //master: ['index.html'],
+          process: function (path) {
+            return path.substring('build/'.length);
+          }
+        },
+        src: [ ],
+        dest: '<%= yeoman.app %>/manifest.appcache'
+      },
+      dist: {
+        options: {
+          basePath: '<%= yeoman.dist %>/',
+          cache: [],
+          //fallback: ['/ /offline.html'],
+         //exclude: ['js/jquery.min.js'],
+          preferOnline: true,
+          verbose: true,
+          timestamp: true,
+          hash: false,
+          //master: ['index.html'],
+          process: function (path) {
+            return path.substring('build/'.length);
+          }
+        },
+        src: [
+          'index.html',
+          'styles/*',
+          'bower_components/webcomponents/webcomponents.js',
+          'bower_components/polymer/polymer.js',
+          'bower_components/flatiron-director/flatiron/director.min.js',
+          'bower_components/core-focusable/polymer-mixin.js',
+          'bower_components/core-focusable/core-focusable.js',
+          'bower_components/moment/min/moment-with-locales.min.js',
+          'elements/firebase-element/firebase.js',
+          'elements/firebase-login/firebase-simple-login.js',
+          'elements/elements.vulcanized.html'
+        ],
+        dest: '<%= yeoman.dist %>/manifest.appcache'
+      }
+    },
+
     // Compiles Sass to CSS and generates necessary files if requested
     sass: {
       options: {
@@ -265,7 +319,7 @@ module.exports = function (grunt) {
       // Update `url` below to the public URL for your site
       mobile: {
         options: {
-          url: "https://developers.google.com/web/fundamentals/",
+          url: "https://incandescent-heat-3687.firebaseio.com/",
           locale: "en_GB",
           strategy: "mobile",
           threshold: 80
@@ -311,7 +365,8 @@ module.exports = function (grunt) {
     //'uglify',
     'vulcanize',
     'usemin',
-    'minifyHtml'
+    'minifyHtml',
+    'manifest:dist'
   ]);
 
   grunt.registerTask('default', [
