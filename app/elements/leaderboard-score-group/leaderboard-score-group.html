@@ -206,6 +206,14 @@
           18: '18th'
         },
 
+        // When userGrouping changes, set up holesCompleted array
+        // This is due to template repeat picking up change to first hole completed too late to add completed class
+        userGroupingChanged: function () {
+          if (this.userGrouping && !this.userGrouping.holesCompleted) {
+            this.userGrouping.holesCompleted = [];
+          }
+        },
+
         // When holeNumber changes sync up some updates
         holeNumberChanged: function() {
 
@@ -372,7 +380,6 @@
 
             // Update holesCompleted
             if (!this.userGrouping.holesCompleted) {
-              this.userGrouping.holesCompleted = [];
 
               // If no holes yet completed and tournament doesn't yet have a status, it can now be set to 'active'
               if (this.tournamentToScore.status === 'pending') {
