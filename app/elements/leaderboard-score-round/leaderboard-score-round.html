@@ -461,6 +461,8 @@
           // roundToScore as expected
           this.$.scoreGroup.roundToScoreUpdated();
 
+          this.tournamentToViewId = this.tournamentToScoreId;
+
           // Navigate to Score Group home view
           this.navigateTo(this.sectionData.scoreGroup);
         },
