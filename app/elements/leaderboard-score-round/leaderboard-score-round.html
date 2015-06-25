@@ -260,13 +260,18 @@
         // Called when a round is selected and the data is returned
         tournamentToScoreChanged: function() {
 
-          if (this.selectRoundButtonSelected === 'create-group') {
-            this.createGroup();
-          } else if (this.selectRoundButtonSelected === 'score-group') {
-            this.scoreGroup();
-          }
+          // tournamentToScore can be changed when the submit button is selected on Submit Cards.
+          // If that's the case we don't want to create or score groups.
+          if (this.parentElement.selected === 'score-round') {
 
-          this.selectRoundButtonSelected === '';
+            if (this.selectRoundButtonSelected === 'create-group') {
+              this.createGroup();
+            } else if (this.selectRoundButtonSelected === 'score-group') {
+              this.scoreGroup();
+            }
+
+            this.selectRoundButtonSelected === '';
+          }
         },
 
         // Set tournamentToScore and roundToScore properties and navigate to create-group route
