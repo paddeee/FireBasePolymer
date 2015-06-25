@@ -82,6 +82,7 @@
                                       name="selectRound"
                                       upcomingTournaments="{{upcomingTournaments}}"
                                       tournamentToScoreId="{{tournamentToScoreId}}"
+                                      tournamentToViewId="{{tournamentToViewId}}"
                                       roundToScoreId="{{roundToScoreId}}"
                                       userDetails="{{userDetails}}"
                                       on-create-group="{{createGroup}}"
@@ -296,6 +297,9 @@
 
             this.$.scoreGroup.roundToScoreUpdated();
 
+            // Set tournament to view for Live Scores
+            this.tournamentToViewId = this.tournamentToScoreId;
+
             this.navigateTo(this.sectionData.scoreGroup);
           }
         },
@@ -461,6 +465,7 @@
           // roundToScore as expected
           this.$.scoreGroup.roundToScoreUpdated();
 
+          // Set tournament to view for Live Scores
           this.tournamentToViewId = this.tournamentToScoreId;
 
           // Navigate to Score Group home view

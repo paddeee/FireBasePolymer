@@ -1,7 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 
 <polymer-element name="leaderboard-select-round"
-                 attributes="userDetails upcomingTournaments tournamentToScoreId roundToScoreId wide">
+                 attributes="userDetails upcomingTournaments tournamentToViewId tournamentToScoreId roundToScoreId wide">
   <template>
     <link rel="stylesheet" href="leaderboard-select-round.css">
 
@@ -103,6 +103,7 @@
 
           this.tournamentToScoreId = event.currentTarget.attributes.tournamentId.value;
           this.roundToScoreId = event.currentTarget.attributes.roundId.value;
+          this.tournamentToViewId = this.tournamentToScoreId;
 
           this.fire('score-group');
         }
