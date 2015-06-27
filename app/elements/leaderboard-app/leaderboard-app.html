@@ -134,7 +134,7 @@
 
               responsiveWidth: '900px',
 
-              minSplashTime: 1000,
+              minSplashTime: 2000,
 
               joinTournament: true,
 
@@ -152,6 +152,7 @@
               ready: function() {
 
                 this.readyTime = Date.now();
+                console.log(Date.now());
 
                 this.setGlobalStyles('auth');
 
@@ -247,6 +248,7 @@
                   this.splashElement.children[0].classList.add('splash-fade--fade-out');
                   this.async(function () {
                     this.splashElement.classList.add('splash--hide');
+                    console.log(Date.now());
                   }, null, 350);
 
                 } else {
