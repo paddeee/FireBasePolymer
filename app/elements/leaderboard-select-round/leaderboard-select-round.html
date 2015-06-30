@@ -46,7 +46,7 @@
                 <div horizontal center layout>
                   <div vertical layout flex>
                     <div>Round {{roundIndex + 1}}</div>
-                    <div>{{round.date}}</div>
+                    <div>{{ prettifyDate(round.date) }}</div>
                     <div>{{round.venue}}</div>
                     <div hidden?="{{round.name.length === 0}}">{{round.name}}</div>
                     <div>{{round.teebox.name}} Tees</div>
@@ -98,15 +98,20 @@
           this.fire('create-group');
         },
 
-        // Jump into the 'Score Group' user journey
-        scoreGroupHandler: function(event) {
+          // Jump into the 'Score Group' user journey
+          scoreGroupHandler: function(event) {
 
-          this.tournamentToScoreId = event.currentTarget.attributes.tournamentId.value;
-          this.roundToScoreId = event.currentTarget.attributes.roundId.value;
-          this.tournamentToViewId = this.tournamentToScoreId;
+              this.tournamentToScoreId = event.currentTarget.attributes.tournamentId.value;
+              this.roundToScoreId = event.currentTarget.attributes.roundId.value;
+              this.tournamentToViewId = this.tournamentToScoreId;
 
-          this.fire('score-group');
-        }
+              this.fire('score-group');
+          },
+
+          // Parse a date using moment.js
+          prettifyDate: function(dateString) {
+            return moment(dateString).calendar();
+          }
       });
 
     })();

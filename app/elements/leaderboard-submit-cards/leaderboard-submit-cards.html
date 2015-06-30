@@ -19,7 +19,7 @@
 
       <div class="round-details" layout vertical>
         <div class="tournament-name">Tournament - {{activeTournament.name}}</div>
-        <div class="round-date">{{roundToSubmit.date}}</div>
+        <div class="round-date">{{dateOfRound}}</div>
       </div>
 
       <template id="groupingTemplate" repeat="{{grouping, groupingIndex in groupings}}">
@@ -94,6 +94,15 @@
             this.groupings.forEach(function(grouping) {
               grouping.players.forEach(this.getPlayerScores, this);
             }, this);
+          }
+        },
+
+        // Can set parsed date of round
+        roundToSubmitChanged: function () {
+
+          // Parse date of round
+          if (this.roundToSubmit) {
+            this.dateOfRound = moment(this.roundToSubmit.date).calendar();
           }
         },
 

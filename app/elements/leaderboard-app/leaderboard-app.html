@@ -151,6 +151,9 @@
               // Set default hash to authentication if no hash specified in URL
               ready: function() {
 
+                  // Set moment.js locale
+                  moment.locale('en-gb');
+
                 this.readyTime = Date.now();
                 console.log(moment().format());
 
