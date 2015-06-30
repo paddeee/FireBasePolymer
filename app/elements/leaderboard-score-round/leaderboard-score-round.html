@@ -377,10 +377,10 @@
 
           this.$.userGrouping.commitProperty('players');
 
-          if (this.userGrouping && this.userGrouping.holesCompleted) {
-            this.$.userGrouping.commitProperty('holesCompleted');
-          }
+          // Sync holes completed with firebase
+          this.roundGroupings[this.userDetails.uid] = this.userGrouping;
 
+          // Sync player and rounds objects with firebase
           this.$.tournamentToScoreFireBase.commitProperty('players');
           this.$.tournamentToScoreFireBase.commitProperty('rounds');
         },
@@ -417,14 +417,17 @@
         // When any grouping in the round has a player added or removed but not the last player in the group
         groupingChanged: function(event) {
 
-          if (this.roundToScore && this.roundToScore.groupings && this.roundToScore.groupings[event.detail.name]) {
+          if (this.parentElement.selected !== 'score-round/score-group') {
 
-            this.roundToScore.groupings[event.detail.name].players = event.detail.value.players;
-          }
+            if (this.roundToScore && this.roundToScore.groupings && this.roundToScore.groupings[event.detail.name]) {
 
-          // If group update comes from a different grouping, update available players on create-group element directly
-          if (event.detail.name !== this.userDetails.uid) {
-            this.$.createGroup.getAvailablePlayers();
+              this.roundToScore.groupings[event.detail.name].players = event.detail.value.players;
+            }
+
+            // If group update comes from a different grouping, update available players on create-group element directly
+            if (event.detail.name !== this.userDetails.uid) {
+              this.$.createGroup.getAvailablePlayers();
+            }
           }
         },
 

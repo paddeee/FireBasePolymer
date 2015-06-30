@@ -151,11 +151,10 @@
               // Set default hash to authentication if no hash specified in URL
               ready: function() {
 
-                  // Set moment.js locale
-                  moment.locale('en-gb');
+                // Set moment.js locale
+                moment.locale('en-gb');
 
                 this.readyTime = Date.now();
-                console.log(moment().format());
 
                 this.setGlobalStyles('auth');
 
@@ -224,7 +223,6 @@
               },
 
               completeStartup: function() {
-                console.log('completeStartup');
 
                 if (this.statusKnown) {
                   if (this.user) {
@@ -233,7 +231,7 @@
                       //Wrap in async as new sigup can mean this firing twice instantly which makes browser throw wobbly
                       this.async(function () {
                         this.route = this.landingRoute;
-                      }, null, 0);
+                      }, null, 350);
 
                     } else {
                       this.route = 'menu';
