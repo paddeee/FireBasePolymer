@@ -152,7 +152,7 @@
               ready: function() {
 
                 this.readyTime = Date.now();
-                console.log(Date.now());
+                console.log(moment().format());
 
                 this.setGlobalStyles('auth');
 
@@ -221,6 +221,7 @@
               },
 
               completeStartup: function() {
+                console.log('completeStartup');
 
                 if (this.statusKnown) {
                   if (this.user) {
@@ -229,7 +230,7 @@
                       //Wrap in async as new sigup can mean this firing twice instantly which makes browser throw wobbly
                       this.async(function () {
                         this.route = this.landingRoute;
-                      }, null, 200);
+                      }, null, 0);
 
                     } else {
                       this.route = 'menu';
@@ -247,8 +248,8 @@
                   // Fade out splash screen after delay
                   this.splashElement.children[0].classList.add('splash-fade--fade-out');
                   this.async(function () {
+                    console.log(moment().format());
                     this.splashElement.classList.add('splash--hide');
-                    console.log(Date.now());
                   }, null, 350);
 
                 } else {
