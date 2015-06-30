@@ -417,17 +417,14 @@
         // When any grouping in the round has a player added or removed but not the last player in the group
         groupingChanged: function(event) {
 
-          if (this.parentElement.selected !== 'score-round/score-group') {
+          if (this.roundToScore && this.roundToScore.groupings && this.roundToScore.groupings[event.detail.name]) {
 
-            if (this.roundToScore && this.roundToScore.groupings && this.roundToScore.groupings[event.detail.name]) {
+            this.roundToScore.groupings[event.detail.name].players = event.detail.value.players;
+          }
 
-              this.roundToScore.groupings[event.detail.name].players = event.detail.value.players;
-            }
-
-            // If group update comes from a different grouping, update available players on create-group element directly
-            if (event.detail.name !== this.userDetails.uid) {
-              this.$.createGroup.getAvailablePlayers();
-            }
+          // If group update comes from a different grouping, update available players on create-group element directly
+          if (event.detail.name !== this.userDetails.uid) {
+            this.$.createGroup.getAvailablePlayers();
           }
         },
 

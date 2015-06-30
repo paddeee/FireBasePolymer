@@ -379,7 +379,7 @@
           if (this.players.length > 0 && this.players.length === playersScoredOnHole.length) {
 
             // Update holesCompleted
-            if (!this.userGrouping.holesCompleted.length) {
+            if (!this.userGrouping.holesCompleted || !this.userGrouping.holesCompleted.length) {
 
               // If no holes yet completed and tournament doesn't yet have a status, it can now be set to 'active'
               if (this.tournamentToScore.status === 'pending') {
