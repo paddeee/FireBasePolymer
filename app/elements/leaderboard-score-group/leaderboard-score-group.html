@@ -280,8 +280,10 @@
         showHoleNumber: function(event) {
           this.previousHoleNumber = this.holeNumber;
 
+          // Called by user action
           if (event) {
             this.holeNumber = parseInt(event.currentTarget.attributes.hole.value, 10);
+          // Called by code
           } else {
             if ( this.userGrouping.holesCompleted) {
               this.holeNumber = this.userGrouping.holesCompleted.length +1;
