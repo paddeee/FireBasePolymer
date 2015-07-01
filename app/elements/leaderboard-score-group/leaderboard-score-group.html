@@ -212,6 +212,8 @@
           if (this.userGrouping && !this.userGrouping.holesCompleted) {
             this.userGrouping.holesCompleted = [];
           }
+
+          this.showHoleNumber();
         },
 
         // When holeNumber changes sync up some updates
@@ -277,7 +279,14 @@
         // Transition to specific hole number
         showHoleNumber: function(event) {
           this.previousHoleNumber = this.holeNumber;
-          this.holeNumber = parseInt(event.currentTarget.attributes.hole.value, 10);
+
+          if (event) {
+            this.holeNumber = parseInt(event.currentTarget.attributes.hole.value, 10);
+          } else {
+            if ( this.userGrouping.holesCompleted) {
+              this.holeNumber = this.userGrouping.holesCompleted.length +1;
+            }
+          }
         },
 
         // Transition to previous hole
@@ -445,7 +454,6 @@
           this.players.forEach(function(player) {
 
             for (var playerKey in this.tournamentToScore.players) {
-
 
               if (typeof this.tournamentToScore.players[playerKey] === 'string') {
 
