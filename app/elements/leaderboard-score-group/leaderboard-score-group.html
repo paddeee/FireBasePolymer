@@ -32,7 +32,7 @@
       <div id="GroupContent" class="group-content" cross-fade flex vertical layout>
         <div class="card" flex vertical layout>
           <div class="group-view" flex>
-            <div class="four-quarter">
+            <div class="{{ setTemplateClass() }}  players-container">
               <div id="players" fit horizontal wrap layout>
                 <template repeat="{{player in players}}">
                   <div class="player" layout vertical>
@@ -498,7 +498,6 @@
               }
             }
           }
-
           this.tournamentToScore.players[playerKey] = tournamentPlayerScoreObject;
         },
 
@@ -581,6 +580,31 @@
               return completed !== undefined;
             }).length;
           }
+        },
+
+        // Navigate to Score Round
+        setTemplateClass: function() {
+
+          var templateClassName;
+
+          switch(this.players.length) {
+            case 1:
+              templateClassName = 'one-player';
+              break;
+            case 2:
+              templateClassName = 'two-players';
+              break;
+            case 3:
+              templateClassName = 'three-players';
+              break;
+            case 4:
+              templateClassName = 'four-players';
+              break;
+            default:
+              templateClassName = 'one-player';
+          }
+
+          return templateClassName;
         },
 
         // Navigate to Score Round
