@@ -389,9 +389,13 @@
 
             this.userGrouping.holesCompleted[this.previousHoleNumber - 1] = 'true';
 
-            // Update thru value
+             //  If thru has not already been set to a higher value (user can jump back thorugh holes so need to avoid updating in that case)
             if (this.userGrouping.holesCompleted && this.userGrouping.holesCompleted.length >= this.thru) {
               this.thru = this.userGrouping.holesCompleted.length;
+
+            // Else round has been completed so we can reset thru
+            } else if (this.thru === 19) {
+              this.thru = 0;
             }
 
             this.updateTournamentScore();
@@ -536,6 +540,9 @@
           // Set statuses at grouping and round level
           this.tournamentToScore.rounds[this.roundToScore.roundId].roundStatus = 'pending';
           this.userGrouping.groupStatus = 'pending';
+
+          // Reset  thru  ready for next round
+          this.thru = 19;
 
           this.fire('hole-score-completed');
           this.$.RoundComplete.open();

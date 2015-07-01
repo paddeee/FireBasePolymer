@@ -83,7 +83,7 @@
                     </div>
                     <div layout flex class="name">{{player.name}}</div>
                     <div layout flex class="score">{{player.score}}</div>
-                    <div layout flex class="thru">{{player.thru}}</div>
+                    <div layout flex class="thru">{{player.thru === '0' ? '-' : player.thru}}</div>
                     <div class="delta" hidden?="{{!player.delta || !player.rising}}">{{player.delta}}</div>
                     <div>{{player.roundScore}}</div>
                   </div>
