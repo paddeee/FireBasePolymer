@@ -72,6 +72,9 @@ core-toolbar {
   padding: 0 16px;
   font-size: 12px; }
 
+.section-name .section-icon {
+  left: 24px; }
+
 .scoreboard,
 .profile {
   color: #fff; }
@@ -139,3 +142,7 @@ core-toolbar {
   left: calc(100% / 6);
   width: calc(100% / 6);
   height: calc(100% / 3 - 4px); }
+
+:host .home-button /deep/ core-icon {
+  height: 0;
+  width: 0;}
