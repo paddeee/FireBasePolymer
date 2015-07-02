@@ -228,19 +228,19 @@
                   if (this.user) {
                     if (this.landingRoute.length && this.landingRoute !== 'profile') {
 
-                      //Wrap in async as new sigup can mean this firing twice instantly which makes browser throw wobbly
-                      this.async(function () {
+                      //Wrap in async as new signup can mean this firing twice instantly which makes browser throw wobbly
+                      //this.async(function () {
                         this.route = this.landingRoute;
-                      }, null, 350);
+                     // }, null, 0);
 
                     } else {
                       this.route = 'menu';
                     }
 
                     // Reset landingRoute
-                    if (this.landingRoute !== 'scoreboard') {
+                    /*if (this.landingRoute !== 'scoreboard') {
                       this.landingRoute = 'menu';
-                    }
+                    }*/
 
                   } else {
                     this.enterAuthentication();

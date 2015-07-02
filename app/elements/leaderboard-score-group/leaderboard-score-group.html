@@ -32,7 +32,7 @@
       <div id="GroupContent" class="group-content" cross-fade flex vertical layout>
         <div class="card" flex vertical layout>
           <div class="group-view" flex>
-            <div class="four-quarter">
+            <div class="{{ groupNumbers }}  players-container">
               <div id="players" fit horizontal wrap layout>
                 <template repeat="{{player in players}}">
                   <div class="player" layout vertical>
@@ -161,7 +161,8 @@
       Polymer({
 
         observe: {
-          'userGrouping.holesCompleted': 'updateHolesCompletedLength'
+          'userGrouping.holesCompleted': 'updateHolesCompletedLength',
+          'players': 'setTemplateClass'
         },
 
         // Number of hole being scored
@@ -169,6 +170,9 @@
 
         // Number of hole group is thru
         thru: 0,
+
+        // Used for CSS class of number of players in a group
+        groupNumbers: 'one-player',
 
         // Keep record of previos hole number so it can be used after navigating away
         previousHoleNumber: 0,
@@ -212,6 +216,9 @@
           if (this.userGrouping && !this.userGrouping.holesCompleted) {
             this.userGrouping.holesCompleted = [];
           }
+
+          this.setTemplateClass();
+          this.showHoleNumber();
         },
 
         // When holeNumber changes sync up some updates
@@ -277,7 +284,16 @@
         // Transition to specific hole number
         showHoleNumber: function(event) {
           this.previousHoleNumber = this.holeNumber;
-          this.holeNumber = parseInt(event.currentTarget.attributes.hole.value, 10);
+
+          // Called by user action
+          if (event) {
+            this.holeNumber = parseInt(event.currentTarget.attributes.hole.value, 10);
+          // Called by code
+          } else {
+            if ( this.userGrouping.holesCompleted) {
+              this.holeNumber = this.userGrouping.holesCompleted.length +1;
+            }
+          }
         },
 
         // Transition to previous hole
@@ -389,9 +405,13 @@
 
             this.userGrouping.holesCompleted[this.previousHoleNumber - 1] = 'true';
 
-            // Update thru value
+             //  If thru has not already been set to a higher value (user can jump back thorugh holes so need to avoid updating in that case)
             if (this.userGrouping.holesCompleted && this.userGrouping.holesCompleted.length >= this.thru) {
               this.thru = this.userGrouping.holesCompleted.length;
+
+            // Else round has been completed so we can reset thru
+            } else if (this.thru === 19) {
+              this.thru = 0;
             }
 
             this.updateTournamentScore();
@@ -442,7 +462,6 @@
 
             for (var playerKey in this.tournamentToScore.players) {
 
-
               if (typeof this.tournamentToScore.players[playerKey] === 'string') {
 
                 if (this.tournamentToScore.players[playerKey] === player.uid) {
@@ -484,7 +503,6 @@
               }
             }
           }
-
           this.tournamentToScore.players[playerKey] = tournamentPlayerScoreObject;
         },
 
@@ -537,6 +555,9 @@
           this.tournamentToScore.rounds[this.roundToScore.roundId].roundStatus = 'pending';
           this.userGrouping.groupStatus = 'pending';
 
+          // Reset  thru  ready for next round
+          this.thru = 19;
+
           this.fire('hole-score-completed');
           this.$.RoundComplete.open();
         },
@@ -563,6 +584,27 @@
             this.holesCompletedLength = this.userGrouping.holesCompleted.filter(function(completed) {
               return completed !== undefined;
             }).length;
+          }
+        },
+
+        // Navigate to Score Round
+        setTemplateClass: function() {
+
+          switch(this.players.length) {
+            case 1:
+              this.groupNumbers = 'one-player';
+              break;
+            case 2:
+              this.groupNumbers = 'two-players';
+              break;
+            case 3:
+              this.groupNumbers = 'three-players';
+              break;
+            case 4:
+              this.groupNumbers = 'four-players';
+              break;
+            default:
+              this.groupNumbers = 'one-player';
           }
         },
 
