@@ -75,6 +75,11 @@ core-toolbar {
 .section-name .section-icon {
   left: 24px; }
 
+.scoreboard .section-name .section-icon,
+.profile .section-name .section-icon {
+  left: 0;
+}
+
 .scoreboard,
 .profile {
   color: #fff; }

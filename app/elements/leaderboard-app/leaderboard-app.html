@@ -237,11 +237,6 @@
                       this.route = 'menu';
                     }
 
-                    // Reset landingRoute
-                    /*if (this.landingRoute !== 'scoreboard') {
-                      this.landingRoute = 'menu';
-                    }*/
-
                   } else {
                     this.enterAuthentication();
                   }
@@ -254,7 +249,7 @@
                   }, null, 350);
 
                 } else {
-                  this.completeStartup();
+                  this.startup();
                 }
 
               },
