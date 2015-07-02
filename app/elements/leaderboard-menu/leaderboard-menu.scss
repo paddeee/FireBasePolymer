@@ -94,6 +94,17 @@ core-toolbar {
   }
 }
 
+.scoreboard,
+.profile {
+
+  .section-name {
+
+    .section-icon {
+      left: 0;
+    }
+  }
+}
+
 /* wide layout */
 .wide.section-list {
   padding: 4px 0;

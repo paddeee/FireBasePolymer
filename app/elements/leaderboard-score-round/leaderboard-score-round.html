@@ -378,12 +378,14 @@
 
           this.$.userGrouping.commitProperty('players');
 
-          // Sync holes completed with firebase
-          this.roundGroupings[this.userDetails.uid] = this.userGrouping;
-
           // Sync player and rounds objects with firebase
           this.$.tournamentToScoreFireBase.commitProperty('players');
           this.$.tournamentToScoreFireBase.commitProperty('rounds');
+
+          // Sync holes completed with firebase
+          if (this.selected === 'scoreGroup') {
+            this.roundGroupings[this.userDetails.uid] = this.userGrouping;
+          }
         },
 
         // When a player is added or removed, update upComingTournaments object so the select round page is kept in sync

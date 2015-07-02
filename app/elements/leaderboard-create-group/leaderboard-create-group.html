@@ -337,7 +337,7 @@
           event.currentTarget.classList.add("raised");
 
           // If first player is being added to this round, trigger 'create-new-group' event
-          if (!this.userGrouping) {
+          if (!this.userGrouping || !this.userGrouping.players) {
 
             // Create array for players object containing the first record
             this.groupPlayerToSet = {
