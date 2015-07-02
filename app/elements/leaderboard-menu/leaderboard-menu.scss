@@ -88,6 +88,10 @@ core-toolbar {
   height: 48px;
   padding: 0 16px;
   font-size: 12px;
+
+  .section-icon {
+    left: 24px;
+  }
 }
 
 /* wide layout */
@@ -154,4 +158,9 @@ core-toolbar {
   left: calc(100% / 6);
   width: calc(100% / 6);
   height: calc(100% / 3 - 4px);
+}
+
+:host .home-button /deep/ core-icon {
+  height: 0;
+  width: 0;
 }
