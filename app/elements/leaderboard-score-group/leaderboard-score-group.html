@@ -32,7 +32,7 @@
       <div id="GroupContent" class="group-content" cross-fade flex vertical layout>
         <div class="card" flex vertical layout>
           <div class="group-view" flex>
-            <div class="{{ setTemplateClass() }}  players-container">
+            <div class="{{ groupNumbers }}  players-container">
               <div id="players" fit horizontal wrap layout>
                 <template repeat="{{player in players}}">
                   <div class="player" layout vertical>
@@ -161,7 +161,8 @@
       Polymer({
 
         observe: {
-          'userGrouping.holesCompleted': 'updateHolesCompletedLength'
+          'userGrouping.holesCompleted': 'updateHolesCompletedLength',
+          'players': 'setTemplateClass'
         },
 
         // Number of hole being scored
@@ -169,6 +170,9 @@
 
         // Number of hole group is thru
         thru: 0,
+
+        // Used for CSS class of number of players in a group
+        groupNumbers: 'one-player',
 
         // Keep record of previos hole number so it can be used after navigating away
         previousHoleNumber: 0,
@@ -213,6 +217,7 @@
             this.userGrouping.holesCompleted = [];
           }
 
+          this.setTemplateClass();
           this.showHoleNumber();
         },
 
@@ -585,26 +590,22 @@
         // Navigate to Score Round
         setTemplateClass: function() {
 
-          var templateClassName;
-
           switch(this.players.length) {
             case 1:
-              templateClassName = 'one-player';
+              this.groupNumbers = 'one-player';
               break;
             case 2:
-              templateClassName = 'two-players';
+              this.groupNumbers = 'two-players';
               break;
             case 3:
-              templateClassName = 'three-players';
+              this.groupNumbers = 'three-players';
               break;
             case 4:
-              templateClassName = 'four-players';
+              this.groupNumbers = 'four-players';
               break;
             default:
-              templateClassName = 'one-player';
+              this.groupNumbers = 'one-player';
           }
-
-          return templateClassName;
         },
 
         // Navigate to Score Round
