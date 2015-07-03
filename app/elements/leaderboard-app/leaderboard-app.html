@@ -166,10 +166,6 @@
                 // Set moment.js locale
                 moment.locale('en-gb');
 
-                // Start tracking hash changes to manage navigation buttons
-                //window.onhashchange = this.locationHashChanged.bind(this);
-                  window.addEventListener("hashchange", this.locationHashChanged( ));
-
                 this.readyTime = Date.now();
 
                 this.setGlobalStyles('auth');
@@ -204,6 +200,9 @@
                 } else {
                   this.setGlobalStyles('section');
                 }
+
+               // Start tracking hash changes to manage navigation buttons
+               this.hashHistory.push(window.location.hash);
               },
 
               // Triggered when user logged out to force users to authentication
@@ -308,12 +307,7 @@
               // If route is more than one level deep, strip the end off
               parseLandingRoute: function(landingRoute) {
                 return landingRoute.replace(/\/([^\/\?]+)/g, '');
-              },
-
-                locationHashChanged: function() {
-
-                    this.hashHistory.push(window.location.hash);
-                }
+              }
             });
 
         })();
