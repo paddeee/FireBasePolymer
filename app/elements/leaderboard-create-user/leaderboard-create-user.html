@@ -4,21 +4,21 @@
   <template>
     <link rel="stylesheet" href="leaderboard-create-user.css">
     <paper-input-decorator id="email" error="Please enter a valid email address"
-                           floatingLabel label="Email">
+                           floatingLabel label="Email"   on-keypress="{{ keypressAction }}">
       <input id="email_input" is="core-input" type="email" on-keyup="{{ validate }}"
              value="{{email}}" required>
     </paper-input-decorator>
     <paper-input-decorator id="password" error="Password is required"
-                           floatingLabel label="Password">
+                           floatingLabel label="Password"   on-keypress="{{ keypressAction }}">
       <input id="password_input" is="core-input" type="password" on-keyup="{{ validate }}"
              value="{{password}}" required>
     </paper-input-decorator>
 
-    <paper-input-decorator id="name" floatingLabel label="Name">
+    <paper-input-decorator id="name" floatingLabel label="Name"   on-keypress="{{ keypressAction }}">
       <input id="name_input" is="core-input" type="text" value="{{name}}" required>
     </paper-input-decorator>
 
-    <paper-input-decorator id="handicap" floatingLabel label="Handicap (optional)" >
+    <paper-input-decorator id="handicap" floatingLabel label="Handicap (optional)"  on-keypress="{{ keypressAction }}">
       <input id="handicap_input" floatinglabel is="core-input" type="number" value="{{handicap}}">
     </paper-input>
     </paper-input-decorator>
@@ -48,6 +48,25 @@
         showFab: false,
 
         handicap: 18,
+
+        // tab through the input fields on "Enter"
+        keypressAction: function(ev) {
+          var code = ev.keyCode || ev.charCode;
+          var key = ev.keyIdentifier;
+          if (key === 'Enter' || code === 13) {
+            var target = ev.currentTarget;
+            if (target === this.$.email) {
+              this.$.password_input.focus();
+            } else if (target === this.$.password) {
+                this.$.name_input.focus();
+            } else if (target === this.$.name) {
+              this.$.handicap_input.focus();
+            } else if (target === this.$.handicap) {
+              // after "last" field, lower keyboard to show fab button
+              this.$.handicap_input.blur();
+            }
+          }
+        },
 
         // Paper-input-decorators need floating label resetting when value of child input is changed programmatically
         resetDecorators: function() {

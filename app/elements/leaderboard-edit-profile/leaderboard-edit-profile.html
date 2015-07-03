@@ -44,10 +44,9 @@
           if (key === 'Enter' || code === 13) {
             var target = ev.currentTarget;
             if (target === this.$.name) {
-              // TODO: calling the focus event handler in lieu of a real api
               this.$.handicap_input.focus();
             } else if (target === this.$.handicap) {
-              // after "last" field, lower keyboard to show fab button
+              // after last field, lower keyboard to show fab button
               this.$.handicap_input.blur();
             }
           }
