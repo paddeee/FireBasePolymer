@@ -8,11 +8,11 @@
                       dataReady="{{userReady}}">
     </firebase-element>
 
-    <paper-input-decorator id="name" floatingLabel label="Name">
+    <paper-input-decorator id="name" floatingLabel label="Name"  on-keypress="{{ keypressAction }}">
       <input id="name_input" is="core-input" type="text" value="{{name}}" required>
     </paper-input-decorator>
 
-    <paper-input-decorator id="handicap" floatingLabel label="Handicap (optional)" >
+    <paper-input-decorator id="handicap" floatingLabel label="Handicap (optional)"  on-keypress="{{ keypressAction }}">
       <input id="handicap_input" floatinglabel is="core-input" type="number" value="{{handicap}}">
       </paper-input>
     </paper-input-decorator>
@@ -36,6 +36,22 @@
       Polymer({
 
         handicap: 18,
+
+        // tab through the input fields on "Enter"
+        keypressAction: function(ev) {
+          var code = ev.keyCode || ev.charCode;
+          var key = ev.keyIdentifier;
+          if (key === 'Enter' || code === 13) {
+            var target = ev.currentTarget;
+            if (target === this.$.name) {
+              // TODO: calling the focus event handler in lieu of a real api
+              this.$.handicap_input.focus();
+            } else if (target === this.$.handicap) {
+              // after "last" field, lower keyboard to show fab button
+              this.$.handicap_input.blur();
+            }
+          }
+        },
 
         observe: {
           'userReady': 'getUserDetails'
