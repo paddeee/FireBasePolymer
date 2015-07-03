@@ -2,7 +2,7 @@
 
     <polymer-element
       name="leaderboard-tournament-manager"
-      attributes="selected route userDetails tournamentToJoinId hostUserId joinTournament tournamentJoinedName wide">
+      attributes="selected route userDetails tournamentToJoinId hostUserId joinTournament tournamentJoinedName hashHistory wide">
       <template>
         <link rel="stylesheet" href="leaderboard-tournament-manager.css">
 
@@ -401,10 +401,15 @@
           }
         },
 
-        // Handler for back button in toolbar
-        backNavigation: function() {
-          window.history.back();
-        },
+          // Handler for back button in toolbar
+          backNavigation: function() {
+              // If user has landed directly on stats, Go to the menu
+              if (this.hashHistory.length <= 2) {
+                  window.location.hash = 'menu';
+              } else {
+                  window.history.back();
+              }
+          },
 
         // Handler for home button in toolbar. If on top level route, go straight to menu. Otherwise go back to top level
         // route and then go back to menu as deep routes won't be recognised in parent core animated pages element

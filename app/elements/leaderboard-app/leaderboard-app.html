@@ -26,7 +26,7 @@
           flex
           auto>
 
-          <leaderboard-menu hash="menu" userDetails="{{userDetails}}" wide="{{wide}}" cascadeMenu="{{cascadeMenu}}"
+          <leaderboard-menu hash="menu" userDetails="{{userDetails}}" wide="{{wide}}"
                             section="{{section}}" on-core-activate="{{sectionSelect}}">
           </leaderboard-menu>
 
@@ -38,6 +38,7 @@
                                           joinTournament="{{joinTournament}}"
                                           route="{{route}}"
                                           tournamentJoinedName="{{tournamentJoinedName}}"
+                                          hashHistory="{{hashHistory}}"
                                           vertical layout
                                           on-tournament-join-successful="{{tournamentJoinSuccess}}">
           </leaderboard-tournament-manager>
@@ -51,6 +52,7 @@
                                    roundToScore="{{roundToScore}}"
                                    roundToScoreId="{{roundToScoreId}}"
                                    upcomingTournaments="{{upcomingTournaments}}"
+                                   hashHistory="{{hashHistory}}"
                                    route="{{route}}"
                                    wide="{{wide}}"
                                    vertical layout>
@@ -71,36 +73,42 @@
                                  tournamentToScoreId="{{tournamentToScoreId}}"
                                  roundToScore="{{roundToScore}}"
                                  roundToScoreId="{{roundToScoreId}}"
+                                 hashHistory="{{hashHistory}}"
                                  wide="{{wide}}"
                                  vertical layout>
           </leaderboard-clubhouse>
 
           <leaderboard-betting hash="betting"
                                userDetails="{{userDetails}}"
+                               hashHistory="{{hashHistory}}"
                                wide="{{wide}}"
                                vertical layout>
           </leaderboard-betting>
 
           <leaderboard-about hash="about"
                              userDetails="{{userDetails}}"
+                             hashHistory="{{hashHistory}}"
                              wide="{{wide}}"
                              vertical layout>
           </leaderboard-about>
 
           <leaderboard-stats hash="stats"
                              userDetails="{{userDetails}}"
+                             hashHistory="{{hashHistory}}"
                              wide="{{wide}}"
                              vertical layout>
           </leaderboard-stats>
 
           <leaderboard-results hash="results"
                                userDetails="{{userDetails}}"
+                               hashHistory="{{hashHistory}}"
                                wide="{{wide}}"
                                vertical layout>
           </leaderboard-results>
 
           <leaderboard-course-information hash="courseinformation"
                                           userDetails="{{userDetails}}"
+                                          hashHistory="{{hashHistory}}"
                                           wide="{{wide}}"
                                           vertical layout>
           </leaderboard-course-information>
@@ -113,7 +121,7 @@
                                       layout center vertical
                                       on-user-logged-in="{{ completeStartup }}"
                                       on-user-logged-out="{{ enterAuthentication }}"
-                                      on-profile-changed="{{ completeStartup }}">
+                                      on-profile-changed="{{ goToMenu }}">
           </leaderboard-authentication>
 
         </core-animated-pages>
@@ -140,7 +148,9 @@
 
               hostUserId: '',
 
-              tournamentToJoinId: '',
+                hashHistory: [],
+
+            tournamentToJoinId: '',
 
               tournamentJoinedName: '',
 
@@ -155,6 +165,10 @@
 
                 // Set moment.js locale
                 moment.locale('en-gb');
+
+                // Start tracking hash changes to manage navigation buttons
+                //window.onhashchange = this.locationHashChanged.bind(this);
+                  window.addEventListener("hashchange", this.locationHashChanged( ));
 
                 this.readyTime = Date.now();
 
@@ -197,6 +211,16 @@
                 this.route = 'profile';
               },
 
+                // Triggered when user logged out to force users to authentication
+                goToMenu: function() {
+
+                    if (this.statusKnown) {
+                        if (this.user) {
+                            this.route = 'menu';
+                        }
+                    }
+                },
+
               // Hacky but necessary due to only being able to style certain parts of paper-inputs via the Global theme
               // in Polymer 0.5.1.
               setGlobalStyles: function(style) {
@@ -230,10 +254,7 @@
                   if (this.user) {
                     if (this.landingRoute.length && this.landingRoute !== 'profile') {
 
-                      //Wrap in async as new signup can mean this firing twice instantly which makes browser throw wobbly
-                      //this.async(function () {
-                        this.route = this.landingRoute;
-                     // }, null, 0);
+                      this.route = this.landingRoute;
 
                     } else {
                       this.route = 'menu';
@@ -247,15 +268,9 @@
                   this.splashElement.children[1].classList.add('splash-fade--fade-out');
                   this.splashElement.classList.add('splash--hide');
 
-                    // Set cascadeMenu to true after delay. Workaround for glitch with tile cascade on landing
-                    this.async(function () {
-                        this.cascadeMenu = true;
-                    }, null, 0);
-
                 } else {
                   this.startup();
                 }
-
               },
 
               sectionSelect: function() {
@@ -293,7 +308,12 @@
               // If route is more than one level deep, strip the end off
               parseLandingRoute: function(landingRoute) {
                 return landingRoute.replace(/\/([^\/\?]+)/g, '');
-              }
+              },
+
+                locationHashChanged: function() {
+
+                    this.hashHistory.push(window.location.hash);
+                }
             });
 
         })();

@@ -1,6 +1,6 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 
-<polymer-element name="leaderboard-stats" attributes="">
+<polymer-element name="leaderboard-stats" attributes="hashHistory">
   <template>
     <link rel="stylesheet" href="leaderboard-stats.css">
     <div id="sectionPanel" class="section-panel {{ {wide: wide} | tokenList }}"
@@ -52,9 +52,14 @@
 
       Polymer({
 
-        backNavigation: function() {
-          window.history.back();
-        },
+          backNavigation: function() {
+              // If user has landed directly on stats, Go to the menu
+              if (this.hashHistory.length <= 2) {
+                  window.location.hash = 'menu';
+              } else {
+                  window.history.back();
+              }
+          },
 
           homeNavigation: function() {
               window.location.hash = 'menu';

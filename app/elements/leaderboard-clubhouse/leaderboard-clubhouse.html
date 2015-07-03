@@ -1,6 +1,6 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 
-<polymer-element name="leaderboard-clubhouse" attributes="userDetails tournamentToScoreId roundToScore roundToScoreId tournamentOfRoundCompleted wide">
+<polymer-element name="leaderboard-clubhouse" attributes="userDetails tournamentToScoreId roundToScore roundToScoreId tournamentOfRoundCompleted hashHistory wide">
   <template>
     <link rel="stylesheet" href="leaderboard-clubhouse.css">
 
@@ -272,9 +272,15 @@
           }
         },
 
-        backNavigation: function() {
-            window.history.back();
-        },
+          // Handler for back button in toolbar
+          backNavigation: function() {
+              // If user has landed directly on stats, Go to the menu
+              if (this.hashHistory.length <= 2) {
+                  window.location.hash = 'menu';
+              } else {
+                  window.history.back();
+              }
+          },
 
         // Handler for home button in toolbar. If on top level route, go straight to menu. Otherwise go back to top level
         // route and then go back to menu as deep routes won't be recognised in parent core animated pages element
