@@ -1,4 +1,4 @@
-<polymer-element name="leaderboard-menu" attributes="section wide userDetails">
+<polymer-element name="leaderboard-menu" attributes="section wide userDetails cascadeMenu">
   <template>
     <link rel="stylesheet" href="leaderboard-menu.css">
 
@@ -13,7 +13,7 @@
     <core-selector valueattr="id"
                    class="section-list content {{ {wide: wide} | tokenList }}"
                    selected="{{selected}}"
-                   tile-cascade?="{{parentElement.lastSelected === 'profile' || parentElement.lastSelected === 'scoreboard'}}">
+                   tile-cascade?="{{cascadeMenu && (parentElement.lastSelected === 'profile' || parentElement.lastSelected === 'scoreboard')}}">
 
       <div id="score-round" class="menu-item scoreround" vertical layout>
         <div class="tile theme-bg-a" dummy fit></div>

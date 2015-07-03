@@ -26,7 +26,7 @@
           flex
           auto>
 
-          <leaderboard-menu hash="menu" userDetails="{{userDetails}}" wide="{{wide}}"
+          <leaderboard-menu hash="menu" userDetails="{{userDetails}}" wide="{{wide}}" cascadeMenu="{{cascadeMenu}}"
                             section="{{section}}" on-core-activate="{{sectionSelect}}">
           </leaderboard-menu>
 
@@ -146,6 +146,8 @@
 
               landingRoute: 'menu',
 
+             cascadeMenu: false,
+
               splashElement: document.querySelector('.splash'),
 
               // Set default hash to authentication if no hash specified in URL
@@ -243,10 +245,12 @@
 
                   // Fade out splash screen after delay
                   this.splashElement.children[0].classList.add('splash-fade--fade-out');
-                  this.async(function () {
-                    console.log(moment().format());
-                    this.splashElement.classList.add('splash--hide');
-                  }, null, 350);
+                  this.splashElement.classList.add('splash--hide');
+
+                    // Set cascadeMenu to true after delay. Workaround for glitch with tile cascade on landing
+                    this.async(function () {
+                        this.cascadeMenu = true;
+                    }, null, 0);
 
                 } else {
                   this.startup();
