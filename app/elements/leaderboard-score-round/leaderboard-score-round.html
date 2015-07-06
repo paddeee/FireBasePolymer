@@ -273,9 +273,6 @@
               }
 
               this.selectRoundButtonSelected === '';
-
-          } else if (this.parentElement.selected === 'clubhouse') {
-              this.updateUpcomingTournaments(this.tournamentToScore.id, this.tournamentToScore);
           }
         },
 
@@ -429,9 +426,13 @@
             this.roundToScore.groupings[event.detail.name].players = event.detail.value.players;
           }
 
-          // If group update comes from a different grouping, update available players on create-group element directly
-          if (event.detail.name !== this.userDetails.uid) {
-            this.$.createGroup.getAvailablePlayers();
+          // This can be triggered from Submit Groupings in Clubhouse
+          if (this.parentElement.selected === 'score-round') {
+
+              // If group update comes from a different grouping, update available players on create-group element directly
+              if (event.detail.name !== this.userDetails.uid) {
+                  this.$.createGroup.getAvailablePlayers();
+              }
           }
         },
 

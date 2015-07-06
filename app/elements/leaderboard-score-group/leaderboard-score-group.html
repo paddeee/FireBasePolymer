@@ -213,10 +213,9 @@
         userGroupingChanged: function () {
           if (this.userGrouping && !this.userGrouping.holesCompleted) {
             this.userGrouping.holesCompleted = [];
+            this.setTemplateClass();
+            this.showHoleNumber();
           }
-
-          this.setTemplateClass();
-          this.showHoleNumber();
         },
 
         // When holeNumber changes sync up some updates
@@ -288,7 +287,7 @@
             this.holeNumber = parseInt(event.currentTarget.attributes.hole.value, 10);
           // Called by code
           } else {
-            if ( this.userGrouping.holesCompleted) {
+            if (this.userGrouping.holesCompleted && this.userGrouping.holesCompleted.length) {
               this.holeNumber = this.userGrouping.holesCompleted.length +1;
             }
           }

@@ -190,7 +190,7 @@
         groupingChanged: function(event) {
 
           // If the grouping has changed, keep the activeTournament object in sync so Submit Cards is up to date
-          if (event.detail.value.groupStatus && event.detail.value.groupStatus === 'pending') {
+          if (event.detail.value.groupStatus && event.detail.value.groupStatus === 'pending' || event.detail.value.groupStatus === 'complete') {
             this.getTournamentObject(this.activeTournament.id);
           }
         },
