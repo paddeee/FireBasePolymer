@@ -239,6 +239,7 @@
 
         // Show/Hide Check Fab button as user enters data
         manageFabButton: function() {
+
           if (this.userGrouping && this.userGrouping.players && this.userGrouping.players.length) {
             this.showScoreGroupButton = true;
           } else {
@@ -265,13 +266,16 @@
           // If that's the case we don't want to create or score groups.
           if (this.parentElement.selected === 'score-round') {
 
-            if (this.selectRoundButtonSelected === 'create-group') {
-              this.createGroup();
-            } else if (this.selectRoundButtonSelected === 'score-group') {
-              this.scoreGroup();
-            }
+              if (this.selectRoundButtonSelected === 'create-group') {
+                  this.createGroup();
+              } else if (this.selectRoundButtonSelected === 'score-group') {
+                  this.scoreGroup();
+              }
 
-            this.selectRoundButtonSelected === '';
+              this.selectRoundButtonSelected === '';
+
+          } else if (this.parentElement.selected === 'clubhouse') {
+              this.updateUpcomingTournaments(this.tournamentToScore.id, this.tournamentToScore);
           }
         },
 
@@ -418,10 +422,10 @@
         },
 
         // When any grouping in the round has a player added or removed but not the last player in the group
+        // Also could be triggered by a grouping status change
         groupingChanged: function(event) {
 
           if (this.roundToScore && this.roundToScore.groupings && this.roundToScore.groupings[event.detail.name]) {
-
             this.roundToScore.groupings[event.detail.name].players = event.detail.value.players;
           }
 
@@ -482,7 +486,9 @@
 
         // Sync the round complete status
         roundCompleted: function() {
-          this.updateUpcomingTournaments(this.tournamentOfRoundCompleted.id, this.tournamentOfRoundCompleted);
+            if (this.tournamentOfRoundCompleted && this.tournamentOfRoundCompleted.id) {
+                this.updateUpcomingTournaments(this.tournamentOfRoundCompleted.id, this.tournamentOfRoundCompleted);
+            }
         },
 
         // Animation completed so if home button was tapped we can navigate back to menu

@@ -11,9 +11,7 @@
                          layered="true"
                          heading="Round Scores Complete"
                          transition="core-transition-center">
-      <p>Review and Sign Off Scorecards in the 19th hole.</p>
-      <paper-button affirmative
-                    on-tap="{{goToScoreRound}}">Score Round</paper-button>
+      <p>Review and Sign Off Scorecards in the Clubhouse.</p>
       <paper-button affirmative
                     on-tap="{{goToMenu}}"
                     autofocus>Menu</paper-button>
@@ -606,11 +604,6 @@
             default:
               this.groupNumbers = 'one-player';
           }
-        },
-
-        // Navigate to Score Round
-        goToScoreRound: function() {
-          this.fire('go-to-score-round');
         },
 
         // Show Live Scores Leaderboard
