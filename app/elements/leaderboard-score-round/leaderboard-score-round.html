@@ -28,7 +28,8 @@
     <firebase-element id="userGrouping"
                       location="{{userDetails && tournamentToScoreId && roundToScoreId ? tournamentsLocation + tournamentToScoreId + '/rounds/' + roundToScoreId + '/groupings/' + userDetails.uid : null}}"
                       dataReady="{{userGroupingReady}}"
-                      data="{{userGrouping}}">
+                      data="{{userGrouping}}"
+            log>
     </firebase-element>
 
     <firebase-element id="roundGroupings"
@@ -385,7 +386,14 @@
 
           // Sync holes completed with firebase
           if (this.selected === 'scoreGroup') {
-            this.roundGroupings[this.userDetails.uid] = this.userGrouping;
+
+              /* ToDo: The change to roundGroupings below syncs with Firebase. It is wrapped in an async as it caused the following issue.
+              When a user had completed a round and their card had been submitted from another device by another user, the next round where they did a hole change
+              added the holesCompleted property in Firebase and then immediately removed it. It seems like this call was being made too soon after the  rounds
+              commitProperty above. Maybe Firebase's spam protection was kicking in. By delaying the below call, it seems to fix the issue. Maybe there's a nicer way of doing this. */
+              this.async(function() {
+                  this.roundGroupings[this.userDetails.uid] = this.userGrouping;
+              }, null, 500);
           }
         },
 
