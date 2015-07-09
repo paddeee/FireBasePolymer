@@ -28,8 +28,7 @@
     <firebase-element id="userGrouping"
                       location="{{userDetails && tournamentToScoreId && roundToScoreId ? tournamentsLocation + tournamentToScoreId + '/rounds/' + roundToScoreId + '/groupings/' + userDetails.uid : null}}"
                       dataReady="{{userGroupingReady}}"
-                      data="{{userGrouping}}"
-            log>
+                      data="{{userGrouping}}">
     </firebase-element>
 
     <firebase-element id="roundGroupings"
@@ -39,7 +38,8 @@
                       on-child-changed="{{groupingChanged}}"
                       on-child-removed="{{playerRemovedFromGrouping}}"
                       data="{{roundGroupings}}"
-                      childEvents>
+                      childEvents
+      log>
     </firebase-element>
 
     <div id="sectionPanel" class="section-panel {{ {wide: wide} | tokenList }}"
@@ -380,15 +380,9 @@
 
           // Sync player and rounds objects with firebase
           this.$.tournamentToScoreFireBase.commitProperty('players');
+          this.tournamentToScore.rounds[this.roundToScoreId].groupings[this.userDetails.uid] = this.userGrouping;
           this.$.tournamentToScoreFireBase.commitProperty('rounds');
 
-          /* ToDo: The change to roundGroupings below syncs with Firebase. It is wrapped in an async as it caused the following issue.
-          When a user had completed a round and their card had been submitted from another device by another user, the next round where they did a hole change
-          added the holesCompleted property in Firebase and then immediately removed it. It seems like this call was being made too soon after the  rounds
-          commitProperty above. Maybe Firebase's spam protection was kicking in. By delaying the below call, it seems to fix the issue. Maybe there's a nicer way of doing this. */
-          this.async(function() {
-              this.roundGroupings[this.userDetails.uid] = this.userGrouping;
-          }, null, 500);
         },
 
         // When a player is added or removed, update upComingTournaments object so the select round page is kept in sync

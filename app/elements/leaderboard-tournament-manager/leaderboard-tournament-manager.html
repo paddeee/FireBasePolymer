@@ -11,15 +11,13 @@
         <firebase-element id="userHostedTournamentsFireBase"
                           location="{{userDetails ? 'https://incandescent-heat-3687.firebaseio.com/users/' + userDetails.uid + '/hostedtournaments' : null}}"
                           dataReady="{{userHostedTournamentsReady}}"
-                          data="{{userHostedTournaments}}"
-          log>
+                          data="{{userHostedTournaments}}">
         </firebase-element>
 
         <firebase-element id="userTournamentsFireBase"
                           location="{{userDetails ? 'https://incandescent-heat-3687.firebaseio.com/users/' + userDetails.uid + '/tournaments' : null}}"
                           dataReady="{{userTournamentsReady}}"
-                          data="{{userTournaments}}"
-          log>
+                          data="{{userTournaments}}">
         </firebase-element>
 
         <firebase-element id="tournamentsFireBase"

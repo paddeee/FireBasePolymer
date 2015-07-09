@@ -1,6 +1,6 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 
-<polymer-element name="leaderboard-clubhouse" attributes="userDetails tournamentToScoreId  roundToScoreId tournamentOfRoundCompleted hashHistory wide">
+<polymer-element name="leaderboard-clubhouse" attributes="userDetails tournamentToScoreId roundToScoreId tournamentOfRoundCompleted hashHistory wide">
   <template>
     <link rel="stylesheet" href="leaderboard-clubhouse.css">
 
@@ -27,7 +27,10 @@
 
     <firebase-element id="tournamentToScoreFireBase"
                       location="{{userDetails && tournamentToScoreId && tournamentPlayers ? tournamentsLocation + tournamentToScoreId + '/players/' : null}}"
-                      data="{{tournamentPlayers}}">
+                      data="{{tournamentPlayers}}"
+                      on-child-added="{{tournamentPlayerScoreChanged}}"
+                      on-child-changed="{{tournamentPlayerScoreChanged}}"
+                      childEvents>
     </firebase-element>
 
     <firebase-element id="tournamentStatusFireBase"
@@ -184,6 +187,12 @@
               }
             }, this);
           }
+        },
+
+        // *FIREBASE LISTENER
+        // Sync the activeTournament when player score data changes
+        tournamentPlayerScoreChanged: function(event) {
+          this.activeTournament.players[event.detail.name] = event.detail.value;
         },
 
         // When firebase grouping child changes
