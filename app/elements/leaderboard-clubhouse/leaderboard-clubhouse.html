@@ -1,6 +1,6 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 
-<polymer-element name="leaderboard-clubhouse" attributes="userDetails tournamentToScoreId roundToScore roundToScoreId tournamentOfRoundCompleted hashHistory wide">
+<polymer-element name="leaderboard-clubhouse" attributes="userDetails tournamentToScoreId  roundToScoreId tournamentOfRoundCompleted hashHistory wide">
   <template>
     <link rel="stylesheet" href="leaderboard-clubhouse.css">
 
@@ -26,7 +26,7 @@
     </firebase-element>
 
     <firebase-element id="tournamentToScoreFireBase"
-                      location="{{userDetails && tournamentToScoreId && tournamentPlayers ? tournamentsLocation + tournamentToScoreId : null}}"
+                      location="{{userDetails && tournamentToScoreId && tournamentPlayers ? tournamentsLocation + tournamentToScoreId + '/players/' : null}}"
                       data="{{tournamentPlayers}}">
     </firebase-element>
 
@@ -268,7 +268,7 @@
         // Set tournament score for players after a round is completed on Firebase
         setTournamentPlayerScore: function() {
           if (this.activeTournament) {
-            this.tournamentPlayers = this.activeTournament;
+              this.tournamentPlayers = this.activeTournament.players;
           }
         },
 
