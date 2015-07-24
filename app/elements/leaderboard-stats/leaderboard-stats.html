@@ -24,6 +24,17 @@
              hero-id="stats-background"
              hero="{{!wide}}">
 
+          <section class="not-available"
+                   cross-fade
+                   hidden?="{{groupings.length}}">
+            <p>This section will be used for checking individual player score stats, course stats, etc.</p>
+            <p>In the meantime, a random stat - <span class="random-stat">{{statToDisplay}}</span></p>
+          </section>
+
+          <div relative>
+            <core-icon icon="menu-tile-icons:stats" class="content-icon" fit></core-icon>
+          </div>
+
         </div>
 
         <paper-fab class="fab-button"
@@ -48,24 +59,47 @@
     </div>
   </template>
   <script>
-    (function () {
+  (function () {
 
-      Polymer({
+    Polymer({
 
-          backNavigation: function() {
-              // If user has landed directly on stats, Go to the menu
-              if (this.hashHistory.length <= 2) {
-                  window.location.hash = 'menu';
-              } else {
-                  window.history.back();
-              }
-          },
+      statToDisplay: '',
 
-          homeNavigation: function() {
-              window.location.hash = 'menu';
-          }
-      });
+      // Array of stats to call randomly
+      stat: [
+        'Luckiest golfer on the 2014 trip was Dave Riley with the worst hole in one ever witnessed.',
+        'The funniest drive ever recorded on a golf trip, was Gary Shaw at Kirkby Lonsdale in 2010.'
+      ],
 
-    })();
+      ready: function() {
+        this.randomStat();
+      },
+
+      // Helper method to get random number
+      getRandomIntInclusive: function(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+      },
+
+      // Parse a date using moment.js
+      randomStat: function() {
+        this.statToDisplay = this.stat[this.getRandomIntInclusive(0, this.stat.length - 1)];
+      },
+
+      backNavigation: function() {
+
+        // If user has landed directly on stats, Go to the menu
+        if (this.hashHistory.length <= 2) {
+            window.location.hash = 'menu';
+        } else {
+            window.history.back();
+        }
+      },
+
+      homeNavigation: function() {
+          window.location.hash = 'menu';
+      }
+    });
+
+  })();
   </script>
 </polymer-element>

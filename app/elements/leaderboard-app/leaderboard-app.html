@@ -91,7 +91,8 @@
                              vertical layout>
           </leaderboard-about>
 
-          <leaderboard-stats hash="stats"
+          <leaderboard-stats id="Stats"
+                             hash="stats"
                              userDetails="{{userDetails}}"
                              hashHistory="{{hashHistory}}"
                              wide="{{wide}}"
@@ -278,6 +279,12 @@
                 if (this.section) {
                   sectionName = this.section.name;
                   this.route = sectionName;
+                }
+
+                // Crap way of doing this but temporary functionality for stats
+                // ToDo - Remove when stats is built for real
+                if (sectionName === 'stats') {
+                  this.$.Stats.randomStat();
                 }
               },
 
