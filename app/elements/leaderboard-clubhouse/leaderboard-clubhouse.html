@@ -172,7 +172,19 @@
 
           tournament.once('value', function(snap) {
             var result = snap.val();
-            self.activeTournaments.push(result);
+            var tournamentDoesntExist = true;
+
+            // Iterate through activeTournaments to see if tournament id already exists
+            self.activeTournaments.forEach(function(tournament) {
+              if (tournament.id === result.id) {
+                tournamentDoesntExist = false;
+              }
+            }, self);
+
+            // Check s we don't add same tournament to this collection
+            if (tournamentDoesntExist) {
+              self.activeTournaments.push(result);
+            }
           });
         },
 
@@ -193,6 +205,12 @@
         // Sync the activeTournament when player score data changes
         tournamentPlayerScoreChanged: function(event) {
           this.activeTournament.players[event.detail.name] = event.detail.value;
+
+          // Reset tournamentPlayers so that next time a group is sublitted the whole players object
+          // will be getting replaced in Firebase. This was necessary due to issue where the third time a
+          // group was getting submitted, the Firebase element was detecting no change to the tournamentPlayers
+          // object. Don't fully get it but this works.
+          this.tournamentPlayers = null;
         },
 
         // When firebase grouping child changes
