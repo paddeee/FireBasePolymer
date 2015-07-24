@@ -173,17 +173,21 @@
           tournament.once('value', function(snap) {
             var result = snap.val();
             var tournamentDoesntExist = true;
+            var indexOfExistingTournament;
 
             // Iterate through activeTournaments to see if tournament id already exists
-            self.activeTournaments.forEach(function(tournament) {
+            self.activeTournaments.forEach(function(tournament, index) {
               if (tournament.id === result.id) {
+                indexOfExistingTournament = index;
                 tournamentDoesntExist = false;
               }
             }, self);
 
-            // Check s we don't add same tournament to this collection
+            // Check we don't add same tournament to this collection. Replace it if exists.
             if (tournamentDoesntExist) {
               self.activeTournaments.push(result);
+            } else {
+              self.activeTournaments[indexOfExistingTournament] = result;
             }
           });
         },
