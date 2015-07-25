@@ -8,7 +8,11 @@
     <section class="no-tournaments"
              cross-fade
              hidden?="{{upcomingTournaments.length > 0}}">
-      You are not currently participating in any tournaments.
+
+      <div relative>
+        <core-icon icon="menu-tile-icons:scoreround" class="content-icon"></core-icon>
+        <p>You are not currently participating in any tournaments.</p>
+      </div>
     </section>
 
     <section cross-fade
@@ -45,13 +49,13 @@
 
                 <div horizontal center layout>
                   <div vertical layout flex>
-                    <div>Round {{roundIndex + 1}}</div>
-                    <div>{{ prettifyDate(round.date) }}</div>
-                    <div>{{round.venue}}</div>
-                    <div hidden?="{{round.name.length === 0}}">{{round.name}}</div>
-                    <div>{{round.teebox.name}} Tees</div>
-                    <div>{{round.teebox.distance.courseLength}} {{round.teebox.distance.units}}</div>
-                    <div>Par {{round.par.totalPar}}</div>
+                    <div class="round-number">Round {{roundIndex + 1}}</div>
+                    <div><span class="round-category">When:</span> {{ prettifyDate(round.date) }}</div>
+                    <div><span class="round-category">Where:</span> {{round.venue}}</div>
+                    <div hidden?="{{round.name.length === 0}}"><span class="round-category">Course name:</span> {{round.name}}</div>
+                    <div><span class="round-category">Tees:</span> {{round.teebox.name}} Tees</div>
+                    <div><span class="round-category">Length:</span> {{round.teebox.distance.courseLength}} {{round.teebox.distance.units}}</div>
+                    <div><span class="round-category">Par:</span> {{round.par.totalPar}}</div>
                   </div>
                   <div vertical layout>
                     <paper-icon-button showing?="{{!round.groupings[userDetails.uid].holesCompleted.length}}"

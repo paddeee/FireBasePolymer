@@ -69,6 +69,10 @@ $primary-accent-colour: #eeff41;
 
 .section-content {
   background-color: $primary-text-colour--light;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 0 16px;
+  position: relative;
 }
 
 .not-available {
@@ -81,8 +85,8 @@ $primary-accent-colour: #eeff41;
 
 .content-icon {
   height: 256px;
-  margin: 0 auto;
-  width: 256px;
+  height: 30vh;
+  width: 100%;
 }
 
 .wide .score-round-view::shadow .card {

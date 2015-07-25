@@ -21,6 +21,20 @@ $primary-accent-colour: #eeff41;
   -webkit-overflow-scrolling: touch;
 }
 
+.not-available {
+  background-color: #FFF;
+  height: calc(100% - 80px);
+  padding: 40px 16px;
+  position: relative;
+  text-align: center;
+}
+
+.content-icon {
+  height: 256px;
+  height: 30vh;
+  width: 100%;
+}
+
 :host([animate]) .section-panel {
   overflow: visible;
 }
@@ -69,6 +83,10 @@ $primary-accent-colour: #eeff41;
 
 .section-content {
   background-color: $primary-text-colour--light;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 0 16px;
+  position: relative;
 }
 
 .wide .score-round-view::shadow .card {

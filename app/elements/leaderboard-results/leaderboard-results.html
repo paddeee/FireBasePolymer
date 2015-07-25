@@ -24,6 +24,18 @@
              hero-id="results-background"
              hero="{{!wide}}">
 
+          <section class="not-available"
+                   cross-fade
+                   hidden?="{{groupings.length}}"
+                   fit>
+
+            <div relative>
+              <core-icon icon="menu-tile-icons:results" class="content-icon"></core-icon>
+              <p>Results will display all previous tournament info for a user. Maybe can search for tournaments, etc.</p>
+            </div>
+
+          </section>
+
         </div>
 
         <paper-fab class="fab-button"

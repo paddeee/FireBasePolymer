@@ -15,9 +15,14 @@ $neutralBackgroundColour: #EEE;
 .no-tournaments {
   background-color: $primaryTextColour;
   height: calc(100% - 80px);
-  padding: 40px 16px;
   position:relative;
   text-align: center;
+}
+
+.content-icon {
+  height: 256px;
+  height: 30vh;
+  width: 100%;
 }
 
 .upcoming-tournaments-section {
@@ -128,4 +133,16 @@ paper-button {
   .round-complete__text {
     font-size: 6vw;
   }
+}
+
+.round-number {
+  font-size: 16px;
+  padding: 0 0 4px;
+  margin: 0 0 8px;
+}
+
+.round-category {
+  font-weight: bold;
+  padding: 0 0 4px;
+  display: inline-block;
 }
