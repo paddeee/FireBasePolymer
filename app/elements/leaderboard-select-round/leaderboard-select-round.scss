@@ -14,8 +14,7 @@ $neutralBackgroundColour: #EEE;
 
 .no-tournaments {
   background-color: $primaryTextColour;
-  height: calc(100% - 80px);
-  position:relative;
+  height: 100%;
   text-align: center;
 }
 

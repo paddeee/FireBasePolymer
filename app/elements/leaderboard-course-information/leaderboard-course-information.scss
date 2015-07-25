@@ -61,10 +61,6 @@ $primary-accent-colour: #eeff41;
   border-radius: 2px;
   overflow: hidden;
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
-
-  .section-content {
-    background-color: $primary-text-colour--light;
-  }
 }
 
 .section-content {
@@ -76,10 +72,6 @@ $primary-accent-colour: #eeff41;
 }
 
 .not-available {
-  background-color: #FFF;
-  height: calc(100% - 80px);
-  padding: 40px 16px;
-  position: relative;
   text-align: center;
 }
 
