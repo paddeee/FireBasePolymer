@@ -417,12 +417,12 @@
         // Also could be triggered by a grouping status change
         groupingChanged: function(event) {
 
+          if (this.roundToScore && this.roundToScore.groupings && this.roundToScore.groupings[event.detail.name]) {
+            this.roundToScore.groupings[event.detail.name].players = event.detail.value.players;
+          }
+
           // If triggered from Select Round page
           if (this.parentElement.selected === 'score-round') {
-
-              if (this.roundToScore && this.roundToScore.groupings && this.roundToScore.groupings[event.detail.name]) {
-                  this.roundToScore.groupings[event.detail.name].players = event.detail.value.players;
-              }
 
               // If group update comes from a different grouping, update available players on create-group element directly
               if (event.detail.name !== this.userDetails.uid) {
