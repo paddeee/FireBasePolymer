@@ -6,7 +6,12 @@
     <link rel="stylesheet" href="leaderboard-manage-tournaments.css">
 
     <section class="no-tournaments" hidden?="{{hostedTournaments.length > 0}}">
-      You are not currently hosting any tournaments.
+
+      <div relative>
+        <core-icon icon="menu-tile-icons:tournament" class="content-icon"></core-icon>
+        <p>You are not currently hosting any tournaments.</p>
+      </div>
+
     </section>
 
     <section hidden?="{{hostedTournaments.length === 0}}"

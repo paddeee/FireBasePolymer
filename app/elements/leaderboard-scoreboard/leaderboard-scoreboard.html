@@ -27,7 +27,11 @@
           <div class="{{ {scroll: !wide} | tokenList }}" layout vertical flex>
 
             <div class="scoreboard-empty" showing?="{{tournamentToView == null}}">
-              There are no live tournaments to view.
+
+              <div relative>
+                <core-icon icon="menu-tile-icons:scoreboard" class="content-icon"></core-icon>
+                <p>There are no live tournaments to view.</p>
+              </div>
             </div>
 
             <div hidden?="{{tournamentToView == null}}">
