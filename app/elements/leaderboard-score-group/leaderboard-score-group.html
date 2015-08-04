@@ -400,7 +400,9 @@
               }
             }
 
-            this.userGrouping.holesCompleted[this.previousHoleNumber - 1] = 'true';
+            for (var i = 0;i < this.previousHoleNumber; i++) {
+              this.userGrouping.holesCompleted[i] = 'true';
+            }
 
              //  If thru has not already been set to a higher value (user can jump back thorugh holes so need to avoid updating in that case)
             if (this.userGrouping.holesCompleted && this.userGrouping.holesCompleted.length >= this.thru) {

@@ -418,7 +418,13 @@
         groupingChanged: function(event) {
 
           if (this.roundToScore && this.roundToScore.groupings && this.roundToScore.groupings[event.detail.name]) {
-            this.roundToScore.groupings[event.detail.name].players = event.detail.value.players;
+
+            // Handle if this method has been called as a result of a device reconnecting to network
+            if (event.detail.name === this.userDetails.uid && this.roundToScore.groupings[event.detail.name].holesCompleted) {
+              this.connectivityEstablished(this.roundToScore.groupings[event.detail.name].holesCompleted.length);
+            } else {
+              this.roundToScore.groupings[event.detail.name].players = event.detail.value.players;
+            }
           }
 
           // If triggered from Select Round page
@@ -428,6 +434,22 @@
               if (event.detail.name !== this.userDetails.uid) {
                   this.$.createGroup.getAvailablePlayers();
               }
+          }
+        },
+
+        // Called if a group has been scored offline and has re-established connectivity. In this case that device
+        // will send the previous state of other groups when it was last connected resulting in lost holes for other
+        // users. Instead, check that if the holesCompleted for this user's grouping is less than what has just been
+        // sent down from the server and if it is, we need to override the tournament players and userGrouping data with
+        // the local version.
+        connectivityEstablished: function(serverHolesCompletedLength) {
+
+          // If the number of holes completed on the server is less than the local version, the user has lost holes.
+          // Resync the local version to the server
+          if (this.tournamentToScore.rounds[this.roundToScoreId].groupings[this.userDetails.uid].holesCompleted.length >= serverHolesCompletedLength) {
+
+            // This will guarantee that scores update themselves if a user goes offline from another group
+            this.$.scoreGroup.updateHoleScore();
           }
         },
 
