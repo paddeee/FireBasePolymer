@@ -108,7 +108,7 @@ $primary-accent-colour: #eeff41;
   padding: 0 20px;
 
   .thru {
-    font-style: italic;
+    font-style: normal;
   }
 }
 
@@ -167,6 +167,7 @@ $primary-accent-colour: #eeff41;
 
 .score {
   font-weight: bold;
+  text-align: center;
 }
 
 
