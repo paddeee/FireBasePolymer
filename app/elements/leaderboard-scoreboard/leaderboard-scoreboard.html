@@ -45,7 +45,7 @@
               <div layout flex class="name">Player</div>
               <div layout flex class="score">Tot</div>
               <div layout flex class="thru">Thru</div>
-              <div>Rnd</div>
+              <div class="round">Rnd</div>
             </div>
 
             <core-animated-pages id="pages"
@@ -63,14 +63,14 @@
                        style="{{ columns>1 ? 'width:' + (1/columns*100) + '%' : '' }}"
                        layout horizontal center>
                     <div class="rank">
-                      <div class="rankNo">{{i+1}}</div>
+                      <div class="rankNo">{{i+1}}.</div>
                       <core-icon class="arrow" icon="arrow-back"></core-icon>
                     </div>
                     <div layout flex class="name">{{player.name}}</div>
                     <div layout flex class="score">{{player.score}}</div>
                     <div layout flex class="thru">{{player.thru === 0 ? 'F' : player.thru}}</div>
                     <div class="delta" hidden?="{{!player.delta || !player.rising}}">{{player.delta}}</div>
-                    <div>{{player.roundScore}}</div>
+                    <div class="round">{{player.roundScore}}</div>
                   </div>
                 </template>
               </section>
@@ -82,14 +82,14 @@
                        style="{{ columns>1 ? 'width:' + (1/columns*100) + '%' : '' }}"
                        layout horizontal center>
                     <div class="rank">
-                      <div class="rankNo">{{i+1}}</div>
+                      <div class="rankNo">{{i+1}}.</div>
                       <core-icon class="arrow" icon="arrow-back"></core-icon>
                     </div>
                     <div layout flex class="name">{{player.name}}</div>
                     <div layout flex class="score">{{player.score}}</div>
                     <div layout flex class="thru">{{player.thru === 0 ? 'F' : player.thru}}</div>
                     <div class="delta" hidden?="{{!player.delta || !player.rising}}">{{player.delta}}</div>
-                    <div>{{player.roundScore}}</div>
+                    <div class="round">{{player.roundScore}}</div>
                   </div>
                 </template>
               </section>

@@ -10,6 +10,10 @@ $primary-accent-colour: #eeff41;
 
 :host {
   overflow: hidden;
+
+  h1 {
+    margin-top: 0;
+  }
 }
 
 .wide > .background-fade--themed {
@@ -122,6 +126,23 @@ $primary-accent-colour: #eeff41;
 
 .section-title {
   padding-top: 30px;
+}
+
+.odds-holder {
+  text-align: left;
+
+  > div {
+    margin-bottom: 16px;
+  }
+
+  p {
+    margin: 0 0 4px;
+    font-style: italic;
+  }
+}
+
+.odds {
+  font-weight: bold;
 }
 
 :host .fab-button {

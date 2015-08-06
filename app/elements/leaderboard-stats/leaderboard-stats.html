@@ -30,9 +30,12 @@
 
             <div relative>
               <core-icon icon="menu-tile-icons:stats" class="content-icon"></core-icon>
-              <p>This section will be used for checking individual player score stats, course stats, etc.</p>
-              <p>In the meantime, a random stat - <span class="random-stat">{{statToDisplay}}</span></p>
+              <p>Random Stat - (because there was nothing else to put here yet)</p>
+              <p><span class="random-stat">{{statToDisplay}}</span></p>
             </div>
+            <paper-button raised
+                          on-tap="{{randomStat}}"
+                          transition="core-transition-center">Another stat</paper-button>
           </section>
 
         </div>
@@ -67,9 +70,17 @@
 
       // Array of stats to call randomly
       stat: [
-        'Luckiest golfer on the 2014 trip was Dave Riley with the worst hole in one ever witnessed.',
-        'The funniest drive ever recorded on a golf trip, was Gary Shaw at Kirkby Lonsdale in 2010.'
+        'Luckiest golfer on the 2014 trip was Dave Riley with the worst hole in one ever witnessed by a human being.',
+        'The funniest drive to ever befall a man on a golf trip, was Gary Shaw at Kirkby Lonsdale in 2010.',
+        'If you added the sum of all of Vinny\'s "ladies" limbs, you would arrive at an odd number!',
+        'Twelve. The number of pubs in Oswestry with "Barred" posters of James on the wall.',
+        'The most sickening abuse and mockery of the handicap system to ever occur, was the Bangor trip in 2008 gifting Mike Riley the trophy.',
+        'Most alluring golf attire worn - Pete Wood wearing Mike Ashley. Kendal, 2011.',
+        '36500456 kilowatts - the electricity usage spike recorded by the Kendal electricity board. Later sourced back to multiple hairdryers on the go in a Kendal B&B.',
+        'Seventeen. The number of trees sacrificed on every trip, to provide Stu and James with the level of comfort their "hoops" require.'
       ],
+
+      statDisplayed: 0,
 
       ready: function() {
         this.randomStat();
@@ -80,9 +91,19 @@
         return Math.floor(Math.random() * (max - min + 1)) + min;
       },
 
-      // Parse a date using moment.js
+      // Get a stat based on a random number. Keep going if stat is same one previously displayed.
       randomStat: function() {
-        this.statToDisplay = this.stat[this.getRandomIntInclusive(0, this.stat.length - 1)];
+
+        var randomNumber = this.getRandomIntInclusive(0, this.stat.length - 1);
+
+        // If the random number has brought back the same stat then try again
+        if (randomNumber === this.statDisplayed) {
+          this.randomStat();
+          return;
+        }
+
+        this.statDisplayed = randomNumber;
+        this.statToDisplay = this.stat[this.statDisplayed];
       },
 
       backNavigation: function() {

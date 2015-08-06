@@ -155,3 +155,7 @@ $primary-accent-colour: #eeff41;
 .section-panel.wide .fab-button {
   right: 24px;
 }
+
+paper-button {
+  background-color: $neutralBackgroundColour;
+}
