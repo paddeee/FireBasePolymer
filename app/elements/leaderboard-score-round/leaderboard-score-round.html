@@ -18,11 +18,10 @@
                       data="{{tournamentToScore}}">
     </firebase-element>
 
-    <firebase-element id="roundStatusToUpdateFireBase"
-                      location="{{userDetails && tournamentOfRoundCompleted ? tournamentsLocation + tournamentOfRoundCompleted.id : null}}"
-                      data="{{tournamentToScore}}"
-                      on-child-added="{{roundCompleted}}"
-                      childEvents>
+    <firebase-element id="roundFireBase"
+                      location="{{userDetails && tournamentToScoreId ? tournamentsLocation + tournamentToScoreId + '/rounds/' + roundToScoreId : null}}"
+                      childEvents
+                      on-child-changed="{{roundChanged}}">
     </firebase-element>
 
     <firebase-element id="userGrouping"
@@ -169,6 +168,8 @@
 
         selectRoundButtonSelected: '',
 
+        roundOfStatusChange: '',
+
         userGrouping: null,
 
         userDetails: null,
@@ -234,6 +235,32 @@
               break;
             default:
               break;
+          }
+        },
+
+        // Called when all cards have been submitted. Will only fire for user submitting last card
+        tournamentOfRoundCompletedChanged: function() {
+
+          if (this.roundOfStatusChange) {
+            this.roundOfStatusChange = this.tournamentOfRoundCompleted.id.rounds[this.roundToScoreId];
+          }
+
+          if (this.tournamentOfRoundCompleted && this.tournamentOfRoundCompleted.id) {
+            this.updateUpcomingTournaments(this.tournamentOfRoundCompleted.id, this.tournamentOfRoundCompleted);
+          }
+        },
+
+        // *FIREBASE LISTENER
+        // Fired when round info, e.g. a grouping or roundStatus changes
+        roundChanged: function(event) {
+
+          if (event.detail.name === 'roundStatus') {
+
+            // Update upcomingTournaments
+            this.updateUpcomingTournaments(this.tournamentToScoreId, this.tournamentToScore);
+
+            // Reset roundOfStatusChange for next round
+            this.roundOfStatusChange = '';
           }
         },
 
@@ -428,8 +455,10 @@
               }
 
             } else {
-              this.roundToScore.groupings[event.detail.name].players = event.detail.value.players;
+              this.roundToScore.groupings[event.detail.name] = event.detail.value;
             }
+          } else {
+            this.roundToScore = this.tournamentToScore.rounds[this.roundToScoreId];
           }
 
           // If triggered from Select Round page
@@ -509,6 +538,7 @@
 
         // Sync the round complete status
         roundCompleted: function() {
+          debugger;
             if (this.tournamentOfRoundCompleted && this.tournamentOfRoundCompleted.id) {
                 this.updateUpcomingTournaments(this.tournamentOfRoundCompleted.id, this.tournamentOfRoundCompleted);
             }
