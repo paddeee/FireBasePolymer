@@ -116,10 +116,21 @@
                                      tournamentToScore="{{tournamentToScore}}"
                                      on-hole-score-completed="{{updateScores}}"
                                      on-go-to-score-round="{{goToScoreRound}}"
+                                     on-go-to-score-card="{{goToScoreCard}}"
                                      on-go-to-live-scores="{{goToLiveScores}}"
                                      on-go-to-menu="{{gotToMenu}}"
                                      vertical layout>
             </leaderboard-score-group>
+
+            <leaderboard-score-card id="scoreCard"
+                                    name="scoreCard"
+                                    userDetails="{{userDetails}}"
+                                    roundToScore="{{roundToScore}}"
+                                    userGrouping="{{userGrouping}}"
+                                    upcomingTournaments="{{upcomingTournaments}}"
+                                    wide="{{wide}}"
+                                    vertical layout>
+            </leaderboard-score-card>
 
             <leaderboard-scoreboard id="liveScores"
                                     name="liveScores"
@@ -210,6 +221,11 @@
             'name': 'scoreGroup',
             'title': 'Score The Round'
           },
+          'scoreCard': {
+            'selectedHash': 'score-round/score-card',
+            'name': 'scoreCard',
+            'title': 'Scorecard'
+          },
           'liveScores': {
             'selectedHash': 'score-round/live-scores',
             'name': 'liveScores',
@@ -229,6 +245,9 @@
               break;
             case 'score-round/score-group':
               this.selected = 'scoreGroup';
+              break;
+            case 'score-round/score-card':
+              this.selected = 'scoreCard';
               break;
             case 'score-round/live-scores':
               this.selected = 'liveScores';
@@ -584,6 +603,11 @@
         // Navigate to Score Round
         goToScoreRound: function() {
           this.navigateTo(this.sectionData.selectRound);
+        },
+
+        // Navigate to ScoreCard
+        goToScoreCard: function() {
+          this.navigateTo(this.sectionData.scoreCard);
         },
 
         // Navigate to Live Scores

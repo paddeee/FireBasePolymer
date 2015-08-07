@@ -1,3 +1,50 @@
-:host {
+/* Vars */
+$primary-bg-colour: #009688;
+$primary-bg-colour--light: #b2dfdb;
+$primary-bg-colour--dark: #00796b;
+$primary-text-colour--light: #FFF;
+$primary-text-colour--dark: #000;
+$neutralBackgroundColour: #EEE;
+
+$primary-accent-colour: #eeff41;
+
+.card {
+  background-color: $primary-text-colour--light;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.scorecard-empty {
+  display: none;
+}
+
+.scorecard-container {
+  padding: 8px;
+}
+
+.scoreboard-empty[showing] {
   display: block;
+  padding: 40px 16px;
+  text-align: center;
+}
+
+.card > core-toolbar {
+  background-color: $primary-bg-colour;
+  color: $primary-text-colour--light;
+}
+
+.main {
+  position: relative;
+}
+
+.main::-webkit-scrollbar {
+  display: none;
+}
+
+.bg {
+  background-color: #eee;
+}
+
+:host([animate]:not(.core-selected)) .bg {
+  z-index: -1;
 }

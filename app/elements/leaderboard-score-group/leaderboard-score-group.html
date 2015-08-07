@@ -607,6 +607,11 @@
           }
         },
 
+        // Show Score Card
+        showScorecard: function() {
+          this.fire('go-to-score-card');
+        },
+
         // Show Live Scores Leaderboard
         showLiveScores: function() {
           this.fire('go-to-live-scores');
