@@ -57,22 +57,28 @@
                     <div><span class="round-category">Par:</span> {{round.par.totalPar}}</div>
                   </div>
                   <div vertical layout>
-                    <paper-icon-button showing?="{{!round.groupings[userDetails.uid].holesCompleted.length}}"
-                                       class="create-group"
-                                       icon="social:group-add"
-                                       label="Create Group"
-                                       tournamentId="{{tournament.id}}"
-                                       roundId="{{round.roundId}}"
-                                       on-tap="{{createGroupHandler}}">
-                    </paper-icon-button>
-                    <paper-icon-button showing?="{{round.groupings[userDetails.uid] && (!round.groupings[userDetails.uid].groupStatus || round.groupings[userDetails.uid].groupStatus != 'complete')}}"
-                                       class="score-group"
-                                       icon="create"
-                                       label="Score Group"
-                                       tournamentId="{{tournament.id}}"
-                                       roundId="{{round.roundId}}"
-                                       on-tap="{{scoreGroupHandler}}">
-                    </paper-icon-button>
+                    <div class="create-group-holder"
+                         showing?="{{!round.groupings[userDetails.uid].holesCompleted.length}}">
+                      <paper-icon-button class="create-group"
+                                         icon="social:group-add"
+                                         label="Create Group"
+                                         tournamentId="{{tournament.id}}"
+                                         roundId="{{round.roundId}}"
+                                         on-tap="{{createGroupHandler}}">
+                      </paper-icon-button>
+                      <div>Create Group</div>
+                    </div>
+                    <div class="score-group-holder"
+                         showing?="{{round.groupings[userDetails.uid] && (!round.groupings[userDetails.uid].groupStatus || round.groupings[userDetails.uid].groupStatus != 'complete')}}">
+                      <paper-icon-button class="score-group"
+                                         icon="create"
+                                         label="Score Group"
+                                         tournamentId="{{tournament.id}}"
+                                         roundId="{{round.roundId}}"
+                                         on-tap="{{scoreGroupHandler}}">
+                      </paper-icon-button>
+                      <div>Score Group</div>
+                    </div>
                   </div>
                 </div>
               </div>

@@ -53,8 +53,25 @@ $neutralBackgroundColour: #EEE;
   font-size: 14px;
 }
 
-.score-group,
-.create-group
+.create-group-holder,
+.score-group-holder {
+  text-align: center;
+  margin-bottom: 16px;
+
+  > div {
+    font-size: 11px;
+  }
+}
+
+.create-group-holder {
+
+  > div {
+    color: $primaryBgColour;
+  }
+}
+
+.score-group-holder,
+.create-group-holder
 {
   transition: transform 500ms cubic-bezier(0.4, 0, 0.2, 1) 500ms, background-color 500ms cubic-bezier(0.4, 0, 0.2, 1);
   -webkit-transition: -webkit-transform 500ms cubic-bezier(0.4, 0, 0.2, 1) 500ms, background-color 500ms cubic-bezier(0.4, 0, 0.2, 1);
@@ -64,10 +81,15 @@ $neutralBackgroundColour: #EEE;
   transform-origin: 50% 50%;
 }
 
-.score-group[showing],
-.create-group[showing] {
+.score-group-holder[showing],
+.create-group-holder[showing] {
   -webkit-transform: none;
   transform: none;
+}
+
+.create-group,
+.score-group {
+  padding: 8px 8px 0;
 }
 
 .create-group::shadow #icon {
