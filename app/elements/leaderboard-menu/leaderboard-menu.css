@@ -58,8 +58,11 @@ core-toolbar {
   position: absolute !important; }
 
 .section-bg-wrapper {
-  width: 80%;
-  height: 1000px !important; }
+  height: 80%;
+  width: 80%;}
+
+.section-bg-wrapper.chrome {
+  height:1000px !important;}
 
 .section-bg-wrapper core-icon {
   height: 100%;

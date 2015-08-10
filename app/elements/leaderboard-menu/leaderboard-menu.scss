@@ -73,7 +73,11 @@ core-toolbar {
 }
 
 .section-bg-wrapper {
+  height: 80%;
   width: 80%;
+}
+
+.section-bg-wrapper.chrome {
   height:1000px !important;
 }
 

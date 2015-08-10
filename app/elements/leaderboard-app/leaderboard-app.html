@@ -26,8 +26,12 @@
           flex
           auto>
 
-          <leaderboard-menu hash="menu" userDetails="{{userDetails}}" wide="{{wide}}"
-                            section="{{section}}" on-core-activate="{{sectionSelect}}">
+          <leaderboard-menu hash="menu"
+                            userDetails="{{userDetails}}"
+                            browser="{{device.browser}}"
+                            wide="{{wide}}"
+                            section="{{section}}"
+                            on-core-activate="{{sectionSelect}}">
           </leaderboard-menu>
 
           <leaderboard-tournament-manager hash="tournament-manager"
@@ -140,6 +144,12 @@
                 'userDetails': 'setJoinTournament'
               },
 
+              // Store device info
+              device: {
+                browser: '',
+                os: ''
+              },
+
               responsiveWidth: '900px',
 
               minSplashTime: 2000,
@@ -148,15 +158,15 @@
 
               hostUserId: '',
 
-                hashHistory: [],
+              hashHistory: [],
 
-            tournamentToJoinId: '',
+              tournamentToJoinId: '',
 
               tournamentJoinedName: '',
 
               landingRoute: 'menu',
 
-             cascadeMenu: false,
+              cascadeMenu: false,
 
               splashElement: document.querySelector('.splash'),
 
@@ -169,6 +179,9 @@
                 this.readyTime = Date.now();
 
                 this.setGlobalStyles('auth');
+
+                // Set device info
+                this.setDeviceInfo();
 
                 // Set a landing route so user can be redirected after authentication route changes. Not needed for menu
                 // as that is default route.
@@ -313,6 +326,16 @@
               // If route is more than one level deep, strip the end off
               parseLandingRoute: function(landingRoute) {
                 return landingRoute.replace(/\/([^\/\?]+)/g, '');
+              },
+
+              // Set device info
+              setDeviceInfo: function() {
+
+                var isChrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
+
+                if (isChrome) {
+                  this.device.browser = 'chrome';
+                }
               }
             });
 

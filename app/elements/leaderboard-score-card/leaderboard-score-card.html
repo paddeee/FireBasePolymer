@@ -37,8 +37,56 @@
             <div class="scorecard-container" showing?="{{roundToScore.length === '18'}}">
 
 
-              <template showing?="{{roundToScore.length === '9'}}" repeat="{{hole, holeIndex in holeNumbers}}">
+              <template repeat="{{hole, holeIndex in outNine}}">
+                <div layout horizontal>
+                  <div>
+                    {{hole.holeNumber}}
+                  </div>
+                  <div>
+                    {{hole.par}}
+                  </div>
+                  <div>
+                    {{hole.stroke}}
+                  </div>
+                  <div>
+                    {{hole.player1.scorecard}} {{hole.player1.score}}
+                  </div>
+                  <div>
+                    {{hole.player2.scorecard}} {{hole.player2.score}}
+                  </div>
+                  <div>
+                    {{hole.player3.scorecard}} {{hole.player3.score}}
+                  </div>
+                  <div>
+                    {{hole.player4.scorecard}} {{hole.player4.score}}
+                  </div>
+                </div>
+              </template>
 
+              <template showing?="{{roundToScore.length === '18'}}" repeat="{{hole, holeIndex in inNine}}">
+                <div layout horizontal>
+                  <div>
+                    {{hole.holeNumber}}
+                  </div>
+                  <div>
+                    {{hole.par}}
+                  </div>
+                  <div>
+                    {{hole.stroke}}
+                  </div>
+                  <div>
+                    {{hole.player1.scorecard}} {{hole.player1.score}}
+                  </div>
+                  <div>
+                    {{hole.player2.scorecard}} {{hole.player2.score}}
+                  </div>
+                  <div>
+                    {{hole.player3.scorecard}} {{hole.player3.score}}
+                  </div>
+                  <div>
+                    {{hole.player4.scorecard}} {{hole.player4.score}}
+                  </div>
+                </div>
               </template>
             </div>
 
@@ -64,9 +112,10 @@
         publish: {
           roundToScore: null,
           userGrouping: null,
+          holesCompleted: 0,
           scoreCardObject: null,
-          out: [],
-          in: [],
+          outNine: [],
+          inNine: [],
           userDetails: null,
           wide: false
         },
@@ -79,20 +128,29 @@
           }
         },
 
+        // Update when a hole is submitted
+        holesCompletedChanged: function() {
+          this.createScoreCardObject();
+        },
+
         // Create object so we can easily template the Scorecard
         createScoreCardObject: function() {
 
           this.setupScoreObject();
           this.setStroke();
           this.setScores();
-          console.log(this.out);
-          console.log(this.in);
+          console.log(this.outNine);
+          console.log(this.inNine);
         },
 
         // Set hole number and par properties and default player scores
         setupScoreObject: function() {
 
           var inObject;
+
+          // Reset arrays
+          this.outNine = [];
+          this.inNine =[];
 
           for (var holeNumber in this.roundToScore.par) {
 
@@ -121,9 +179,9 @@
             };
 
             if (holeNumber < 9) {
-              this.out[holeNumber] = inObject;
+              this.outNine[holeNumber] = inObject;
             } else {
-              this.in[holeNumber] = inObject;
+              this.inNine[holeNumber] = inObject;
             }
           }
         },
@@ -134,9 +192,9 @@
           for (var holeNumber in this.roundToScore.stroke) {
 
             if (holeNumber < 9) {
-              this.out[holeNumber].stroke = this.roundToScore.stroke[holeNumber];
+              this.outNine[holeNumber].stroke = this.roundToScore.stroke[holeNumber];
             } else {
-              this.in[holeNumber].stroke = this.roundToScore.stroke[holeNumber];
+              this.inNine[holeNumber].stroke = this.roundToScore.stroke[holeNumber];
             }
           }
         },
@@ -155,9 +213,9 @@
                   this.userGrouping.players[i].roundScorecard.forEach(function(scorecard, index) {
 
                     if (index < 9) {
-                      this.out[index]['player' + (i + 1)].scorecard = scorecard;
+                      this.outNine[index]['player' + (i + 1)].scorecard = scorecard;
                     } else {
-                      this.in[index]['player' + (i + 1)].scorecard = scorecard;
+                      this.inNine[index]['player' + (i + 1)].scorecard = scorecard;
                     }
                   }, this);
 
@@ -165,11 +223,16 @@
                   this.userGrouping.players[i].roundScore.forEach(function(score, index) {
 
                     if (index < 9) {
-                      this.out[index]['player' + (i + 1)].score = score;
+                      this.outNine[index]['player' + (i + 1)].score = score;
                     } else {
-                      this.in[index]['player' + (i + 1)].score = score;
+                      this.inNine[index]['player' + (i + 1)].score = score;
                     }
                   }, this);
+
+                  // Clean inNine array of undefined entries
+                  this.inNine = this.inNine.filter(function(hole) {
+                    return hole != undefined;
+                  });
                 }
               }
             }
