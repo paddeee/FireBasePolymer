@@ -144,29 +144,34 @@
         // Set scores for each player in the group
         setScores: function() {
 
-          for (i = 0; i < 4; i++) {
+          if (this.userGrouping) {
 
-            if (this.userGrouping.players[i]) {
+            for (i = 0; i < 4; i++) {
 
-              // For each score a player has made add it to the object
-              this.userGrouping.players[i].roundScorecard.forEach(function(scorecard, index) {
+              if (this.userGrouping.players[i]) {
 
-                if (index < 9) {
-                  this.out[index]['player' + (i + 1)].scorecard = scorecard;
-                } else {
-                  this.in[index]['player' + (i + 1)].scorecard = scorecard;
+                if (this.userGrouping.players[i].roundScorecard) {
+                  // For each score a player has made add it to the object
+                  this.userGrouping.players[i].roundScorecard.forEach(function(scorecard, index) {
+
+                    if (index < 9) {
+                      this.out[index]['player' + (i + 1)].scorecard = scorecard;
+                    } else {
+                      this.in[index]['player' + (i + 1)].scorecard = scorecard;
+                    }
+                  }, this);
+
+                  // For each points such as Stableford a player has made add it to the object
+                  this.userGrouping.players[i].roundScore.forEach(function(score, index) {
+
+                    if (index < 9) {
+                      this.out[index]['player' + (i + 1)].score = score;
+                    } else {
+                      this.in[index]['player' + (i + 1)].score = score;
+                    }
+                  }, this);
                 }
-              }, this);
-
-              // For each points such as Stableford a player has made add it to the object
-              this.userGrouping.players[i].roundScore.forEach(function(score, index) {
-
-                if (index < 9) {
-                  this.out[index]['player' + (i + 1)].score = score;
-                } else {
-                  this.in[index]['player' + (i + 1)].score = score;
-                }
-              }, this);
+              }
             }
           }
         }
