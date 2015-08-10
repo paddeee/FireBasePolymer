@@ -13,7 +13,7 @@
 
     <div class="bg" fit dummy cross-fade></div>
 
-    <div class="main {{ {scroll: wide} | tokenList }}" flex center layout vertical hero-p>
+    <div class="main {{ {scroll: wide} | tokenList }}" flex center layout vertical>
       <div flex vertical layout
            slide-up-offscreen?="{{parentElement.selected === 'scoreboard' || parentElement.selected === 'liveScores'}}"
            cross-fade="{{!wide && parentElement.selected !== 'scoreboard' && parentElement.selected !== 'liveScores'}}"

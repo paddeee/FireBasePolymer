@@ -557,7 +557,7 @@
 
         // Sync the round complete status
         roundCompleted: function() {
-          debugger;
+
             if (this.tournamentOfRoundCompleted && this.tournamentOfRoundCompleted.id) {
                 this.updateUpcomingTournaments(this.tournamentOfRoundCompleted.id, this.tournamentOfRoundCompleted);
             }
@@ -565,6 +565,11 @@
 
         // Animation completed so if home button was tapped we can navigate back to menu
         animationComplete: function() {
+
+          // Force repaint for scoreboard rendering issue in iOS
+          if (this.selected == 'liveScores') {
+            this.forceIOSRepaint();
+          }
 
           if (this.backButtonTapped) {
             window.location.hash = 'menu';
@@ -618,6 +623,13 @@
         // Navigate to Menu
         gotToMenu: function() {
           this.homeNavigation();
+        },
+
+        // Force repaint on iOS
+        forceIOSRepaint: function() {
+          this.$.sectionContent.style.display='none';
+          this.$.sectionContent.offsetHeight;
+          this.$.sectionContent.style.display='block';
         }
       });
 
