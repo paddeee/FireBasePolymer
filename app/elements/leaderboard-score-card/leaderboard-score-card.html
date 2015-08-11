@@ -29,65 +29,260 @@
           <div class="scorecard-container" layout vertical flex hidden?="{{roundToScore == null}}">
 
             <!-- 9 hole scorecard -->
-            <div class="scorecard-container" showing?="{{roundToScore.length === '9'}}">
+            <div class="scorecard" showing?="{{roundToScore.length === '9'}}">
 
             </div>
 
             <!-- 18 hole scorecard -->
-            <div class="scorecard-container" showing?="{{roundToScore.length === '18'}}">
+            <div class="scorecard" showing?="{{roundToScore.length === '18'}}">
 
+              <!-- Header -->
+              <div class="header-info" layout horizontal>
+                <div horizontal center-justified center layout flex class="hole-number">
+                  Hole
+                </div>
+                <div horizontal center-justified center layout flex class="par">
+                  Par
+                </div>
+                <div horizontal center-justified center layout flex class="stroke">
+                  SI
+                </div>
+                <div horizontal center-justified center layout class="player  player1">
+                  {{player1.name}}
+                </div>
+                <div horizontal center-justified center layout class="player  player2">
+                  {{player2.name}}
+                </div>
+                <div horizontal center-justified center layout class="player  player3">
+                  {{player3.name}}
+                </div>
+                <div horizontal center-justified center layout class="player  player4">
+                  {{player4.name}}
+                </div>
+              </div>
 
+              <!-- Outward nine -->
               <template repeat="{{hole, holeIndex in outNine}}">
-                <div layout horizontal>
-                  <div>
+                <div class="hole-info" layout horizontal>
+                  <div horizontal center-justified center layout flex class="hole-number">
                     {{hole.holeNumber}}
                   </div>
-                  <div>
+                  <div horizontal center-justified center layout flex class="par">
                     {{hole.par}}
                   </div>
-                  <div>
+                  <div horizontal center-justified center layout flex class="stroke">
                     {{hole.stroke}}
                   </div>
-                  <div>
-                    {{hole.player1.scorecard}} {{hole.player1.score}}
+                  <div horizontal center-justified center layout flex class="player-scorecard">
+                    {{hole.player1.scorecard}}
                   </div>
-                  <div>
-                    {{hole.player2.scorecard}} {{hole.player2.score}}
+                  <div horizontal center-justified center layout flex class="player-score">
+                    {{hole.player1.score}}
                   </div>
-                  <div>
-                    {{hole.player3.scorecard}} {{hole.player3.score}}
+                  <div horizontal center-justified center layout flex class="player-scorecard">
+                    {{hole.player2.scorecard}}
                   </div>
-                  <div>
-                    {{hole.player4.scorecard}} {{hole.player4.score}}
+                  <div horizontal center-justified center layout flex class="player-score">
+                    {{hole.player2.score}}
+                  </div>
+                  <div horizontal center-justified center layout flex class="player-scorecard">
+                    {{hole.player3.scorecard}}
+                  </div>
+                  <div horizontal center-justified center layout flex class="player-score">
+                    {{hole.player3.score}}
+                  </div>
+                  <div horizontal center-justified center layout flex class="player-scorecard">
+                    {{hole.player4.scorecard}}
+                  </div>
+                  <div horizontal center-justified center layout flex class="player-score">
+                    {{hole.player4.score}}
                   </div>
                 </div>
               </template>
 
+              <!--Outward summary -->
+              <div class="out-summary  summary" layout horizontal>
+                <div horizontal center-justified center layout flex class="hole-number">
+                  Out
+                </div>
+                <div horizontal center-justified center layout flex class="par">
+                  {{outPar}}
+                </div>
+                <div horizontal center-justified center layout flex class="stroke">
+                </div>
+                <div horizontal center-justified center layout flex class="player-scorecard">
+                  {{player1.outScorecard}}
+                </div>
+                <div horizontal center-justified center layout flex class="player-score">
+                  {{player1.outScore}}
+                </div>
+                <div horizontal center-justified center layout flex class="player-scorecard">
+                  {{player2.outScorecard}}
+                </div>
+                <div horizontal center-justified center layout flex class="player-score">
+                  {{player2.outScore}}
+                </div>
+                <div horizontal center-justified center layout flex class="player-scorecard">
+                  {{player3.outScorecard}}
+                </div>
+                <div horizontal center-justified center layout flex class="player-score">
+                  {{player3.outScore}}
+                </div>
+                <div horizontal center-justified center layout flex class="player-scorecard">
+                  {{player4.outScorecard}}
+                </div>
+                <div horizontal center-justified center layout flex class="player-score">
+                  {{player4.outScore}}
+                </div>
+              </div>
+
+              <!-- Inward nine -->
               <template showing?="{{roundToScore.length === '18'}}" repeat="{{hole, holeIndex in inNine}}">
-                <div layout horizontal>
-                  <div>
+                <div class="hole-info" layout horizontal>
+                  <div horizontal center-justified center layout flex class="hole-number">
                     {{hole.holeNumber}}
                   </div>
-                  <div>
+                  <div horizontal center-justified center layout flex class="par">
                     {{hole.par}}
                   </div>
-                  <div>
+                  <div horizontal center-justified center layout flex class="stroke">
                     {{hole.stroke}}
                   </div>
-                  <div>
-                    {{hole.player1.scorecard}} {{hole.player1.score}}
+                  <div horizontal center-justified center layout flex class="player-scorecard">
+                    {{hole.player1.scorecard}}
                   </div>
-                  <div>
-                    {{hole.player2.scorecard}} {{hole.player2.score}}
+                  <div horizontal center-justified center layout flex class="player-score">
+                    {{hole.player1.score}}
                   </div>
-                  <div>
-                    {{hole.player3.scorecard}} {{hole.player3.score}}
+                  <div horizontal center-justified center layout flex class="player-scorecard">
+                    {{hole.player2.scorecard}}
                   </div>
-                  <div>
-                    {{hole.player4.scorecard}} {{hole.player4.score}}
+                  <div horizontal center-justified center layout flex class="player-score">
+                    {{hole.player2.score}}
+                  </div>
+                  <div horizontal center-justified center layout flex class="player-scorecard">
+                    {{hole.player3.scorecard}}
+                  </div>
+                  <div horizontal center-justified center layout flex class="player-score">
+                    {{hole.player3.score}}
+                  </div>
+                  <div horizontal center-justified center layout flex class="player-scorecard">
+                    {{hole.player4.scorecard}}
+                  </div>
+                  <div horizontal center-justified center layout flex class="player-score">
+                    {{hole.player4.score}}
                   </div>
                 </div>
               </template>
+
+              <!--Inward summary -->
+              <div class="in-summary  summary" layout horizontal>
+                <div horizontal center-justified center layout flex class="hole-number">
+                  In
+                </div>
+                <div horizontal center-justified center layout flex class="par">
+                  {{inPar}}
+                </div>
+                <div horizontal center-justified center layout flex class="stroke">
+                </div>
+                <div horizontal center-justified center layout flex class="player-scorecard">
+                  {{player1.inScorecard}}
+                </div>
+                <div horizontal center-justified center layout flex class="player-score">
+                  {{player1.inScore}}
+                </div>
+                <div horizontal center-justified center layout flex class="player-scorecard">
+                  {{player2.inScorecard}}
+                </div>
+                <div horizontal center-justified center layout flex class="player-score">
+                  {{player2.inScore}}
+                </div>
+                <div horizontal center-justified center layout flex class="player-scorecard">
+                  {{player3.inScorecard}}
+                </div>
+                <div horizontal center-justified center layout flex class="player-score">
+                  {{player3.inScore}}
+                </div>
+                <div horizontal center-justified center layout flex class="player-scorecard">
+                  {{player4.inScorecard}}
+                </div>
+                <div horizontal center-justified center layout flex class="player-score">
+                  {{player4.inScore}}
+                </div>
+              </div>
+
+              <!--Outward summary -->
+              <div class="out-summary  summary" layout horizontal>
+                <div horizontal center-justified center layout flex class="hole-number">
+                  Out
+                </div>
+                <div horizontal center-justified center layout flex class="par">
+                  {{outPar}}
+                </div>
+                <div horizontal center-justified center layout flex class="stroke">
+                </div>
+                <div horizontal center-justified center layout flex class="player-scorecard">
+                  {{player1.outScorecard}}
+                </div>
+                <div horizontal center-justified center layout flex class="player-score">
+                  {{player1.outScore}}
+                </div>
+                <div horizontal center-justified center layout flex class="player-scorecard">
+                  {{player2.outScorecard}}
+                </div>
+                <div horizontal center-justified center layout flex class="player-score">
+                  {{player2.outScore}}
+                </div>
+                <div horizontal center-justified center layout flex class="player-scorecard">
+                  {{player3.outScorecard}}
+                </div>
+                <div horizontal center-justified center layout flex class="player-score">
+                  {{player3.outScore}}
+                </div>
+                <div horizontal center-justified center layout flex class="player-scorecard">
+                  {{player4.outScorecard}}
+                </div>
+                <div horizontal center-justified center layout flex class="player-score">
+                  {{player4.outScore}}
+                </div>
+              </div>
+
+              <!--Total summary -->
+              <div class="total-summary  summary" layout horizontal>
+                <div horizontal center-justified center layout flex class="hole-number">
+                  Total
+                </div>
+                <div horizontal center-justified center layout flex class="par">
+                  {{totalPar}}
+                </div>
+                <div horizontal center-justified center layout flex class="stroke">
+                </div>
+                <div horizontal center-justified center layout flex class="player-scorecard">
+                  {{player1.totalScorecard}}
+                </div>
+                <div horizontal center-justified center layout flex class="player-score">
+                  {{player1.totalScore}}
+                </div>
+                <div horizontal center-justified center layout flex class="player-scorecard">
+                  {{player2.totalScorecard}}
+                </div>
+                <div horizontal center-justified center layout flex class="player-score">
+                  {{player2.totalScore}}
+                </div>
+                <div horizontal center-justified center layout flex class="player-scorecard">
+                  {{player3.totalScorecard}}
+                </div>
+                <div horizontal center-justified center layout flex class="player-score">
+                  {{player3.totalScore}}
+                </div>
+                <div horizontal center-justified center layout flex class="player-scorecard">
+                  {{player4.totalScorecard}}
+                </div>
+                <div horizontal center-justified center layout flex class="player-score">
+                  {{player4.totalScore}}
+                </div>
+              </div>
+
             </div>
 
           </div>
@@ -96,10 +291,8 @@
 
       <paper-icon-button class="back-button {{ {wide: wide} | tokenList }}"
                          icon="arrow-back"
-                         hidden?="{{parentElement.selected === 'scoreCard'}}"
-                         on-tap="{{backNavigation}}"
-                         hero-id="scoreboard-back-button"
-                         hero>
+                         showing?="{{parentElement.selected === 'clubHouse'}}"
+                         on-tap="{{backNavigation}}">
       </paper-icon-button>
     </div>
   </template>
@@ -109,13 +302,29 @@
 
       Polymer({
 
+        scoreCardObject: null,
+        outNine: [],
+        inNine: [],
+        outPar: 0,
+        inPar: 0,
+        totalPar: 0,
+        player1: {
+          name: 'P1'
+        },
+        player2: {
+          name: 'P2'
+        },
+        player3: {
+          name: 'P3'
+        },
+        player4: {
+          name: 'P4'
+        },
+
         publish: {
           roundToScore: null,
           userGrouping: null,
           holesCompleted: 0,
-          scoreCardObject: null,
-          outNine: [],
-          inNine: [],
           userDetails: null,
           wide: false
         },
@@ -139,62 +348,87 @@
           this.setupScoreObject();
           this.setStroke();
           this.setScores();
-          console.log(this.outNine);
-          console.log(this.inNine);
         },
 
         // Set hole number and par properties and default player scores
         setupScoreObject: function() {
 
           var inObject;
+          var outPar = 0;
+          var inPar = 0;
+          var totalPar = 0;
 
-          // Reset arrays
+          // Reset properties
           this.outNine = [];
           this.inNine =[];
 
-          for (var holeNumber in this.roundToScore.par) {
+          if (this.roundToScore) {
 
-            inObject = {};
-            inObject.holeNumber = parseInt(holeNumber, 10) + 1;
-            inObject.par = this.roundToScore.par[holeNumber];
+            for (var holeNumber in this.roundToScore.par) {
 
-            inObject.player1 = {
-              scorecard: '',
-              score: ''
-            };
+              inObject = {};
+              inObject.holeNumber = parseInt(holeNumber, 10) + 1;
+              inObject.par = this.roundToScore.par[holeNumber];
 
-            inObject.player2 = {
-              scorecard: '',
-              score: ''
-            };
+              inObject.player1 = {
+                scorecard: '',
+                score: ''
+              };
 
-            inObject.player3 = {
-              scorecard: '',
-              score: ''
-            };
+              inObject.player2 = {
+                scorecard: '',
+                score: ''
+              };
 
-            inObject.player4 = {
-              scorecard: '',
-              score: ''
-            };
+              inObject.player3 = {
+                scorecard: '',
+                score: ''
+              };
 
-            if (holeNumber < 9) {
-              this.outNine[holeNumber] = inObject;
-            } else {
-              this.inNine[holeNumber] = inObject;
+              inObject.player4 = {
+                scorecard: '',
+                score: ''
+              };
+
+              if (holeNumber < 9) {
+
+                this.outNine[holeNumber] = inObject;
+
+                // Set out par
+                outPar = outPar + parseInt(this.roundToScore.par[holeNumber], 10);
+
+              } else if (holeNumber !== 'totalPar') {
+
+                this.inNine[holeNumber] = inObject;
+
+                // Set in par
+                inPar = inPar + parseInt(this.roundToScore.par[holeNumber], 10);
+              } else if (holeNumber === 'totalPar') {
+
+                // Set total par
+                totalPar = parseInt(this.roundToScore.par[holeNumber], 10);
+              }
             }
+
+            // Assign pars to objects property
+            this.outPar = outPar;
+            this.inPar = inPar;
+            this.totalPar = totalPar;
           }
         },
 
         // Set stroke property
         setStroke: function() {
 
-          for (var holeNumber in this.roundToScore.stroke) {
+          if (this.roundToScore) {
 
-            if (holeNumber < 9) {
-              this.outNine[holeNumber].stroke = this.roundToScore.stroke[holeNumber];
-            } else {
-              this.inNine[holeNumber].stroke = this.roundToScore.stroke[holeNumber];
+            for (var holeNumber in this.roundToScore.stroke) {
+
+              if (holeNumber < 9) {
+                this.outNine[holeNumber].stroke = this.roundToScore.stroke[holeNumber];
+              } else {
+                this.inNine[holeNumber].stroke = this.roundToScore.stroke[holeNumber];
+              }
             }
           }
         },
@@ -202,37 +436,85 @@
         // Set scores for each player in the group
         setScores: function() {
 
+          var outScore;
+          var outScorecard;
+          var inScore;
+          var inScorecard;
+          var totalScore;
+          var totalScorecard;
+
           if (this.userGrouping) {
 
-            for (i = 0; i < 4; i++) {
+            if (this.outNine.length) {
 
-              if (this.userGrouping.players[i]) {
+              for (i = 0; i < 4; i++) {
 
-                if (this.userGrouping.players[i].roundScorecard) {
-                  // For each score a player has made add it to the object
-                  this.userGrouping.players[i].roundScorecard.forEach(function(scorecard, index) {
+                // Reset totals for each player
+                outScore = 0;
+                outScorecard = 0;
+                inScore = 0;
+                inScorecard = 0;
+                totalScore = 0;
+                totalScorecard = 0;
 
-                    if (index < 9) {
-                      this.outNine[index]['player' + (i + 1)].scorecard = scorecard;
-                    } else {
-                      this.inNine[index]['player' + (i + 1)].scorecard = scorecard;
-                    }
-                  }, this);
+                if (this.userGrouping.players[i]) {
 
-                  // For each points such as Stableford a player has made add it to the object
-                  this.userGrouping.players[i].roundScore.forEach(function(score, index) {
+                  // Set player name if exists
+                  if (this.userGrouping.players[i].name) {
+                    this['player' + (i + 1)].name = this.userGrouping.players[i].name;
+                  }
 
-                    if (index < 9) {
-                      this.outNine[index]['player' + (i + 1)].score = score;
-                    } else {
-                      this.inNine[index]['player' + (i + 1)].score = score;
-                    }
-                  }, this);
+                  if (this.userGrouping.players[i].roundScorecard) {
 
-                  // Clean inNine array of undefined entries
-                  this.inNine = this.inNine.filter(function(hole) {
-                    return hole != undefined;
-                  });
+                    // For each score a player has made add it to the object
+                    this.userGrouping.players[i].roundScorecard.forEach(function(scorecard, index) {
+
+                      if (index < 9) {
+
+                        // Update player outScorecard
+                        outScorecard = outScorecard + scorecard;
+
+                        this.outNine[index]['player' + (i + 1)].scorecard = scorecard;
+                      } else {
+
+                        // Update player inScorecard
+                        inScorecard = inScorecard + scorecard;
+
+                        this.inNine[index]['player' + (i + 1)].scorecard = scorecard;
+                      }
+                    }, this);
+
+                      // For each points such as Stableford a player has made add it to the object
+                    this.userGrouping.players[i].roundScore.forEach(function(score, index) {
+
+                      if (index < 9) {
+
+                        // Update player outScore
+                        outScore = outScore + score;
+
+                        this.outNine[index]['player' + (i + 1)].score = score;
+                      } else {
+
+                        // Update player inScore
+                        inScore = inScore + score;
+
+                        this.inNine[index]['player' + (i + 1)].score = score;
+                      }
+                    }, this);
+
+                    // Set totals on player's property
+                    this['player' + (i + 1)].outScorecard = outScorecard;
+                    this['player' + (i + 1)].inScorecard = inScorecard;
+                    this['player' + (i + 1)].outScore = outScore;
+                    this['player' + (i + 1)].inScore = inScore;
+                    this['player' + (i + 1)].totalScore = inScore + outScore;
+                    this['player' + (i + 1)].totalScorecard = inScorecard + outScorecard;
+
+                    // Clean inNine array of undefined entries
+                    this.inNine = this.inNine.filter(function(hole) {
+                      return hole != undefined;
+                    });
+                  }
                 }
               }
             }

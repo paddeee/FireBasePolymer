@@ -14,6 +14,15 @@ $primary-accent-colour: #eeff41;
   width: 100%;
 }
 
+.scorecard {
+  display: none;
+  margin-bottom: 8px;
+}
+
+.scorecard[showing] {
+  display: block;
+}
+
 .scorecard-empty {
   display: none;
 }
@@ -26,6 +35,117 @@ $primary-accent-colour: #eeff41;
   display: block;
   padding: 40px 16px;
   text-align: center;
+}
+
+.scroll {
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+.header-info {
+
+  border-bottom: 1px solid rgba(0,0,0,0.88);
+
+  .hole-number,
+  .par,
+  .stroke,
+  .player {
+    background-color: #4c4c4c;
+    border-bottom: 3px solid transparent;
+    font-size: 3vw;
+  }
+
+  .player {
+    background-color: #4c4c4c;
+    border-right: 1px solid rgba(0, 0, 0, 0.12);
+    color: $primary-text-colour--light;
+    flex: 2;
+    text-overflow: ellipsis;
+  }
+
+  .player1 {
+    border-bottom: 3px solid #ff5252;
+  }
+
+  .player2 {
+    border-bottom: 3px solid #03A9F4;
+  }
+
+  .player3 {
+    border-bottom: 3px solid #ffeb3b;
+  }
+
+  .player4 {
+    border-bottom: 3px solid #1de9b6;
+  }
+}
+
+.hole-info {
+
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+
+  > div {
+    text-align: center;
+  }
+}
+
+.hole-number {
+  background-color: #4c4c4c;
+  color: $primary-text-colour--light;
+  height: 13vw;
+  font-weight: 300;
+  font-size: 4vw;
+}
+
+.par,
+.stroke {
+  background-color: #666;
+  border-right: 1px solid rgba(0, 0, 0, 0.12);
+  color: $primary-text-colour--light;
+  height: 13vw;
+  font-weight: 300;
+  font-size: 4vw;
+}
+
+.player-scorecard {
+  background-color: #40bd9e;
+  color: #f7f7f7;
+  height: 13vw;
+  font-weight: 300;
+  font-size: 4vw;
+}
+
+.player-score {
+  background-color: #40bd9e;
+  border-right: 1px solid rgba(0,0,0,0.12);
+  font-size: 3.5vw;
+  font-weight: bold;
+}
+
+.summary {
+
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+
+  .hole-number,
+  .par,
+  .stroke,
+  .player-scorecard,
+  .player-score {
+    background-color: #4c4c4c;
+    color: #fff;
+    font-weight: 300;
+    font-size: 4vw;
+  }
+
+  .hole-number {
+    font-size: 3vw;
+  }
+
+  .player-score {
+    font-size: 3.5vw;
+    font-weight: bold;
+  }
 }
 
 .card > core-toolbar {
@@ -47,4 +167,12 @@ $primary-accent-colour: #eeff41;
 
 :host([animate]:not(.core-selected)) .bg {
   z-index: -1;
+}
+
+.back-button {
+  display:none;
+}
+
+.back-button[showing] {
+  display:block;
 }

@@ -105,7 +105,7 @@
                          hidden?="{{tvmode || parentElement.selected === 'liveScores'}}"
                          on-tap="{{backNavigation}}"
                          hero-id="scoreboard-back-button"
-                         hero>
+                         hero?="{{parentElement.selected != 'liveScores'}}">
       </paper-icon-button>
     </div>
 
