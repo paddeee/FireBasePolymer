@@ -128,7 +128,6 @@
                                     roundToScore="{{roundToScore}}"
                                     userGrouping="{{userGrouping}}"
                                     holesCompleted="{{userGrouping.holesCompleted}}"
-                                    upcomingTournaments="{{upcomingTournaments}}"
                                     wide="{{wide}}"
                                     vertical layout>
             </leaderboard-score-card>
@@ -162,8 +161,8 @@
         <paper-icon-button class="home-button"
                            icon="home"
                            on-tap="{{homeNavigation}}"
-						   hero-id="scoreround-home-button"
-						   hero>
+                           hero-id="scoreround-home-button"
+                           hero>
         </paper-icon-button>
 
       </div>
@@ -568,7 +567,7 @@
         animationComplete: function() {
 
           // Force repaint for scoreboard rendering issue in iOS
-          if (this.selected == 'liveScores') {
+          if (this.selected == 'liveScores' || this.selected == 'scoreCard') {
             this.forceIOSRepaint();
           }
 
@@ -581,6 +580,7 @@
 
         // Handler for back button in toolbar
         backNavigation: function() {
+
           // If user has landed directly on stats, Go to the menu
           if (this.hashHistory.length <= 2) {
             window.location.hash = 'menu';

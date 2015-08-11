@@ -16,22 +16,17 @@ $primary-accent-colour: #eeff41;
 
 .scorecard {
   display: none;
-  margin-bottom: 8px;
-}
-
-.scorecard[showing] {
-  display: block;
 }
 
 .scorecard-empty {
   display: none;
 }
 
-.scorecard-container {
-  padding: 8px;
+.scorecard[showing] {
+  display: block;
 }
 
-.scoreboard-empty[showing] {
+.scorecard-empty[showing] {
   display: block;
   padding: 40px 16px;
   text-align: center;

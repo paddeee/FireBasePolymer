@@ -69,6 +69,10 @@ $neutralBackgroundColour: #EEE;
   }
 }
 
+  :host([animate]) .show-card-button {
+  text-indent: -9999px;
+}
+
 .divider {
   background-color: rgba(0,0,0,0.12);
   height: 1px;

@@ -1,6 +1,6 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 
-<polymer-element name="leaderboard-clubhouse" attributes="userDetails tournamentToScoreId roundToScoreId tournamentOfRoundCompleted hashHistory wide">
+<polymer-element name="leaderboard-clubhouse" attributes="userDetails route tournamentToScoreId roundToScoreId tournamentOfRoundCompleted hashHistory wide">
   <template>
     <link rel="stylesheet" href="leaderboard-clubhouse.css">
 
@@ -54,7 +54,7 @@
 
         <core-toolbar class="menu-toolbar" hero-id="clubhouse-title" hero>
 
-          <div class="section-title" flex cross-fade-delayed>Submit Cards</div>
+          <div class="section-title" flex cross-fade-delayed>{{sectionData[selected].title}}</div>
 
         </core-toolbar>
 
@@ -66,7 +66,7 @@
 
           <core-animated-pages class="club-house-pages"
                                selected="{{selected}}"
-                               transitions="slide-from-right"
+                               transitions="hero-transition"
                                auto>
 
             <leaderboard-submit-cards id="submitCards"
@@ -81,17 +81,29 @@
                                       handicapPlayers="{{handicapPlayers}}"
                                       activeTournament="{{activeTournament}}"
                                       on-handicaps-adjusted="{{updateUserHandicaps}}"
+                                      on-go-to-score-card="{{goToScoreCard}}"
                                       on-group-complete="{{setRoundCompleteStatus}}"
                                       on-round-complete="{{setRoundCompleteStatus}}"
                                       on-previous-round-score-complete="{{setTournamentPlayerScore}}">
-            </leaderboard-submit-card>
+            </leaderboard-submit-cards>
+
+            <leaderboard-score-card id="clubHouseScoreCard"
+                                    name="clubHouseScoreCard"
+                                    userDetails="{{userDetails}}"
+                                    roundToScore="{{cardRoundToScore}}"
+                                    userGrouping="{{cardUserGrouping}}"
+                                    holesCompleted="{{cardUserGrouping.holesCompleted}}"
+                                    wide="{{wide}}"
+                                    vertical layout>
+            </leaderboard-score-card>
 
           </core-animated-pages>
 
         </div>
 
         <paper-fab class="fab-button"
-                   icon="{{icon}}"></paper-fab>
+                   icon="{{icon}}">
+        </paper-fab>
 
       </div>
 
@@ -102,13 +114,13 @@
                          hero>
       </paper-icon-button>
 
-      <paper-icon-button class="home-button"
+      <paper-icon-button hidden?="{{selected === 'clubHouseScoreCard'}}"
+                         class="home-button"
                          icon="home"
                          on-tap="{{homeNavigation}}"
                          hero-id="clubhouse-home-button"
                          hero>
       </paper-icon-button>
-
     </div>
 
     <paper-action-dialog id="HandicapChanges"
@@ -118,7 +130,9 @@
                          heading="Updated Handicaps"
                          transition="core-transition-center">
       <template repeat="{{player in handicapChanges}}">
-        <div class="player-adjusted"><span class="player-adjusted__name">{{player.name}}</span> has been adjusted from {{player.oldHandicap}} to {{player.newHandicap}}.</div>
+        <div class="player-adjusted">
+          <span class="player-adjusted__name">{{player.name}}</span> has been adjusted from {{player.oldHandicap}} to {{player.newHandicap}}.
+        </div>
       </template>
       <paper-button affirmative autofocus>Continue</paper-button>
     </paper-action-dialog>
@@ -150,6 +164,12 @@
         // User id used to update user handicap
         handicapPlayerId: '',
 
+        // Round object to pass to scorecard
+        cardRoundToScore: null,
+
+        // Grouping object to pass to scorecard
+        cardUserGrouping: null,
+
         // Current status of the round
         roundStatus: '',
 
@@ -157,6 +177,34 @@
         tournamentStatus: '',
 
         tournamentsLocation: 'https://incandescent-heat-3687.firebaseio.com/tournaments/',
+
+        sectionData: {
+          'submitCards': {
+            'selectedHash': 'clubhouse',
+            'name': 'submitCards',
+            'title': 'Submit Cards'
+          },
+          'clubHouseScoreCard': {
+            'selectedHash': 'clubhouse/score-card',
+            'name': 'clubHouseScoreCard',
+            'title': 'Scorecard'
+          }
+        },
+
+        // Internal handling for tournament-manager's route changes
+        routeChanged: function() {
+
+          switch (this.route) {
+            case 'clubhouse':
+              this.selected = 'submitCards';
+              break;
+            case 'clubhouse/score-card':
+              this.selected = 'clubHouseScoreCard';
+              break;
+            default:
+              break;
+          }
+        },
 
         // When a user has a tournament key added to their tournaments, update the active tournaments
         userJoinedTournament: function(event) {
@@ -210,7 +258,7 @@
         tournamentPlayerScoreChanged: function(event) {
           this.activeTournament.players[event.detail.name] = event.detail.value;
 
-          // Reset tournamentPlayers so that next time a group is sublitted the whole players object
+          // Reset tournamentPlayers so that next time a group is submitted the whole players object
           // will be getting replaced in Firebase. This was necessary due to issue where the third time a
           // group was getting submitted, the Firebase element was detecting no change to the tournamentPlayers
           // object. Don't fully get it but this works.
@@ -303,15 +351,29 @@
           }
         },
 
-          // Handler for back button in toolbar
-          backNavigation: function() {
-              // If user has landed directly on stats, Go to the menu
-              if (this.hashHistory.length <= 2) {
-                  window.location.hash = 'menu';
-              } else {
-                  window.history.back();
-              }
-          },
+        // Manage navigation and add history record in browser
+        navigateTo: function (sectionData) {
+          this.selected = sectionData.name;
+          window.location.hash = sectionData.selectedHash;
+        },
+
+        // Set properties to pass in and Navigate to ScoreCard
+        goToScoreCard: function(event) {
+          this.cardRoundToScore = this.activeTournament.rounds[this.roundToScoreId];
+          this.cardUserGrouping = this.activeTournament.rounds[this.roundToScoreId].groupings[event.detail.groupId];
+          this.navigateTo(this.sectionData.clubHouseScoreCard);
+        },
+
+        // Handler for back button in toolbar
+        backNavigation: function() {
+
+          // If user has landed directly on stats, Go to the menu
+          if (this.hashHistory.length <= 2) {
+              window.location.hash = 'menu';
+          } else {
+              window.history.back();
+          }
+        },
 
         // Handler for home button in toolbar. If on top level route, go straight to menu. Otherwise go back to top level
         // route and then go back to menu as deep routes won't be recognised in parent core animated pages element

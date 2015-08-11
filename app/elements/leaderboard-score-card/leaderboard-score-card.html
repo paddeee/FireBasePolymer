@@ -9,13 +9,11 @@
     <div class="main {{ {scroll: wide} | tokenList }}" flex center layout vertical hero-p>
       <div flex vertical layout
            slide-up-offscreen?="{{parentElement.selected === 'scoreCard'}}"
-           cross-fade="{{!wide && parentElement.selected !== 'scoreCard'}}"
+           cross-fade?="{{!wide && parentElement.selected !== 'scoreCard' && parentElement.selected !== 'clubHouseScoreCard'}}"
+           hero-id="score-card"
+           hero?="{{parentElement.selected === 'clubHouseScoreCard' || parentElement.selected === 'submitCards'}}"
            class="card {{ {wide: wide, 'multi-column': columns>1, tvmode: tvmode} | tokenList }}"
            relative>
-
-        <core-toolbar hidden?="{{parentElement.selected === 'scoreCard' || parentElement.selected === 'scoreGroup'}}">
-          <div class="section-title">Scorecard</div>
-        </core-toolbar>
 
         <div class="{{ {scroll: !wide} | tokenList }}" layout vertical flex>
 

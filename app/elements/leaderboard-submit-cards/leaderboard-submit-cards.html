@@ -28,13 +28,18 @@
       </div>
 
       <template id="groupingTemplate" repeat="{{grouping, groupingIndex in groupings}}">
-        <paper-shadow z="1" class="card">
+        <paper-shadow z="1"
+                      class="card">
           <div horizontal center layout class="card__header">
             <div class="grouping-info" vertical layout flex>
               <div class="grouping--name">Group {{groupingIndex + 1}}</div>
             </div>
 
-            <paper-button on-tap="{{showGroupCard}}">Card</paper-button>
+            <paper-button on-tap="{{showGroupCard}}"
+                          groupingId="{{grouping.id}}"
+                          class="show-card-button"
+                          hero-id="score-card"
+                          hero>Card</paper-button>
             <paper-button on-tap="{{submitGroupCard}}"
                           groupingId="{{grouping.id}}">Submit</paper-button>
           </div>
@@ -160,6 +165,11 @@
           return arrayToSum.reduce(function(previousValue, currentValue) {
             return previousValue + currentValue;
           });
+        },
+
+        // Show the scorecard for the relevant group
+        showGroupCard: function(event) {
+          this.fire('go-to-score-card', {groupId: event.currentTarget.attributes.groupingId.value});
         },
 
         // Set the grouping status for the active round to 'complete'
