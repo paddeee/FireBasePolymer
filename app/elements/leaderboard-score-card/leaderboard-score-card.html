@@ -442,9 +442,11 @@
           var totalScorecard;
 
           // Clean inNine array of undefined entries
-          this.inNine = this.inNine.filter(function(hole) {
-            return hole != undefined;
-          });
+          if (this.inNine) {
+            this.inNine = this.inNine.filter(function(hole) {
+              return hole != undefined;
+            });
+          }
 
           if (this.userGrouping) {
 
