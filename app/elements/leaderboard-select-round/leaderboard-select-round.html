@@ -66,7 +66,9 @@
                                          roundId="{{round.roundId}}"
                                          on-tap="{{createGroupHandler}}">
                       </paper-icon-button>
-                      <div>Create Group</div>
+                      <div on-tap="{{createGroupHandler}}"
+                           tournamentId="{{tournament.id}}"
+                           roundId="{{round.roundId}}">Create Group</div>
                     </div>
                     <div class="score-group-holder"
                          showing?="{{round.groupings[userDetails.uid] && (!round.groupings[userDetails.uid].groupStatus || round.groupings[userDetails.uid].groupStatus != 'complete')}}">
@@ -77,7 +79,9 @@
                                          roundId="{{round.roundId}}"
                                          on-tap="{{scoreGroupHandler}}">
                       </paper-icon-button>
-                      <div>Score Group</div>
+                      <div on-tap="{{scoreGroupHandler}}"
+                           tournamentId="{{tournament.id}}"
+                           roundId="{{round.roundId}}">Score Group</div>
                     </div>
                   </div>
                 </div>

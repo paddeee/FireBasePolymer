@@ -37,7 +37,8 @@
                       on-child-changed="{{groupingChanged}}"
                       on-child-removed="{{playerRemovedFromGrouping}}"
                       data="{{roundGroupings}}"
-                      childEvents>
+                      childEvents
+      log>
     </firebase-element>
 
     <div id="sectionPanel" class="section-panel {{ {wide: wide} | tokenList }}"
@@ -459,6 +460,7 @@
           }
         },
 
+        // ToDo: Sort this mess out. Biggest mess that's causing breakages in project
         // When any grouping in the round has a player added or removed but not the last player in the group
         // Also could be triggered by a grouping status change
         groupingChanged: function(event) {
@@ -468,11 +470,15 @@
             // Handle if this method has been called as a result of a device reconnecting to network
             if (event.detail.name === this.userDetails.uid) {
 
-              // If holes completed is 18 this will have been triggered by Submit Card
+              // If holes completed is 18 this will have been triggered by Submit Card so check for that
               if (this.tournamentToScore.rounds[this.roundToScoreId].groupings[this.userDetails.uid].holesCompleted.length < 18) {
 
                 if (event.detail.value.holesCompleted) {
                   this.connectivityEstablished(event.detail.value.holesCompleted.length);
+                } else {
+
+                  // Update roundToScore groupings object
+                  this.roundToScore.groupings[event.detail.name] = event.detail.value;
                 }
               }
 
@@ -481,7 +487,7 @@
               // Update roundToScore object
               this.roundToScore.groupings[event.detail.name] = event.detail.value;
 
-              // This may have been called by aplayer being added or removed to a group so update this
+              // This may have been called by a player being added or removed to a group so update this
               this.$.createGroup.getAvailablePlayers();
             }
           } else {
