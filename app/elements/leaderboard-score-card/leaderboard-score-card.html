@@ -61,7 +61,7 @@
 
               <!-- Outward nine -->
               <template repeat="{{hole, holeIndex in outNine}}">
-                <div class="hole-info" layout horizontal>
+                <div class="card-hole-info" layout horizontal>
                   <div horizontal center-justified center layout flex class="hole-number">
                     {{hole.holeNumber}}
                   </div>
@@ -136,7 +136,7 @@
 
               <!-- Inward nine -->
               <template showing?="{{roundToScore.length === '18'}}" repeat="{{hole, holeIndex in inNine}}">
-                <div class="hole-info" layout horizontal>
+                <div class="card-hole-info" layout horizontal>
                   <div horizontal center-justified center layout flex class="hole-number">
                     {{hole.holeNumber}}
                   </div>
@@ -329,7 +329,6 @@
 
         // When roundToScore is passed in
         roundToScoreChanged: function() {
-
           if (this.roundToScore) {
             this.createScoreCardObject();
           }
@@ -340,12 +339,19 @@
           this.createScoreCardObject();
         },
 
+        // Update when userGrouping is ready
+        userGroupingChanged: function() {
+          if (this.userGrouping) {
+            this.createScoreCardObject();
+          }
+        },
+
         // Create object so we can easily template the Scorecard
         createScoreCardObject: function() {
-
           this.setupScoreObject();
           this.setStroke();
           this.setScores();
+          console.log(this.outNine);
         },
 
         // Set hole number and par properties and default player scores
@@ -452,7 +458,7 @@
 
             if (this.outNine.length) {
 
-              for (i = 0; i < 4; i++) {
+              for (var i = 0; i < 4; i++) {
 
                 // Reset totals for each player
                 outScore = 0;
