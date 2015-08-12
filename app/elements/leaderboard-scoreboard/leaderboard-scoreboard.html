@@ -30,7 +30,8 @@
 
               <div relative>
                 <core-icon icon="menu-tile-icons:scoreboard" class="content-icon"></core-icon>
-                <p>There are no live tournaments to view.</p>
+                <p>There are no live tournaments to view. The Live Scores will be available when the first hole has been
+                  completed by a group.</p>
               </div>
             </div>
 
@@ -136,6 +137,10 @@
 
         MAX: 1800,
 
+        usersLocation: 'https://incandescent-heat-3687.firebaseio.com/users/',
+
+        tournamentPlayers: [],
+
         ready: function() {
           this.lastScores = {};
         },
@@ -147,6 +152,10 @@
             this.tournamentToViewId = this.liveId;
             this.tvmode = true;
           }
+        },
+
+        tournamentPlayersChanged: function() {
+          this.items1 = this.items2 = this.tournamentPlayers;
         },
 
         upcomingTournamentsChanged: function() {
@@ -196,6 +205,7 @@
             this.items1 = this.items2 = this.queuedItems = null;
             return;
           }
+
           var tournamentToView = this.tournamentToView;
           var playerIds = Object.keys(this.tournamentToView.players);
           this.newScores = {};
@@ -204,6 +214,10 @@
 
             // If tournament player hasn't been added to any group of a tournament
             if (!tournamentToView.players[playerId].tournamentScorecard) {
+
+              // No players added to any groups yet so set up items with just players names
+              this.getTournamentPlayers();
+
               return null;
             }
 
@@ -243,6 +257,41 @@
           } else {
             this.flipPages(items);
           }
+        },
+
+        // Get an array of a tournament's associated player ids
+        getTournamentPlayers: function() {
+
+          var tournamentPlayerKeys = [];
+
+          for (var playerKey in this.tournamentToView.players) {
+
+            // Need this check as playerKey value changes from string of user id to an object.
+            // ToDo: Probably not a best practice to do this so maybe better to set this key up as an object in first place
+            if (typeof this.tournamentToView.players[playerKey] === 'string') {
+              tournamentPlayerKeys.push(this.tournamentToView.players[playerKey]);
+            }
+          }
+
+          this.tournamentPlayers = [];
+
+          // For each tournament key, call the setTournamentPlayers method
+          tournamentPlayerKeys.forEach(this.setTournamentPlayers, this);
+        },
+
+        // Push a player object onto the tournamentPlayers collection
+        setTournamentPlayers: function(tournamentPlayerKey) {
+
+          var player = new Firebase(this.usersLocation + tournamentPlayerKey);
+          var self = this;
+
+          player.once('value', function(snap) {
+            var result = snap.val();
+            result.score = '-';
+            result.thru = '-';
+            result.roundScore = '-';
+            self.tournamentPlayers.push(result);
+          });
         },
 
         // Return a current round score for a player
