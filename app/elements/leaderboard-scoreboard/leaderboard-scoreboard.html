@@ -215,8 +215,10 @@
             // If tournament player hasn't been added to any group of a tournament
             if (!tournamentToView.players[playerId].tournamentScorecard) {
 
-              // No players added to any groups yet so set up items with just players names
-              this.getTournamentPlayers();
+              if (!this.tournamentPlayers.length) {
+                // No players added to any groups yet so set up items with just players names
+                this.getTournamentPlayers();
+              }
 
               return null;
             }
