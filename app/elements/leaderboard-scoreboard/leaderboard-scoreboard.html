@@ -155,7 +155,9 @@
         },
 
         tournamentPlayersChanged: function() {
-          this.items1 = this.items2 = this.tournamentPlayers;
+          if (!this.items1.length) {
+            this.items1 = this.items2 = this.tournamentPlayers;
+          }
         },
 
         upcomingTournamentsChanged: function() {
@@ -206,6 +208,11 @@
             return;
           }
 
+          // No players added to any groups yet so set up items with just players names
+          if (!this.tournamentPlayers.length) {
+            this.getTournamentPlayers();
+          }
+
           var tournamentToView = this.tournamentToView;
           var playerIds = Object.keys(this.tournamentToView.players);
           this.newScores = {};
@@ -214,12 +221,6 @@
 
             // If tournament player hasn't been added to any group of a tournament
             if (!tournamentToView.players[playerId].tournamentScorecard) {
-
-              if (!this.tournamentPlayers.length) {
-                // No players added to any groups yet so set up items with just players names
-                this.getTournamentPlayers();
-              }
-
               return null;
             }
 
