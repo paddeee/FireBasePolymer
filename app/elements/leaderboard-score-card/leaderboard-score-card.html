@@ -441,6 +441,11 @@
           var totalScore;
           var totalScorecard;
 
+          // Clean inNine array of undefined entries
+          this.inNine = this.inNine.filter(function(hole) {
+            return hole != undefined;
+          });
+
           if (this.userGrouping) {
 
             if (this.outNine.length) {
@@ -478,7 +483,7 @@
                         // Update player inScorecard
                         inScorecard = inScorecard + scorecard;
 
-                        this.inNine[index]['player' + (i + 1)].scorecard = scorecard;
+                        this.inNine[index - 9]['player' + (i + 1)].scorecard = scorecard;
                       }
                     }, this);
 
@@ -496,7 +501,7 @@
                         // Update player inScore
                         inScore = inScore + score;
 
-                        this.inNine[index]['player' + (i + 1)].score = score;
+                        this.inNine[index - 9]['player' + (i + 1)].score = score;
                       }
                     }, this);
 
@@ -507,11 +512,6 @@
                     this['player' + (i + 1)].inScore = inScore;
                     this['player' + (i + 1)].totalScore = inScore + outScore;
                     this['player' + (i + 1)].totalScorecard = inScorecard + outScorecard;
-
-                    // Clean inNine array of undefined entries
-                    this.inNine = this.inNine.filter(function(hole) {
-                      return hole != undefined;
-                    });
                   }
                 }
               }
