@@ -11,8 +11,8 @@ $primary-accent-colour: #eeff41;
 :host {
   overflow: hidden;
 
-  h1 {
-    margin-top: 0;
+  h3 {
+    margin: -16px 0 16px;
   }
 }
 
@@ -132,10 +132,12 @@ $primary-accent-colour: #eeff41;
   text-align: left;
 
   > div {
+    font-size: 14px;
     margin-bottom: 16px;
   }
 
   p {
+    font-size: 16px;
     margin: 0 0 4px;
     font-style: italic;
   }

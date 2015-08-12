@@ -470,7 +470,10 @@
 
               // If holes completed is 18 this will have been triggered by Submit Card
               if (this.tournamentToScore.rounds[this.roundToScoreId].groupings[this.userDetails.uid].holesCompleted.length < 18) {
-                this.connectivityEstablished(event.detail.value.holesCompleted.length);
+
+                if (event.detail.value.holesCompleted) {
+                  this.connectivityEstablished(event.detail.value.holesCompleted.length);
+                }
               }
 
             } else {
