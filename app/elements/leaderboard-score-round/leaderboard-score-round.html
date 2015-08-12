@@ -416,6 +416,7 @@
 
         // Add/Remove a player to/from the group
         updateGroup: function() {
+
           this.updateScores();
           this.updateUpcomingTournaments(this.tournamentToScore.id, this.tournamentToScore);
         },
@@ -427,7 +428,6 @@
           this.$.tournamentToScoreFireBase.commitProperty('players');
           this.tournamentToScore.rounds[this.roundToScoreId].groupings[this.userDetails.uid] = this.userGrouping;
           this.$.tournamentToScoreFireBase.commitProperty('rounds');
-
         },
 
         // When a player is added or removed, update upComingTournaments object so the select round page is kept in sync
@@ -477,7 +477,12 @@
               }
 
             } else {
+
+              // Update roundToScore object
               this.roundToScore.groupings[event.detail.name] = event.detail.value;
+
+              // This may have been called by aplayer being added or removed to a group so update this
+              this.$.createGroup.getAvailablePlayers();
             }
           } else {
             this.roundToScore = this.tournamentToScore.rounds[this.roundToScoreId];
@@ -546,6 +551,10 @@
 
           // Set holeNumber
           this.holeNumber = 1;
+
+          // Make sure roundToScore is synced up with tournamentToScore so we get the correct template on the score group
+          // page
+          this.roundToScore = this.tournamentToScore.rounds[this.roundToScoreId];
 
           // Manually triggering child's method rather than using ***Changed as it wasn't updating
           // roundToScore as expected
