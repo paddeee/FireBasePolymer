@@ -172,7 +172,7 @@
         // Used for CSS class of number of players in a group
         groupNumbers: 'one-player',
 
-        // Keep record of previos hole number so it can be used after navigating away
+        // Keep record of previous hole number so it can be used after navigating away
         previousHoleNumber: 0,
 
         // Array to use for template to jump to holes navigation
@@ -226,6 +226,7 @@
           }, this);
 
           this.updateHoleScore();
+          this.showHoleNumber();
         },
 
         // Set property on each player to show how many shots they receive on the current hole
