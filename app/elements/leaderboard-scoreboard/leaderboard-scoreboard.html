@@ -163,7 +163,8 @@
         upcomingTournamentsChanged: function() {
 
           this.upcomingTournaments.forEach(function(tournament) {
-            if (tournament.status === 'active') {
+            // ToDo: Remove complete condition when Results section is working
+            if (tournament.status === 'active' || tournament.status === 'complete') {
               this.tournamentToViewId = tournament.id;
             }
           }, this);
