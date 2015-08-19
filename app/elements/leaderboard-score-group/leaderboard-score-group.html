@@ -226,7 +226,6 @@
           }, this);
 
           this.updateHoleScore();
-          this.showHoleNumber();
         },
 
         // Set property on each player to show how many shots they receive on the current hole
@@ -281,6 +280,13 @@
 
         // Transition to specific hole number
         showHoleNumber: function(event) {
+
+          // If round is completed already
+          if (this.holeNumber === 0) {
+            this.holeNumber = 18;
+            return;
+          }
+
           this.previousHoleNumber = this.holeNumber;
 
           // Called by user action
@@ -288,7 +294,7 @@
             this.holeNumber = parseInt(event.currentTarget.attributes.hole.value, 10);
           // Called by code
           } else {
-            if (this.userGrouping.holesCompleted && this.userGrouping.holesCompleted.length) {
+            if (this.userGrouping && this.userGrouping.holesCompleted && this.userGrouping.holesCompleted.length) {
               this.holeNumber = this.userGrouping.holesCompleted.length +1;
             }
           }
@@ -405,7 +411,8 @@
               this.userGrouping.holesCompleted[i] = 'true';
             }
 
-             //  If thru has not already been set to a higher value (user can jump back thorugh holes so need to avoid updating in that case)
+             //  If thru has not already been set to a higher value (user can jump back through holes so need to avoid
+             // updating in that case)
             if (this.userGrouping.holesCompleted && this.userGrouping.holesCompleted.length >= this.thru) {
               this.thru = this.userGrouping.holesCompleted.length;
 
@@ -536,7 +543,6 @@
 
               this.previousHoleNumber = this.holeNumber;
               this.holeNumber = this.holeNumber + 1;
-
               this.updateHoleScore();
               this.roundComplete();
               return;

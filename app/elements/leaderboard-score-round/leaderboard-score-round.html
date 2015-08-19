@@ -345,9 +345,6 @@
             this.setRoundToScore();
             this.getTournamentPlayers();
 
-            // Set holeNumber
-            this.holeNumber = 1;
-
             this.$.scoreGroup.roundToScoreUpdated();
 
             // Set tournament to view for Live Scores
@@ -367,6 +364,8 @@
               this.roundToScore = round;
             }
           }, this);
+
+          this.$.scoreGroup.showHoleNumber();
         },
 
         // Get an array of a tournament's associated player ids
