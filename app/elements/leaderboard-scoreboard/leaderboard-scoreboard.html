@@ -152,8 +152,6 @@
 
         selected: 0,
 
-        numberOfPreviousRounds: [],
-
         MAX: 1800,
 
         usersLocation: 'https://incandescent-heat-3687.firebaseio.com/users/',
@@ -247,9 +245,6 @@
             var totalScore = this.getTotalScore(tournamentToView.players[playerId].tournamentScorecard);
             var playerScore = this.getPlayerScore(tournamentToView.players[playerId].tournamentScorecard);
 
-            // Set totalnumber of rounds for scoreboard header
-            this.setNumberOfPreviousRounds(tournamentToView.players[playerId].tournamentScorecard);
-
             playerScore.uid = playerId;
 
             this.newScores[playerId] = totalScore;
@@ -321,11 +316,6 @@
             result.roundScore = '-';
             self.tournamentPlayers.push(result);
           });
-        },
-
-        // Set the number of Previous rounds to use as headings in scorecard template
-        setNumberOfPreviousRounds: function(tournamentScorecard) {
-          this.numberOfPreviousRounds.length = tournamentScorecard.previousRounds.length;
         },
 
         // Return a current round score for a player
