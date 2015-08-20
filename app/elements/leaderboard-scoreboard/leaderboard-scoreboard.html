@@ -311,10 +311,13 @@
           var player = new Firebase(this.usersLocation + tournamentPlayerKey);
           var self = this;
 
+          var previousRounds = this.setDefaultPreviousRounds();
+
           player.once('value', function(snap) {
             var result = snap.val();
             result.score = '-';
             result.thru = '-';
+            result.previousRounds = previousRounds;
             result.roundScore = '-';
             self.tournamentPlayers.push(result);
           });
@@ -365,7 +368,6 @@
           }
 
           totalScore = totalScore + roundScore;
-          previousRounds =
 
           playerScore = {
             name: playerName,
