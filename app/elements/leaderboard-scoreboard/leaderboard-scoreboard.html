@@ -21,7 +21,7 @@
            relative>
 
           <core-toolbar hidden?="{{parentElement.selected === 'liveScores' || parentElement.selected === 'scoreGroup'}}">
-            <div class="section-title">Leaderboard</div>
+            <div class="section-title">Scarborough 2015 Leaderboard</div>
           </core-toolbar>
 
           <div class="{{ {scroll: !wide} | tokenList }}" layout vertical flex>
@@ -44,9 +44,14 @@
                 <div>Pos</div>
               </div>
               <div layout flex class="name">Player</div>
-              <div layout flex class="score">Tot</div>
+              <div layout flex class="round">Today</div>
               <div layout flex class="thru">Thru</div>
-              <div class="round">Rnd</div>
+              <template repeat="{{round,roundNumber in tournamentToView.rounds}}">
+                <div layout horizontal center-justified flex hidden?="{{!wide}}" class="previous-round">
+                  <div>R{{roundNumber + 1}}</div>
+                </div>
+              </template>
+              <div class="score">Total</div>
             </div>
 
             <core-animated-pages id="pages"
@@ -68,10 +73,16 @@
                       <core-icon class="arrow" icon="arrow-back"></core-icon>
                     </div>
                     <div layout flex class="name">{{player.name}}</div>
-                    <div layout flex class="score">{{player.score}}</div>
-                    <div layout flex class="thru">{{player.thru === 0 ? 'F' : player.thru}}</div>
+                    <div class="round" layout flex>{{player.roundScore}}</div>
+                    <div class="thru" layout flex>{{player.thru === 0 ? 'F' : player.thru}}</div>
+                    <template repeat="{{round in player.previousRounds}}">
+                      <div layout horizontal center-justified class="previous-round" hidden?="{{!wide}}" layout flex>
+                        <span class="previous-round__scorecard">{{round.scorecard}}</span>
+                        <div class="previous-round__score">({{round.score}}pts)</div>
+                      </div>
+                    </template>
                     <div class="delta" hidden?="{{!player.delta || !player.rising}}">{{player.delta}}</div>
-                    <div class="round">{{player.roundScore}}</div>
+                    <div class="score">{{player.score}}</div>
                   </div>
                 </template>
               </section>
@@ -87,10 +98,16 @@
                       <core-icon class="arrow" icon="arrow-back"></core-icon>
                     </div>
                     <div layout flex class="name">{{player.name}}</div>
-                    <div layout flex class="score">{{player.score}}</div>
-                    <div layout flex class="thru">{{player.thru === 0 ? 'F' : player.thru}}</div>
+                    <div class="round" layout flex>{{player.roundScore}}</div>
+                    <div class="thru" layout flex>{{player.thru === 0 ? 'F' : player.thru}}</div>
+                    <template repeat="{{round in player.previousRounds}}">
+                      <div  layout horizontal center-justified class="previous-round" hidden?="{{!wide}}" layout flex>
+                        <div class="previous-round__scorecard">{{round.scorecard}}</div>
+                        <div class="previous-round__score">({{round.score}}pts)</div>
+                      </div>
+                    </template>
                     <div class="delta" hidden?="{{!player.delta || !player.rising}}">{{player.delta}}</div>
-                    <div class="round">{{player.roundScore}}</div>
+                    <div class="score">{{player.score}}</div>
                   </div>
                 </template>
               </section>
@@ -134,6 +151,8 @@
         },
 
         selected: 0,
+
+        numberOfPreviousRounds: [],
 
         MAX: 1800,
 
@@ -228,6 +247,9 @@
             var totalScore = this.getTotalScore(tournamentToView.players[playerId].tournamentScorecard);
             var playerScore = this.getPlayerScore(tournamentToView.players[playerId].tournamentScorecard);
 
+            // Set totalnumber of rounds for scoreboard header
+            this.setNumberOfPreviousRounds(tournamentToView.players[playerId].tournamentScorecard);
+
             playerScore.uid = playerId;
 
             this.newScores[playerId] = totalScore;
@@ -298,6 +320,11 @@
           });
         },
 
+        // Set the number of Previous rounds to use as headings in scorecard template
+        setNumberOfPreviousRounds: function(tournamentScorecard) {
+          this.numberOfPreviousRounds.length = tournamentScorecard.previousRounds.length;
+        },
+
         // Return a current round score for a player
         getRoundScore: function(tournamentScorecard) {
 
@@ -318,12 +345,16 @@
           var totalScore = 0;
           var roundScore = 0;
           var thru = '-';
+          var previousRounds;
+
+          previousRounds = this.setDefaultPreviousRounds();
 
           if (tournamentScorecard.previousRounds && tournamentScorecard.previousRounds.length) {
 
-            tournamentScorecard.previousRounds.forEach(function(round) {
+            tournamentScorecard.previousRounds.forEach(function(round, index) {
               totalScore = totalScore + round.score;
               playerName = round.name;
+              previousRounds[index] = round;
             });
           }
 
@@ -334,15 +365,34 @@
           }
 
           totalScore = totalScore + roundScore;
+          previousRounds =
 
           playerScore = {
             name: playerName,
             score: totalScore,
             roundScore: roundScore,
+            previousRounds: previousRounds,
             thru: thru
           };
 
           return playerScore;
+        },
+
+        // Set default scores for a player for each round
+        setDefaultPreviousRounds: function () {
+
+          var previousRounds = [];
+
+          this.tournamentToView.rounds.forEach(function(round) {
+
+            var previousRound = {
+              score: 0,
+              scorecard: 0
+            };
+            previousRounds.push(previousRound);
+          });
+
+          return previousRounds;
         },
 
         // Return a total tournament score for a player

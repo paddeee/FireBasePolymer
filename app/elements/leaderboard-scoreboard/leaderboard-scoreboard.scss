@@ -178,7 +178,8 @@ $primary-accent-colour: #eeff41;
 
 .score {
   font-weight: bold;
-  text-align: center;
+  text-align: right;
+  width: 10%;
 }
 
 
@@ -187,8 +188,22 @@ $primary-accent-colour: #eeff41;
 }
 
 .round {
-  text-align: right;
-  width: 10%;
+  text-align: center;
+}
+
+.previous-round {
+  display: inline-block;
+}
+
+.previous-round__scorecard {
+  margin-right: 8px;
+}
+
+.previous-round__score {
+  color: $primary-bg-colour;
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 1.6;
 }
 
 .main {
