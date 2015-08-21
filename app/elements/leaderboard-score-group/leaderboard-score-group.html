@@ -281,16 +281,6 @@
         // Transition to specific hole number
         showHoleNumber: function(event) {
 
-          // Round not started or app refreshed so default to 1
-          if (this.holeNumber < 1) {
-            this.holeNumber = 1;
-            return;
-          // If round is completed already
-          } else if (this.holeNumber > 18) {
-            this.holeNumber = 18;
-            return;
-          }
-
           this.previousHoleNumber = this.holeNumber;
 
           // Called by user action

@@ -94,7 +94,6 @@
                                       name="createGroup"
                                       userDetails="{{userDetails}}"
                                       roundToScore="{{roundToScore}}"
-                                      tournamentToScore="{{tournamentToScore}}"
                                       tournamentPlayersLength="{{tournamentPlayersLength}}"
                                       tournamentPlayers="{{tournamentPlayers}}"
                                       groupTournamentScore="{{groupTournamentScore}}"
@@ -425,7 +424,9 @@
 
           // Sync player and rounds objects with firebase
           this.$.tournamentToScoreFireBase.commitProperty('players');
-          this.tournamentToScore.rounds[this.roundToScoreId].groupings[this.userDetails.uid] = this.userGrouping;
+          if (this.tournamentToScore.rounds[this.roundToScoreId].groupings) {
+            this.tournamentToScore.rounds[this.roundToScoreId].groupings[this.userDetails.uid] = this.userGrouping;
+          }
           this.$.tournamentToScoreFireBase.commitProperty('rounds');
         },
 
