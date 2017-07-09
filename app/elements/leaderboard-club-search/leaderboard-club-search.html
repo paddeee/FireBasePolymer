@@ -25,7 +25,7 @@
       </div>
 
       <core-list id="resultsList" class='results-list' data="{{resultsData}}" on-core-activate="{{clubSelected}}" flex>
-        <template>
+        <template repeat>
           <div class="results-list__row {{ {selected: selected} | tokenList }}">
             <div class="results-list__item">
               <!-- ToDo - Add Google Map data. Currently errors with latitude not a number
@@ -34,8 +34,8 @@
                           zoom="11"
                           disabledefaultui id="google_map">
               </google-map>-->
-              <div class="club-name">{{model._source.name}}</div>
-              <div class="club-location">{{model._source.location}}</div>
+              <div class="club-name">{{model.name}}</div>
+              <div class="club-location">{{model.location}}</div>
             </div>
             <div class="divider">
           </div>
@@ -58,6 +58,9 @@
 
         index: 'firebase',
 
+        //webSearchUrl: 'http://protosgolf.com/golf/gateway',
+        webSearchUrl: 'http://localhost:5000',
+
         type: 'club',
 
         resultsData: [],
@@ -68,16 +71,47 @@
 
         chosenClub: '',
 
+        useFireBase: false,
+
         // Invoked from parent leaderboard-tournament-manager element
         searchClubs: function() {
-          this.doSearch(this.index, this.type, this.buildSearchQuery(this.searchTerm, this.wholeWords));
+
+          if (this.useFireBase) {
+            this.doFirebaseSearch(this.index, this.type, this.buildSearchQuery(this.searchTerm, this.wholeWords));
+          } else {
+            this.doWebSearch(this.searchTerm);
+          }
+        },
+
+        // Parameters
+        // index - required parameter for elastic search
+        // query - object includes search term and options such as whole word option
+        doWebSearch: function(query) {
+
+          var ajax = new XMLHttpRequest();
+
+          ajax.open('POST', this.webSearchUrl + '/' + query, true);
+
+          ajax.send();
+
+          ajax.onreadystatechange = function() {
+
+            if (ajax.readyState == 4 && ajax.status == 200) {
+
+              var data = JSON.parse(ajax.responseText);
+
+              this.resultsData = data.resultset;
+              this.noResults = true;
+              this.searching = false;
+            }
+          }.bind(this);
         },
 
         // Parameters
         // index - required parameter for elastic search
         // type -  required parameter for elastic search
         // query - object includes search term and options such as whole word option
-        doSearch: function(index, type, query) {
+        doFirebaseSearch: function(index, type, query) {
 
           var fireBaseSearch = this.$.clubListFireBase.ref;
           var searchKey = fireBaseSearch.child('clublist-request').push({
@@ -133,7 +167,7 @@
 
         // Triggered when a core-list item is changed
         clubSelected: function(clubObject) {
-          this.chosenClub = clubObject.detail.data._id;
+          this.chosenClub = 'clubid:' + clubObject.detail.data.id;
         },
 
         // Listens for a change to the chosen club. If this is set to null we can set the core-list

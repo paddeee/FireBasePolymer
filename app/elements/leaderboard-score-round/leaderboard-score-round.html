@@ -467,6 +467,7 @@
           if (this.roundToScore && this.roundToScore.groupings && this.roundToScore.groupings[event.detail.name]) {
 
             // Handle if this method has been called as a result of a device reconnecting to network
+            // If the group changed is the one on this device by this user
             if (event.detail.name === this.userDetails.uid) {
 
               // If holes completed is 18 this will have been triggered by Submit Card so check for that
