@@ -21,7 +21,7 @@
              layout vertical>
 
       <template repeat="{{tournament in upcomingTournaments}}">
-        <paper-shadow z="1" class="card">
+        <paper-shadow z="1" class="card" hidden?="{{tournament.status === 'complete'}}">
           <div horizontal center layout class="card__header">
             <div class="tournament-info" vertical layout flex>
               <div class="tournament-name">{{tournament.name}}</div>
