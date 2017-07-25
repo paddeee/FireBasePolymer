@@ -1,0 +1,31 @@
+[debug] [2017-07-21T22:44:12.812Z] ----------------------------------------------------------------------
+[debug] [2017-07-21T22:44:12.814Z] Command:      /usr/local/bin/node /usr/local/bin/firebase deploy
+[debug] [2017-07-21T22:44:12.815Z] CLI Version:  3.9.1
+[debug] [2017-07-21T22:44:12.815Z] Platform:     darwin
+[debug] [2017-07-21T22:44:12.815Z] Node Version: v6.5.0
+[debug] [2017-07-21T22:44:12.816Z] Time:         Fri Jul 21 2017 23:44:12 GMT+0100 (BST)
+[debug] [2017-07-21T22:44:12.816Z] ----------------------------------------------------------------------
+[debug] 
+[warn] ⚠  "firebase" key in firebase.json is deprecated. Run firebase use --add instead
+[warn] ⚠  Deprecation Warning: Firebase Hosting configuration should be moved under "hosting" key.
+[debug] [2017-07-21T22:44:12.831Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2017-07-21T22:44:12.832Z] > authorizing via signed-in user
+[debug] [2017-07-21T22:44:12.835Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2017-07-21T22:44:12.835Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token { refresh_token: '1/pI49ZY45D3dKGlj2kv_cDIhAUOoxneHKiMnPmMH-9xlysqkdTH3cWuPAlQL8YpVI',
+  client_id: '563584335869-fgrhgmd47bqnekij5i8b5pr03ho849e6.apps.googleusercontent.com',
+  client_secret: 'j9iVZfS8kkCEFUPaAeJV0sAi',
+  grant_type: 'refresh_token',
+  scope: 'email https://www.googleapis.com/auth/cloud-platform https://www.googleapis.com/auth/cloudplatformprojects.readonly https://www.googleapis.com/auth/firebase openid' } 
+ Fri Jul 21 2017 23:44:12 GMT+0100 (BST)
+[debug] [2017-07-21T22:44:13.726Z] <<< HTTP RESPONSE 200
+[debug] [2017-07-21T22:44:13.729Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/incandescent-heat-3687  
+ Fri Jul 21 2017 23:44:13 GMT+0100 (BST)
+[debug] [2017-07-21T22:44:15.285Z] <<< HTTP RESPONSE 200
+[debug] [2017-07-21T22:44:15.286Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/incandescent-heat-3687/tokens  
+ Fri Jul 21 2017 23:44:15 GMT+0100 (BST)
+[debug] [2017-07-21T22:44:16.000Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Deploying to 'incandescent-heat-3687'...
+[info] 
+[info] i  deploying hosting
+[info] i  hosting: preparing dist directory for upload...
