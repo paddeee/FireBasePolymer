@@ -284,6 +284,7 @@ module.exports = function (grunt) {
             '!elements/**/*.scss',
             'images/{,*/}*.{webp,gif}',
             'svg/**',
+            'scripts/**',
             'bower_components/**'
           ]
         }]

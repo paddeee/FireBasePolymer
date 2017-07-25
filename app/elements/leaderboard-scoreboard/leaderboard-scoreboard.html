@@ -21,7 +21,7 @@
            relative>
 
           <core-toolbar hidden?="{{parentElement.selected === 'liveScores' || parentElement.selected === 'scoreGroup'}}">
-            <div class="section-title">Scarborough 2015 Leaderboard</div>
+            <div class="section-title">Bridlington 2017 Leaderboard</div>
           </core-toolbar>
 
           <div class="{{ {scroll: !wide} | tokenList }}" layout vertical flex>
@@ -181,7 +181,7 @@
 
           this.upcomingTournaments.forEach(function(tournament) {
             // ToDo: Remove complete condition when Results section is working
-            if (tournament.status === 'active' || tournament.status === 'complete') {
+            if (tournament.status === 'active') {
               this.tournamentToViewId = tournament.id;
             }
           }, this);
